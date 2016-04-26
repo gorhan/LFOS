@@ -19,15 +19,7 @@ class PowerState:
         return LOG(msg='Scale: %.2f, PowerConsumption: %.2f' % (self.scale, self.pow_cons), n_print=None)
 
 
-class ResourcePower:
-    params = [
-        'scalable',
-        'granularity'
-    ]
-    opt_params = [
-        'max_state',
-        'min_state'
-    ]
+class ResourcePower(list):
 
     def __init__(self, **kwargs):
         max_state = kwargs['max_state'] if 'max_state' in kwargs else None
@@ -41,7 +33,7 @@ class ResourcePower:
         elif min_state is None:
             min_state = max_state
 
-        self.__states = list()
+        super(ResourcePower, self).__init__([])
         self.__max_state = self.__min_state = None
         self.__n_states = 0
         self.__granularity = kwargs['granularity']
@@ -54,55 +46,45 @@ class ResourcePower:
             self.__scalable = True
             self.__max_state = PowerState(max_state[0], max_state[1])
             self.__min_state = PowerState(min_state[0], min_state[1])
-            self.__states.append(copy(self.__max_state))
-            self.__states.append(copy(self.__min_state))
+            self.append(copy(self.__max_state))
+            self.append(copy(self.__min_state))
             self.__active_state = copy(self.__max_state)
-            self.__n_states = len(self.__states)
+            self.__n_states = len(self)
 
             self.__power_derivative = float(self.__max_state.pow_cons - self.__min_state.pow_cons) / (self.__max_state.scale - self.__min_state.scale)
             self.__power_offset = self.__min_state.pow_cons - (self.__power_derivative * self.__min_state.scale)
         else:
             self.__scalable = False
             self.__max_state = self.__min_state = PowerState(max_state[0], max_state[1])
-            self.__states.append(copy(self.__max_state))
+            self.append(copy(self.__max_state))
             self.__active_state = copy(self.__max_state)
-            self.__n_states = len(self.__states)
-
-    # Internal functions
-    def __has_scale(self, scale):
-        return [state.scale for state in self.__states].count(scale) == 1
-
-    def __range_check(self, scale, range_min=0.0, range_max=1.0):
-        return scale <= range_max and scale > range_min
-
-    def __compute_power_consumption(self, scale):
-        return self.__power_derivative * scale + self.__power_offset
-
-    def __get_power_consumption(self, scale):
-        consumption = None
-        if self.__scalable and self.__granularity == StateGranularity.CONT:
-            consumption = self.__compute_power_consumption(scale)
-        elif self.__has_scale(scale):
-            consumption = self.__states[scale]
-        else:
-            LOG(msg='Invalid request. Scale: %.3f' % (scale), log=Logs.WARN)
-
-        return consumption
+            self.__n_states = len(self)
 
     # public functions
-    def add_state(self, scale, pow_cons):
+    def append(self, scale, pow_cons):
         if self.__scalable and \
                 self.__granularity == StateGranularity.DISC and \
                 self.__range_check(scale) and \
                 not self.__has_scale(scale):
-            self.__states.append(PowerState(scale, pow_cons))
-            self.__n_states = len(self.__states)
+            self.append(PowerState(scale, pow_cons))
+            self.__n_states = len(self)
             LOG(msg='The state is added to power consumption: Scale: %.2f, Power: %.2f' % (scale, pow_cons), log=Logs.INFO)
         else:
-            LOG(msg='Invalid procedure call: %.2f' % (scale), log=Logs.ERROR)
+            LOG(msg='Invalid procedure call: %.2f' % scale, log=Logs.ERROR)
 
-    def add_scale(self, scale):
-        self.add_state(scale, self.__compute_power_consumption(scale))
+    def append(self, p_object):
+        if isinstance(p_object, PowerState):
+            super(ResourcePower, self).append(p_object)
+        else:
+            self.append(p_object, self.__compute_power_consumption(p_object))
+
+    def remove_state(self, scale):
+        if self.__has_scale(scale):
+            index = self.index(scale)
+            return self.pop(index)
+        else:
+            LOG(msg='Scale is not in the list. Scale=%.3f' % scale, log=Logs.ERROR)
+            return
 
     def set_power_mode(self, scale):
         if self.__range_check(scale):
@@ -123,3 +105,24 @@ class ResourcePower:
 
     def get_power_consumption(self):
         return self.__active_state.pow_cons
+
+    # Internal functions
+    def __has_scale(self, scale):
+        return scale in self
+
+    def __range_check(self, scale, range_min=0.0, range_max=1.0):
+        return (scale <= range_max) and (scale > range_min)
+
+    def __compute_power_consumption(self, scale):
+        return self.__power_derivative * scale + self.__power_offset
+
+    def __get_power_consumption(self, scale):
+        consumption = None
+        if self.__scalable and self.__granularity == StateGranularity.CONT:
+            consumption = self.__compute_power_consumption(scale)
+        elif self.__has_scale(scale):
+            consumption = self[scale]
+        else:
+            LOG(msg='Invalid request. Scale: %.3f' % scale, log=Logs.WARN)
+
+        return consumption
