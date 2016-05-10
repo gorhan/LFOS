@@ -103,3 +103,45 @@ class DiscreteStatePowerConsumption(AbstractPowerConsumption, dict):
 
 class ContinuousStatePowerConsumption(AbstractPowerConsumption):
     def __init__(self, min_scale, min_pow_cons, max_scale, max_pow_cons):
+        dict.__init__({})
+        self[min_scale] = min_pow_cons
+        self[max_scale] = max_pow_cons
+
+        AbstractPowerConsumption.__init__(max_scale, max_pow_cons)
+        self.set_min_state(min_scale, min_pow_cons)
+
+        self.__calculate_power_consumption_slope()
+
+    def __calculate_power_consumption_slope(self):
+        self.__slope = (self._max_state[1] - self._min_state[1]) / (self._max_state[0] - self._min_state[0])
+        self.__offset = self._min_state[1] - self.__slope * self._min_state[0]
+
+    def __calculate_power_consumption(self, scale):
+        return self.__slope * scale + self.__offset
+
+    def get_power_consumption_w_scale(self, scale):
+        if self.range_check(scale):
+            return self.__slope * scale + self.__offset
+        else:
+            LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
+        return None
+
+    def set_power_mode(self, scale):
+        if self.range_check(scale):
+            self._active_power_state = (scale, self.__calculate_power_consumption(scale))
+        else:
+            LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
+
+    def set_max_state(self, scale, pow_cons):
+        if scale > self._max_state[0]:
+            self._max_state = (scale, pow_cons)
+            self.__calculate_power_consumption_slope()
+        else:
+            LOG(msg='Current max power state is already higher.', log=Logs.WARN)
+
+    def set_min_state(self, scale, pow_cons):
+        if scale < self.get_min_state():
+            self._min_state = (scale, pow_cons)
+            self.__calculate_power_consumption_slope()
+        else:
+            LOG(msg='Current min power state is already lower.', log=Logs.WARN)
