@@ -1,5 +1,5 @@
 
-class ResourceTypeCapacityPair:
+class ResourceTypeCapacityPair(object):
     def __init__(self, resource_type, capacity):
         self.resource_type = resource_type
         self.capacity = capacity
