@@ -2,6 +2,8 @@ from LFOS.Log import LOG, Logs
 from LFOS.Resource.ResourceTypes import *
 from LFOS.Resource.ResourceRequirement import *
 
+SYSTEM_NAME = 'System'
+
 class AbstractResource(object):
     def __init__(self, res_type, res_name, parent):
         self.type = res_type
@@ -52,7 +54,7 @@ class TerminalResource(AbstractResource):
         # total capacity is float
         # utilizing tasks are dictionary type variable which holds the pointer to tasks as a key and reserved capacity.
         self.__total_capacity = 0.0
-        self.__utilizing tasks = dict()
+        self.__utilizing_tasks = dict()
 
         self.__power_consumption = None
         self.__mutually_exclusive_resources = list()
@@ -76,6 +78,9 @@ class TerminalResource(AbstractResource):
     def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
+    def get_available_capacity(self):
+        return self.__total_capacity - sum(self.__utilizing_tasks.values())
+
 
 class CompositeResource(AbstractResource, list):
     def __init__(self, res_type, res_name, parent):
@@ -83,11 +88,18 @@ class CompositeResource(AbstractResource, list):
         list.__init__([])
 
     def add(self, resource):
+        if resource.get_resource_type_id() == SYSTEM_NAME:
+            LOG(msg='Invalid procedure call. System cannot be add any other composite resource', log=Logs.ERROR)
+            return None
+
         if resource in self:
             LOG(msg='The resource is already in the scope of the composite resource %s' % self.name, log=Logs.WARN)
+            return None
         else:
             self.append(resource)
             resource.set_parent(self)
+
+        return self
 
     def remove(self, resource):
         if resource in self:
@@ -106,7 +118,17 @@ class CompositeResource(AbstractResource, list):
         return self
 
     def request(self, requirements):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+        try:
+            assert isinstance(requirements, ResourceRequirement)
+        except AssertionError:
+            LOG(msg='Given parameter must be an instance of ResourceRequirement class', log=Logs.ERROR)
+            return None
+
+        active_requirement = requirements.get_resources(ACTIVE)
+        passive_requirement = requirements.get_resources(PASSIVE)
+
+        # TODO: find eligible active resource to proceed
+
 
     def alloc(self, requester, resources):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
@@ -132,3 +154,8 @@ class ResourceFactory:
             return None
 
         return ResourceFactory.RESOURCE_TYPES[resource_type.get_resource_type_name()](resource_type, res_name, parent)
+
+
+# the root of all resource models
+System_type = ResourceType(SYSTEM_NAME, COMPOSITE)
+System = ResourceFactory.create_resource(System_type, 'ComputingSystem')

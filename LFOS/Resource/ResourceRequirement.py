@@ -7,14 +7,14 @@ class ResourceTypeCapacityPair(object):
         try:
             assert isinstance(resource_type, ResourceType)
         except AssertionError:
-            LOG(msg='Given parameter resource_type has to be an instance of ResourceType class.', log=Logs.ERROR)
+            LOG(msg='Given parameter resource_type has to be an instance of ResourceType class', log=Logs.ERROR)
             exit(-1)
 
         self.resource_type = resource_type
         self.capacity = capacity
 
     def __repr__(self):
-        return '%s:%d-%s' % (self.resource_type.get_resource_type_id(), self.capacity, self.resource_type.get_resource_type())
+        return '%s:%d-%s' % (self.resource_type.get_resource_type_id(), self.capacity, self.resource_type.get_resource_type_name())
 
     def __eq__(self, other):
         return self.resource_type == other.resource_type
@@ -34,4 +34,7 @@ class ResourceRequirement(list):
         if resource_type_names:
             return self
 
-        return [resource for resource in self if resource_type_names == resource.resource_type.get_resource_type_name()]
+        return [requirement for requirement in self if resource_type_names == requirement.resource_type.get_resource_type_name()]
+
+    def get_resources_w_id(self, resource_id):
+        return [resource for resource in self if resource_id == resource.resource_type.get_resource_type_id()]
