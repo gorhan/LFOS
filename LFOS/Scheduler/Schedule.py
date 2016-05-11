@@ -52,8 +52,8 @@ class Schedule(list):
             self.append(p_object)
 
     def get_last_instance(self, task):
-        for sched_it in reversed(self):
-            if sched_it.reserved_task == task:
-                return sched_it
+        for schedule_item in reversed(self):
+            if schedule_item.reserved_task == task:
+                return schedule_item
 
         return None

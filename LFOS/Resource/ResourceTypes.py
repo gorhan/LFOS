@@ -1,9 +1,11 @@
-from LFOS.Log import *
 
 ACTIVE = 0
 PASSIVE = 1
 COMPOSITE = 2
 UNDEFINED = -1
+
+# resource_type_id is intended to specify the resource type name such as 'Memory', 'CPU', etc.
+# resource_type is any one of the above static variables: ACTIVE, PASSIVE, COMPOSITE, otherwise.
 
 
 class ResourceType:
@@ -11,10 +13,10 @@ class ResourceType:
         self.__resource_type_id = resource_type_id
         self.__resource_type = resource_type
 
-    def set_resource_type(self, resource_type):
+    def set_resource_type_name(self, resource_type):
         self.__resource_type = resource_type
 
-    def get_resource_type(self):
+    def get_resource_type_name(self):
         return self.__resource_type
 
     def set_resource_type_id(self, resource_type_id):
