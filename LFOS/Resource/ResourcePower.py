@@ -1,12 +1,8 @@
 from LFOS.Log import Logs, LOG
-from copy import copy
 
 
-class StateGranularity:
-    CONT = True
-    DISC = False
+class PowerConsumption(object):
 
-class AbstractPowerConsumption:
     def __init__(self, scale, pow_cons):
         self._active_power_state = (scale, pow_cons)
         self._min_state = (scale, pow_cons)
@@ -18,7 +14,10 @@ class AbstractPowerConsumption:
     def get_power_consumption(self):
         return self._active_power_state[1]
 
-    def get_power_state(self):
+    def get_power_states(self):
+        return self._active_power_state
+
+    def get_active_power_state(self):
         return self._active_power_state
 
     def get_max_state(self):
@@ -48,19 +47,20 @@ class AbstractPowerConsumption:
     def set_max_state(self, scale, pow_cons):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-class FixedPowerConsumption(AbstractPowerConsumption):
-    def __init__(self, scale, pow_cons):
-        AbstractPowerConsumption.__init__(scale, pow_cons)
+
+class FixedStatePowerConsumption(PowerConsumption):
+    def __init__(self, scale, pow_cons, dump1=None, dump2=None):
+        super(FixedStatePowerConsumption, self).__init__(scale, pow_cons)
 
 
-class DiscreteStatePowerConsumption(AbstractPowerConsumption, dict):
+class DiscreteStatePowerConsumption(PowerConsumption, dict):
     def __init__(self, min_scale, min_pow_cons, max_scale, max_pow_cons):
+        super(DiscreteStatePowerConsumption, self).__init__(max_scale, max_pow_cons)
+        self.set_min_state(min_scale, min_pow_cons)
+
         dict.__init__({})
         self[min_scale] = min_pow_cons
         self[max_scale] = max_pow_cons
-
-        AbstractPowerConsumption.__init__(max_scale, max_pow_cons)
-        self.set_min_state(min_scale, min_pow_cons)
 
     def get_power_consumption_w_scale(self, scale):
         if scale in self:
@@ -101,13 +101,13 @@ class DiscreteStatePowerConsumption(AbstractPowerConsumption, dict):
         else:
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
 
-class ContinuousStatePowerConsumption(AbstractPowerConsumption):
-    def __init__(self, min_scale, min_pow_cons, max_scale, max_pow_cons):
-        dict.__init__({})
-        self[min_scale] = min_pow_cons
-        self[max_scale] = max_pow_cons
+    def get_power_states(self):
+        return self
 
-        AbstractPowerConsumption.__init__(max_scale, max_pow_cons)
+
+class ContinuousStatePowerConsumption(PowerConsumption):
+    def __init__(self, min_scale, min_pow_cons, max_scale, max_pow_cons):
+        super(ContinuousStatePowerConsumption, self).__init__(max_scale, max_pow_cons)
         self.set_min_state(min_scale, min_pow_cons)
 
         self.__calculate_power_consumption_slope()
@@ -140,8 +140,28 @@ class ContinuousStatePowerConsumption(AbstractPowerConsumption):
             LOG(msg='Current max power state is already higher.', log=Logs.WARN)
 
     def set_min_state(self, scale, pow_cons):
-        if scale < self.get_min_state():
+        if scale < self._min_state[0]:
             self._min_state = (scale, pow_cons)
             self.__calculate_power_consumption_slope()
         else:
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
+
+    def get_power_states(self):
+        return {self._max_state[0]: self._max_state[1], self._min_state[0]: self._min_state[1]}
+
+
+class PowerConsumptionFactory:
+    POWER_STATES = {
+        'FSPC': FixedStatePowerConsumption,
+        'DSPC': DiscreteStatePowerConsumption,
+        'CSPC': ContinuousStatePowerConsumption
+    }
+
+    @staticmethod
+    def create_power_consumption(pc_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
+        if pc_type in PowerConsumptionFactory.POWER_STATES:
+            return PowerConsumptionFactory.POWER_STATES[pc_type](min_scale, min_pow_cons, max_scale, max_pow_cons)
+        else:
+            LOG(msg='Invalid construction request for PowerConsumption object.', log=Logs.ERROR)
+            LOG(msg='Valid PowerConsumption types: %s' % (', '.join(PowerConsumptionFactory.POWER_STATES.keys())),
+                log=Logs.ERROR)
