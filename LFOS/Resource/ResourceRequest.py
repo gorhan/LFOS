@@ -20,9 +20,9 @@ class ResourceTypeCapacityPair(object):
         return self.resource_type == other.resource_type
 
 
-class ResourceRequirement(list):
+class ResourceRequest(list):
     def __init__(self):
-        super(ResourceRequirement, self).__init__([])
+        super(ResourceRequest, self).__init__([])
 
     def append(self, resource_type, required_capacity):
         if resource_type in self:

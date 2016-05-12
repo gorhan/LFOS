@@ -1,6 +1,6 @@
 from LFOS.Log import LOG, Logs
 from LFOS.Resource.ResourceTypes import *
-from LFOS.Resource.ResourceRequirement import *
+from LFOS.Resource.ResourceRequest import *
 from LFOS.Task import Task, TaskType
 
 SYSTEM_NAME = 'System'
@@ -45,6 +45,12 @@ class AbstractResource(object):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def free(self, running_task):
+        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+
+    def search_resources_w_type_name(self, _type, response):
+        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+
+    def search_resources_w_type_id(self, _id, response):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
 
@@ -197,6 +203,13 @@ class TerminalResource(AbstractResource):
         LOG(msg='Invalid type requested.', log=Logs.ERROR)
         return None
 
+    def search_resources_w_type_id(self, _id, response):
+        if self.type.get_resource_type_id() == _id and self not in response:
+            response.append(self)
+
+    def search_resources_w_type_name(self, _type, response):
+        if self.type.get_resource_type_name() == _type and self not in response:
+            response.append(self)
 
 class CompositeResource(AbstractResource, list):
     def __init__(self, res_type, res_name, parent):
@@ -235,15 +248,16 @@ class CompositeResource(AbstractResource, list):
 
     def request(self, requirements):
         try:
-            assert isinstance(requirements, ResourceRequirement)
+            assert isinstance(requirements, ResourceRequest)
         except AssertionError:
-            LOG(msg='Given parameter must be an instance of ResourceRequirement class', log=Logs.ERROR)
+            LOG(msg='Given parameter must be an instance of ResourceRequest class', log=Logs.ERROR)
             return None
 
-        active_requirement = requirements.get_resources(ACTIVE)
-        passive_requirement = requirements.get_resources(PASSIVE)
+        requested_active_resources = requirements.get_resources(ACTIVE)
+        requested_passive_resources = requirements.get_resources(PASSIVE)
 
         # TODO: find eligible active resource to proceed
+        active_resources =
 
 
     def alloc(self, requester, resources):
@@ -251,6 +265,26 @@ class CompositeResource(AbstractResource, list):
 
     def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
+
+    def search_resource_w_type_id(self, _id, response):
+        # reach to the system
+        root = self
+        while root.parent:
+            root = root.parent
+
+        children = root.get_child_resources()
+        for resource in children:
+            resource.search_resource_w_type_id(_id, response)
+
+    def search_resource_w_type_name(self, _type, response):
+        # reach to the system
+        root = self
+        while root.parent:
+            root = root.parent
+
+        children = root.get_child_resources()
+        for resource in children:
+            resource.search_resource_w_type_name(_type, response)
 
 
 class ResourceFactory:
