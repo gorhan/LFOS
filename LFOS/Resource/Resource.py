@@ -1,6 +1,7 @@
 from LFOS.Log import LOG, Logs
 from LFOS.Resource.ResourceTypes import *
 from LFOS.Resource.ResourceRequirement import *
+from LFOS.Task import Task, TaskType
 
 SYSTEM_NAME = 'System'
 
@@ -52,16 +53,16 @@ class TerminalResource(AbstractResource):
         super(TerminalResource, self).__init__(res_type, res_name, parent)
 
         # total capacity is float
-        # utilizing tasks are dictionary type variable which holds the pointer to tasks as a key and reserved capacity.
+        # running tasks are dictionary type variable which holds the pointer to tasks as a key and reserved capacity.
         self.__total_capacity = 0.0
-        self.__utilizing_tasks = dict()
+        self.__running_tasks = dict()
 
         self.__power_consumption = None
         self.__mutually_exclusive_resources = list()
 
-        # shared property can be directly related with task type or task instance
-        self.__shared_task_types = list()
-        self.__shared_tasks = list()
+        # dedicated property can be directly related with task type or task instance
+        self.__dedicated_task_types = list()
+        self.__dedicated_tasks = list()
 
         # Resource-based objectives will be determined in the next phases.
         self.__resource_objectives = None
@@ -78,8 +79,123 @@ class TerminalResource(AbstractResource):
     def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
+    def set_total_capacity(self, capacity):
+        self.__total_capacity = capacity
+
+    def get_total_capacity(self):
+        return self.__total_capacity
+
+    def get_utilized_capacity(self):
+        return sum(self.__running_tasks.values())
+
     def get_available_capacity(self):
-        return self.__total_capacity - sum(self.__utilizing_tasks.values())
+        return self.__total_capacity - self.get_utilized_capacity()
+
+    def get_running_tasks(self):
+        return self.__running_tasks
+
+    def set_power_consumption(self, pc_instance):
+        if not isinstance(pc_instance, AbstractResource):
+            LOG(msg='Given parameter is NOT an instance of PowerConsumption module', log=Logs.ERROR)
+            return None
+
+        self.__power_consumption = pc_instance
+        LOG(msg='Power consumption has been specified.', log=Logs.INFO)
+
+    def get_power_consumption(self):
+        return self.__power_consumption
+
+    def add_mutually_exclusive_resources(self, resource_or_list):
+        if type(resource_or_list) is list:
+            self.__mutually_exclusive_resources += resource_or_list
+        elif isinstance(resource_or_list, AbstractResource):
+            self.__mutually_exclusive_resources.append(resource_or_list)
+        else:
+            LOG(msg='Invalid parameter. The parameter is not the list or any instance of Resources.')
+            return False
+
+        # to eliminate the duplicates
+        self.__mutually_exclusive_resources = list(set(self.__mutually_exclusive_resources))
+        return True
+
+    def delete_mutually_exclusive_resource(self, resource_or_list):
+        deleted = None
+        if type(resource_or_list) is list:
+            deleted = list()
+            for resource in resource_or_list:
+                try:
+                    index = self.__mutually_exclusive_resources.index(resource)
+                    deleted.append(self.__mutually_exclusive_resources.pop(index))
+                    LOG(msg='Resource %s is deleted from the list of mutually exclusive resources.' % deleted.name)
+                except ValueError:
+                    LOG(msg='Resource %s is not in the list of mutually exclusive resources.' % resource.name, log=Logs.WARN)
+        elif isinstance(resource_or_list, AbstractResource):
+            try:
+                index = self.__mutually_exclusive_resources.index(resource_or_list)
+                deleted = self.__mutually_exclusive_resources.pop(index)
+                LOG(msg='Resource %s is deleted from the list of mutually exclusive resources.' % deleted.name)
+            except ValueError:
+                LOG(msg='Resource %s is not in the list of mutually exclusive resources.' % resource_or_list.name, log=Logs.WARN)
+        else:
+            LOG(msg='Invalid parameter. The parameter is not the list or any instance of Resources.', log=Logs.ERROR)
+
+        return deleted
+
+    def get_mutually_exclusive_resources(self):
+        return self.__mutually_exclusive_resources
+
+    # TODO: the Task type has to be modified when Task module implemented
+    def dedicate_resource(self, task_or_type):
+        if isinstance(task_or_type, TaskType):
+            if task_or_type in self.__dedicated_task_types:
+                LOG(msg='The given task type for dedicated resource is already in the list')
+                return task_or_type
+            else:
+                self.__dedicated_task_types.append(task_or_type)
+        elif isinstance(task_or_type, Task):
+            if task_or_type in self.__dedicated_tasks:
+                LOG(msg='The given task for dedicated resource is already in the list')
+                return task_or_type
+            else:
+                self.__dedicated_tasks.append(task_or_type)
+        else:
+            LOG(msg='Invalid parameter. The parameter is not an instance of Task or Task Types modules.', log=Logs.ERROR)
+            return None
+        return task_or_type
+
+    def remove_from_dedicated(self, task_or_type):
+        deleted = None
+        if isinstance(task_or_type, TaskType):
+            try:
+                index = self.__dedicated_task_types.index(task_or_type)
+                deleted = self.__dedicated_task_types.index(index)
+                LOG(msg='Task type %s is deleted from the list of dedicated task types.' % task_or_type.type_name)
+            except ValueError:
+                LOG(msg='Resource %s is not in the list of dedicated task types.' % task_or_type.type_name, log=Logs.WARN)
+        elif isinstance(task_or_type, Task):
+            try:
+                index = self.__dedicated_tasks.index(task_or_type)
+                deleted = self.__dedicated_tasks.index(index)
+                LOG(msg='Task %s is deleted from the list of dedicated task types.' % deleted.name)
+            except ValueError:
+                LOG(msg='Task %s is not in the list of dedicated tasks.' % deleted.name, log=Logs.WARN)
+        else:
+            LOG(msg='Invalid parameter. The parameter is not an instance of Task or TaskType modules.', log=Logs.ERROR)
+
+        return deleted
+
+    def make_shared(self):
+        self.__dedicated_task_types = list()
+        self.__dedicated_tasks = list()
+
+    def get_dedicated_tasks_or_types(self, _type):
+        if _type is TaskType:
+            return self.__dedicated_task_types
+        elif _type is Task:
+            return self.__dedicated_tasks
+
+        LOG(msg='Invalid type requested.', log=Logs.ERROR)
+        return None
 
 
 class CompositeResource(AbstractResource, list):
