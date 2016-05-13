@@ -2,7 +2,7 @@ from LFOS.Log import *
 from ResourceTypes import *
 from sys import exit
 
-class ResourceTypeCapacityPair(object):
+class ResourceTypeCapacityPair(dict):
     def __init__(self, resource_type, capacity):
         try:
             assert isinstance(resource_type, ResourceType)
@@ -30,11 +30,14 @@ class ResourceRequest(list):
         else:
             self.append(ResourceTypeCapacityPair(resource_type, required_capacity))
 
-    def get_resources(self, resource_type_names=None):
-        if resource_type_names:
-            return self
+    def get_pairs(self):
+        return self
 
-        return [requirement for requirement in self if resource_type_names == requirement.resource_type.get_resource_type_name()]
+    def get_pairs_w_type_names(self, resource_type_names):
+        return [requirement for requirement in self if requirement.resource_type.get_resource_type_name() in resource_type_names]
+
+    def get_resource_type_ids(self, resource_type_ids):
+        return [requirement for requirement in self if requirement.resource_type.get_resource_type_id() in resource_type_ids]
 
     def get_resources_w_id(self, resource_id):
         return [resource for resource in self if resource_id == resource.resource_type.get_resource_type_id()]
