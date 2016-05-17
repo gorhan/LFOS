@@ -1,8 +1,10 @@
 
 
-class Task:
-    pass
 
 
 class TaskType:
+    pass
+
+
+class Task:
     pass

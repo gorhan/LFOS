@@ -1,6 +1,4 @@
-from LFOS.Log import LOG, Logs
-from LFOS.Resource.ResourceTypes import *
-from LFOS.Resource.ResourceRequest import *
+from LFOS.Resource.ResourceRequestResponse import *
 from LFOS.Task import Task, TaskType
 
 SYSTEM_NAME = 'System'
@@ -47,10 +45,7 @@ class AbstractResource(object):
     def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def search_resources_w_type_name(self, _type, response):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
-
-    def search_resources_w_type_ids(self, _ids, response):
+    def search_resources_w_resource_type(self, resource_type, response):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
 
@@ -203,12 +198,8 @@ class TerminalResource(AbstractResource):
         LOG(msg='Invalid type requested.', log=Logs.ERROR)
         return None
 
-    def search_resources_w_type_ids(self, _ids, response):
-        if self.type.get_resource_type_id() in _ids and self not in response:
-            response.append(self)
-
-    def search_resources_w_type_name(self, _type, response):
-        if self.type.get_resource_type_name() == _type and self not in response:
+    def search_resources_w_resource_type(self, resource_type, response):
+        if self.type == resource_type and self not in response:
             response.append(self)
 
 class CompositeResource(AbstractResource, list):
@@ -248,23 +239,22 @@ class CompositeResource(AbstractResource, list):
 
     def request(self, requirements):
         try:
-            assert isinstance(requirements, ResourceRequest)
+            assert isinstance(requirements, ResourceRequests)
         except AssertionError:
             LOG(msg='Given parameter must be an instance of ResourceRequest class', log=Logs.ERROR)
             return None
 
-        requested_active_req_pairs = requirements.get_pairs_w_type_names(ACTIVE)
-        requested_active_req_type_ids = [pair.resource_type.get_resource_type_id() for pair in requested_active_req_pairs]
-        requested_passive_req_pairs = requirements.get_pairs_w_type_names(PASSIVE)
-        requested_passive_req_type_ids = [pair.resource_type.get_resource_type_id() for pair in requested_passive_req_pairs]
+        active_resource_requests = requirements.get_required_resources_w_type_name(ACTIVE)
+        passive_resource_requests = requirements.get_required_resources_w_type_name(PASSIVE)
+        response = ResourceRequestResponse()
 
-        # TODO: find eligible active resource to proceed
-        active_resources = list()
-        self.search_resource_w_type_ids(requested_active_req_type_ids, active_resources)
+        for active_resource_type, req_capacity in active_resource_requests.items():
+            desired_active_resources = list()
 
-        for active_resource in active_resources:
-            if active_resource.get_available_capacity() >=
-                accessible_relevant_passive_resources = active_resource.get_accessible_passive_resources(requested_passive_req_type_ids)
+            self.search_resources_w_resource_type(active_resource_type, desired_active_resources)
+            for active_resource in desired_active_resources:
+                desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
+
 
 
     def alloc(self, requester, resources):
@@ -273,7 +263,7 @@ class CompositeResource(AbstractResource, list):
     def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def search_resource_w_type_ids(self, _ids, response):
+    def search_resources_w_resource_type(self, resource_type, response):
         # reach to the system
         root = self
         while root.parent:
@@ -281,41 +271,42 @@ class CompositeResource(AbstractResource, list):
 
         children = root.get_child_resources()
         for resource in children:
-            resource.search_resource_w_type_id(_ids, response)
+            resource.search_resources_w_resource_type(resource_type, response)
 
-    def search_resource_w_type_name(self, _type, response):
-        # reach to the system
-        root = self
-        while root.parent:
-            root = root.parent
-
-        children = root.get_child_resources()
-        for resource in children:
-            resource.search_resource_w_type_name(_type, response)
-
-    def __top_relevant_resources(self, requested_resource_ids):
+    def __top_relevant_resources(self, requested_resource_types):
         resource_it = self.parent
-        found = list()
+        found = dict()
         while resource_it:
             children = resource_it.get_child_resources()
             for resource in children:
-                if resource.type.get_resource_type_id() in requested_resource_ids:
-                    found.append(resource)
+                if resource.type in requested_resource_types:
+                    if resource.type in found:
+                        found[resource.type].append(resource)
+                    else:
+                        found[resource.type] = [resource]
             resource_it = resource_it.parent
         return found
 
-    def __bottom_relevant_resources(self, requested_resource_ids, response):
+    def __bottom_relevant_resources(self, requested_resource_types, response):
         children = self.get_child_resources()
         for resource in children:
-            if resource.type.get_resource_type_id() in requested_resource_ids and resource not in response:
-                response.append(resource)
+            if resource.type in requested_resource_types and resource not in response:
+                if resource.type in response:
+                    response[resource.type].append(resource)
+                else:
+                    response[resource.type] = [resource]
             elif resource.type.get_resource_type_name() == COMPOSITE:
-                resource.__bottom_relevant_resources(requested_resource_ids, response)
+                resource.__bottom_relevant_resources(requested_resource_types, response)
 
-    def get_accessible_passive_resources(self, requested_resource_ids):
-        response = self.__top_relevant_resources(requested_resource_ids)
-        self.parent.__bottom_relevant_resources(requested_resource_ids, response)
-        return response
+    def get_accessible_passive_resources(self, requested_resource_types):
+        response = self.__top_relevant_resources(requested_resource_types)
+        self.parent.__bottom_relevant_resources(requested_resource_types, response)
+
+        # Given resource type list is completely found
+        if set(requested_resource_types) == set(response.keys()):
+            return response
+
+        return None
 
 
 class ResourceFactory:
