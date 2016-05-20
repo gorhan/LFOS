@@ -151,17 +151,20 @@ class ContinuousStatePowerConsumption(PowerConsumption):
 
 
 class PowerConsumptionFactory:
-    POWER_STATES = {
+    TYPES = {
         'FSPC': FixedStatePowerConsumption,
         'DSPC': DiscreteStatePowerConsumption,
         'CSPC': ContinuousStatePowerConsumption
     }
 
-    @staticmethod
-    def create_power_consumption(pc_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
-        if pc_type in PowerConsumptionFactory.POWER_STATES:
-            return PowerConsumptionFactory.POWER_STATES[pc_type](min_scale, min_pow_cons, max_scale, max_pow_cons)
+    def __init__(self):
+        pass
+
+    @classmethod
+    def create_instance(cls, _type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
+        if _type in cls.TYPES:
+            print cls.TYPES
+            return cls.TYPES[_type](min_scale, min_pow_cons, max_scale, max_pow_cons)
         else:
-            LOG(msg='Invalid construction request for PowerConsumption object.', log=Logs.ERROR)
-            LOG(msg='Valid PowerConsumption types: %s' % (', '.join(PowerConsumptionFactory.POWER_STATES.keys())),
-                log=Logs.ERROR)
+            LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
+            LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)

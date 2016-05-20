@@ -9,6 +9,8 @@ class AbstractResource(object):
         self.name = res_name
         self.parent = parent
 
+        self.request_type = 'advanced'
+
     def set_resource_name(self, res_name):
         self.name = res_name
 
@@ -20,6 +22,9 @@ class AbstractResource(object):
 
     def set_parent(self, resource):
         self.parent = resource
+
+    def set_resource_request_type(self, _type):
+        self.request_type = _type
 
     def get_parent(self):
         return self.parent
@@ -246,14 +251,20 @@ class CompositeResource(AbstractResource, list):
 
         active_resource_requests = requirements.get_required_resources_w_type_name(ACTIVE)
         passive_resource_requests = requirements.get_required_resources_w_type_name(PASSIVE)
-        response = ResourceRequestResponse()
+
+        response = ResourceRequestResponseFactory.create_instance(self.request_type)
 
         for active_resource_type, req_capacity in active_resource_requests.items():
             desired_active_resources = list()
 
             self.search_resources_w_resource_type(active_resource_type, desired_active_resources)
             for active_resource in desired_active_resources:
-                desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
+                if self.request_type == 'basic':
+                    desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
+                    response.add_resources(active_resource, desired_passive_resources)
+                elif self.request_type == 'advanced':
+                    if active_resource.get_available_capacity() >= req_capacity:
+                        desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
 
 
 

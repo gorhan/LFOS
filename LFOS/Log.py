@@ -15,7 +15,8 @@ class Logs:
 
 def LOG(**kwargs):
     stck = stack()
-    caller_class = stck[1][0].f_locals['self'].__class__.__name__
+    # print stck[1][0].f_locals
+    caller_class = stck[1][0].f_locals['cls'].__name__
     caller_func = stck[1][0].f_code.co_name
 
     if not kwargs.has_key('log'):
