@@ -1,8 +1,8 @@
 
-ACTIVE = 0
-PASSIVE = 1
-COMPOSITE = 2
-UNDEFINED = -1
+ACTIVE = 'Active'
+PASSIVE = 'Passive'
+COMPOSITE = 'Composite'
+UNDEFINED = 'UNDEF'
 
 # resource_type_id is intended to specify the resource type name such as 'Memory', 'CPU', etc.
 # resource_type is any one of the above static variables: ACTIVE, PASSIVE, COMPOSITE, otherwise.

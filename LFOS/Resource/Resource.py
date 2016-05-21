@@ -29,6 +29,13 @@ class AbstractResource(object):
     def get_parent(self):
         return self.parent
 
+    def get_system(self):
+        root = self
+        while root.parent:
+            root = root.parent
+
+        return root
+
     def add(self, resource):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
@@ -47,7 +54,7 @@ class AbstractResource(object):
     def alloc(self, requester, resources):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def free(self, running_task):
+    def free(self, running_task, resources):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def search_resources_w_resource_type(self, resource_type, response):
@@ -207,6 +214,23 @@ class TerminalResource(AbstractResource):
         if self.type == resource_type and self not in response:
             response.append(self)
 
+    def alloc(self, requester, resources):
+        if self in resources:
+            alloc_capacity = resources.pop(self)
+            self.__running_tasks[requester] = alloc_capacity
+            LOG(msg='Resource is allocated. Resource=%s, Task=%s, Amount=%.2f' % (self.name, requester.name, alloc_capacity), log=Logs.INFO)
+
+    def free(self, running_task, resources):
+        if self in resources and running_task in self.__running_tasks:
+            freed_capacity = self.__running_tasks.pop(running_task)
+            LOG(msg='Resource is freed. Resource=%s, Task=%s, Amount=%.2f' % (self.name, running_task.name, freed_capacity), log=Logs.INFO)
+            return freed_capacity
+        elif self in resources:
+            LOG(msg='Given task pointer is not running on the resource. Resource=%s, Task=%s' % (self.name, running_task.name), log=Logs.ERROR)
+            return None
+
+        return None
+
 class CompositeResource(AbstractResource, list):
     def __init__(self, res_type, res_name, parent):
         super(CompositeResource, self).__init__(res_type, res_name, parent)
@@ -261,24 +285,75 @@ class CompositeResource(AbstractResource, list):
             for active_resource in desired_active_resources:
                 if self.request_type == 'basic':
                     desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
-                    response.add_resources(active_resource, desired_passive_resources)
+                    if desired_passive_resources:
+                        response.add_resources(active_resource, desired_passive_resources)
+                    else:
+                        LOG(msg='At least one of the resources requested cannot be access via active resource: %s' % active_resource.name)
+
                 elif self.request_type == 'advanced':
-                    if active_resource.get_available_capacity() >= req_capacity:
-                        desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
+                    to_where = AdvancedResourceRequestResponse.AVAILABLE
+                    desired_passive_resources = active_resource.get_accessible_passive_resources(passive_resource_requests.keys())
+
+                    if desired_passive_resources:
+                        if active_resource.get_available_capacity() >= req_capacity:
+
+                            for resource_type, resources in desired_passive_resources:
+                                total_available_capacity = sum([resource.get_available_capacity() for resource in resources])
+                                total_all_capacity = sum([resource.get_total_capacity() for resource in resources])
+
+                                if total_available_capacity < passive_resource_requests[resource_type]:
+                                    to_where = AdvancedResourceRequestResponse.INUSE
+                                    break
+
+                                elif total_all_capacity < passive_resource_requests[resource_type]:
+                                    LOG(msg='The total capacity of the requested passive resource type cannot be '
+                                            'supplied by accessible resources. Active Resource: %s - Passive Resources: %s' %
+                                            (active_resource.name,
+                                             ', '.join( ['%s[%.2f / %.2f]' % (resource.name, resource.get_available_capacity(), resource.get_total_capacity()) for resource in resources])),
+                                            log=Logs.ERROR)
+                                    to_where = AdvancedResourceRequestResponse.DUMP
+                                    break
+
+                        else:
+                            to_where = AdvancedResourceRequestResponse.INUSE
+
+                        response.add_resources(active_resource, desired_passive_resources, to_where)
+
+                    else:
+                        LOG(msg='At least one of the resources requested cannot be access via active resource: %s' % active_resource.name)
+
+                else:
+                    LOG(msg='Invalid ResourceRequestResponse type.', log=Logs.ERROR)
+
+        return response
 
 
-
+    '''
+        Assumption: Scheduler will allocate the relevant resources. Therefore, it is not necessary to check any conflict at this procedure.
+        requester --> Pointer to requesting task
+        resources --> Dictionary holding resource pointers as keys and required capacities as values.
+    '''
     def alloc(self, requester, resources):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+        root = self.get_system()
 
-    def free(self, running_task):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+        for resource in root.get_child_resources():
+            resource.alloc(requester, resources)
+
+    '''
+        Assumption: Scheduler will free the relevant resources. Therefore, it is not necessary to check any conflict at this procedure.
+        running_task --> Pointer to the task
+        resources --> List of pointers to the resources from which running_task will be freed. (Noting that unlike
+                      alloc method, resources parameter is not a dictionary, since it is impossible to partially free the resource.)
+    '''
+    def free(self, running_task, resources) :
+        root = self.get_system()
+
+        for resource in root.get_child_resources():
+            resource.free(running_task, resources)
 
     def search_resources_w_resource_type(self, resource_type, response):
         # reach to the system
-        root = self
-        while root.parent:
-            root = root.parent
+        root = self.get_system()
 
         children = root.get_child_resources()
         for resource in children:
@@ -321,24 +396,25 @@ class CompositeResource(AbstractResource, list):
 
 
 class ResourceFactory:
-    RESOURCE_TYPES = {
+    TYPES = {
         ACTIVE: TerminalResource,
         PASSIVE: TerminalResource,
         COMPOSITE: CompositeResource
     }
 
-    # resource_type is an object of ResourceType class.
-    @staticmethod
-    def create_resource(resource_type, res_name, parent=None):
-        try:
-            assert isinstance(resource_type, ResourceType)
-        except AssertionError:
-            LOG(msg='Invalid construction request for Resource object.', log=Logs.ERROR)
-            return None
+    def __init__(self):
+        pass
 
-        return ResourceFactory.RESOURCE_TYPES[resource_type.get_resource_type_name()](resource_type, res_name, parent)
+    @classmethod
+    def create_instance(cls, _type, res_name, parent=None):
+        if _type in cls.TYPES:
+            return cls.TYPES[_type.get_resource_type_name()](_type, res_name, parent)
+        else:
+            LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
+            LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
+            return None
 
 
 # the root of all resource models
 System_type = ResourceType(SYSTEM_NAME, COMPOSITE)
-System = ResourceFactory.create_resource(System_type, 'ComputingSystem')
+System = ResourceFactory.create_instance(System_type, 'ComputingSystem')
