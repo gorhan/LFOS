@@ -1,5 +1,5 @@
 from LFOS.Resource.ResourceRequestResponse import *
-from LFOS.Task import Task, TaskType
+from LFOS.Task import Task, TaskCredential
 
 SYSTEM_NAME = 'System'
 
@@ -159,7 +159,7 @@ class TerminalResource(AbstractResource):
 
     # TODO: the Task type has to be modified when Task module implemented
     def dedicate_resource(self, task_or_type):
-        if isinstance(task_or_type, TaskType):
+        if isinstance(task_or_type, TaskCredential):
             if task_or_type in self.__dedicated_task_types:
                 LOG(msg='The given task type for dedicated resource is already in the list')
                 return task_or_type
@@ -178,7 +178,7 @@ class TerminalResource(AbstractResource):
 
     def remove_from_dedicated(self, task_or_type):
         deleted = None
-        if isinstance(task_or_type, TaskType):
+        if isinstance(task_or_type, TaskCredential):
             try:
                 index = self.__dedicated_task_types.index(task_or_type)
                 deleted = self.__dedicated_task_types.index(index)
@@ -202,7 +202,7 @@ class TerminalResource(AbstractResource):
         self.__dedicated_tasks = list()
 
     def get_dedicated_tasks_or_types(self, _type):
-        if _type is TaskType:
+        if _type is TaskCredential:
             return self.__dedicated_task_types
         elif _type is Task:
             return self.__dedicated_tasks

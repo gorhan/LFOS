@@ -2,6 +2,7 @@ from time import localtime, strftime
 from sys import stderr, stdout
 from inspect import stack
 
+
 class Logs:
     WARN='WARN'
     ERROR='ERROR'
@@ -13,11 +14,12 @@ class Logs:
         elif log == Logs.ERROR:
             return stderr
 
+
 def LOG(**kwargs):
-    stck = stack()
-    # print stck[1][0].f_locals
-    caller_class = stck[1][0].f_locals['cls'].__name__
-    caller_func = stck[1][0].f_code.co_name
+    stck = stack()[1][0]
+    # print stck.f_locals
+    caller_class = stck.f_locals['cls'].__name__ if 'cls' in stck.f_locals else stck.f_locals['self'].__class__.__name__
+    caller_func = stck.f_code.co_name
 
     if not kwargs.has_key('log'):
         kwargs['log'] = Logs.INFO
