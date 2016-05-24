@@ -67,6 +67,9 @@ class TerminalTask(AbstractTask):
     def __getattr__(self, item):
         return getattr(self.preemption, item)
 
+    def get_sub_task_w_name(self, task_name):
+        return self if self.get_task_name() == task_name else None
+
 
 class CompositeTask(AbstractTask, list):
     def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
@@ -94,6 +97,14 @@ class CompositeTask(AbstractTask, list):
 
     def __getattr__(self, item):
         return getattr(self.preemption, item)
+
+    def get_sub_task_w_name(self, task_name):
+        for task in self:
+            ptr = task.get_sub_task_w_name(task_name)
+            if ptr:
+                break
+
+        return ptr
 
 class TaskFactory:
     TYPES = {
