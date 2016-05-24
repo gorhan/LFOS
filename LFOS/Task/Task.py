@@ -1,16 +1,18 @@
 from LFOS.Resource.Resource import AbstractResource, ResourceRequests
 from LFOS.Task.TaskTiming import TaskTiming
 from LFOS.Task.Preemption import PreemptionFactory
-from TaskDependency import TaskDependency
+from LFOS.Task.TaskDependency import TaskDependency
+from LFOS.Task.TaskPriority import TaskPriority
 from LFOS.Log import LOG, Logs
 
 
-class AbstractTask(TaskTiming, ResourceRequests, TaskDependency):
+class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
     def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
-        # initialize timing attributes of task
+        # initialize attributes of task
         TaskTiming.__init__(arr_time, wcet, deadline, deadline_type, task_name, task_type)
         ResourceRequests.__init__()
         TaskDependency.__init__()
+        TaskPriority.__init__()
 
         # To provide whether task is sporadic or not.
         self.active = True
@@ -33,9 +35,9 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency):
             return True
         elif resource not in self.eligible_resources:
             LOG(msg='%s is already in the list of eligible resources of %s' % (resource.get_credential(), self.get_credential()), log=Logs.INFO)
-            return True
+        else:
+            LOG(msg='Given resource is not at the type of active.', log=Logs.WARN)
 
-        LOG(msg='Given resource is not at the type of active.', log=Logs.WARN)
         return False
 
     def remove_eligible_resource(self, resource):
@@ -82,7 +84,7 @@ class CompositeTask(AbstractTask, list):
         LOG(msg='Task %s is already under the composite task %s.' % (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
         return None
 
-    def remove(self, task):
+    def remove_task(self, task):
         if task not in self:
             LOG(msg='Task %s is not under the composite task %s.' (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
             return None
