@@ -2,17 +2,12 @@ from LFOS.Log import LOG, Logs
 
 
 class AbstractTaskDeadlineRequirement(object):
-    DEADLINE_TYPES = ['hard', 'firm', 'soft']
-
     def __init__(self, _type, deadline):
         self.deadline_requirement = _type
         self.deadline = deadline
 
         self.penalty_per_unit_time = 0
         self.penalty_duration = 0
-
-    def set_deadline_requirement(self, req):
-        self.deadline_requirement = req
 
     def get_deadline_requirement(self):
         return self.deadline_requirement

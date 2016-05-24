@@ -3,6 +3,7 @@ from LFOS.Task import Task, TaskCredential
 
 SYSTEM_NAME = 'System'
 
+
 class AbstractResource(object):
     def __init__(self, res_type, res_name, parent):
         self.type = res_type
@@ -19,6 +20,9 @@ class AbstractResource(object):
 
     def get_resource_type_name(self):
         return self.type.get_resource_type_name()
+
+    def get_credential(self):
+        return '%s [%s, %s]' % (self.name, self.type.get_resource_type_id(), self.type.get_resource_type_name())
 
     def set_parent(self, resource):
         self.parent = resource
