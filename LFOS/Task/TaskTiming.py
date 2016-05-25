@@ -5,10 +5,10 @@ from LFOS.Task.TaskDeadlineRequirement import TaskDeadlineRequirementFactory
 
 
 class TaskTiming(TaskCredential):
-    def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
+    def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         self.phase = arr_time
         self.release_time = arr_time
-        self.wcet = wcet
+        self.wcet = 0
         self.wcet_completed = 0
 
         self.fragments = list()
@@ -27,6 +27,10 @@ class TaskTiming(TaskCredential):
 
     def get_release_time(self):
         return self.release_time
+
+    def set_wcet(self, wcet):
+        self.wcet = wcet
+        LOG(msg='New worst-case execution time is set to %.2f' % self.wcet, log=Logs.INFO)
 
     def get_WCET(self):
         return self.wcet

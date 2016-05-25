@@ -9,7 +9,7 @@ from LFOS.Log import LOG, Logs
 class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
     def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
         # initialize attributes of task
-        TaskTiming.__init__(arr_time, wcet, deadline, deadline_type, task_name, task_type)
+        TaskTiming.__init__(arr_time, deadline, deadline_type, task_name, task_type)
         ResourceRequests.__init__()
         TaskDependency.__init__()
         TaskPriority.__init__()
@@ -19,18 +19,20 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
 
         self.parent = None
 
-        self.eligible_resources = list()
+        # eligible resources contains the resource pointers as keys and worst-case execution times of a task on the
+        # resource at maximum voltage scale as values.
+        self.eligible_resources = dict()
 
     def set_parent(self, parent):
         self.parent = parent
 
-    def add_eligible_resource(self, resource):
+    def add_eligible_resource(self, resource, wcet_max_scale):
         if not isinstance(resource, AbstractResource):
             LOG(msg='Given parameter is not a resource.', log=Logs.ERROR)
             return False
 
         if resource.get_resource_type_name() == 'active' and resource not in self.eligible_resources:
-            self.eligible_resources.append(resource)
+            self.eligible_resources[resource] = wcet_max_scale
             LOG(msg='%s is added to the list of eligible resources of %s' % (resource.get_credential(), self.get_credential()), log=Logs.INFO)
             return True
         elif resource not in self.eligible_resources:
@@ -42,12 +44,20 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
 
     def remove_eligible_resource(self, resource):
         if resource in self.eligible_resources:
-            index = self.eligible_resources.index(resource)
-            self.eligible_resources.pop(index)
+            self.eligible_resources.pop(resource)
             LOG(msg='%s is removed from the list of eligible resources of %s' % (resource.get_credential(), self.get_credential()), log=Logs.INFO)
             return True
 
         LOG(msg='%s is not in the list of eligible resources of %s' % (resource.get_credential(), self.get_credential()), log=Logs.INFO)
+        return False
+
+    def execute_on_active_resource(self, resource):
+        if resource in self.eligible_resources:
+            self.set_wcet(self.eligible_resources[resource])
+            return True
+
+        LOG(msg='Given active resource %s is not in the list of eligible resource of %s' % (resource.get_credential(), self.get_credential()), log=Logs.ERROR)
+        return False
 
     def add_task(self, task):
         LOG(msg='Invalid procedure call.', log=Logs.ERROR)
@@ -60,8 +70,8 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
 
 
 class TerminalTask(AbstractTask):
-    def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
-        super(TerminalTask, self).__init__(arr_time, wcet, deadline, deadline_type, task_name, task_type)
+    def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
+        super(TerminalTask, self).__init__(arr_time, deadline, deadline_type, task_name, task_type)
         self.preemption = PreemptionFactory.create_instance('preemptable')
 
     def __getattr__(self, item):
@@ -72,8 +82,8 @@ class TerminalTask(AbstractTask):
 
 
 class CompositeTask(AbstractTask, list):
-    def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
-        super(CompositeTask, self).__init__(arr_time, wcet, deadline, deadline_type, task_name, task_type)
+    def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
+        super(CompositeTask, self).__init__(arr_time, deadline, deadline_type, task_name, task_type)
         list.__init__([])
         self.preemption = PreemptionFactory.create_instance('nonPreemptable')
 
@@ -106,6 +116,7 @@ class CompositeTask(AbstractTask, list):
 
         return ptr
 
+
 class TaskFactory:
     TYPES = {
         'Composite': CompositeTask,
@@ -116,9 +127,9 @@ class TaskFactory:
         pass
 
     @classmethod
-    def create_instance(cls, _type, arr_time, wcet, deadline, deadline_type, task_name, task_type=None):
+    def create_instance(cls, _type, arr_time, deadline, deadline_type, task_name, task_type=None):
         if _type in cls.TYPES:
-            return cls.TYPES[_type](arr_time, wcet, deadline, deadline_type, task_name, task_type=None)
+            return cls.TYPES[_type](arr_time, deadline, deadline_type, task_name, task_type=None)
         else:
             LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
