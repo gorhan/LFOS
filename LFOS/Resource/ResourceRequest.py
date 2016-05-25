@@ -25,6 +25,9 @@ class ResourceRequests(dict):
         LOG(msg='Given resource_type object is not in the resource requests.', log=Logs.WARN)
         return None
 
+    def get_resource_requests(self):
+        return self
+
     def get_required_capacity(self, resource_type):
         try:
             return self[resource_type]

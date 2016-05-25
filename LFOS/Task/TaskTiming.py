@@ -22,6 +22,12 @@ class TaskTiming(TaskCredential):
         # DEFAULT = Sporadic -- the interleaving time between consecutive jobs are not known
         self.periodicity = PeriodicityFactory.create_instance('sporadic')
 
+    def set_phase(self, phase_time):
+        self.phase = phase_time
+
+    def get_phase(self):
+        return self.phase
+
     def set_release_time(self, rel_time):
         self.release_time = rel_time
 

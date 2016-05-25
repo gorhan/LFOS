@@ -51,6 +51,12 @@ class Schedule(list):
         else:
             self.append(p_object)
 
+    def append(self, task, reserved, begin_tm, end_tm):
+        self.append(ScheduleItem(task, reserved, begin_tm, end_tm))
+
+    def append_empty_slot(self, begin_tm, end_tm):
+        self.append('EMPTY', [], begin_tm, end_tm)
+
     def get_last_instance(self, task):
         for schedule_item in reversed(self):
             if schedule_item.reserved_task == task:

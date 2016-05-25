@@ -7,7 +7,7 @@ from LFOS.Log import LOG, Logs
 
 
 class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
-    def __init__(self, arr_time, wcet, deadline, deadline_type, task_name, task_type):
+    def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         # initialize attributes of task
         TaskTiming.__init__(arr_time, deadline, deadline_type, task_name, task_type)
         ResourceRequests.__init__()
