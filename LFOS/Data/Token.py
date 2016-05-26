@@ -41,6 +41,9 @@ class Token(object):
     def get_timestamps(self):
         return self.timestamps
 
+    def get_latest_timestamp(self):
+        return self.timestamps[-1] if self.timestamps else None
+
     def query(self, required_quantity):
         return self.quantity >= required_quantity
 

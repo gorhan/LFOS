@@ -23,7 +23,8 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
         # resource at maximum voltage scale as values.
         self.eligible_resources = dict()
 
-        self.dependent_data = dict()
+        self.input_requirement = dict()
+        self.output = dict()
 
     def set_parent(self, parent):
         self.parent = parent
@@ -61,16 +62,26 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
         LOG(msg='Given active resource %s is not in the list of eligible resource of %s' % (resource.get_credential(), self.get_credential()), log=Logs.ERROR)
         return False
 
-    def ready_to_execute(self, current_time):
+    def ready_to_execute(self, scheduler, current_time):
 
-    def add_data_dependency(self, token_type, required):
-        if self.dependent_data.has_key(token_type):
-            self.dependent_data[token_type] += required
+
+    def add_input_requirement(self, token_type, required):
+        if self.input_requirement.has_key(token_type):
+            self.input_requirement[token_type] += required
         else:
-            self.dependent_data[token_type] = required
+            self.input_requirement[token_type] = required
 
-    def get_dependent_data(self):
-        return self.dependent_data
+    def get_input_requirement(self):
+        return self.input_requirement
+
+    def add_output(self, token_type, amount):
+        if self.input_requirement.has_key(token_type):
+            self.input_requirement[token_type] += amount
+        else:
+            self.input_requirement[token_type] = amount
+
+    def get_output(self):
+        return self.output
 
     def add_task(self, task):
         LOG(msg='Invalid procedure call.', log=Logs.ERROR)

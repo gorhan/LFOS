@@ -29,3 +29,10 @@ class TokenPool(list):
             return self[index].get_quantity()
 
         return 0
+
+    def get_latest_timestamp(self, token_type):
+        if token_type in self:
+            index = self.index(token_type)
+            return self[index].get_latest_timestamp()
+
+        return None
