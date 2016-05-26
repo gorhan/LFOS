@@ -23,6 +23,8 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
         # resource at maximum voltage scale as values.
         self.eligible_resources = dict()
 
+        self.dependent_data = dict()
+
     def set_parent(self, parent):
         self.parent = parent
 
@@ -58,6 +60,17 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
 
         LOG(msg='Given active resource %s is not in the list of eligible resource of %s' % (resource.get_credential(), self.get_credential()), log=Logs.ERROR)
         return False
+
+    def ready_to_execute(self, current_time):
+
+    def add_data_dependency(self, token_type, required):
+        if self.dependent_data.has_key(token_type):
+            self.dependent_data[token_type] += required
+        else:
+            self.dependent_data[token_type] = required
+
+    def get_dependent_data(self):
+        return self.dependent_data
 
     def add_task(self, task):
         LOG(msg='Invalid procedure call.', log=Logs.ERROR)

@@ -2,10 +2,11 @@ from LFOS.Resource.Resource import System
 from LFOS.Scheduler.SchedulingPolicy import SchedulingPolicy, SchedulingPolicyList
 from LFOS.Scheduler.SchedulingTypes import SchedulingType
 from LFOS.Scheduler.Schedule import Schedule
+from LFOS.Data.TokenPool import TokenPool
 from LFOS.Log import LOG, Logs
 
 
-class Scheduler(SchedulingPolicy):
+class Scheduler(SchedulingPolicy, TokenPool):
     def __init__(self):
 
         self.taskset = list()
@@ -20,6 +21,7 @@ class Scheduler(SchedulingPolicy):
         self.scheduling_type = SchedulingType.OFFLINE
 
         SchedulingPolicy.__init__(SchedulingPolicyList.FIFO)
+        TokenPool.__init__()
 
     def set_preemptable_flag(self, flag):
         self.preemptable = flag
@@ -133,6 +135,12 @@ class Scheduler(SchedulingPolicy):
 
         return ranges
 
+    def __rank_tasks(self):
+        prio = 0
+        for task in self.taskset:
+            task.set_priority(prio)
+            prio += 1
+
     def __order_tasks(self):
         if self.grouping_active():
             self.taskset.sort(cmp=self.cmp_grouping())
@@ -140,6 +148,6 @@ class Scheduler(SchedulingPolicy):
 
             for begin, end in group_ranges:
                 self.taskset[begin:end] = sorted(self.taskset[begin:end], cmp=self.cmp_ranking())
-        else:
-            self.taskset.sort(cmp=self.cmp_ranking())
 
+        self.taskset.sort(cmp=self.cmp_ranking())
+        self.__rank_tasks()
