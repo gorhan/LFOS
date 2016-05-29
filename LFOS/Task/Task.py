@@ -1,18 +1,19 @@
 from LFOS.Resource.Resource import AbstractResource, ResourceRequests
-from LFOS.Task.TaskTiming import TaskTiming
+from LFOS.Task.Timing import Timing
 from LFOS.Task.Preemption import PreemptionFactory
 from LFOS.Task.TaskDependency import TaskDependency
-from LFOS.Task.TaskPriority import TaskPriority
+from LFOS.Task.Priority import Priority
+from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Log import LOG, Logs
 
 
-class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
+class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         # initialize attributes of task
-        TaskTiming.__init__(arr_time, deadline, deadline_type, task_name, task_type)
+        Timing.__init__(arr_time, deadline, deadline_type, task_name, task_type)
         ResourceRequests.__init__()
         TaskDependency.__init__()
-        TaskPriority.__init__()
+        Priority.__init__()
 
         # To provide whether task is sporadic or not.
         self.active = True
@@ -63,7 +64,9 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
         return False
 
     def ready_to_execute(self, scheduler, current_time):
-
+        return self.__release_time_check(current_time) and \
+                self.__wcet_completed_check() and \
+                self.__data_dependency_check(scheduler)
 
     def add_input_requirement(self, token_type, required):
         if self.input_requirement.has_key(token_type):
@@ -82,6 +85,18 @@ class AbstractTask(TaskTiming, ResourceRequests, TaskDependency, TaskPriority):
 
     def get_output(self):
         return self.output
+
+    def __release_time_check(self, current_time):
+        return self.get_release_time() >= current_time
+
+    def __wcet_completed_check(self):
+        return self.get_remaining_WCET() != 0
+
+    def __deadline_check(self, current_time):
+        return current_time + self.get_remaining_WCET() <= self.deadline.get_deadline()
+
+    def __data_dependency_check(self, scheduler):
+        return scheduler.query(self.input_requirement)
 
     def add_task(self, task):
         LOG(msg='Invalid procedure call.', log=Logs.ERROR)
@@ -123,7 +138,7 @@ class CompositeTask(AbstractTask, list):
 
     def remove_task(self, task):
         if task not in self:
-            LOG(msg='Task %s is not under the composite task %s.' (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
+            LOG(msg='Task %s is not under the composite task %s.' % (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
             return None
 
         index = self.index(task)

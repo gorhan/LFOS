@@ -1,3 +1,4 @@
+from LFOS.Data.Token import Token
 from LFOS.Log import LOG, Logs
 
 

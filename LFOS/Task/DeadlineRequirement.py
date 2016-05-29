@@ -85,7 +85,7 @@ class SoftDeadlineRequirement(AbstractTaskDeadlineRequirement):
             LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()), log=Logs.INFO)
 
 
-class TaskDeadlineRequirementFactory:
+class DeadlineRequirementFactory:
     TYPES = {
         'hard': HardDeadlineRequirement,
         'firm': FirmDeadlineRequirement,

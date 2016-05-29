@@ -1,10 +1,10 @@
 from LFOS.Task.Periodicity import PeriodicityFactory
 from LFOS.Log import LOG, Logs
-from LFOS.Task.TaskCredential import TaskCredential
-from LFOS.Task.TaskDeadlineRequirement import TaskDeadlineRequirementFactory
+from LFOS.Task.Credential import Credential
+from LFOS.Task.DeadlineRequirement import DeadlineRequirementFactory
 
 
-class TaskTiming(TaskCredential):
+class Timing(Credential):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         self.phase = arr_time
         self.release_time = arr_time
@@ -14,10 +14,10 @@ class TaskTiming(TaskCredential):
         self.fragments = list()
 
         # set getattr method to delegate the other function calls to object methods.
-        self.deadline = TaskDeadlineRequirementFactory.create_instance(deadline_type, deadline)
+        self.deadline = DeadlineRequirementFactory.create_instance(deadline_type, deadline)
 
         #Initialize inherited class
-        super(TaskTiming, self).__init__(task_name, task_type)
+        super(Timing, self).__init__(task_name, task_type)
 
         # DEFAULT = Sporadic -- the interleaving time between consecutive jobs are not known
         self.periodicity = PeriodicityFactory.create_instance('sporadic')
