@@ -56,12 +56,7 @@ class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
         return False
 
     def execute_on_active_resource(self, resource):
-        if resource in self.eligible_resources:
-            self.set_wcet(self.eligible_resources[resource])
-            return True
-
-        LOG(msg='Given active resource %s is not in the list of eligible resource of %s' % (resource.get_credential(), self.get_credential()), log=Logs.ERROR)
-        return False
+        self.set_wcet(self.eligible_resources[resource])
 
     def ready_to_execute(self, scheduler, current_time):
         return self.__release_time_check(current_time) and \

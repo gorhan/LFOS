@@ -9,7 +9,7 @@ class Timing(Credential):
         self.phase = arr_time
         self.release_time = arr_time
         self.wcet = 0
-        self.wcet_completed = 0
+        self.__running = False
 
         self.fragments = list()
 
@@ -42,39 +42,43 @@ class Timing(Credential):
         return self.wcet
 
     def get_remaining_WCET(self):
-        return self.wcet - self.wcet_completed
+        return self.wcet - self.get_completed_WCET()
 
     def get_completed_WCET(self):
-        return self.wcet_completed
+        return sum([map(lambda frag: frag[1]-frag[0], self.fragments)])
 
-    def is_running(self):
-        if self.fragments and self.fragments[-1][1]:
+    def is_running(self, current_time):
+        if self.fragments and self.__running:
+            self.fragments[-1][1] = current_time
+            if self.is_finished():
+                self.stop_task(current_time)
+                return False
             return True
 
         return False
+
+    def is_finished(self):
+        return self.get_remaining_WCET() <= 0
 
     def get_last_fragment_start(self):
         return self.fragments[-1][0] if self.fragments else -1
 
     def start_task(self, current_tm):
-        if self.is_running():
-            LOG(msg='%s is already executing.' % self.get_credential(), log=Logs.WARN)
+        if self.is_running(current_tm):
+            LOG(msg='%s is already executing at %.3f.' % (self.get_credential(), current_tm), log=Logs.WARN)
             return False
 
-        self.fragments.append((current_tm, None))
-        LOG(msg='%s is started to execute.' % self.get_credential(), log=Logs.INFO)
+        self.fragments.append((current_tm, current_tm))
+        self.__running = True
+        LOG(msg='%s is started to execute at %.3f.' % (self.get_credential(), current_tm), log=Logs.INFO)
         return True
 
     def stop_task(self, current_tm):
-        if self.is_running():
-            self.fragments[-1][1] = current_tm
-            last_fragment_duration = self.fragments[-1][1] - self.fragments[-1][0]
-            self.wcet_completed += last_fragment_duration
-            LOG(msg='%s is stopped.' % self.get_credential(), log=Logs.INFO)
-            return self.wcet_completed
-
-        LOG(msg='%s is not executing.' % self.get_credential(), log=Logs.WARN)
-        return False
+        self.fragments[-1][1] = current_tm
+        LOG(msg='%s is stopped at %.3f.' % (self.get_credential(), current_tm), log=Logs.INFO)
+        self.make_ready(current_tm)
+        self.__running = False
+        return self
 
     def make_ready(self, current_time):
         return self.__next_job(current_time)
@@ -82,8 +86,11 @@ class Timing(Credential):
     def __next_job(self, current_time):
         if self.periodicity.get_period_type() != 'sporadic':
             iterated = list()
-            while self.get_remaining_WCET() > (self.deadline.get_deadline() - current_time + self.deadline.get_penalty_duration()):
+            lifecycle = self.deadline.get_deadline() - self.release_time
+            while current_time > self.deadline.get_extended_deadline() or self.is_finished():
                 self.release_time += self.periodicity.get_period()
+                self.deadline.set_deadline(self.release_time + lifecycle)
+                self.fragments = list()
                 iterated.append('%.2f' % self.release_time)
             LOG(msg='%s is iterated %d times. %s' % (self.get_credential(), len(iterated), ' ,'.join(iterated)), log=Logs.INFO)
             return True

@@ -1,5 +1,6 @@
 from LFOS.Log import *
 
+
 class ScheduleItem:
     def __init__(self, task=None, reserved=[], begin_tm=0.0, end_tm=0.0):
         self.reserved_task = task

@@ -1,8 +1,9 @@
-from LFOS.Resource.Resource import System
+from LFOS.Resource.Resource import System, ResourceRequestResponseFactory, AdvancedResourceRequestResponse, BasicResourceRequestResponse
 from LFOS.Scheduler.SchedulingPolicy import SchedulingPolicy, SchedulingPolicyList
 from LFOS.Scheduler.SchedulingTypes import SchedulingType
 from LFOS.Scheduler.Schedule import Schedule
 from LFOS.Data.TokenPool import TokenPool
+from LFOS.Task.Task import AbstractTask
 from LFOS.Log import LOG, Logs
 
 
@@ -94,26 +95,52 @@ class Scheduler(SchedulingPolicy, TokenPool):
 
         # Online scheduling
         if self.scheduling_type == SchedulingType.ONLINE:
-            task = self.__get_ready_task(current_time)
+            task = self.__get_ready_tasks(current_time)
             if task:
-                resource_requests = task.get_resource_requests()
-                response = self.system.request(resource_requests)
+                response = self.system.request(task.get_resource_requests())
                 running_task, reserved_resources = self.__decide_on_resource(task, response)
-                schedule.append(running_task, reserved_resources, current_time, current_time+self.time_resolution)
+                schedule.append_item(running_task, reserved_resources, current_time, current_time+self.time_resolution)
             else:
                 schedule.append_empty_slot(current_time, current_time+self.time_resolution)
         # Offline scheduling
         else:
-            pass
+            while current_time <= end_tm:
+                ready_tasks_w_index = self.__get_ready_tasks(current_time)
+                self.__schedule_ready_tasks(schedule, ready_tasks_w_index, current_time)
+                current_time += self.time_resolution
 
         return schedule
 
     # Internal private methods
-    def __decide_on_resource(self, task, offered_resources):
-        return self
+    def __schedule_ready_tasks(self, schedule, ready_tasks_w_index, current_time):
+        if ready_tasks_w_index:
+            for task, _ in ready_tasks_w_index:
+                if task.is_running():
+                    task.
+                response = self.system.request(task.get_resource_requests())
+                response_type = self.system.get_resource_request_type()
 
-    def __get_ready_task(self):
-        return self
+                if response_type == 'advanced':
+                    available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+                    if available_resources:
+                        self.system.alloc(available_resources)
+                        return True
+                    else:
+                        pass
+
+                    schedule.append_item(task, available_resources, current_time, current_time + self.time_resolution)
+                else:
+                    pass
+        else:
+            schedule.append_empty_slot(current_time, current_time + self.time_resolution)
+
+    def __get_ready_tasks(self, current_time):
+        ready_tasks = []
+        for index, task in enumerate(self.taskset):
+            if task.ready_to_execute(self, current_time):
+                ready_tasks.append([task, index])
+
+        return ready_tasks
 
     def __get_same_type_range(self, init_index):
         type_value = self.taskset[init_index].get_task_type_importance()

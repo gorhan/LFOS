@@ -14,6 +14,9 @@ class AbstractResourceRequestResponse(object):
     def get_resources(self, from_where):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
+    def get_resources_list(self, from_where):
+        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+
     def clear(self):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
@@ -40,6 +43,10 @@ class AdvancedResourceRequestResponse(AbstractResourceRequestResponse):
         if from_where:
             return self.resources[from_where]
 
+    def get_resources_list(self, from_where=None):
+        if from_where:
+            return self.resources[from_where][ACTIVE] + self.resources[from_where][PASSIVE]
+
     def clear(self):
         self.resources[AdvancedResourceRequestResponse.AVAILABLE] = list()
         self.resources[AdvancedResourceRequestResponse.INUSE] = list()
@@ -57,6 +64,9 @@ class BasicResourceRequestResponse(AbstractResourceRequestResponse):
 
     def get_resources(self, from_where=None):
         return self.resources
+
+    def get_resources_list(self, from_where=None):
+        return self.resources[ACTIVE] + self.resources[PASSIVE]
 
     def clear(self):
         self.resources = list()

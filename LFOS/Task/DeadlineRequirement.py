@@ -18,6 +18,9 @@ class AbstractTaskDeadlineRequirement(object):
     def get_deadline(self):
         return self.deadline
 
+    def get_extended_deadline(self):
+        return self.deadline + self.penalty_duration
+
     def calculate_penalty(self, current_time):
         penalty = None
         threshold_time_exceeded = False
