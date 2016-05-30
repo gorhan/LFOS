@@ -3,7 +3,6 @@ from LFOS.Scheduler.SchedulingPolicy import SchedulingPolicy, SchedulingPolicyLi
 from LFOS.Scheduler.SchedulingTypes import SchedulingType
 from LFOS.Scheduler.Schedule import Schedule
 from LFOS.Data.TokenPool import TokenPool
-from LFOS.Task.Task import AbstractTask
 from LFOS.Log import LOG, Logs
 
 
@@ -21,8 +20,8 @@ class Scheduler(SchedulingPolicy, TokenPool):
 
         self.scheduling_type = SchedulingType.OFFLINE
 
-        SchedulingPolicy.__init__(SchedulingPolicyList.FIFO)
-        TokenPool.__init__()
+        SchedulingPolicy.__init__(self, SchedulingPolicyList.FIFO)
+        TokenPool.__init__(self)
 
     def set_preemptable_flag(self, flag):
         self.preemptable = flag
@@ -65,7 +64,6 @@ class Scheduler(SchedulingPolicy, TokenPool):
         for task in task_list:
             all_success = all_success and self.add_task(task)
 
-        self.__order_tasks()
         if all_success:
             LOG(msg='All tasks have been added to the task set.', log=Logs.INFO)
             return True
@@ -105,33 +103,35 @@ class Scheduler(SchedulingPolicy, TokenPool):
         # Offline scheduling
         else:
             while current_time <= end_tm:
-                ready_tasks_w_index = self.__get_ready_tasks(current_time)
-                self.__schedule_ready_tasks(schedule, ready_tasks_w_index, current_time)
+                self.__schedule_ready_tasks(schedule, current_time)
                 current_time += self.time_resolution
 
         return schedule
 
     # Internal private methods
-    def __schedule_ready_tasks(self, schedule, ready_tasks_w_index, current_time):
-        if ready_tasks_w_index:
-            for task, _ in ready_tasks_w_index:
-                if task.is_running():
-                    task.
-                response = self.system.request(task.get_resource_requests())
+    def __schedule_ready_tasks(self, schedule, current_time):
+        scheduled_flag = False
+        for task in self.taskset:
+            if not task.is_running(current_time) and task.ready_to_execute(self, current_time):
+                response = self.system.request(task)
+                print response
                 response_type = self.system.get_resource_request_type()
 
                 if response_type == 'advanced':
                     available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+                    print available_resources
                     if available_resources:
+                        task.execute_on_active_resource(available_resources[0], current_time)
                         self.system.alloc(available_resources)
-                        return True
+                        scheduled_flag = True
                     else:
                         pass
 
                     schedule.append_item(task, available_resources, current_time, current_time + self.time_resolution)
                 else:
                     pass
-        else:
+
+        if not scheduled_flag:
             schedule.append_empty_slot(current_time, current_time + self.time_resolution)
 
     def __get_ready_tasks(self, current_time):

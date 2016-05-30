@@ -17,7 +17,7 @@ class Timing(Credential):
         self.deadline = DeadlineRequirementFactory.create_instance(deadline_type, deadline)
 
         #Initialize inherited class
-        super(Timing, self).__init__(task_name, task_type)
+        Credential.__init__(self, task_name, task_type)
 
         # DEFAULT = Sporadic -- the interleaving time between consecutive jobs are not known
         self.periodicity = PeriodicityFactory.create_instance('sporadic')
@@ -45,13 +45,17 @@ class Timing(Credential):
         return self.wcet - self.get_completed_WCET()
 
     def get_completed_WCET(self):
-        return sum([map(lambda frag: frag[1]-frag[0], self.fragments)])
+        return sum(map(lambda frag: frag[1]-frag[0], self.fragments))
+
+    def set_periodicity(self, _type):
+        self.periodicity = PeriodicityFactory.create_instance(_type)
 
     def is_running(self, current_time):
-        if self.fragments and self.__running:
+        if self.__running:
             self.fragments[-1][1] = current_time
             if self.is_finished():
                 self.stop_task(current_time)
+                LOG(msg='%s has been completed the execution at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
                 return False
             return True
 
@@ -61,22 +65,22 @@ class Timing(Credential):
         return self.get_remaining_WCET() <= 0
 
     def get_last_fragment_start(self):
-        return self.fragments[-1][0] if self.fragments else -1
+        return self.fragments[-1][0] if self.fragments else None
 
-    def start_task(self, current_tm):
-        if self.is_running(current_tm):
-            LOG(msg='%s is already executing at %.3f.' % (self.get_credential(), current_tm), log=Logs.WARN)
+    def start_task(self, current_time):
+        if self.__running:
+            LOG(msg='%s is already executing at %.3f.' % (self.get_credential(), current_time), log=Logs.WARN)
             return False
 
-        self.fragments.append((current_tm, current_tm))
+        self.fragments.append([current_time, current_time])
         self.__running = True
-        LOG(msg='%s is started to execute at %.3f.' % (self.get_credential(), current_tm), log=Logs.INFO)
+        LOG(msg='%s is started to execute at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
         return True
 
-    def stop_task(self, current_tm):
-        self.fragments[-1][1] = current_tm
-        LOG(msg='%s is stopped at %.3f.' % (self.get_credential(), current_tm), log=Logs.INFO)
-        self.make_ready(current_tm)
+    def stop_task(self, current_time):
+        self.fragments[-1][1] = current_time
+        LOG(msg='%s is stopped at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
+        self.make_ready(current_time)
         self.__running = False
         return self
 
@@ -105,7 +109,12 @@ class Timing(Credential):
         deadline_methods = inspect.getmembers(self.deadline, predicate=inspect.ismethod)
         deadline_methods = [method_name for method_name, _ in deadline_methods]
 
+        periodicity_methods = inspect.getmembers(self.periodicity, predicate=inspect.ismethod)
+        periodicity_methods = [method_name for method_name, _ in periodicity_methods]
+
         if item in deadline_methods:
             return getattr(self.deadline, item)
+        elif item in periodicity_methods:
+            return getattr(self.periodicity, item)
         else:
             LOG(msg='Invalid method call. There is no method %s.' % item, log=Logs.ERROR)

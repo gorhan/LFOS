@@ -1,19 +1,17 @@
 from LFOS.Resource.Resource import AbstractResource, ResourceRequests
-from LFOS.Task.Timing import Timing
+from LFOS.Task.Timing import Timing, Credential
 from LFOS.Task.Preemption import PreemptionFactory
-from LFOS.Task.TaskDependency import TaskDependency
 from LFOS.Task.Priority import Priority
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Log import LOG, Logs
 
 
-class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
+class AbstractTask(Timing, ResourceRequests, Priority):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         # initialize attributes of task
-        Timing.__init__(arr_time, deadline, deadline_type, task_name, task_type)
-        ResourceRequests.__init__()
-        TaskDependency.__init__()
-        Priority.__init__()
+        Timing.__init__(self, arr_time, deadline, deadline_type, task_name, task_type)
+        ResourceRequests.__init__(self)
+        Priority.__init__(self)
 
         # To provide whether task is sporadic or not.
         self.active = True
@@ -55,12 +53,13 @@ class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
         LOG(msg='%s is not in the list of eligible resources of %s' % (resource.get_credential(), self.get_credential()), log=Logs.INFO)
         return False
 
-    def execute_on_active_resource(self, resource):
+    def execute_on_active_resource(self, resource, current_time):
         self.set_wcet(self.eligible_resources[resource])
+        self.start_task(current_time)
 
     def ready_to_execute(self, scheduler, current_time):
         return self.__release_time_check(current_time) and \
-                self.__wcet_completed_check() and \
+                self.is_finished() and \
                 self.__data_dependency_check(scheduler)
 
     def add_input_requirement(self, token_type, required):
@@ -84,9 +83,6 @@ class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
     def __release_time_check(self, current_time):
         return self.get_release_time() >= current_time
 
-    def __wcet_completed_check(self):
-        return self.get_remaining_WCET() != 0
-
     def __deadline_check(self, current_time):
         return current_time + self.get_remaining_WCET() <= self.deadline.get_deadline()
 
@@ -105,45 +101,39 @@ class AbstractTask(Timing, ResourceRequests, TaskDependency, Priority):
 
 class TerminalTask(AbstractTask):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
-        super(TerminalTask, self).__init__(arr_time, deadline, deadline_type, task_name, task_type)
+        AbstractTask.__init__(self, arr_time, deadline, deadline_type, task_name, task_type)
         self.preemption = PreemptionFactory.create_instance('preemptable')
-
-    def __getattr__(self, item):
-        return getattr(self.preemption, item)
 
     def get_sub_task_w_name(self, task_name):
         return self if self.get_task_name() == task_name else None
 
 
-class CompositeTask(AbstractTask, list):
+class CompositeTask(AbstractTask):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
-        super(CompositeTask, self).__init__(arr_time, deadline, deadline_type, task_name, task_type)
-        list.__init__([])
+        AbstractTask.__init__(self, arr_time, deadline, deadline_type, task_name, task_type)
+        self.tasks = list()
         self.preemption = PreemptionFactory.create_instance('nonPreemptable')
 
     def add_task(self, task):
-        if task not in self:
+        if task not in self.tasks:
             task.set_parent(self)
-            self.append(task)
+            self.tasks.append(task)
             LOG(msg='Task %s is added to the composite task %s.' % (task.get_task_name(), self.get_task_name()), log=Logs.INFO)
-            return self[-1]
+            return self.tasks[-1]
 
         LOG(msg='Task %s is already under the composite task %s.' % (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
         return None
 
     def remove_task(self, task):
-        if task not in self:
+        if task not in self.tasks:
             LOG(msg='Task %s is not under the composite task %s.' % (task.get_task_name(), self.get_task_name()), log=Logs.WARN)
             return None
 
-        index = self.index(task)
-        return self.pop(index)
-
-    def __getattr__(self, item):
-        return getattr(self.preemption, item)
+        index = self.tasks.index(task)
+        return self.tasks.pop(index)
 
     def get_sub_task_w_name(self, task_name):
-        for task in self:
+        for task in self.tasks:
             ptr = task.get_sub_task_w_name(task_name)
             if ptr:
                 break
@@ -157,13 +147,10 @@ class TaskFactory:
         'Terminal': TerminalTask
     }
 
-    def __init__(self):
-        pass
-
     @classmethod
     def create_instance(cls, _type, arr_time, deadline, deadline_type, task_name, task_type=None):
         if _type in cls.TYPES:
-            return cls.TYPES[_type](arr_time, deadline, deadline_type, task_name, task_type=None)
+            return cls.TYPES[_type](arr_time, deadline, deadline_type, task_name, task_type)
         else:
             LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)

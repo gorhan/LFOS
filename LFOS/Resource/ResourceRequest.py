@@ -2,25 +2,25 @@ from LFOS.Log import *
 from ResourceTypes import *
 
 
-class ResourceRequests(dict):
+class ResourceRequests(object):
     def __init__(self):
-        super(ResourceRequests, self).__init__({})
+        self.requests = dict()
 
-    def add_request(self, resource_type, required_capacity):
+    def add_resource_request(self, resource_type, required_capacity):
         if not self.__type_check(resource_type, ResourceType):
             return None
 
-        if resource_type in self:
+        if resource_type in self.requests:
             LOG(msg='Given resource type is in the list of required resources.', log=Logs.WARN)
         else:
-            self[resource_type] = required_capacity
+            self.requests[resource_type] = required_capacity
 
-    def remove_request(self, resource_type):
+    def remove_resource_request(self, resource_type):
         if not self.__type_check(resource_type, ResourceType):
             return None
 
-        if self.has_key(resource_type):
-            return self.pop(resource_type)
+        if self.requests.has_key(resource_type):
+            return self.requests.pop(resource_type)
 
         LOG(msg='Given resource_type object is not in the resource requests.', log=Logs.WARN)
         return None
@@ -30,15 +30,23 @@ class ResourceRequests(dict):
 
     def get_required_capacity(self, resource_type):
         try:
-            return self[resource_type]
+            return self.requests[resource_type]
         except KeyError:
             LOG(msg='Given resource type object is not in the resource requests.')
             return None
 
+    def get_required_resources_w_type_id(self, type_id):
+        response = dict()
+        for resource_type, capacity in self.requests.items():
+            if resource_type.get_resource_type_id() == type_id:
+                response[resource_type] = capacity
+
+        return response
+
     def get_required_resources_w_type_name(self, type_name):
         response = dict()
-        for resource_type, capacity in self.items():
-            if resource_type == type_name:
+        for resource_type, capacity in self.requests.items():
+            if resource_type.get_resource_type_name() == type_name:
                 response[resource_type] = capacity
 
         return response

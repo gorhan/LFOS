@@ -1,4 +1,4 @@
-from LFOS.Task.TaskPriority import TaskPriority
+from LFOS.Task.Priority import Priority
 
 
 class Credential(object):
@@ -10,10 +10,10 @@ class Credential(object):
             Credential.NONAME_TASK_TYPE_COUNTER += 1
 
         self.type = _type
-        self.type_importance = TaskPriority()
+        self.type_importance = Priority()
         self.name = _name
 
-        TaskPriority.__init__()
+        Priority.__init__(self)
 
     def set_task_type(self, _type):
         self.type = _type

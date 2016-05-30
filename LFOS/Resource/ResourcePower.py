@@ -4,7 +4,7 @@ from LFOS.Log import Logs, LOG
 class PowerConsumption(object):
 
     def __init__(self, scale, pow_cons):
-        self._active_power_state = (scale, pow_cons)
+        self._active_power_state = {scale: pow_cons}
         self._min_state = (scale, pow_cons)
         self._max_state = (scale, pow_cons)
 
@@ -73,7 +73,7 @@ class DiscreteStatePowerConsumption(PowerConsumption, dict):
             self._active_power_state = (scale, self[scale])
 
     def add_state(self, scale, pow_cons):
-        if not scale in self and self.range_check(scale):
+        if scale not in self and self.range_check(scale):
             self[scale] = pow_cons
         elif scale in self:
             LOG(msg='Given power scale is already in the list of power states.', log=Logs.WARN)
@@ -163,7 +163,6 @@ class PowerConsumptionFactory:
     @classmethod
     def create_instance(cls, _type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
         if _type in cls.TYPES:
-            print cls.TYPES
             return cls.TYPES[_type](min_scale, min_pow_cons, max_scale, max_pow_cons)
         else:
             LOG(msg='Invalid factory construction request.', log=Logs.ERROR)

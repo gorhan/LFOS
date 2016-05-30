@@ -35,6 +35,13 @@ class ScheduleItem:
     def same_reserved_resources(self, resources):
         return set(resources) == set(self.reserved_resources)
 
+    def __str__(self):
+        return '[%.3f %.3f] - %s ON %s' % (self.begin, self.end, self.reserved_task.get_credential() if self.reserved_resources else 'EMPTY', ', '.join(map(lambda resource: resource.get_credential(), self.reserved_resources)))
+
+    def __repr__(self):
+        return '[%.3f %.3f] - %s ON %s' % (self.begin, self.end, self.reserved_task.get_credential() if self.reserved_resources else 'EMPTY', ', '.join(
+            map(lambda resource: resource.get_credential(), self.reserved_resources)))
+
 
 class Schedule(list):
     def __init__(self):
@@ -48,15 +55,15 @@ class Schedule(list):
             if last_instance.same_reserved_resources(p_object.reserved_resources):
                 last_instance.extend_to(p_object.end)
             else:
-                self.append(p_object)
+                self.insert(len(self), p_object)
         else:
-            self.append(p_object)
+            self.insert(len(self), p_object)
 
     def append_item(self, task, reserved, begin_tm, end_tm):
         self.append(ScheduleItem(task, reserved, begin_tm, end_tm))
 
     def append_empty_slot(self, begin_tm, end_tm):
-        self.append(ScheduleItem('EMPTY', [], begin_tm, end_tm))
+        self.append(ScheduleItem(None, [], begin_tm, end_tm))
 
     def get_last_instance(self, task):
         for schedule_item in reversed(self):
@@ -64,3 +71,9 @@ class Schedule(list):
                 return schedule_item
 
         return None
+
+    def __str__(self):
+        return '\n'.join([str(sched_item) for sched_item in self])
+
+    def __repr__(self):
+        return '\n'.join([str(sched_item) for sched_item in self])
