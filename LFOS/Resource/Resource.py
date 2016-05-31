@@ -55,7 +55,7 @@ class AbstractResource(object):
     def get_child_resources(self, resource_type=None):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def request(self, task):
+    def request(self, task, excluding_tasks=[]):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def alloc(self, requester, resources):
@@ -105,11 +105,11 @@ class TerminalResource(AbstractResource):
     def get_total_capacity(self):
         return self.__total_capacity
 
-    def get_utilized_capacity(self):
-        return sum(self.__running_tasks.values())
+    def get_utilized_capacity(self, excluded_tasks):
+        return sum([capacity for task, capacity in self.__running_tasks.items() if task not in excluded_tasks])
 
-    def get_available_capacity(self):
-        return self.__total_capacity - self.get_utilized_capacity()
+    def get_available_capacity(self, excluded_tasks=[]):
+        return self.__total_capacity - self.get_utilized_capacity(excluded_tasks)
 
     def get_running_tasks(self):
         return self.__running_tasks
@@ -312,7 +312,7 @@ class CompositeResource(AbstractResource, list):
 
         return self
 
-    def request(self, task):
+    def request(self, task, excluding_tasks=[]):
         requirements = task.get_resource_requests()
         active_resource_requests = requirements.get_required_resources_w_type_name(ACTIVE)
         passive_resource_requests = requirements.get_required_resources_w_type_name(PASSIVE)
@@ -338,10 +338,10 @@ class CompositeResource(AbstractResource, list):
                     to_where = AdvancedResourceRequestResponse.AVAILABLE
 
                     if desired_passive_resources:
-                        if active_resource.get_available_capacity() >= req_capacity:
+                        if active_resource.get_available_capacity(excluding_tasks) >= req_capacity:
 
                             for resource_type, resources in desired_passive_resources.items():
-                                total_available_capacity = sum([resource.get_available_capacity() for resource in resources])
+                                total_available_capacity = sum([resource.get_available_capacity(excluding_tasks) for resource in resources])
                                 total_all_capacity = sum([resource.get_total_capacity() for resource in resources])
 
                                 # print 'Total available cap:', total_available_capacity

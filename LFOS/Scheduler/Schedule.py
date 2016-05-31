@@ -7,7 +7,6 @@ class ScheduleItem:
         self.reserved_resources = reserved
         self.begin = begin_tm
         self.end = end_tm
-        self.completed = False
 
     def extend(self, duration):
         try:
@@ -24,23 +23,6 @@ class ScheduleItem:
             LOG(msg='AssertionError: Specified finish time to extend must be greater than current finish time (newFinish > currentFinish)', log=Logs.ERROR)
             return None
         self.end = tm
-
-    def is_completed(self):
-        return self.completed
-
-    def complete(self):
-        self.completed = True
-        return self.completed
-
-    def same_reserved_resources(self, resources):
-        if len(self.reserved_resources) != len(resources):
-            return False
-
-        for resource, capacity in self.reserved_resources:
-            if resource not in resources or resources[resource] != capacity:
-                return False
-
-        return True
 
     def __str__(self):
         return '[%.3f %.3f] - %s ON %s' % (self.begin, self.end,

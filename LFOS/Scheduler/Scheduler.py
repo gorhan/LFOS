@@ -121,19 +121,19 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 response_type = self.system.get_resource_request_type()
 
                 # print 'Task', task.get_credential(), 'is NOT running and ready to execute at', current_time
-                if response_type == 'advanced':
+                available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+                inuse_resources = response.get_resources_list(AdvancedResourceRequestResponse.INUSE)
+                if response_type == 'advanced' and available_resources:
                     allocated_resources = {}
-                    available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
                     if available_resources:
-                        allocated_resources = self.__allocate_resource_set(task, available_resources, current_time)
+                        allocated_resources = self.__allocate_available_resource_set(task, available_resources, current_time)
                         scheduled_flag = True
 
                         # print 'ALLOCATEDDD:', allocated_resources
                         schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
-                    else:
-                        pass
-                else:
-                    pass
+                elif inuse_resources:
+
+
             elif task.is_running(current_time):
                 if task.is_finished():
                     task.stop_task(current_time)
@@ -145,7 +145,7 @@ class Scheduler(SchedulingPolicy, TokenPool):
         if not scheduled_flag:
             schedule.append_empty_slot(current_time, current_time + self.time_resolution)
 
-    def __allocate_resource_set(self, task, available_resources, current_time):
+    def __allocate_available_resource_set(self, task, available_resources, current_time):
 
         for resource_dict in available_resources:
             allocate_resources = dict()
@@ -176,6 +176,9 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 return allocate_resources
 
         return {}
+
+    def __allocate_inuse_resource_set(self, task, inuse_resources, current_time):
+        
 
     def __get_ready_tasks(self, current_time):
         ready_tasks = []
