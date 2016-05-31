@@ -13,14 +13,17 @@ proc_t = ResourceType('CPU', ACTIVE)
 # Initialize resources
 proc_1 = ResourceFactory.create_instance(proc_t, 'CPU_1')
 mem_1 = ResourceFactory.create_instance(memory_t, 'MEM_1')
+mem_2 = ResourceFactory.create_instance(memory_t, 'MEM_2')
 
 # Construct resource structure
 System.add(proc_1)
 System.add(mem_1)
+System.add(mem_2)
 
 # Set resource capacities
-proc_1.set_total_capacity(1)
-mem_1.set_total_capacity(4096)
+proc_1.set_total_capacity(2)
+mem_1.set_total_capacity(512)
+mem_2.set_total_capacity(512)
 
 # Initialize power consumption
 proc_power_consumption = PowerConsumptionFactory.create_instance('DSPC', 0.3, 50, 1.0, 200)
@@ -33,6 +36,7 @@ mem_power_consumption.add_state(0.5, 35)
 # Set power consumptions
 proc_1.set_power_consumption(proc_power_consumption)
 mem_1.set_power_consumption(mem_power_consumption)
+mem_2.set_power_consumption(mem_power_consumption)
 
 print proc_1.get_power_consumption().get_power_states()
 print mem_1.get_power_consumption().get_power_states()
@@ -41,7 +45,7 @@ System.pretty_print()
 
 print '1'
 task_1 = TaskFactory.create_instance('Terminal', 0, 50, 'hard', 'Task_1', 'DGD')
-task_2 = TaskFactory.create_instance('Terminal', 20, 80, 'hard', 'Task_2', 'DGD')
+task_2 = TaskFactory.create_instance('Terminal', 10, 80, 'hard', 'Task_2', 'DGD')
 print '2'
 
 task_1.set_periodicity('periodic')
@@ -53,15 +57,16 @@ task_2.set_period(100)
 task_1.add_eligible_resource(proc_1, 30)
 task_2.add_eligible_resource(proc_1, 20)
 
-task_1.add_resource_request(memory_t, 1)
-task_1.add_resource_request(memory_t, 1024)
+task_1.add_resource_request(proc_t, 1)
+task_1.add_resource_request(memory_t, 348)
 
 task_2.add_resource_request(proc_t, 1)
-task_2.add_resource_request(memory_t, 1024)
+task_2.add_resource_request(memory_t, 250)
 
 scheduler = Scheduler()
 scheduler.add_task_in_bulk([task_1, task_2])
 scheduler.set_scheduler_offline()
+scheduler.set_time_resolution(1.0)
 schedule = scheduler.schedule(0, 1000)
 
 print schedule

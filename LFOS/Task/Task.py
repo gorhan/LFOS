@@ -59,7 +59,6 @@ class AbstractTask(Timing, ResourceRequests, Priority):
 
     def ready_to_execute(self, scheduler, current_time):
         return self.__release_time_check(current_time) and \
-                self.is_finished() and \
                 self.__data_dependency_check(scheduler)
 
     def add_input_requirement(self, token_type, required):
@@ -81,7 +80,7 @@ class AbstractTask(Timing, ResourceRequests, Priority):
         return self.output
 
     def __release_time_check(self, current_time):
-        return self.get_release_time() >= current_time
+        return self.get_release_time() <= current_time
 
     def __deadline_check(self, current_time):
         return current_time + self.get_remaining_WCET() <= self.deadline.get_deadline()

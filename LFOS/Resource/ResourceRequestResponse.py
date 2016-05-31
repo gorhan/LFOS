@@ -33,7 +33,7 @@ class AdvancedResourceRequestResponse(AbstractResourceRequestResponse):
         self.resources[AdvancedResourceRequestResponse.INUSE] = list()
 
     def add_resources(self, active_resource, related_passive_resources, to_where=None):
-        item = [active_resource] + related_passive_resources
+        item = dict(active_resource, **related_passive_resources)
         if to_where:
             self.resources[to_where].append(item)
 
@@ -55,7 +55,7 @@ class BasicResourceRequestResponse(AbstractResourceRequestResponse):
         super(BasicResourceRequestResponse, self).__init__(list)
 
     def add_resources(self, active_resource, related_passive_resources, to_where=None):
-        item = [active_resource] + related_passive_resources
+        item = dict(active_resource, **related_passive_resources)
         self.resources.append(item)
 
     def get_resources(self, from_where=None):

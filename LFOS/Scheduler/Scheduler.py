@@ -1,7 +1,9 @@
 from LFOS.Resource.Resource import System, ResourceRequestResponseFactory, AdvancedResourceRequestResponse, BasicResourceRequestResponse
+from LFOS.Resource.ResourceTypes import ACTIVE, PASSIVE, COMPOSITE
 from LFOS.Scheduler.SchedulingPolicy import SchedulingPolicy, SchedulingPolicyList
 from LFOS.Scheduler.SchedulingTypes import SchedulingType
 from LFOS.Scheduler.Schedule import Schedule
+from LFOS.Task.Timing import Timing
 from LFOS.Data.TokenPool import TokenPool
 from LFOS.Log import LOG, Logs
 
@@ -102,7 +104,7 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 schedule.append_empty_slot(current_time, current_time+self.time_resolution)
         # Offline scheduling
         else:
-            while current_time <= end_tm:
+            while current_time < end_tm:
                 self.__schedule_ready_tasks(schedule, current_time)
                 current_time += self.time_resolution
 
@@ -112,27 +114,68 @@ class Scheduler(SchedulingPolicy, TokenPool):
     def __schedule_ready_tasks(self, schedule, current_time):
         scheduled_flag = False
         for task in self.taskset:
+            status = task.is_running(current_time)
+
             if not task.is_running(current_time) and task.ready_to_execute(self, current_time):
                 response = self.system.request(task)
-                print response
                 response_type = self.system.get_resource_request_type()
 
+                # print 'Task', task.get_credential(), 'is NOT running and ready to execute at', current_time
                 if response_type == 'advanced':
+                    allocated_resources = {}
                     available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
-                    print available_resources
                     if available_resources:
-                        task.execute_on_active_resource(available_resources[0], current_time)
-                        self.system.alloc(available_resources)
+                        allocated_resources = self.__allocate_resource_set(task, available_resources, current_time)
                         scheduled_flag = True
+
+                        # print 'ALLOCATEDDD:', allocated_resources
+                        schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
                     else:
                         pass
-
-                    schedule.append_item(task, available_resources, current_time, current_time + self.time_resolution)
                 else:
                     pass
+            elif task.is_running(current_time):
+                if task.is_finished():
+                    task.stop_task(current_time)
+                    self.system.free(task)
+                else:
+                    schedule.append_item(task, current_time, current_time+self.time_resolution)
+                    scheduled_flag = True
 
         if not scheduled_flag:
             schedule.append_empty_slot(current_time, current_time + self.time_resolution)
+
+    def __allocate_resource_set(self, task, available_resources, current_time):
+
+        for resource_dict in available_resources:
+            allocate_resources = dict()
+            active_resource = None
+            allocate_flag = False
+
+            for resource_type, resources in resource_dict.items():
+                allocated_capacity = 0
+                required_capacity = task.get_required_capacity(resource_type)
+
+                if resource_type.get_resource_type_name() == ACTIVE:
+                    active_resource = resources[0]
+
+                for resource in resources:
+                    resource_capacity = resource.get_available_capacity()
+                    if resource_capacity + allocated_capacity >= required_capacity:
+                        allocate_resources[resource] = required_capacity - allocated_capacity
+                        allocate_flag = True
+                        break
+                    else:
+                        allocate_resources[resource] = resource_capacity
+                        allocated_capacity += resource_capacity
+
+            if allocate_flag:
+                self.system.alloc(task, allocate_resources.copy())
+                task.execute_on_active_resource(active_resource, current_time)
+                # print 'INSIDER, ALLOCATED', allocate_resources
+                return allocate_resources
+
+        return {}
 
     def __get_ready_tasks(self, current_time):
         ready_tasks = []

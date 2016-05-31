@@ -5,11 +5,14 @@ from LFOS.Task.DeadlineRequirement import DeadlineRequirementFactory
 
 
 class Timing(Credential):
+    N_RUNNING = 'stopped'
+    RUNNING = 'running'
+
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         self.phase = arr_time
         self.release_time = arr_time
         self.wcet = 0
-        self.__running = False
+        self.status = Timing.N_RUNNING
 
         self.fragments = list()
 
@@ -51,15 +54,17 @@ class Timing(Credential):
         self.periodicity = PeriodicityFactory.create_instance(_type)
 
     def is_running(self, current_time):
-        if self.__running:
+        if self.status == Timing.RUNNING:
             self.fragments[-1][1] = current_time
-            if self.is_finished():
-                self.stop_task(current_time)
-                LOG(msg='%s has been completed the execution at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
-                return False
             return True
 
         return False
+
+    def get_status(self):
+        return self.status
+
+    def set_status(self, stat):
+        self.status = stat
 
     def is_finished(self):
         return self.get_remaining_WCET() <= 0
@@ -68,21 +73,28 @@ class Timing(Credential):
         return self.fragments[-1][0] if self.fragments else None
 
     def start_task(self, current_time):
-        if self.__running:
+        if self.status == Timing.RUNNING:
             LOG(msg='%s is already executing at %.3f.' % (self.get_credential(), current_time), log=Logs.WARN)
             return False
 
         self.fragments.append([current_time, current_time])
-        self.__running = True
+        self.status = Timing.RUNNING
         LOG(msg='%s is started to execute at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
+
         return True
 
     def stop_task(self, current_time):
+        if self.status == Timing.N_RUNNING:
+            LOG(msg='%s is not executing at %.3f.' % (self.get_credential(), current_time), log=Logs.WARN)
+            return False
+
         self.fragments[-1][1] = current_time
         LOG(msg='%s is stopped at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
+        self.status = Timing.N_RUNNING
+
         self.make_ready(current_time)
-        self.__running = False
-        return self
+
+        return True
 
     def make_ready(self, current_time):
         return self.__next_job(current_time)

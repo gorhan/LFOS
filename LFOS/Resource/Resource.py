@@ -61,7 +61,7 @@ class AbstractResource(object):
     def alloc(self, requester, resources):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def free(self, running_task, resources):
+    def free(self, running_task):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def search_resources_w_resource_type(self, resource_type, response):
@@ -242,7 +242,8 @@ class TerminalResource(AbstractResource):
             if resource.type in requested_resource_types and resource not in response and resource.is_task_eligible(
                     requester):
                 if resource.type in response:
-                    response[resource.type].append(resource)
+                    if resource not in response[resource.type]:
+                        response[resource.type].append(resource)
                 else:
                     response[resource.type] = [resource]
             elif resource.type.get_resource_type_name() == COMPOSITE:
@@ -264,14 +265,11 @@ class TerminalResource(AbstractResource):
             self.__running_tasks[requester] = alloc_capacity
             LOG(msg='Resource is allocated. Resource=%s, Task=%s, Amount=%.2f' % (self.name, requester.name, alloc_capacity), log=Logs.INFO)
 
-    def free(self, running_task, resources):
-        if self in resources and running_task in self.__running_tasks:
+    def free(self, running_task):
+        if running_task in self.__running_tasks:
             freed_capacity = self.__running_tasks.pop(running_task)
             LOG(msg='Resource is freed. Resource=%s, Task=%s, Amount=%.2f' % (self.name, running_task.name, freed_capacity), log=Logs.INFO)
             return freed_capacity
-        elif self in resources:
-            LOG(msg='Given task pointer is not running on the resource. Resource=%s, Task=%s' % (self.name, running_task.name), log=Logs.ERROR)
-            return None
 
         return None
 
@@ -319,18 +317,17 @@ class CompositeResource(AbstractResource, list):
         active_resource_requests = requirements.get_required_resources_w_type_name(ACTIVE)
         passive_resource_requests = requirements.get_required_resources_w_type_name(PASSIVE)
 
-        print active_resource_requests, passive_resource_requests
+        # print active_resource_requests, passive_resource_requests
         response = ResourceRequestResponseFactory.create_instance(self.request_type)
 
         for active_resource_type, req_capacity in active_resource_requests.items():
             desired_active_resources = list()
 
             self.search_resources_w_resource_type(active_resource_type, desired_active_resources)
-            print 'Desiredddd', desired_active_resources
+            # print 'Desiredddd', desired_active_resources
             for active_resource in desired_active_resources:
                 desired_passive_resources = active_resource.get_accessible_passive_resources(task, passive_resource_requests.keys())
 
-                print 'Resourcesssss', active_resource, passive_resource_requests
                 if self.request_type == 'basic':
                     if desired_passive_resources:
                         response.add_resources(active_resource, desired_passive_resources)
@@ -343,15 +340,15 @@ class CompositeResource(AbstractResource, list):
                     if desired_passive_resources:
                         if active_resource.get_available_capacity() >= req_capacity:
 
-                            for resource_type, resources in desired_passive_resources:
+                            for resource_type, resources in desired_passive_resources.items():
                                 total_available_capacity = sum([resource.get_available_capacity() for resource in resources])
                                 total_all_capacity = sum([resource.get_total_capacity() for resource in resources])
 
-                                if total_available_capacity < passive_resource_requests[resource_type]:
-                                    to_where = AdvancedResourceRequestResponse.INUSE
-                                    break
+                                # print 'Total available cap:', total_available_capacity
+                                # print 'Total all cap:', total_all_capacity
+                                # print 'Required capacity:', passive_resource_requests[resource_type]
 
-                                elif total_all_capacity < passive_resource_requests[resource_type]:
+                                if total_all_capacity < passive_resource_requests[resource_type]:
                                     LOG(msg='The total capacity of the requested passive resource type cannot be '
                                             'supplied by accessible resources. Active Resource: %s - Passive Resources: %s' %
                                             (active_resource.name,
@@ -359,11 +356,14 @@ class CompositeResource(AbstractResource, list):
                                             log=Logs.ERROR)
                                     to_where = AdvancedResourceRequestResponse.DUMP
                                     break
+                                elif total_available_capacity < passive_resource_requests[resource_type]:
+                                    to_where = AdvancedResourceRequestResponse.INUSE
+                                    break
 
                         else:
                             to_where = AdvancedResourceRequestResponse.INUSE
 
-                        response.add_resources(active_resource, desired_passive_resources, to_where)
+                        response.add_resources({active_resource_type: [active_resource]}, desired_passive_resources, to_where)
 
                     else:
                         LOG(msg='At least one of the resources requested cannot be access via active resource: %s' % active_resource.name)
@@ -371,6 +371,7 @@ class CompositeResource(AbstractResource, list):
                 else:
                     LOG(msg='Invalid ResourceRequestResponse type.', log=Logs.ERROR)
 
+        # print 'Return', response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
         return response
 
 
@@ -391,11 +392,11 @@ class CompositeResource(AbstractResource, list):
         resources --> List of pointers to the resources from which running_task will be freed. (Noting that unlike
                       alloc method, resources parameter is not a dictionary, since it is impossible to partially free the resource.)
     '''
-    def free(self, running_task, resources) :
+    def free(self, running_task) :
         root = self.get_system()
 
         for resource in root.get_child_resources():
-            resource.free(running_task, resources)
+            resource.free(running_task)
 
     def search_resources_w_resource_type(self, resource_type, response):
         # reach to the system
