@@ -124,15 +124,16 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
                 inuse_resources = response.get_resources_list(AdvancedResourceRequestResponse.INUSE)
                 if response_type == 'advanced' and available_resources:
-                    allocated_resources = {}
-                    if available_resources:
-                        allocated_resources = self.__allocate_available_resource_set(task, available_resources, current_time)
-                        scheduled_flag = True
+                    allocated_resources = self.__allocate_available_resource_set(task, available_resources, current_time)
+                    scheduled_flag = True
 
-                        # print 'ALLOCATEDDD:', allocated_resources
-                        schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
+                    # print 'ALLOCATEDDD:', allocated_resources
+                    schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
                 elif inuse_resources:
-
+                    allocated_resources = self.__allocate_inuse_resource_set(task, inuse_resources, current_time)
+                    if allocated_resources:
+                        scheduled_flag = True
+                        schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
 
             elif task.is_running(current_time):
                 if task.is_finished():
@@ -180,6 +181,7 @@ class Scheduler(SchedulingPolicy, TokenPool):
     def __allocate_inuse_resource_set(self, task, inuse_resources, current_time):
         from itertools import combinations
 
+        print 'INUSE', task.get_credential(), 'AT', current_time
         for resource_dict in inuse_resources:
             common_tasks = set(self.taskset)
             all_tasks = set()
@@ -190,12 +192,14 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 missing_capacity = required_capacity - available_capacity
 
                 if missing_capacity > 0:
-                    collected_tasks = set(resource.get_running_tasks() for resource in resources)
-                    common_tasks.intersection(collected_tasks)
-                    all_tasks.union(collected_tasks)
+                    collected_tasks = reduce(lambda x,y: x+y, [resource.get_running_tasks() for resource in resources])
+                    print 'CHANGED', missing_capacity, 'COLLECTED', collected_tasks
+                    common_tasks = common_tasks.intersection(set(collected_tasks))
+                    all_tasks = all_tasks.union(collected_tasks)
 
-            common_tasks = [c_task for c_task in common_tasks if c_task.get_prioirty() > task.get_priority()]
-
+            print 'COMMON', common_tasks, 'PRIO', list(common_tasks)[0].get_priority(), task.get_priority()
+            common_tasks = [c_task for c_task in common_tasks if c_task.get_priority() > task.get_priority()]
+            print 'COMMON', common_tasks
             if common_tasks:
 
                 selection_task_set = reduce(lambda x, y: x + y, [list(combinations(common_tasks, r)) for r in range(1, len(common_tasks) + 1)])
@@ -210,19 +214,22 @@ class Scheduler(SchedulingPolicy, TokenPool):
 
                         return self.__allocate_available_resource_set(task, available_resources, current_time)
 
-            all_tasks = [a_task for a_task in all_tasks if a_task.get_prioirty() > task.get_priority()]
-            all_task_set = reduce(lambda x, y: x + y, [list(combinations(all_tasks, r)) for r in range(1, len(all_tasks) + 1)])
-            all_task_set.sort(key=lambda s: max(task.get_priority() for task in s))
+            all_tasks = [a_task for a_task in all_tasks if a_task.get_priority() > task.get_priority()]
+            if all_tasks:
+                all_task_set = reduce(lambda x, y: x + y, [list(combinations(all_tasks, r)) for r in range(1, len(all_tasks) + 1)])
+                all_task_set.sort(key=lambda s: max(task.get_priority() for task in s))
 
-            for excluded_tasks in selection_task_set:
-                available_resources = self.system.request(task, excluded_tasks).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+                for excluded_tasks in selection_task_set:
+                    available_resources = self.system.request(task, excluded_tasks).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
 
-                if available_resources:
-                    for exc_task in excluded_tasks:
-                        exc_task.stop_task(current_time)
-                        self.system.free(exc_task)
+                    if available_resources:
+                        for exc_task in excluded_tasks:
+                            exc_task.stop_task(current_time)
+                            self.system.free(exc_task)
 
-                    return self.__allocate_available_resource_set(task, available_resources, current_time)
+                        return self.__allocate_available_resource_set(task, available_resources, current_time)
+
+        return {}
 
     def __get_ready_tasks(self, current_time):
         ready_tasks = []
@@ -268,3 +275,8 @@ class Scheduler(SchedulingPolicy, TokenPool):
 
         self.taskset.sort(cmp=self.cmp_ranking())
         self.__rank_tasks()
+
+    def set_scheduling_policy(self, policy):
+        self._set_policy(policy)
+        self.__order_tasks()
+

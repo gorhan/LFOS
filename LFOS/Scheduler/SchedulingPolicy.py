@@ -49,7 +49,7 @@ class SchedulingPolicy(object):
         self.__policy = policy
         self.__grouping_flag = False
 
-    def set_policy(self, policy):
+    def _set_policy(self, policy):
         self.__policy = policy
 
     def get_policy(self):

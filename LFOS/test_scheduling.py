@@ -49,7 +49,7 @@ task_2 = TaskFactory.create_instance('Terminal', 10, 80, 'hard', 'Task_2', 'DGD'
 print '2'
 
 task_1.set_periodicity('periodic')
-task_1.set_period(70)
+task_1.set_period(150)
 
 task_2.set_periodicity('periodic')
 task_2.set_period(100)
@@ -58,15 +58,18 @@ task_1.add_eligible_resource(proc_1, 30)
 task_2.add_eligible_resource(proc_1, 20)
 
 task_1.add_resource_request(proc_t, 1)
-task_1.add_resource_request(memory_t, 348)
+task_1.add_resource_request(memory_t, 1024)
 
 task_2.add_resource_request(proc_t, 1)
-task_2.add_resource_request(memory_t, 250)
+task_2.add_resource_request(memory_t, 1024)
 
 scheduler = Scheduler()
 scheduler.add_task_in_bulk([task_1, task_2])
 scheduler.set_scheduler_offline()
 scheduler.set_time_resolution(1.0)
-schedule = scheduler.schedule(0, 1000)
+scheduler.set_scheduling_policy(SchedulingPolicyList.RM)
+
+
+schedule = scheduler.schedule(0, 200)
 
 print schedule
