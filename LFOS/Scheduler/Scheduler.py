@@ -182,6 +182,7 @@ class Scheduler(SchedulingPolicy, TokenPool):
 
         for resource_dict in inuse_resources:
             common_tasks = set(self.taskset)
+            all_tasks = set()
 
             for resource_type, resources in resource_dict.items():
                 available_capacity = sum([resource.get_available_capacity() for resource in resources])
@@ -189,26 +190,39 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 missing_capacity = required_capacity - available_capacity
 
                 if missing_capacity > 0:
-                    common_tasks.intersection(set(resource.get_running_tasks() for resource in resources))
+                    collected_tasks = set(resource.get_running_tasks() for resource in resources)
+                    common_tasks.intersection(collected_tasks)
+                    all_tasks.union(collected_tasks)
 
             common_tasks = [c_task for c_task in common_tasks if c_task.get_prioirty() > task.get_priority()]
-            common_tasks.sort(key=lambda task: task.get_priority(), reverse=True)
+
             if common_tasks:
-                found_solution = False
-                for num_elements in range(1, len(common_tasks)+1):
-                    for excluded_resources in combinations(common_tasks, num_elements):
-                        available_resources = self.system.request(task, excluded_resources).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
 
-                        if available_resources:
-                            for exc_task in excluded_resources:
-                                exc_task.stop_task(current_time)
-                                self.system.free(exc_task)
+                selection_task_set = reduce(lambda x, y: x + y, [list(combinations(common_tasks, r)) for r in range(1, len(common_tasks) + 1)])
+                selection_task_set.sort(key=lambda s: max(task.get_priority() for task in s))
+                for excluded_tasks in selection_task_set:
+                    available_resources = self.system.request(task, excluded_tasks).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
 
-                            return self.__allocate_available_resource_set(task, available_resources, current_time)
+                    if available_resources:
+                        for exc_task in excluded_tasks:
+                            exc_task.stop_task(current_time)
+                            self.system.free(exc_task)
 
-            
+                        return self.__allocate_available_resource_set(task, available_resources, current_time)
 
+            all_tasks = [a_task for a_task in all_tasks if a_task.get_prioirty() > task.get_priority()]
+            all_task_set = reduce(lambda x, y: x + y, [list(combinations(all_tasks, r)) for r in range(1, len(all_tasks) + 1)])
+            all_task_set.sort(key=lambda s: max(task.get_priority() for task in s))
 
+            for excluded_tasks in selection_task_set:
+                available_resources = self.system.request(task, excluded_tasks).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+
+                if available_resources:
+                    for exc_task in excluded_tasks:
+                        exc_task.stop_task(current_time)
+                        self.system.free(exc_task)
+
+                    return self.__allocate_available_resource_set(task, available_resources, current_time)
 
     def __get_ready_tasks(self, current_time):
         ready_tasks = []
