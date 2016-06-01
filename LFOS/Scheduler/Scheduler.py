@@ -178,7 +178,37 @@ class Scheduler(SchedulingPolicy, TokenPool):
         return {}
 
     def __allocate_inuse_resource_set(self, task, inuse_resources, current_time):
-        
+        from itertools import combinations
+
+        for resource_dict in inuse_resources:
+            common_tasks = set(self.taskset)
+
+            for resource_type, resources in resource_dict.items():
+                available_capacity = sum([resource.get_available_capacity() for resource in resources])
+                required_capacity = task.get_required_capacity(resource_type)
+                missing_capacity = required_capacity - available_capacity
+
+                if missing_capacity > 0:
+                    common_tasks.intersection(set(resource.get_running_tasks() for resource in resources))
+
+            common_tasks = [c_task for c_task in common_tasks if c_task.get_prioirty() > task.get_priority()]
+            common_tasks.sort(key=lambda task: task.get_priority(), reverse=True)
+            if common_tasks:
+                found_solution = False
+                for num_elements in range(1, len(common_tasks)+1):
+                    for excluded_resources in combinations(common_tasks, num_elements):
+                        available_resources = self.system.request(task, excluded_resources).get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
+
+                        if available_resources:
+                            for exc_task in excluded_resources:
+                                exc_task.stop_task(current_time)
+                                self.system.free(exc_task)
+
+                            return self.__allocate_available_resource_set(task, available_resources, current_time)
+
+            
+
+
 
     def __get_ready_tasks(self, current_time):
         ready_tasks = []

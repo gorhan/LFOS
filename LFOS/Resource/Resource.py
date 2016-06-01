@@ -112,7 +112,13 @@ class TerminalResource(AbstractResource):
         return self.__total_capacity - self.get_utilized_capacity(excluded_tasks)
 
     def get_running_tasks(self):
+        return self.__running_tasks.keys()
+
+    def get_running_tasks_w_capacities(self):
         return self.__running_tasks
+
+    def get_capacity_utilization(self, task):
+        return self.__running_tasks[task] if task in self.__running_tasks else 0
 
     def set_power_consumption(self, pc_instance):
         if not isinstance(pc_instance, PowerConsumption):
