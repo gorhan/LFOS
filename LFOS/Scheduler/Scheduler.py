@@ -181,7 +181,6 @@ class Scheduler(SchedulingPolicy, TokenPool):
     def __allocate_inuse_resource_set(self, task, inuse_resources, current_time):
         from itertools import combinations
 
-        print 'INUSE', task.get_credential(), 'AT', current_time
         for resource_dict in inuse_resources:
             common_tasks = set(self.taskset)
             all_tasks = set()
@@ -192,14 +191,17 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 missing_capacity = required_capacity - available_capacity
 
                 if missing_capacity > 0:
-                    collected_tasks = reduce(lambda x,y: x+y, [resource.get_running_tasks() for resource in resources])
-                    print 'CHANGED', missing_capacity, 'COLLECTED', collected_tasks
+                    collected_tasks = reduce(lambda x, y: x+y, [resource.get_running_tasks() for resource in resources])
                     common_tasks = common_tasks.intersection(set(collected_tasks))
                     all_tasks = all_tasks.union(collected_tasks)
 
-            print 'COMMON', common_tasks, 'PRIO', list(common_tasks)[0].get_priority(), task.get_priority()
             common_tasks = [c_task for c_task in common_tasks if c_task.get_priority() > task.get_priority()]
-            print 'COMMON', common_tasks
+
+
+            # BEST-CASE CHECK: it enters if there is at least one common task which utilizes the same resources that
+            # the task needs, preempts the tasks with the combination of tasks with respect to both priority and
+            # number of preempted task. Finding the common task does not mean the task is scheduled by preempting at
+            # most all of them.
             if common_tasks:
 
                 selection_task_set = reduce(lambda x, y: x + y, [list(combinations(common_tasks, r)) for r in range(1, len(common_tasks) + 1)])
@@ -212,9 +214,14 @@ class Scheduler(SchedulingPolicy, TokenPool):
                             exc_task.stop_task(current_time)
                             self.system.free(exc_task)
 
+                        LOG(msg='%s preempted %s' % (task.get_credential(), ', '.join(exc_task.get_credential() for exc_task in excluded_tasks)))
                         return self.__allocate_available_resource_set(task, available_resources, current_time)
 
             all_tasks = [a_task for a_task in all_tasks if a_task.get_priority() > task.get_priority()]
+
+            # WORST-CASE CHECK: In case above procedure cannot find at least one available resource even if it preempts
+            # all of the tasks in common_tasks, It will question all possible tasks which has lower priority than the
+            # task given as parameter.
             if all_tasks:
                 all_task_set = reduce(lambda x, y: x + y, [list(combinations(all_tasks, r)) for r in range(1, len(all_tasks) + 1)])
                 all_task_set.sort(key=lambda s: max(task.get_priority() for task in s))
@@ -227,6 +234,7 @@ class Scheduler(SchedulingPolicy, TokenPool):
                             exc_task.stop_task(current_time)
                             self.system.free(exc_task)
 
+                        LOG(msg='%s preempted %s' % (task.get_credential(), ', '.join(exc_task.get_credential() for exc_task in excluded_tasks)))
                         return self.__allocate_available_resource_set(task, available_resources, current_time)
 
         return {}

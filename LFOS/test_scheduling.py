@@ -58,10 +58,10 @@ task_1.add_eligible_resource(proc_1, 30)
 task_2.add_eligible_resource(proc_1, 20)
 
 task_1.add_resource_request(proc_t, 1)
-task_1.add_resource_request(memory_t, 1024)
+task_1.add_resource_request(memory_t, 368)
 
 task_2.add_resource_request(proc_t, 1)
-task_2.add_resource_request(memory_t, 1024)
+task_2.add_resource_request(memory_t, 368)
 
 scheduler = Scheduler()
 scheduler.add_task_in_bulk([task_1, task_2])
