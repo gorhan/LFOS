@@ -1,7 +1,8 @@
-from LFOS.Task.Periodicity import PeriodicityFactory
+from LFOS.Task.Periodicity import *
 from LFOS.Log import LOG, Logs
 from LFOS.Task.Credential import Credential
 from LFOS.Task.DeadlineRequirement import DeadlineRequirementFactory
+from LFOS.Task.Preemption import *
 
 
 class Timing(Credential):
@@ -23,7 +24,8 @@ class Timing(Credential):
         Credential.__init__(self, task_name, task_type)
 
         # DEFAULT = Sporadic -- the interleaving time between consecutive jobs are not known
-        self.periodicity = PeriodicityFactory.create_instance('sporadic')
+        self.periodicity = PeriodicityFactory.create_instance(PeriodicityTypeList.SPORADIC)
+        self.preemption = PreemptionFactory.create_instance(PreemptionTypeList.FULLY_PREEMPTABLE)
 
     def set_phase(self, phase_time):
         self.phase = phase_time
@@ -55,7 +57,7 @@ class Timing(Credential):
 
     def is_running(self, current_time):
         if self.status == Timing.RUNNING:
-            self.fragments[-1][1] = current_time
+            self.update_time(current_time)
             return True
 
         return False
@@ -66,10 +68,14 @@ class Timing(Credential):
     def set_status(self, stat):
         self.status = stat
 
-    def is_finished(self):
+    def is_finished(self, current_time):
+        if self.status == Timing.RUNNING:
+            self.update_time(current_time)
+
         return self.get_remaining_WCET() <= 0
 
     def get_last_fragment_start(self):
+        # print '[%f, %f]' % (self.fragments[-1][0], self.fragments[-1][1])
         return self.fragments[-1][0] if self.fragments else None
 
     def start_task(self, current_time):
@@ -88,13 +94,22 @@ class Timing(Credential):
             LOG(msg='%s is not executing at %.3f.' % (self.get_credential(), current_time), log=Logs.WARN)
             return False
 
-        self.fragments[-1][1] = current_time
-        LOG(msg='%s is stopped at %.3f.' % (self.get_credential(), current_time), log=Logs.INFO)
-        self.status = Timing.N_RUNNING
+        if not self.is_finished(current_time):
+            try:
+                self.preemption.preempt(self.fragments[-1][0], current_time)
+            except PreemptionError as p:
+                LOG(msg='%s cannot be preempted. Reason: %s' % (self.get_credential(), p.message))
+                return False
 
+        self.fragments[-1][1] = current_time
+        LOG(msg='%s is preempted%s at %.3f.' % (self.get_credential(), ' and finished' if self.is_finished(current_time) else '', current_time), log=Logs.INFO)
+        self.status = Timing.N_RUNNING
         self.make_ready(current_time)
 
         return True
+
+    def update_time(self, current_time):
+        self.fragments[-1][1] = current_time
 
     def make_ready(self, current_time):
         return self.__next_job(current_time)
@@ -103,7 +118,7 @@ class Timing(Credential):
         if self.periodicity.get_period_type() != 'sporadic':
             iterated = list()
             lifecycle = self.deadline.get_deadline() - self.release_time
-            while current_time > self.deadline.get_extended_deadline() or self.is_finished():
+            while current_time > self.deadline.get_extended_deadline() or self.is_finished(current_time):
                 self.release_time += self.periodicity.get_period()
                 self.deadline.set_deadline(self.release_time + lifecycle)
                 self.fragments = list()
@@ -113,6 +128,9 @@ class Timing(Credential):
 
         LOG(msg='%s is sporadic. No next job.' % self.get_credential(), log=Logs.WARN)
         return False
+
+    def set_preemption(self, _type):
+        self.preemption = PreemptionFactory.create_instance(_type)
 
     # delegation of misc. method calls to self.deadline object
     def __getattr__(self, item):
@@ -124,9 +142,14 @@ class Timing(Credential):
         periodicity_methods = inspect.getmembers(self.periodicity, predicate=inspect.ismethod)
         periodicity_methods = [method_name for method_name, _ in periodicity_methods]
 
+        preemption_methods = inspect.getmembers(self.preemption, predicate=inspect.ismethod)
+        preemption_methods = [method_name for method_name, _ in preemption_methods]
+
         if item in deadline_methods:
             return getattr(self.deadline, item)
         elif item in periodicity_methods:
             return getattr(self.periodicity, item)
+        elif item in preemption_methods:
+            return getattr(self.preemption, item)
         else:
             LOG(msg='Invalid method call. There is no method %s.' % item, log=Logs.ERROR)

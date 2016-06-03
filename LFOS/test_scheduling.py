@@ -3,6 +3,8 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 from LFOS.Task.Task import *
+from LFOS.Task.Periodicity import PeriodicityTypeList
+from LFOS.Task.Preemption import PreemptionTypeList
 from LFOS.Resource.Resource import *
 from LFOS.Scheduler.Scheduler import *
 
@@ -21,7 +23,7 @@ System.add(mem_1)
 System.add(mem_2)
 
 # Set resource capacities
-proc_1.set_total_capacity(2)
+proc_1.set_total_capacity(1)
 mem_1.set_total_capacity(512)
 mem_2.set_total_capacity(512)
 
@@ -48,10 +50,12 @@ task_1 = TaskFactory.create_instance('Terminal', 0, 50, 'hard', 'Task_1', 'DGD')
 task_2 = TaskFactory.create_instance('Terminal', 10, 80, 'hard', 'Task_2', 'DGD')
 print '2'
 
-task_1.set_periodicity('periodic')
+task_1.set_periodicity(PeriodicityTypeList.PERIODIC)
 task_1.set_period(150)
+task_1.set_preemption(PreemptionTypeList.PARTIALLY_PREEMPTABLE)
+task_1.set_non_preemptable_exec_duration(20)
 
-task_2.set_periodicity('periodic')
+task_2.set_periodicity(PeriodicityTypeList.PERIODIC)
 task_2.set_period(100)
 
 task_1.add_eligible_resource(proc_1, 30)

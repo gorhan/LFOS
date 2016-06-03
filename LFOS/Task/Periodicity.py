@@ -1,4 +1,5 @@
 from LFOS.Log import LOG, Logs
+from enum import Enum
 
 
 class AbstractPeriodicity(object):
@@ -34,12 +35,21 @@ class Sporadic(AbstractPeriodicity):
         LOG(msg='Invalid request. Sporadic tasks cannot have a specific period time.', log=Logs.ERROR)
 
 
+class PeriodicityTypeList(Enum):
+    APERIODIC = 'Aperiodic'
+    SPORADIC = 'Sporadic'
+    PERIODIC = 'Periodic'
+
+
+PeriodicityTypeList2Classes = {
+    PeriodicityTypeList.APERIODIC: Aperiodic,
+    PeriodicityTypeList.SPORADIC: Sporadic,
+    PeriodicityTypeList.PERIODIC: Periodic
+}
+
+
 class PeriodicityFactory:
-    TYPES = {
-        'periodic': Periodic,
-        'aperiodic': Aperiodic,
-        'sporadic': Sporadic
-    }
+    TYPES = PeriodicityTypeList2Classes
 
     def __init__(self):
         pass
@@ -49,6 +59,6 @@ class PeriodicityFactory:
         if _type in cls.TYPES:
             return cls.TYPES[_type](_type)
         else:
-            LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
+            LOG(msg='Invalid factory construction request. %s' % _type, log=Logs.ERROR)
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
             return None

@@ -101,7 +101,6 @@ class AbstractTask(Timing, ResourceRequests, Priority):
 class TerminalTask(AbstractTask):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         AbstractTask.__init__(self, arr_time, deadline, deadline_type, task_name, task_type)
-        self.preemption = PreemptionFactory.create_instance('preemptable')
 
     def get_sub_task_w_name(self, task_name):
         return self if self.get_task_name() == task_name else None
@@ -111,7 +110,6 @@ class CompositeTask(AbstractTask):
     def __init__(self, arr_time, deadline, deadline_type, task_name, task_type):
         AbstractTask.__init__(self, arr_time, deadline, deadline_type, task_name, task_type)
         self.tasks = list()
-        self.preemption = PreemptionFactory.create_instance('nonPreemptable')
 
     def add_task(self, task):
         if task not in self.tasks:

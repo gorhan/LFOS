@@ -114,7 +114,14 @@ class Scheduler(SchedulingPolicy, TokenPool):
     def __schedule_ready_tasks(self, schedule, current_time):
         scheduled_flag = False
         for task in self.taskset:
-            status = task.is_running(current_time)
+            # print task.get_credential(), 'AT', current_time
+            if task.is_running(current_time):
+                if task.is_finished(current_time):
+                    task.stop_task(current_time)
+                    self.system.free(task)
+                else:
+                    schedule.append_item(task, current_time, current_time + self.time_resolution)
+                    scheduled_flag = True
 
             if not task.is_running(current_time) and task.ready_to_execute(self, current_time):
                 response = self.system.request(task)
@@ -123,25 +130,17 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 # print 'Task', task.get_credential(), 'is NOT running and ready to execute at', current_time
                 available_resources = response.get_resources_list(AdvancedResourceRequestResponse.AVAILABLE)
                 inuse_resources = response.get_resources_list(AdvancedResourceRequestResponse.INUSE)
+                # print 'Time:', current_time, available_resources, '---', inuse_resources, task.get_credential()
                 if response_type == 'advanced' and available_resources:
                     allocated_resources = self.__allocate_available_resource_set(task, available_resources, current_time)
                     scheduled_flag = True
 
-                    # print 'ALLOCATEDDD:', allocated_resources
                     schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
                 elif inuse_resources:
                     allocated_resources = self.__allocate_inuse_resource_set(task, inuse_resources, current_time)
                     if allocated_resources:
                         scheduled_flag = True
                         schedule.append_item(task, current_time, current_time + self.time_resolution, allocated_resources)
-
-            elif task.is_running(current_time):
-                if task.is_finished():
-                    task.stop_task(current_time)
-                    self.system.free(task)
-                else:
-                    schedule.append_item(task, current_time, current_time+self.time_resolution)
-                    scheduled_flag = True
 
         if not scheduled_flag:
             schedule.append_empty_slot(current_time, current_time + self.time_resolution)
@@ -191,7 +190,11 @@ class Scheduler(SchedulingPolicy, TokenPool):
                 missing_capacity = required_capacity - available_capacity
 
                 if missing_capacity > 0:
-                    collected_tasks = reduce(lambda x, y: x+y, [resource.get_running_tasks() for resource in resources])
+                    collected_tasks = [pre_task for resource in resources for pre_task in resource.get_running_tasks()
+                                       if pre_task.is_preemptable(pre_task.get_last_fragment_start(), current_time) or
+                                       pre_task.is_finished(current_time)]
+
+                    # print 'Collected Tasks', collected_tasks
                     common_tasks = common_tasks.intersection(set(collected_tasks))
                     all_tasks = all_tasks.union(collected_tasks)
 
