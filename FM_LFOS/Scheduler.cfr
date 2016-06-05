@@ -1,0 +1,99 @@
+abstract Resource
+    xor Granularity
+        Composite
+        Actual
+    xor Type
+        Active
+        Passive
+    Dedicated ?
+    Capacity
+    MutualExclusion ?
+        SELF ?
+    PowerConsumption
+        xor Scalable ?
+            [ Scalable =>  Active]
+            Discrete
+            Continuous
+    Objective ?
+
+abstract Timing
+    ReleaseTime
+    ExecutionTime
+    Deadline ?
+    xor Periodicity
+        Periodic
+        Aperiodic
+            Sporadic ?
+
+abstract Requirement
+    xor Deadline
+        Hard
+            [Hard => Deadline]
+        Soft
+        Firm
+    Source
+        which -> Resource +
+            [ one r : Resource | r.Type.Active ]
+
+abstract Task
+    xor Granularity
+        Composite
+        Actual
+    timing : Timing
+    Objective ?
+    Dependency ?
+        or DependentTo
+            Job
+            Data
+        Interval ?
+    Preemptable ?
+        Partial ?
+    requirement : Requirement
+    xor Priority
+        Fixed
+        Dynamic
+
+abstract Algorithm
+    xor Type
+        Online
+        Offline
+    Policy
+        Grouping ?
+        xor Ranking
+            xor Integrated
+                ERT
+                ED
+                RM
+                SJF
+                FIFO
+            UserDefined
+    Preemption ?
+    xor Migration ?
+        TaskLevel
+        JobLevel
+
+abstract Scheduling
+    Filetering ?
+    algorithm : Algorithm
+    xor Window
+        Fixed
+        Dynamic
+    TimeResolution
+
+abstract Scheduler
+    taskset -> Task +
+    system -> Resource +
+        [ some r : Resource | r.Type.Active ]
+    scheduling : Scheduling
+
+scheduler : Scheduler
+
+t1 : Task
+    [Periodic && Hard]
+t2 : Task
+    [Sporadic]
+
+r1 : Resource
+    [Active && Discrete]
+
+[scheduler.taskset = t1 ++ t2]
