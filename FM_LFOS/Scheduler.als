@@ -148,10 +148,10 @@ sig c0_Firm
 sig c0_Source
 { r_c0_which : some c0_which }
 { one @r_c0_Source.this
-  all disj x, y : this.@r_c0_which | (x.@ref) != (y.@ref)  }
+  all disj x, y : this.@r_c0_which | (x.@c0_which_ref) != (y.@c0_which_ref)  }
 
 sig c0_which
-{ ref : one c0_Resource }
+{ c0_which_ref : one c0_Resource }
 { one @r_c0_which.this
   one  r : c0_Resource | some (r.@r_c0_Type).@r_c0_Active }
 
@@ -357,15 +357,15 @@ abstract sig c0_Scheduler
 { r_c0_taskset : some c0_taskset
 , r_c0_system : some c0_system
 , r_c0_scheduling : one c0_scheduling }
-{ all disj x, y : this.@r_c0_taskset | (x.@ref) != (y.@ref) 
-  all disj x, y : this.@r_c0_system | (x.@ref) != (y.@ref)  }
+{ all disj x, y : this.@r_c0_taskset | (x.@c0_taskset_ref) != (y.@c0_taskset_ref) 
+  all disj x, y : this.@r_c0_system | (x.@c0_system_ref) != (y.@c0_system_ref)  }
 
 sig c0_taskset
-{ ref : one c0_Task }
+{ c0_taskset_ref : one c0_Task }
 { one @r_c0_taskset.this }
 
 sig c0_system
-{ ref : one c0_Resource }
+{ c0_system_ref : one c0_Resource }
 { one @r_c0_system.this
   some  r : c0_Resource | some (r.@r_c0_Type).@r_c0_Active }
 
@@ -388,4 +388,4 @@ one sig c0_r1 extends c0_Resource
 {}
 { (some (this.@r_c0_Type).@r_c0_Active) && (some ((this.@r_c0_PowerConsumption).@r_c0_Scalable).@r_c0_Discrete) }
 
-fact { (c0_scheduler.(@r_c0_taskset.@ref)) = (c0_t1 + c0_t2) }
+fact { ((c0_scheduler.@r_c0_taskset).@c0_taskset_ref) = (c0_t1 + c0_t2) }
