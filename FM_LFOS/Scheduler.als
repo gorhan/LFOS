@@ -1,13 +1,13 @@
 /*
-All clafers: 81 | Abstract: 7 | Concrete: 74 | Reference: 3
-Constraints: 8
+All clafers: 83 | Abstract: 7 | Concrete: 76 | Reference: 3
+Constraints: 11
 Goals: 0
 Global scope: 1..*
 Can skip name resolver: no
 */
 open util/integer
 pred show {}
-run show for 1 but 2 c0_Aperiodic, 2 c0_Data, 2 c0_Deadline, 2 c0_Dependency, 2 c0_DependentTo, 2 c0_Dynamic, 2 c0_ExecutionTime, 2 c0_Firm, 2 c0_Fixed, 2 c0_Hard, 2 c0_Interval, 2 c0_Job, 2 c0_Partial, 2 c0_Periodic, 2 c0_Periodicity, 2 c0_Preemptable, 2 c0_Priority, 2 c0_ReleaseTime, 2 c0_Requirement, 2 c0_Soft, 2 c0_Source, 2 c0_Sporadic, 2 c0_Task, 2 c0_Timing, 2 c0_requirement, 2 c0_taskset, 2 c0_timing, 2 c0_which, 2 c1_Actual, 2 c1_Composite, 2 c1_Deadline, 2 c1_Granularity, 2 c1_Objective
+run show for 10 but 2 c0_Active, 2 c0_Actual, 3 c0_Aperiodic, 2 c0_Capacity, 2 c0_Composite, 2 c0_Continuous, 3 c0_Data, 3 c0_Deadline, 2 c0_Dedicated, 3 c0_Dependency, 3 c0_DependentTo, 2 c0_Discrete, 3 c0_Dynamic, 3 c0_ExecutionTime, 3 c0_Firm, 3 c0_Fixed, 2 c0_Granularity, 3 c0_Hard, 3 c0_Interval, 3 c0_Job, 2 c0_MutualExclusion, 2 c0_Objective, 3 c0_Partial, 2 c0_Passive, 3 c0_Periodic, 3 c0_Periodicity, 2 c0_PowerConsumption, 3 c0_Preemptable, 3 c0_Priority, 3 c0_ReleaseTime, 3 c0_Requirement, 2 c0_Resource, 2 c0_SELF, 2 c0_Scalable, 3 c0_Soft, 3 c0_Source, 3 c0_Sporadic, 3 c0_Task, 3 c0_Timing, 2 c0_Type, 3 c0_requirement, 2 c0_system, 3 c0_taskset, 3 c0_timing, 6 c0_which, 3 c1_Actual, 3 c1_Composite, 3 c1_Deadline, 3 c1_Granularity, 3 c1_Objective
 
 abstract sig c0_Resource
 { r_c0_Granularity : one c0_Granularity
@@ -376,16 +376,25 @@ sig c0_scheduling extends c0_Scheduling
 one sig c0_scheduler extends c0_Scheduler
 {}
 
-one sig c0_t1 extends c0_Task
-{}
-{ (some ((this.@r_c0_timing).@r_c0_Periodicity).@r_c0_Periodic) && (some ((this.@r_c0_requirement).@r_c1_Deadline).@r_c0_Hard) }
-
-one sig c0_t2 extends c0_Task
-{}
-{ some (((this.@r_c0_timing).@r_c0_Periodicity).@r_c0_Aperiodic).@r_c0_Sporadic }
-
 one sig c0_r1 extends c0_Resource
 {}
 { (some (this.@r_c0_Type).@r_c0_Active) && (some ((this.@r_c0_PowerConsumption).@r_c0_Scalable).@r_c0_Discrete) }
 
-fact { ((c0_scheduler.@r_c0_taskset).@c0_taskset_ref) = (c0_t1 + c0_t2) }
+one sig c0_r2 extends c0_Resource
+{}
+{ (some (this.@r_c0_Type).@r_c0_Passive) && (no (this.@r_c0_PowerConsumption).@r_c0_Scalable) }
+
+one sig c0_t1 extends c0_Task
+{}
+{ ((some ((this.@r_c0_timing).@r_c0_Periodicity).@r_c0_Periodic) && (some ((this.@r_c0_requirement).@r_c1_Deadline).@r_c0_Hard)) && (((((this.@r_c0_requirement).@r_c0_Source).@r_c0_which).@c0_which_ref) = c0_r1) }
+
+one sig c0_t2 extends c0_Task
+{}
+{ (some (((this.@r_c0_timing).@r_c0_Periodicity).@r_c0_Aperiodic).@r_c0_Sporadic) && (((((this.@r_c0_requirement).@r_c0_Source).@r_c0_which).@c0_which_ref) = c0_r1) }
+
+one sig c0_t3 extends c0_Task
+{}
+{ ((((this.@r_c0_requirement).@r_c0_Source).@r_c0_which).@c0_which_ref) = (c0_r1 + c0_r2) }
+
+fact { ((c0_scheduler.@r_c0_taskset).@c0_taskset_ref) = ((c0_t1 + c0_t2) + c0_t3) }
+fact { ((c0_scheduler.@r_c0_system).@c0_system_ref) = (c0_r1 + c0_r2) }

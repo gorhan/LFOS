@@ -88,12 +88,20 @@ abstract Scheduler
 
 scheduler : Scheduler
 
-t1 : Task
-    [Periodic && Hard]
-t2 : Task
-    [Sporadic]
-
 r1 : Resource
     [Active && Discrete]
+    
+r2 : Resource
+	[Passive && not Scalable]
 
-[scheduler.taskset = t1 ++ t2]
+t1 : Task
+    [Periodic && Hard && requirement.Source.which = r1]
+    
+t2 : Task
+    [Sporadic && requirement.Source.which = r1]
+    
+t3 : Task
+	[requirement.Source.which = r1 ++ r2]
+
+[scheduler.taskset = t1 ++ t2 ++ t3]
+[scheduler.system = r1 ++ r2]
