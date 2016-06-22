@@ -1,107 +1,103 @@
-abstract Resource
-    xor Granularity
-        Composite
-        Actual
-    xor Type
-        Active
-        Passive
-    Dedicated ?
-    Capacity
-    MutualExclusion ?
-        SELF ?
-    PowerConsumption
-        xor Scalable ?
-            [ Scalable =>  Active]
-            Discrete
-            Continuous
-    Objective ?
+abstract xor objective_purpose
+    maxi
+    mini
 
-abstract Timing
-    ReleaseTime
-    ExecutionTime
-    Deadline ?
-    xor Periodicity
-        Periodic
-        Aperiodic
-            Sporadic ?
+abstract or time_related_objective_criteria
+    makespan
+    tardiness
+    earliness
+    lateness
+    centering
 
-abstract Requirement
-    xor Deadline
-        Hard
-            [Hard => Deadline]
-        Soft
-        Firm
-    Source
-        which -> Resource +
-            [ one r : Resource | r.Type.Active ]
+abstract or resource_related_objective_criteria
+    power_consumption
+    utilization
+    throughput
 
-abstract Task
-    xor Granularity
-        Composite
-        Actual
-    timing : Timing
-    Objective ?
-    Dependency ?
-        or DependentTo
-            Job
-            Data
-        Interval ?
-    Preemptable ?
-        Partial ?
-    requirement : Requirement
-    xor Priority
-        Fixed
-        Dynamic
+abstract or user_defined_objective_criteria
+    task_related_user_defined_criteria
+    resource_related_user_defined_criteria
 
-abstract Algorithm
-    xor Type
-        Online
-        Offline
-    Policy
-        Grouping ?
-        xor Ranking
-            xor Integrated
-                ERT
-                ED
-                RM
-                SJF
-                FIFO
-            UserDefined
-    Preemption ?
-    xor Migration ?
-        TaskLevel
-        JobLevel
+abstract task_related_objective
+    purpose : objective_purpose
+    or criteria
+        `time_related_objective_criteria
+        `user_defined_objective_criteria
+            [ task_related_user_defined_criteria && ! resource_related_user_defined_criteria]
 
-abstract Scheduling
-    Filetering ?
-    algorithm : Algorithm
-    xor Window
-        Fixed
-        Dynamic
-    TimeResolution
+abstract resource_related_objective
+    purpose : objective_purpose
+    or criteria
+        `resource_related_objective_criteria
+        `user_defined_objective_criteria
+            [ ! task_related_user_defined_criteria && resource_related_user_defined_criteria]
 
-abstract Scheduler
-    taskset -> Task +
-    system -> Resource +
-        [ some r : Resource | r.Type.Active ]
-    scheduling : Scheduling
+abstract global_objective
+    purpose : objective_purpose
+    or criteria
+        `time_related_objective_criteria
+        `resource_related_objective_criteria
+        `user_defined_objective_criteria
 
-scheduler : Scheduler
+abstract resource
+    xor granularity
+        composite
+        actual
+    xor type
+        active
+        passive
+        composite
+        [ (active || passive) => actual ]
+    dedicated ?
+    capacity
+    mutual_exclusion ?
+        self ?
+    power_consumption
+        xor scalable ?
+            discrete
+            continuous
+        [scalable => active]
+    objective : resource_related_objective ?
 
-r1 : Resource
-    [Active && Discrete]
-    
-r2 : Resource
-	[Passive && not Scalable]
+abstract timing
+    release_time
+    execution_time
+    deadline ?
+    xor periodicity
+        periodic
+        aperiodic
+            sporadic ?
 
-t1 : Task
-    [Periodic && Hard && requirement.Source.which = r1]
-    
-t2 : Task
-    [Sporadic && requirement.Source.which = r1]
-    
-t3 : Task
-	[requirement.Source.which = r1 ++ r2]
+abstract requirement
+    xor deadline
+        hard
+        soft
+        firm
+    required_resource -> resource +
+        [some r : resource | r.type.active]
 
-[scheduler.taskset = t1 ++ t2 ++ t3]
-[scheduler.system = r1 ++ r2]
+abstract task
+    xor granularity
+        composite
+        actual
+    `timing
+    objective : task_related_objective ?
+    dependency ?
+        data
+        task
+        interval ?
+        [ data xor task ]
+    preemptable ?
+        partial ?
+    `requirement
+    xor priority
+        fixed
+        dynamic
+
+    [requirement.deadline.hard => timing.deadline]
+
+r1 : resource
+[scalable && ! dedicated && ! mutual_exclusion && ! r1.objective.criteria.user_defined_objective_criteria]
+t1 : task
+[t1.requirement.required_resource = r1 && ! t1.objective && t1.timing.periodicity.periodic && t1.granularity.actual && ! t1.preemptable]
+[! r1.objective]
