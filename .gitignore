@@ -2,3 +2,5 @@
 .idea/
 *.dot
 *.pdf
+*.als
+*.js
