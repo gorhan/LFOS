@@ -83,21 +83,128 @@ abstract task
     `timing
     objective : task_related_objective ?
     dependency ?
-        data
-        task
+        data_dependency
+        task_dependency
         interval ?
-        [ data xor task ]
+        [ data_dependency xor task_dependency ]
     preemptable ?
         partial ?
     `requirement
-    xor priority
-        fixed
-        dynamic
+    priority
 
     [requirement.deadline.hard => timing.deadline]
+
+abstract scheduling_policy
+    grouping ?
+    xor ranking
+        user_defined
+        xor integrated
+            ERT
+            ED
+            RM
+            SJF
+            FIFO
+
+abstract scheduling_characteristic
+    xor type
+        online
+        offline
+    task_filtering ?
+    policy : scheduling_policy
+    preemption ?
+    xor priority_assignment
+        fixed
+        dynamic
+    xor migration ?
+        task_level
+        job_level
+    xor scheduling_window
+        fixed
+        dynamic
+    time_resolution
+    objective -> global_objective +
+
+abstract algorithm
+    name : string
+
+abstract xor scheduling_algorithm
+    CP : algorithm
+        [name = "Constraint Programming"]
+    CIP : algorithm
+        [name = "Constraint Integer Programming"]
+    MILP : algorithm
+        [name = "Mixed Integer Linear Programming"]
+    LBBD : algorithm
+        [name = "Logic-Based Benders Decomposition"]
+    GA : algorithm
+        [name = "Genetic Algorithm"]
+    KS : algorithm
+        [name = "Knapsack Algorithm"]
+    WIS : algorithm
+        [name = "Weighted Interval Scheduling"]
+    SA : algorithm
+        [name = "Simulate Annealing"]
+    B_BS : algorithm
+        [name = "Branch & Bound Scheduling"]
+    HA : algorithm
+        [name = "Heuristic Algorithm"]
+    KBS : algorithm
+        [name = "Knowledge-Based Scheduling"]
+
+abstract or scheduling_solver
+    IBM_ILOG_CPLEX
+    IBM_ILOG_CP_Optimizer
+    SCIP_SoPlex
+    GA_solver
+    KS_solver
+    WIS_solver
+    SA_solver
+    B_BS_solver
+    HA_solver
+    KBS_solver
+
+abstract or scheduling_adapter
+    IBM_ILOG_CPLEX_adapter
+    IBM_ILOG_CP_Optimizer_adapter
+    SCIP_SoPlex_adapter
+    GA_adapter
+    KS_adapter
+    WIS_adapter
+    SA_adapter
+    B_BS_adapter
+    HA_adapter
+    KBS_adapter
+
+abstract scheduler
+    taskset -> task +
+    system -> resource +
+    properties : scheduling_characteristic
+    algorithm : scheduling_algorithm
+    solver : scheduling_solver
+    adapter : scheduling_adapter
+    [ ( (algorithm.GA <=> solver.GA_solver) && (algorithm.GA <=> adapter.GA_adapter) ) &&
+      ( (algorithm.KS <=> solver.KS_solver) && (algorithm.KS <=> adapter.KS_adapter) ) &&
+      ( (algorithm.WIS <=> solver.WIS_solver) && (algorithm.WIS <=> adapter.WIS_adapter) ) &&
+      ( (algorithm.SA <=> solver.SA_solver) && (algorithm.SA <=> adapter.SA_adapter) ) &&
+      ( (algorithm.B_BS <=> solver.B_BS_solver) && (algorithm.B_BS <=> adapter.B_BS_adapter) ) &&
+      ( (algorithm.HA <=> solver.HA_solver) && (algorithm.HA <=> adapter.HA_adapter) ) &&
+      ( (algorithm.KBS <=> solver.KBS_solver) && (algorithm.KBS <=> adapter.KBS_adapter) ) ]
+    [ algorithm.MILP => (solver.IBM_ILOG_CPLEX && adapter.IBM_ILOG_CPLEX_adapter) ]
+    [ algorithm.LBBD => (solver.SCIP_SoPlex && solver.IBM_ILOG_CP_Optimizer && adapter.SCIP_SoPlex_adapter && adapter.IBM_ILOG_CP_Optimizer_adapter) ]
+    [ algorithm.CIP => (solver.SCIP_SoPlex && adapter.SCIP_SoPlex_adapter) ]
 
 r1 : resource
 [scalable && ! dedicated && ! mutual_exclusion && ! r1.objective.criteria.user_defined_objective_criteria]
 t1 : task
 [t1.requirement.required_resource = r1 && ! t1.objective && t1.timing.periodicity.periodic && t1.granularity.actual && ! t1.preemptable]
 [! r1.objective]
+
+objective_gl : global_objective
+[ objective_gl.criteria.time_related_objective_criteria.tardiness ]
+
+sched : scheduler
+[ sched.taskset = t1 ]
+[ sched.system = r1 ]
+[ sched.properties.objective = objective_gl ]
+[ sched.algorithm.LBBD ]
+[ ! sched.solver.GA_solver && ! sched.solver.KS_solver && ! sched.solver.WIS_solver && ! sched.solver.SA_solver && ! sched.solver.B_BS_solver && ! sched.solver.HA_solver && ! sched.solver.KBS_solver ]
