@@ -178,7 +178,7 @@ abstract or scheduling_adapter
 abstract scheduler
     taskset -> task +
     system -> resource +
-    properties : scheduling_characteristic
+    properties : scheduling_characteristic 
     algorithm : scheduling_algorithm
     solver : scheduling_solver
     adapter : scheduling_adapter
