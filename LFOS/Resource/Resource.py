@@ -3,7 +3,6 @@ from LFOS.Resource.ResourcePower import *
 
 SYSTEM_NAME = 'System'
 
-
 class AbstractResource(object):
     def __init__(self, res_type, res_name, parent):
         self.type = res_type
@@ -81,6 +80,9 @@ class TerminalResource(AbstractResource):
         self.__running_tasks = dict()
 
         self.__power_consumption = None
+
+        # default value --> Shared Resource
+        self.__mode = ResourceModes.SHARED
         self.__mutually_exclusive_resources = list()
 
         # dedicated property can be directly related with task type or task instance
@@ -109,7 +111,7 @@ class TerminalResource(AbstractResource):
         return sum([capacity for task, capacity in self.__running_tasks.items() if task not in excluded_tasks])
 
     def get_available_capacity(self, excluded_tasks=[]):
-        return self.__total_capacity - self.get_utilized_capacity(excluded_tasks)
+        return self.__total_capacity if self.__mode == ResourceModes.SHARED else self.__total_capacity - self.get_utilized_capacity(excluded_tasks)
 
     def get_running_tasks(self):
         return self.__running_tasks.keys()
@@ -142,6 +144,7 @@ class TerminalResource(AbstractResource):
 
         # to eliminate the duplicates
         self.__mutually_exclusive_resources = list(set(self.__mutually_exclusive_resources))
+        self.__mode = ResourceModes.SEMANTIC_BASED_EXCLUSIVE
         return True
 
     def delete_mutually_exclusive_resource(self, resource_or_list):
@@ -398,7 +401,7 @@ class CompositeResource(AbstractResource, list):
         resources --> List of pointers to the resources from which running_task will be freed. (Noting that unlike
                       alloc method, resources parameter is not a dictionary, since it is impossible to partially free the resource.)
     '''
-    def free(self, running_task) :
+    def free(self, running_task):
         root = self.get_system()
 
         for resource in root.get_child_resources():
