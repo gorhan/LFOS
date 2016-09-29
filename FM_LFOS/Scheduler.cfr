@@ -14,7 +14,7 @@ abstract or resource_related_objective_criteria
     utilization
     throughput
 
-abstract or user_defined_objective_criteria
+abstract or abstract_objective_criteria
     task_related_user_defined_criteria
     resource_related_user_defined_criteria
 
@@ -22,14 +22,14 @@ abstract task_related_objective
     purpose : objective_purpose
     or criteria
         `time_related_objective_criteria
-        `user_defined_objective_criteria
+        `abstract_objective_criteria
             [ task_related_user_defined_criteria && ! resource_related_user_defined_criteria]
 
 abstract resource_related_objective
     purpose : objective_purpose
     or criteria
         `resource_related_objective_criteria
-        `user_defined_objective_criteria
+        `abstract_objective_criteria
             [ ! task_related_user_defined_criteria && resource_related_user_defined_criteria]
 
 abstract global_objective
@@ -37,166 +37,133 @@ abstract global_objective
     or criteria
         `time_related_objective_criteria
         `resource_related_objective_criteria
-        `user_defined_objective_criteria
+        `abstract_objective_criteria
 
 abstract resource
-    xor granularity
-        composite
-        actual
-    xor type
-        active
-        passive
-        composite
-        [ (active || passive) => actual ]
-    dedicated ?
     capacity
-    mutual_exclusion ?
-        self ?
+    resource_type
+        xor abstraction
+            ACTIVE
+            PASSIVE
+            COMPOSITE
+        identifier
+    xor mode
+        shared
+        or exclusive
+            capacity_based
+            semantic_based
     power_consumption
         xor scalable ?
             discrete
             continuous
-        [scalable => active]
+        [scalable => resource_type.abstraction.ACTIVE]
     objective : resource_related_objective ?
 
 abstract timing
     release_time
     execution_time
-    deadline ?
+    deadline
     xor periodicity
         periodic
         aperiodic
             sporadic ?
+            
+abstract resource_requirement
+    eligible_resources -> resource +
+    resource_identifier
 
 abstract requirement
     xor deadline
         hard
         soft
         firm
-    required_resource -> resource +
-        [some r : resource | r.type.active]
+    required_resources -> resource_requirement +
+
+abstract data_dependency
+    token_type
+    n_tokens
+    sequence_dependent_setup_time
 
 abstract task
-    xor granularity
-        composite
-        actual
     `timing
-    objective : task_related_objective ?
-    dependency ?
-        data_dependency
-        task_dependency
-        interval ?
-        [ data_dependency xor task_dependency ]
-    preemptable ?
-        partial ?
-    `requirement
     priority
-
-    [requirement.deadline.hard => timing.deadline]
+    preemptable ?
+        cooperative ?
+    `requirement
+    xor granularity
+        terminal
+        composite
+    objective : task_related_objective ?
+    dependency : data_dependency *
 
 abstract scheduling_policy
     grouping ?
     xor ranking
-        user_defined
-        xor integrated
+        xor default
             ERT
             ED
             RM
             SJF
             FIFO
+        user_defined
 
 abstract scheduling_characteristic
-    xor type
+    xor scheduling_characteristic_type
         online
         offline
-    task_filtering ?
-    policy : scheduling_policy
-    preemption ?
-    xor priority_assignment
-        fixed
-        dynamic
+    preemptive ?
     xor migration ?
         task_level
         job_level
-    xor scheduling_window
+    policy : scheduling_policy
+    time_resolution
+    xor priority_assignment
         fixed
         dynamic
-    time_resolution
+    scheduling_window
     objective -> global_objective +
-
-abstract algorithm
-    name : string
-
-abstract xor scheduling_algorithm
-    CP : algorithm
-        [name = "Constraint Programming"]
-    CIP : algorithm
-        [name = "Constraint Integer Programming"]
-    MILP : algorithm
-        [name = "Mixed Integer Linear Programming"]
-    LBBD : algorithm
-        [name = "Logic-Based Benders Decomposition"]
-    GA : algorithm
-        [name = "Genetic Algorithm"]
-    KS : algorithm
-        [name = "Knapsack Algorithm"]
-    WIS : algorithm
-        [name = "Weighted Interval Scheduling"]
-    SA : algorithm
-        [name = "Simulate Annealing"]
-    B_BS : algorithm
-        [name = "Branch & Bound Scheduling"]
-    HA : algorithm
-        [name = "Heuristic Algorithm"]
-    KBS : algorithm
-        [name = "Knowledge-Based Scheduling"]
-
-abstract or scheduling_solver
-    IBM_ILOG_CPLEX
-    IBM_ILOG_CP_Optimizer
+    
+abstract or solver
+    IBM_ILOG_CPLEX_Optimizer
     SCIP_SoPlex
-    GA_solver
-    KS_solver
-    WIS_solver
-    SA_solver
-    B_BS_solver
-    HA_solver
-    KBS_solver
+    Knapsack
+    SAS_OR_R
 
-abstract or scheduling_adapter
-    IBM_ILOG_CPLEX_adapter
-    IBM_ILOG_CP_Optimizer_adapter
-    SCIP_SoPlex_adapter
-    GA_adapter
-    KS_adapter
-    WIS_adapter
-    SA_adapter
-    B_BS_adapter
-    HA_adapter
-    KBS_adapter
+abstract DSLB
+    name : string
+    [name = "Domain-Specific Language Based"]
+
+abstract DSB
+    name : string
+    [name = "Domain Structure Based"]
+
+abstract or input
+    `DSLB
+    `DSB
+
+abstract or output
+    `DSLB
+    `DSB
+
+abstract scheduling_strategy
+    `solver
+    solver_meta_knowledge
+    `input
+    `output
 
 abstract scheduler
     taskset -> task +
     system -> resource +
     properties : scheduling_characteristic 
-    algorithm : scheduling_algorithm
-    solver : scheduling_solver
-    adapter : scheduling_adapter
-    [ ( (algorithm.GA <=> solver.GA_solver) && (algorithm.GA <=> adapter.GA_adapter) ) &&
-      ( (algorithm.KS <=> solver.KS_solver) && (algorithm.KS <=> adapter.KS_adapter) ) &&
-      ( (algorithm.WIS <=> solver.WIS_solver) && (algorithm.WIS <=> adapter.WIS_adapter) ) &&
-      ( (algorithm.SA <=> solver.SA_solver) && (algorithm.SA <=> adapter.SA_adapter) ) &&
-      ( (algorithm.B_BS <=> solver.B_BS_solver) && (algorithm.B_BS <=> adapter.B_BS_adapter) ) &&
-      ( (algorithm.HA <=> solver.HA_solver) && (algorithm.HA <=> adapter.HA_adapter) ) &&
-      ( (algorithm.KBS <=> solver.KBS_solver) && (algorithm.KBS <=> adapter.KBS_adapter) ) ]
-    [ algorithm.MILP => (solver.IBM_ILOG_CPLEX && adapter.IBM_ILOG_CPLEX_adapter) ]
-    [ algorithm.LBBD => (solver.SCIP_SoPlex && solver.IBM_ILOG_CP_Optimizer && adapter.SCIP_SoPlex_adapter && adapter.IBM_ILOG_CP_Optimizer_adapter) ]
-    [ algorithm.CIP => (solver.SCIP_SoPlex && adapter.SCIP_SoPlex_adapter) ]
-
+    strategy : scheduling_strategy
+    
 r1 : resource
-[scalable && ! dedicated && ! mutual_exclusion && ! r1.objective.criteria.user_defined_objective_criteria]
+[r1.power_consumption.scalable && r1.mode.exclusive.capacity_based && ! r1.objective.criteria.abstract_objective_criteria]
+r2 : resource
 t1 : task
-[t1.requirement.required_resource = r1 && ! t1.objective && t1.timing.periodicity.periodic && t1.granularity.actual && ! t1.preemptable]
+req1 : resource_requirement
+[ req1.eligible_resources = r1 ++ r2]
+[t1.requirement.required_resources = req1 && ! t1.objective && t1.timing.periodicity.periodic && t1.granularity.terminal && ! t1.preemptable]
 [! r1.objective]
 
 objective_gl : global_objective
@@ -204,7 +171,6 @@ objective_gl : global_objective
 
 sched : scheduler
 [ sched.taskset = t1 ]
-[ sched.system = r1 ]
+[ sched.system = r1 ++ r2 ]
 [ sched.properties.objective = objective_gl ]
-[ sched.algorithm.LBBD ]
-[ ! sched.solver.GA_solver && ! sched.solver.KS_solver && ! sched.solver.WIS_solver && ! sched.solver.SA_solver && ! sched.solver.B_BS_solver && ! sched.solver.HA_solver && ! sched.solver.KBS_solver ]
+[ sched.strategy.solver.IBM_ILOG_CPLEX_Optimizer && sched.strategy.input.DSLB && sched.strategy.input.DSB && sched.strategy.output.DSLB && sched.strategy.output.DSB]
