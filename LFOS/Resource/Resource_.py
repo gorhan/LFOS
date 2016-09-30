@@ -82,7 +82,6 @@ class TerminalResource(AbstractResource):
         self.__power_consumption = None
 
         # default value --> Shared Resource
-        self.__mode = ResourceModes.SHARED
         self.__mutually_exclusive_resources = list()
 
         # dedicated property can be directly related with task type or task instance

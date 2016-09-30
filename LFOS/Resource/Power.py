@@ -150,7 +150,7 @@ class ContinuousStatePowerConsumption(Power):
         return {self._max_state[0]: self._max_state[1], self._min_state[0]: self._min_state[1]}
 
 
-class PowerConsumptionFactory:
+class PowerFactory:
     TYPES = {
         'FSPC': FixedStatePowerConsumption,
         'DSPC': DiscreteStatePowerConsumption,

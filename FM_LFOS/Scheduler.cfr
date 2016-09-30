@@ -78,6 +78,7 @@ abstract requirement
         soft
         firm
     required_resources -> resource_requirement +
+    [no res: required_resources.eligible_resources | res.resource_type.abstraction.COMPOSITE]
 
 abstract data_dependency
     token_type
@@ -156,21 +157,33 @@ abstract scheduler
     system -> resource +
     properties : scheduling_characteristic 
     strategy : scheduling_strategy
-    
-r1 : resource
-[r1.power_consumption.scalable && r1.mode.exclusive.capacity_based && ! r1.objective.criteria.abstract_objective_criteria]
-r2 : resource
+
+
+// Resources
+cpu1 : resource
+[cpu1.power_consumption.scalable && cpu1.mode.exclusive.capacity_based && cpu1.objective.criteria.resource_related_objective_criteria.power_consumption && cpu1.objective.purpose.mini]
+[cpu1.resource_type.abstraction.ACTIVE]
+cpu2 : resource
+[cpu2.power_consumption.scalable && cpu2.mode.exclusive.capacity_based && cpu2.objective.criteria.resource_related_objective_criteria.utilization && cpu2.objective.purpose.maxi]
+[cpu2.resource_type.abstraction.ACTIVE]
+CPUs : resource
+[! CPUs.power_consumption.scalable && CPUs.mode.exclusive.capacity_based && CPUs.resource_type.abstraction.COMPOSITE]
+
+// Tasks
 t1 : task
 req1 : resource_requirement
-[ req1.eligible_resources = r1 ++ r2]
+[ req1.eligible_resources = cpu1 ]
 [t1.requirement.required_resources = req1 && ! t1.objective && t1.timing.periodicity.periodic && t1.granularity.terminal && ! t1.preemptable]
-[! r1.objective]
+t2 : task
+req2 : resource_requirement
+[ req2.eligible_resources = cpu2 ]
+[t2.requirement.required_resources = req2 && ! t2.objective && t2.timing.periodicity.aperiodic && t2.granularity.terminal && t2.preemptable]
 
 objective_gl : global_objective
 [ objective_gl.criteria.time_related_objective_criteria.tardiness ]
 
 sched : scheduler
-[ sched.taskset = t1 ]
-[ sched.system = r1 ++ r2 ]
+[ sched.taskset = t1 ++ t2 ]
+[ sched.system = CPUs ++ cpu1 ++ cpu2 ]
 [ sched.properties.objective = objective_gl ]
 [ sched.strategy.solver.IBM_ILOG_CPLEX_Optimizer && sched.strategy.input.DSLB && sched.strategy.input.DSB && sched.strategy.output.DSLB && sched.strategy.output.DSB]

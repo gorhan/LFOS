@@ -24,7 +24,7 @@ class Type:
         return abs == self.abstraction
 
     def get_abstraction(self):
-        return self.abstraction.split('.')[-1]
+        return self.abstraction
 
     def get_identifier(self):
         return self.identifier
