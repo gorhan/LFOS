@@ -143,7 +143,7 @@ class TerminalResource(AbstractResource):
 
         # to eliminate the duplicates
         self.__mutually_exclusive_resources = list(set(self.__mutually_exclusive_resources))
-        self.__mode = ResourceModes.SEMANTIC_BASED_EXCLUSIVE
+        self.__mode = SEMANTIC_BASED_EXCLUSIVE
         return True
 
     def delete_mutually_exclusive_resource(self, resource_or_list):

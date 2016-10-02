@@ -2,9 +2,13 @@ from LFOS.Resource.Type import *
 from LFOS.Resource.Mode import *
 from LFOS.Resource.Power import *
 
+from copy import copy
+
+ROOT_TYPE = Type(COMPOSITE, 'ROOT')
 
 class ResourceInterface(object):
     ACCESSIBILITY = dict()
+    ROOT = CompositeResource(ROOT_TYPE, 'SYSTEM', None)
 
     def __init__(self, res_type, res_name, parent):
         assert isinstance(res_type, Type)
@@ -40,6 +44,10 @@ class ResourceInterface(object):
             print '%s:' % resource.info()
             for accessible_resource in resource_set:
                 print '\t%s' % accessible_resource.info()
+
+    @staticmethod
+    def get_root():
+        return ResourceInterface.ROOT
 
     def is_running(self):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
@@ -195,6 +203,22 @@ class CompositeResource(ResourceInterface, list):
     def remove(self, resource):
         if resource in self:
             self.pop(resource)
+
+            if resource.type.same_abstraction(COMPOSITE):
+                for removed_resource in resource.for_each_sub_terminal_resource():
+                    list_accessible_resources = copy(ResourceInterface.ACCESSIBILITY[removed_resource])
+                    terminal_resources_in_system = ResourceInterface.ROOT.for_each_sub_terminal_resource()
+                    intersected_resources = list_accessible_resources.intersect(set(terminal_resources_in_system))
+
+                    for intersected_resource in intersected_resources:
+                        ResourceInterface.ACCESSIBILITY[intersected_resource].remove(removed_resource)
+                        ResourceInterface.ACCESSIBILITY[removed_resource].remove(intersected_resource)
+            else:
+                list_accessible_resources = copy(ResourceInterface.ACCESSIBILITY[resource])
+                ResourceInterface.ACCESSIBILITY[resource] = set()
+
+                for accessible_resource in list_accessible_resources:
+                    ResourceInterface.ACCESSIBILITY[accessible_resource].remove(resource)
             resource.set_parent(None)
             return resource
 
@@ -216,6 +240,8 @@ class CompositeResource(ResourceInterface, list):
 
     def for_each_sub_terminal_resource(self):
         stack = [self]
+        terminal_resources = list()
+
         while len(stack) != 0:
             comp_resource = stack.pop(0)
             child_resources = comp_resource.get_child_resources()
@@ -224,7 +250,9 @@ class CompositeResource(ResourceInterface, list):
                 if resource.type.same_abstraction(COMPOSITE):
                     stack.append(resource)
                 else:
-                    yield resource
+                    terminal_resources.append(resource)
+
+        return terminal_resources
 
     def update_resource_accessibilities(self):
         resource_ptr = self.parent
@@ -266,5 +294,4 @@ class ResourceFactory:
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
             return None
 
-ROOT_TYPE = Type(COMPOSITE, 'ROOT')
-System = ResourceFactory.create_instance(ROOT_TYPE, 'System')
+System = ResourceInterface.ROOT
