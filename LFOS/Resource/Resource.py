@@ -8,7 +8,7 @@ ROOT_TYPE = Type(COMPOSITE, 'ROOT')
 
 class ResourceInterface(object):
     ACCESSIBILITY = dict()
-    ROOT = CompositeResource(ROOT_TYPE, 'SYSTEM', None)
+    ROOT = None
 
     def __init__(self, res_type, res_name, parent):
         assert isinstance(res_type, Type)
@@ -76,7 +76,7 @@ class ResourceInterface(object):
     def search_resources(self, response, **kwargs):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def info(self):
+    def info(self, detailed=False):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def pretty_print(self, indent=0):
@@ -177,8 +177,11 @@ class TerminalResource(ResourceInterface):
 
             resource_ptr = resource_ptr.parent
 
-    def info(self):
-        return '%s --> Capacity=%.2f, Available Capacity=%.2f' % (self.get_credential(), self.get_capacity(), self.get_available_capacity())
+    def info(self, detailed=False):
+        if detailed:
+            return '%s --> Capacity=%.2f, Available Capacity=%.2f' % (self.get_credential(), self.get_capacity(), self.get_available_capacity())
+
+        return '%s' % self.get_credential()
 
     def pretty_print(self, indent=0):
         print '%s%s' % ('\t'*indent, self.info())
@@ -202,13 +205,13 @@ class CompositeResource(ResourceInterface, list):
 
     def remove(self, resource):
         if resource in self:
-            self.pop(resource)
+            self.pop(self.index(resource))
 
             if resource.type.same_abstraction(COMPOSITE):
                 for removed_resource in resource.for_each_sub_terminal_resource():
                     list_accessible_resources = copy(ResourceInterface.ACCESSIBILITY[removed_resource])
                     terminal_resources_in_system = ResourceInterface.ROOT.for_each_sub_terminal_resource()
-                    intersected_resources = list_accessible_resources.intersect(set(terminal_resources_in_system))
+                    intersected_resources = list_accessible_resources.intersection(set(terminal_resources_in_system))
 
                     for intersected_resource in intersected_resources:
                         ResourceInterface.ACCESSIBILITY[intersected_resource].remove(removed_resource)
@@ -219,7 +222,7 @@ class CompositeResource(ResourceInterface, list):
 
                 for accessible_resource in list_accessible_resources:
                     ResourceInterface.ACCESSIBILITY[accessible_resource].remove(resource)
-            resource.set_parent(None)
+            resource.set_parent_resource(None)
             return resource
 
         LOG(msg='The resource is NOT in the scope of the composite resource %s' % self.name, log=Logs.WARN)
@@ -266,7 +269,7 @@ class CompositeResource(ResourceInterface, list):
 
             resource_ptr = resource_ptr.parent
 
-    def info(self):
+    def info(self, detailed=False):
         return '%s' % (self.get_credential())
 
     def pretty_print(self, indent=0):
@@ -294,4 +297,5 @@ class ResourceFactory:
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
             return None
 
-System = ResourceInterface.ROOT
+System = CompositeResource(ROOT_TYPE, 'SYSTEM', None)
+ResourceInterface.ROOT = System
