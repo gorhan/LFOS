@@ -4,7 +4,9 @@ from LFOS.Resource.Power import *
 
 from copy import copy
 
+
 ROOT_TYPE = Type(COMPOSITE, 'ROOT')
+
 
 class ResourceInterface(object):
     ACCESSIBILITY = dict()

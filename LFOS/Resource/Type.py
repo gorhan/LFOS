@@ -1,5 +1,6 @@
 from LFOS.Log import Logs, LOG
 
+
 ACTIVE = 'Resource.Type.ACTIVE'
 PASSIVE = 'Resource.Type.PASSIVE'
 COMPOSITE = 'Resource.Type.COMPOSITE'
@@ -31,3 +32,7 @@ class Type:
 
     def __eq__(self, other):
         return self.same_abstraction(other.abstraction) and self.same_identifier(other.identifier) if isinstance(other, Type) else False
+
+    @classmethod
+    def check(cls, instance):
+        return type(instance) == cls
