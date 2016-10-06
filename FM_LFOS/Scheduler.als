@@ -1,13 +1,13 @@
 /*
-All clafers: 141 | Abstract: 22 | Concrete: 119 | Reference: 7
-Constraints: 20
+All clafers: 137 | Abstract: 22 | Concrete: 115 | Reference: 7
+Constraints: 13
 Goals: 0
 Global scope: 1..*
 Can skip name resolver: no
 */
 open util/integer
 pred show {}
-run show for 1 but 3 c0_ACTIVE, 3 c0_COMPOSITE, 2 c0_DSB, 2 c0_DSLB, 3 c0_PASSIVE, 6 c0_abstract_objective_criteria, 3 c0_abstraction, 2 c0_aperiodic, 3 c0_capacity, 3 c0_capacity_based, 3 c0_centering, 2 c0_composite, 3 c0_continuous, 2 c0_cooperative, 2 c0_criteria, 2 c0_data_dependency, 2 c0_deadline, 2 c0_dependency, 3 c0_discrete, 3 c0_earliness, 6 c0_eligible_resources, 3 c0_exclusive, 2 c0_execution_time, 2 c0_firm, 2 c0_granularity, 2 c0_hard, 3 c0_identifier, 3 c0_lateness, 3 c0_makespan, 6 c0_maxi, 6 c0_mini, 3 c0_mode, 2 c0_n_tokens, 2 c0_name, 3 c0_objective, 6 c0_objective_purpose, 2 c0_periodic, 2 c0_periodicity, 4 c0_power_consumption, 2 c0_preemptable, 2 c0_priority, 2 c0_purpose, 2 c0_release_time, 4 c0_required_resources, 2 c0_requirement, 3 c0_resource, 2 c0_resource_identifier, 3 c0_resource_related_objective, 4 c0_resource_related_objective_criteria, 6 c0_resource_related_user_defined_criteria, 2 c0_resource_requirement, 3 c0_resource_type, 3 c0_scalable, 3 c0_semantic_based, 2 c0_sequence_dependent_setup_time, 3 c0_shared, 2 c0_soft, 2 c0_sporadic, 3 c0_system, 3 c0_tardiness, 2 c0_task, 2 c0_task_related_objective, 6 c0_task_related_user_defined_criteria, 2 c0_taskset, 2 c0_terminal, 4 c0_throughput, 3 c0_time_related_objective_criteria, 2 c0_timing, 2 c0_token_type, 4 c0_utilization, 2 c1_abstract_objective_criteria, 3 c1_criteria, 2 c1_deadline, 2 c1_name, 2 c1_objective, 3 c1_power_consumption, 3 c1_purpose, 2 c1_requirement, 3 c1_resource_related_objective_criteria, 2 c1_time_related_objective_criteria, 2 c1_timing, 3 c2_abstract_objective_criteria
+run show for 1 but 2 c0_DSB, 2 c0_DSLB, 3 c0_abstract_objective_criteria, 2 c0_centering, 2 c0_earliness, 2 c0_lateness, 2 c0_makespan, 3 c0_maxi, 3 c0_mini, 2 c0_name, 3 c0_objective_purpose, 2 c0_power_consumption, 2 c0_resource_related_objective_criteria, 3 c0_resource_related_user_defined_criteria, 2 c0_tardiness, 3 c0_task_related_user_defined_criteria, 2 c0_throughput, 2 c0_time_related_objective_criteria, 2 c0_utilization, 2 c1_name
 
 abstract sig c0_objective_purpose
 { r_c0_maxi : lone c0_maxi
@@ -603,7 +603,7 @@ abstract sig c0_scheduler
 { r_c0_taskset : some c0_taskset
 , r_c0_system : some c0_system
 , r_c0_properties : one c0_properties
-, r_c0_strategy : one c0_strategy }
+, r_c0_strategy : lone c0_strategy }
 { all disj x, y : this.@r_c0_taskset | (x.@c0_taskset_ref) != (y.@c0_taskset_ref) 
   all disj x, y : this.@r_c0_system | (x.@c0_system_ref) != (y.@c0_system_ref)  }
 
@@ -623,44 +623,25 @@ sig c0_strategy extends c0_scheduling_strategy
 {}
 { one @r_c0_strategy.this }
 
-one sig c0_cpu1 extends c0_resource
+one sig c0_machine extends c0_resource
 {}
 
-fact { (((some (c0_cpu1.@r_c1_power_consumption).@r_c0_scalable) && (some ((c0_cpu1.@r_c0_mode).@r_c0_exclusive).@r_c0_capacity_based)) && (some (((c0_cpu1.@r_c0_objective).@r_c1_criteria).@r_c1_resource_related_objective_criteria).@r_c0_power_consumption)) && (some ((c0_cpu1.@r_c0_objective).@r_c1_purpose).@r_c0_mini) }
-fact { some ((c0_cpu1.@r_c0_resource_type).@r_c0_abstraction).@r_c0_ACTIVE }
-one sig c0_cpu2 extends c0_resource
+fact { (((some ((c0_machine.@r_c0_resource_type).@r_c0_abstraction).@r_c0_ACTIVE) && (some ((c0_machine.@r_c0_mode).@r_c0_exclusive).@r_c0_capacity_based)) && (no (c0_machine.@r_c1_power_consumption).@r_c0_scalable)) && (no c0_machine.@r_c0_objective) }
+one sig c0_t extends c0_task
 {}
 
-fact { (((some (c0_cpu2.@r_c1_power_consumption).@r_c0_scalable) && (some ((c0_cpu2.@r_c0_mode).@r_c0_exclusive).@r_c0_capacity_based)) && (some (((c0_cpu2.@r_c0_objective).@r_c1_criteria).@r_c1_resource_related_objective_criteria).@r_c0_utilization)) && (some ((c0_cpu2.@r_c0_objective).@r_c1_purpose).@r_c0_maxi) }
-fact { some ((c0_cpu2.@r_c0_resource_type).@r_c0_abstraction).@r_c0_ACTIVE }
-one sig c0_CPUs extends c0_resource
+one sig c0_task_req extends c0_resource_requirement
 {}
 
-fact { ((no (c0_CPUs.@r_c1_power_consumption).@r_c0_scalable) && (some ((c0_CPUs.@r_c0_mode).@r_c0_exclusive).@r_c0_capacity_based)) && (some ((c0_CPUs.@r_c0_resource_type).@r_c0_abstraction).@r_c0_COMPOSITE) }
-one sig c0_t1 extends c0_task
+fact { ((c0_task_req.@r_c0_eligible_resources).@c0_eligible_resources_ref) = c0_machine }
+fact { (((((((some ((c0_t.@r_c1_timing).@r_c0_periodicity).@r_c0_periodic) && (some c0_t.@r_c0_preemptable)) && (no (c0_t.@r_c0_preemptable).@r_c0_cooperative)) && (some ((c0_t.@r_c1_requirement).@r_c1_deadline).@r_c0_hard)) && ((((c0_t.@r_c1_requirement).@r_c0_required_resources).@c0_required_resources_ref) = c0_task_req)) && (some (c0_t.@r_c0_granularity).@r_c0_terminal)) && (no c0_t.@r_c1_objective)) && (no c0_t.@r_c0_dependency) }
+one sig c0_rms_scheduler extends c0_scheduler
 {}
 
-one sig c0_req1 extends c0_resource_requirement
+one sig c0_min_lateness_objective extends c0_global_objective
 {}
 
-fact { ((c0_req1.@r_c0_eligible_resources).@c0_eligible_resources_ref) = c0_cpu1 }
-fact { (((((((c0_t1.@r_c1_requirement).@r_c0_required_resources).@c0_required_resources_ref) = c0_req1) && (no c0_t1.@r_c1_objective)) && (some ((c0_t1.@r_c1_timing).@r_c0_periodicity).@r_c0_periodic)) && (some (c0_t1.@r_c0_granularity).@r_c0_terminal)) && (no c0_t1.@r_c0_preemptable) }
-one sig c0_t2 extends c0_task
-{}
-
-one sig c0_req2 extends c0_resource_requirement
-{}
-
-fact { ((c0_req2.@r_c0_eligible_resources).@c0_eligible_resources_ref) = c0_cpu2 }
-fact { (((((((c0_t2.@r_c1_requirement).@r_c0_required_resources).@c0_required_resources_ref) = c0_req2) && (no c0_t2.@r_c1_objective)) && (some ((c0_t2.@r_c1_timing).@r_c0_periodicity).@r_c0_aperiodic)) && (some (c0_t2.@r_c0_granularity).@r_c0_terminal)) && (some c0_t2.@r_c0_preemptable) }
-one sig c0_objective_gl extends c0_global_objective
-{}
-
-fact { some ((c0_objective_gl.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_tardiness }
-one sig c0_sched extends c0_scheduler
-{}
-
-fact { ((c0_sched.@r_c0_taskset).@c0_taskset_ref) = (c0_t1 + c0_t2) }
-fact { ((c0_sched.@r_c0_system).@c0_system_ref) = ((c0_CPUs + c0_cpu1) + c0_cpu2) }
-fact { (((c0_sched.@r_c0_properties).@r_c2_objective).@c2_objective_ref) = c0_objective_gl }
-fact { ((((some ((c0_sched.@r_c0_strategy).@r_c1_solver).@r_c0_IBM_ILOG_CPLEX_Optimizer) && (some ((c0_sched.@r_c0_strategy).@r_c1_input).@r_c1_DSLB)) && (some ((c0_sched.@r_c0_strategy).@r_c1_input).@r_c1_DSB)) && (some ((c0_sched.@r_c0_strategy).@r_c1_output).@r_c2_DSLB)) && (some ((c0_sched.@r_c0_strategy).@r_c1_output).@r_c2_DSB) }
+fact { ((((((((some (c0_min_lateness_objective.@r_c2_purpose).@r_c0_mini) && (some ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_lateness)) && (no ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_tardiness)) && (no ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_makespan)) && (no ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_centering)) && (no ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_earliness)) && (no ((c0_min_lateness_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_tardiness)) && (no (c0_min_lateness_objective.@r_c2_criteria).@r_c2_resource_related_objective_criteria)) && (no (c0_min_lateness_objective.@r_c2_criteria).@r_c3_abstract_objective_criteria) }
+fact { (((c0_rms_scheduler.@r_c0_taskset).@c0_taskset_ref) = c0_t) && (((c0_rms_scheduler.@r_c0_system).@c0_system_ref) = c0_machine) }
+fact { ((((some ((c0_rms_scheduler.@r_c0_properties).@r_c0_scheduling_characteristic_type).@r_c0_online) && (some (c0_rms_scheduler.@r_c0_properties).@r_c0_preemptive)) && (some ((((c0_rms_scheduler.@r_c0_properties).@r_c0_policy).@r_c0_ranking).@r_c0_default).@r_c0_RM)) && (some ((c0_rms_scheduler.@r_c0_properties).@r_c0_priority_assignment).@r_c0_fixed)) && ((((c0_rms_scheduler.@r_c0_properties).@r_c2_objective).@c2_objective_ref) = c0_min_lateness_objective) }
+fact { no c0_rms_scheduler.@r_c0_strategy }

@@ -1,0 +1,688 @@
+=== Instance 1 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 1 End ---
+
+=== Instance 2 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 2 End ---
+
+=== Instance 3 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_job_level 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 3 End ---
+
+=== Instance 4 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_job_level 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 4 End ---
+
+=== Instance 5 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_task_level 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 5 End ---
+
+=== Instance 6 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_task_level 
+    c0_policy : c0_scheduling_policy 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 6 End ---
+
+=== Instance 7 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 7 End ---
+
+=== Instance 8 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 8 End ---
+
+=== Instance 9 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_job_level 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 9 End ---
+
+=== Instance 10 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_job_level 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 10 End ---
+
+=== Instance 11 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_task_level 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 11 End ---
+
+=== Instance 12 Begin ===
+
+c0_machine : c0_resource 
+  c0_capacity 
+  c0_resource_type 
+    c0_abstraction 
+      c0_ACTIVE 
+    c0_identifier 
+  c0_mode 
+    c0_exclusive 
+      c0_capacity_based 
+      c0_semantic_based 
+  c1_power_consumption 
+c0_t : c0_task 
+  c1_timing : c0_timing 
+    c0_release_time 
+    c0_execution_time 
+    c0_deadline 
+    c0_periodicity 
+      c0_periodic 
+  c0_priority 
+  c0_preemptable 
+  c1_requirement : c0_requirement 
+    c1_deadline 
+      c0_hard 
+    c0_required_resources -> c0_resource_requirement = c0_task_req 
+  c0_granularity 
+    c0_terminal 
+c0_task_req : c0_resource_requirement 
+  c0_eligible_resources -> c0_resource = c0_machine 
+  c0_resource_identifier 
+c0_rms_scheduler : c0_scheduler 
+  c0_taskset -> c0_task = c0_t 
+  c0_system -> c0_resource = c0_machine 
+  c0_properties : c0_scheduling_characteristic 
+    c0_scheduling_characteristic_type 
+      c0_online 
+    c0_preemptive 
+    c0_migration 
+      c0_task_level 
+    c0_policy : c0_scheduling_policy 
+      c0_grouping 
+      c0_ranking 
+        c0_default 
+          c0_RM 
+    c0_time_resolution 
+    c0_priority_assignment 
+      c0_fixed 
+    c0_scheduling_window 
+    c2_objective -> c0_global_objective = c0_min_lateness_objective 
+c0_min_lateness_objective : c0_global_objective 
+  c2_purpose : c0_objective_purpose 
+    c0_mini 
+  c2_criteria 
+    c2_time_related_objective_criteria : c0_time_related_objective_criteria 
+      c0_lateness 
+
+--- Instance 12 End ---
+
