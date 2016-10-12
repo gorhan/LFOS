@@ -81,11 +81,6 @@ abstract requirement
     required_resources -> resource_requirement +
     [no res: required_resources.eligible_resources | res.resource_type.abstraction.COMPOSITE]
 
-abstract data_dependency
-    token_type
-    n_tokens
-    sequence_dependent_setup_time
-
 abstract task
     `timing
     priority
@@ -96,7 +91,10 @@ abstract task
         terminal
         composite
     objective : task_related_objective ?
-    dependency : data_dependency *
+    dependency ?
+        token_type
+        n_tokens
+        sequence_dependent_setup_time
 
 abstract scheduling_policy
     grouping ?
@@ -159,7 +157,7 @@ abstract scheduler
     properties : scheduling_characteristic 
     strategy : scheduling_strategy ?
 
-// SCENARIO-1: TRAVELING SALESMAN SCHEDULING
+// EXAMPLE-2: TRAVELING SALESMAN SCHEDULING APPLICATION
 machine: resource
 [ machine.resource_type.abstraction.ACTIVE && machine.mode.exclusive.capacity_based && !machine.power_consumption.scalable && !machine.objective ]
 
