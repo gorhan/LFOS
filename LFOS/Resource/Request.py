@@ -36,11 +36,13 @@ class ResourceRequests(object):
 
     def get_required_resources(self, **kwargs):
         response = dict()
+        if kwargs.keys():
+            return response
 
         for resource_type, capacity in self.requests.items():
             if kwargs.has_key('abstraction') and resource_type.same_abstraction(kwargs['abstraction']):
                 response[resource_type] = capacity
-            if kwargs.has_key('identifier') and resource_type.same_identifier(kwargs['identifier']):
+            elif kwargs.has_key('identifier') and resource_type.same_identifier(kwargs['identifier']):
                 response[resource_type] = capacity
 
         return response
