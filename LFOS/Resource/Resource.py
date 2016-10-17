@@ -24,6 +24,9 @@ class ResourceInterface(object):
     def get_credential(self):
         return '%s [%s, %s]' % (self.name, self.type.get_abstraction(), self.type.get_identifier())
 
+    def get_type(self):
+        return self.type
+
     def change_resource_name(self, new_res_name):
         self.name = new_res_name
 
@@ -65,14 +68,14 @@ class ResourceInterface(object):
     def get_child_resources(self, self_resource=None, resource_type=None):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def request(self, task, excluding_tasks=[]):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
-
-    def alloc(self, requester, resources):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
-
-    def free(self, running_task):
-        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+    # def request(self, task, excluding_tasks=[]):
+    #     LOG(msg='Invalid procedure call', log=Logs.ERROR)
+    #
+    # def alloc(self, requester, resources):
+    #     LOG(msg='Invalid procedure call', log=Logs.ERROR)
+    #
+    # def free(self, running_task):
+    #     LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def search_resources(self, response, **kwargs):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
@@ -147,22 +150,23 @@ class TerminalResource(ResourceInterface):
     def search_resources(self, response, **kwargs):
         if (kwargs.has_key('abstraction') and self.type.same_abstraction(kwargs['abstraction'])) or \
                 (kwargs.has_key('identifier') and self.type.same_identifier(kwargs['identifier'])) or \
+                (kwargs.has_key('type') and self.type == kwargs['type']) or \
                 (kwargs.has_key('name') and self.name == kwargs['name']):
             response.append(self)
 
-    def alloc(self, requester, resources):
-        if self in resources:
-            alloc_capacity = resources.pop(self)
-            self.__running_tasks[requester] = alloc_capacity
-            LOG(msg='Resource is allocated. Resource=%s, Task=%s, Amount=%.2f' % (self.name, requester.name, alloc_capacity), log=Logs.INFO)
-
-    def free(self, running_task):
-        if running_task in self.__running_tasks:
-            freed_capacity = self.__running_tasks.pop(running_task)
-            LOG(msg='Resource is freed. Resource=%s, Task=%s, Amount=%.2f' % (self.name, running_task.name, freed_capacity), log=Logs.INFO)
-            return freed_capacity
-
-        return None
+    # def alloc(self, requester, resources):
+    #     if self in resources:
+    #         alloc_capacity = resources.pop(self)
+    #         self.__running_tasks[requester] = alloc_capacity
+    #         LOG(msg='Resource is allocated. Resource=%s, Task=%s, Amount=%.2f' % (self.name, requester.name, alloc_capacity), log=Logs.INFO)
+    #
+    # def free(self, running_task):
+    #     if running_task in self.__running_tasks:
+    #         freed_capacity = self.__running_tasks.pop(running_task)
+    #         LOG(msg='Resource is freed. Resource=%s, Task=%s, Amount=%.2f' % (self.name, running_task.name, freed_capacity), log=Logs.INFO)
+    #         return freed_capacity
+    #
+    #     return None
 
     '''
         flag is True if update is because of ADDITION of self

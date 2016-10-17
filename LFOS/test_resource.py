@@ -89,4 +89,4 @@ gpu2_block.remove(gpu2_cache_memory)
 gpu_block.add(gpu2_block)
 
 System.pretty_print()
-System.print_accessibilites()
+# System.print_accessibilites()

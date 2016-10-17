@@ -1,34 +1,23 @@
-from LFOS.Task.Priority import Priority
-
 
 class Credential(object):
-    NONAME_TASK_TYPE_COUNTER = 0
+    CREDENTIAL_COUNTER=0
 
-    def __init__(self, _name, _type):
+    def __init__(self, _name, _type=None):
         if not _type:
-            _type = 'TASKTYPE_%d' % Credential.NONAME_TASK_TYPE_COUNTER
-            Credential.NONAME_TASK_TYPE_COUNTER += 1
+            _type = 'CR_T_%02d' % Credential.CREDENTIAL_COUNTER
+            Credential.CREDENTIAL_COUNTER += 1
 
-        self.type = _type
-        self.type_importance = Priority()
-        self.name = _name
+        self.__type = _type
+        self.__name = _name
 
-        Priority.__init__(self)
+    def set_name(self, new_name):
+        self.__name = new_name
 
-    def set_task_type(self, _type):
-        self.type = _type
+    def get_name(self):
+        return self.__name
 
-    def get_task_type(self):
-        return self.type
+    def set_type(self, new_type):
+        self.__type = new_type
 
-    def get_task_type_importance(self):
-        return self.type_importance
-
-    def set_task_name(self, _name):
-        self.name = _name
-
-    def get_task_name(self):
-        return self.name
-
-    def get_credential(self):
-        return 'TASK: %s -- TYPE: %s' % (self.name, self.type)
+    def get_type(self):
+        return self.__type
