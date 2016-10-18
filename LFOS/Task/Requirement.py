@@ -1,5 +1,5 @@
 from LFOS.Log import LOG, Logs
-from LFOS.Resource.Resource import ROOT
+from LFOS.Resource.Resource import System
 from LFOS.Resource.Type import Type, ACTIVE, PASSIVE
 
 
@@ -90,37 +90,18 @@ class SoftDeadlineRequirement(DeadlineRequirementInterface):
             LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
 
 
-class DeadlineRequirementFactory:
-    TYPES = {
-        'hard': HardDeadlineRequirement,
-        'firm': FirmDeadlineRequirement,
-        'soft': SoftDeadlineRequirement
-    }
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def create_instance(cls, _type, deadline=-1):
-        if _type in cls.TYPES:
-            return cls.TYPES[_type](_type, deadline)
-        else:
-            LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
-            LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
-
-
 '''
     Capacity, Time, ResourceList, ResourceType
 '''
 
 
-class ResourceRequirement(object):
+class ResourceRequirementItem(object):
     def __init__(self):
         self.__type = None
         self.__eligible_resources = None
         self.__required_capacity = 1
 
-    def set_resource_requirement(self, **kwargs):
+    def set_resource_requirement(self, update=None, **kwargs):
         if kwargs.has_key('type'):
             self.__set_type(kwargs['type'])
         elif self.__type is None:
@@ -133,7 +114,8 @@ class ResourceRequirement(object):
                     LOG(msg='Eligible Resources have to be defined as dict structure whose keys are resources and values are execution time.', log=Logs.ERROR)
                     return False
 
-                self.__eligible_resources = dict()
+                if update:
+                    self.__eligible_resources = dict()
                 for resource, exec_time in kwargs['eligible_resources'].items():
                     if resource.get_type() == self.__type:
                         self.__eligible_resources[resource] = exec_time
@@ -145,32 +127,34 @@ class ResourceRequirement(object):
                     LOG(msg='Eligible Resources have to be defined as list structure including resources.', log=Logs.ERROR)
                     return False
 
-                self.__eligible_resources = list()
+                if update:
+                    self.__eligible_resources = list()
                 for resource in kwargs['eligible_resources']:
                     try:
-                        if resource.get_type() == self.__type:
-                            self.__eligible_resources.index(resource)
-                            self.__eligible_resources.append(resource)
+                        if resource.get_type() == self.__type and self.__eligible_resources.index(resource):
+                            LOG(msg='%s is already in the Eligible Resources. IGNORED...' % resource.info(), log=Logs.WARN)
                         else:
                             LOG(msg='%s is not in the type %s. IGNORED...' % (resource.info(), self.__type.get_identifier()), log=Logs.WARN)
                     except ValueError:
-                        LOG(msg='%s is already in the Eligible Resources. IGNORED...' % (resource.info(), self.__type.get_identifier()), log=Logs.WARN)
-
+                        self.__eligible_resources.append(resource)
         else:
             if self.__type.same_abstraction(ACTIVE):
                 LOG(msg='Eligible Resources have to be defined with actual execution times on the resources.', log=Logs.ERROR)
                 return False
             elif self.__type.same_abstraction(PASSIVE):
                 self.__eligible_resources = list()
-                ROOT.search_resources(self.__eligible_resources, type=self.__type)
+                System.search_resources(self.__eligible_resources, type=self.__type)
 
         if kwargs.has_key('capacity'):
             self.__required_capacity = kwargs['capacity']
         else:
+            self.__required_capacity = 1
             LOG(msg='Required capacity for the resource requirement has been set to 1.')
 
         return True
 
+    def uodate_resource_requirement(self, **kwargs):
+        return self.set_resource_requirement(True, kwargs)
 
     def __set_type(self, _type):
         if not Type.check(_type):
@@ -180,9 +164,47 @@ class ResourceRequirement(object):
         self.__type = _type
         return True
 
+    def __eq__(self, other):
+        return (isinstance(other, ResourceRequirementItem) and self.__type == other.__type) or\
+               (isinstance(other, Type) and self.__type == other)
 
-class ResourceRequirementList(list):
+
+class ResourceRequirement(list):
     def __init__(self):
         list.__init__([])
 
-    def add_resource_requirement(self, _type):
+    def add_resource_requirement(self, **kwargs):
+        new_req = ResourceRequirementItem()
+        if new_req.set_resource_requirement(kwargs) and new_req not in self:
+            self.append(new_req)
+            LOG(msg='New ResourceRequirement has been added to the ResourceRequirementList.')
+        elif new_req in self:
+            pos = self.index(new_req)
+            self[pos].update_resource_requirement(kwargs)
+            LOG(msg='ResourceRequirementList has been updated.')
+        else:
+            return False
+
+        return True
+
+    def remove_resource_requirement(self, _type):
+        return self.remove(_type)
+
+
+class RequirementFactory:
+    TYPES = {
+        'hard': HardDeadlineRequirement,
+        'firm': FirmDeadlineRequirement,
+        'soft': SoftDeadlineRequirement
+    }
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def create_instance(cls, _type, deadline=-1):
+        if _type in cls.TYPES:
+            return type('Requirement', (cls.TYPES[_type], ResourceRequirement), {})(_type, deadline)
+        else:
+            LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
+            LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)

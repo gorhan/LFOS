@@ -1,0 +1,1272 @@
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Antenna [Resource.Type.PASSIVE, Antenna]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+Antenna [Resource.Type.PASSIVE, Antenna]:
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> PROCs [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+Antenna [Resource.Type.PASSIVE, Antenna]:
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Memory_1 [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Memory_2 [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Bus [Resource.Type.PASSIVE, Bus]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> ProximitySensor [Resource.Type.PASSIVE, Sensor]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: CPU [Resource.Type.COMPOSITE, Composite] --> CPU [Resource.Type.ACTIVE, CPU]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: CPU Cache [Resource.Type.COMPOSITE, Composite] --> CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: CPU Cache [Resource.Type.COMPOSITE, Composite] --> CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: CPU [Resource.Type.COMPOSITE, Composite] --> CPU Cache [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPU1 [Resource.Type.COMPOSITE, Composite] --> GPU1 Core [Resource.Type.ACTIVE, CPU]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPU1 [Resource.Type.COMPOSITE, Composite] --> GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPUs [Resource.Type.COMPOSITE, Composite] --> GPU1 [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPU2 [Resource.Type.COMPOSITE, Composite] --> GPU2 Core [Resource.Type.ACTIVE, CPU]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPU2 [Resource.Type.COMPOSITE, Composite] --> GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPUs [Resource.Type.COMPOSITE, Composite] --> GPU2 [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+CPU [Resource.Type.ACTIVE, CPU]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: PROCs [Resource.Type.COMPOSITE, Composite] --> CPU [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+CPU [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: PROCs [Resource.Type.COMPOSITE, Composite] --> GPUs [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Bus [Resource.Type.PASSIVE, Bus]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Bus [Resource.Type.PASSIVE, Bus]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+CPU [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                      TerminalResource.set_capacity  INFO: New capacity is set. Capacity:1.00
+[16-10-2016 - 13:33:48] From                      TerminalResource.set_capacity  INFO: New capacity is set. Capacity:512.00
+[16-10-2016 - 13:33:48] From                      TerminalResource.set_capacity  INFO: New capacity is set. Capacity:512.00
+[16-10-2016 - 13:33:48] From             TerminalResource.set_power_consumption  INFO: Power consumption has been specified.
+[16-10-2016 - 13:33:48] From             TerminalResource.set_power_consumption  INFO: Power consumption has been specified.
+[16-10-2016 - 13:33:48] From             TerminalResource.set_power_consumption  INFO: Power consumption has been specified.
+{1.0: 200, 0.65: 100, 0.3: 50}
+{1.0: 75}
+{1.0: 75}
+[16-10-2016 - 13:33:48] From                           CompositeResource.remove  INFO: [REMOVE]: GPUs [Resource.Type.COMPOSITE, Composite] --> GPU2 [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Bus [Resource.Type.PASSIVE, Bus]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+CPU [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                           CompositeResource.remove  INFO: [REMOVE]: GPU2 [Resource.Type.COMPOSITE, Composite] --> GPU2 Core Cache [Resource.Type.PASSIVE, Memory]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Bus [Resource.Type.PASSIVE, Bus]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+CPU [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+[16-10-2016 - 13:33:48] From                              CompositeResource.add  INFO: [ADD]: GPUs [Resource.Type.COMPOSITE, Composite] --> GPU2 [Resource.Type.COMPOSITE, Composite]
+ProximitySensor [Resource.Type.PASSIVE, Sensor]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core Cache [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+GPU1 Core [Resource.Type.ACTIVE, CPU]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Bus [Resource.Type.PASSIVE, Bus]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+TemperatureSensor [Resource.Type.PASSIVE, Sensor]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+Memory_1 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Memory_2 [Resource.Type.PASSIVE, Memory]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+GPU2 Core [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+CPU [Resource.Type.ACTIVE, CPU]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]:
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	Bus [Resource.Type.PASSIVE, Bus]
+	CPU [Resource.Type.ACTIVE, CPU]
+GPU2 Core Cache [Resource.Type.PASSIVE, Memory]:
+Bus [Resource.Type.PASSIVE, Bus]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+Antenna [Resource.Type.PASSIVE, Antenna]:
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+	CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+	GPU1 Core [Resource.Type.ACTIVE, CPU]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	CPU [Resource.Type.ACTIVE, CPU]
+	GPU2 Core [Resource.Type.ACTIVE, CPU]
+	CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+SYSTEM [Resource.Type.COMPOSITE, ROOT]
+	Antenna [Resource.Type.PASSIVE, Antenna]
+	PROCs [Resource.Type.COMPOSITE, Composite]
+		CPU [Resource.Type.COMPOSITE, Composite]
+			CPU [Resource.Type.ACTIVE, CPU]
+			CPU Cache [Resource.Type.COMPOSITE, Composite]
+				CPU Cache Memory 1 [Resource.Type.PASSIVE, Memory]
+				CPU Cache Memory 2 [Resource.Type.PASSIVE, Memory]
+		GPUs [Resource.Type.COMPOSITE, Composite]
+			GPU1 [Resource.Type.COMPOSITE, Composite]
+				GPU1 Core [Resource.Type.ACTIVE, CPU]
+				GPU1 Core Cache [Resource.Type.PASSIVE, Memory]
+			GPU2 [Resource.Type.COMPOSITE, Composite]
+				GPU2 Core [Resource.Type.ACTIVE, CPU]
+	Memory_1 [Resource.Type.PASSIVE, Memory]
+	Memory_2 [Resource.Type.PASSIVE, Memory]
+	Bus [Resource.Type.PASSIVE, Bus]
+	ProximitySensor [Resource.Type.PASSIVE, Sensor]
+	TemperatureSensor [Resource.Type.PASSIVE, Sensor]
