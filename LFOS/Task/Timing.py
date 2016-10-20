@@ -1,6 +1,7 @@
 from LFOS.Task.Periodicity import PeriodicityFactory, PeriodicityTypeList
 from LFOS.Log import LOG, Logs
 
+
 class Timing(object):
 
     def __init__(self, arr_time, deadline):
@@ -25,6 +26,9 @@ class Timing(object):
 
     def set_deadline(self, new_deadline):
         self.__deadline = new_deadline
+
+    def set_periodicity(self, _type):
+        self.__periodicity = PeriodicityFactory.create_instance(_type)
 
     '''
         For periodicity method calls

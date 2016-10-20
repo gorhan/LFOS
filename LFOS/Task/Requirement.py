@@ -1,6 +1,6 @@
 from LFOS.Log import LOG, Logs
 from LFOS.Resource.Resource import System
-from LFOS.Resource.Type import Type, ACTIVE, PASSIVE
+from LFOS.Resource.Type import Type, ACTIVE, PASSIVE, COMPOSITE
 
 
 class DeadlineRequirementInterface(object):
@@ -191,11 +191,16 @@ class ResourceRequirement(list):
         return self.remove(_type)
 
 
+class DeadlineRequirementTypeList:
+    HARD = 'Task.Requirement.DeadReq.HARD'
+    FIRM = 'Task.Requirement.DeadReq.FIRM'
+    SOFT = 'Task.Requirement.DeadReq.SOFT'
+
 class RequirementFactory:
     TYPES = {
-        'hard': HardDeadlineRequirement,
-        'firm': FirmDeadlineRequirement,
-        'soft': SoftDeadlineRequirement
+        DeadlineRequirementTypeList.HARD: HardDeadlineRequirement,
+        DeadlineRequirementTypeList.FIRM: FirmDeadlineRequirement,
+        DeadlineRequirementTypeList.SOFT: SoftDeadlineRequirement
     }
 
     def __init__(self):

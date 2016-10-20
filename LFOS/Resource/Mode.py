@@ -1,16 +1,17 @@
 from LFOS.Log import Logs, LOG
 
 
-SHARED = 'Resource.Mode.SHARED'
-CB_EXCLUSIVE = 'Resource.Mode.CAPACITY_EXCLUSIVE'
-SB_EXCLUSIVE = 'Resource.Mode.SEMANTIC_EXCLUSIVE'
+class ModeTypeList:
+    SHARED = 'Resource.Mode.SHARED'
+    CB_EXCLUSIVE = 'Resource.Mode.CAPACITY_EXCLUSIVE'
+    SB_EXCLUSIVE = 'Resource.Mode.SEMANTIC_EXCLUSIVE'
 
 
 class Mode(object):
-    MODES = [SHARED, CB_EXCLUSIVE, SB_EXCLUSIVE]
+    MODES = [ModeTypeList.SHARED, ModeTypeList.CB_EXCLUSIVE, ModeTypeList.SB_EXCLUSIVE]
 
     def __init__(self):
-        self.__property = CB_EXCLUSIVE
+        self.__property = ModeTypeList.CB_EXCLUSIVE
         self.__exclusive_resources = list()
 
     def is_mode(self, mode):

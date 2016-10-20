@@ -150,11 +150,17 @@ class ContinuousStatePowerConsumption(Power):
         return {self._max_state[0]: self._max_state[1], self._min_state[0]: self._min_state[1]}
 
 
+class PowerTypeList:
+    FIXED_STATE_POWER_CONSUMPTION = 'Resource.Power.FSPC'
+    DISCRETE_STATE_POWER_CONSUMPTION = 'Resource.Power.DSPC'
+    CONTINUOUS_STATE_POWER_CONSUMPTION = 'Resource.Power.CSPC'
+
+
 class PowerFactory:
     TYPES = {
-        'FSPC': FixedStatePowerConsumption,
-        'DSPC': DiscreteStatePowerConsumption,
-        'CSPC': ContinuousStatePowerConsumption
+        PowerTypeList.FIXED_STATE_POWER_CONSUMPTION: FixedStatePowerConsumption,
+        PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION: DiscreteStatePowerConsumption,
+        PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION: ContinuousStatePowerConsumption
     }
 
     def __init__(self):

@@ -57,9 +57,9 @@ class PartiallyPreemptable(PreemptionInterface):
 
 
 class PreemptionTypeList(Enum):
-    NOT_PPREEMPTABLE = 'Non Preemptable'
-    PARTIALLY_PREEMPTABLE = 'Partially Preemptable'
-    FULLY_PREEMPTABLE = 'Fully Preemptable'
+    NOT_PPREEMPTABLE = 'Task.Preemptability.NP'
+    COOPERATIVELY_PREEMPTABLE = 'Task.Preemptability.CP'
+    FULLY_PREEMPTABLE = 'Task.Preemptability.FP'
 
 
 class PreemptionFactory:

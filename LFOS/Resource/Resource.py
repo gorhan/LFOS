@@ -4,7 +4,7 @@ from LFOS.Resource.Power import *
 
 from copy import copy
 
-ROOT_TYPE = Type(COMPOSITE, 'ROOT')
+ROOT_TYPE = Type(ResourceTypeList.COMPOSITE, 'ROOT')
 
 
 class ResourceInterface(object):
@@ -18,7 +18,7 @@ class ResourceInterface(object):
         self.name = res_name
         self.parent = parent
 
-        if not self.type.same_abstraction(COMPOSITE):
+        if not self.type.same_abstraction(ResourceTypeList.COMPOSITE):
             ResourceInterface.ACCESSIBILITY[self] = set()
 
     def get_credential(self):
@@ -129,14 +129,14 @@ class TerminalResource(ResourceInterface):
         return self.__capacity
 
     def get_available_capacity(self):
-        if self.__mode.is_mode(SHARED):
+        if self.__mode.is_mode(ModeTypeList.SHARED):
             return self.__capacity
-        elif self.__mode.is_mode(CB_EXCLUSIVE):
+        elif self.__mode.is_mode(ModeTypeList.CB_EXCLUSIVE):
             return self.__capacity - sum(self.__running_tasks.values())
         else:
             for exc_resource in self.__mode.get_exclusive_resources():
                 if exc_resource.is_running():
-                    LOG(msg='Exclusive resource is running. Resource=%s Mode=%s' % (exc_resource.get_credential(), SB_EXCLUSIVE))
+                    LOG(msg='Exclusive resource is running. Resource=%s Mode=%s' % (exc_resource.get_credential(), ModeTypeList.SB_EXCLUSIVE))
                     return 0
 
             return self.__capacity - sum(self.__running_tasks.values())
@@ -178,7 +178,7 @@ class TerminalResource(ResourceInterface):
             while resource_ptr:
                 resources = resource_ptr.get_child_resources(self)
                 for resource in resources:
-                    if resource.type.same_abstraction(COMPOSITE):
+                    if resource.type.same_abstraction(ModeTypeList.COMPOSITE):
                         for sub_resource in resource.for_each_sub_terminal_resource():
                             ResourceInterface.ACCESSIBILITY[self].add(sub_resource)
                     else:
@@ -254,7 +254,7 @@ class CompositeResource(ResourceInterface, list):
             child_resources = comp_resource.get_child_resources()
 
             for resource in child_resources:
-                if resource.type.same_abstraction(COMPOSITE):
+                if resource.type.same_abstraction(ModeTypeList.COMPOSITE):
                     stack.append(resource)
                 else:
                     terminal_resources.append(resource)
@@ -267,7 +267,7 @@ class CompositeResource(ResourceInterface, list):
             while resource_ptr:
                 resources = resource_ptr.get_child_resources(self)
                 for resource in resources:
-                    if not resource.type.same_abstraction(COMPOSITE):
+                    if not resource.type.same_abstraction(ModeTypeList.COMPOSITE):
                         for sub_resource in self.for_each_sub_terminal_resource():
                             ResourceInterface.ACCESSIBILITY[resource].add(sub_resource)
                             ResourceInterface.ACCESSIBILITY[sub_resource].add(resource)
@@ -294,9 +294,9 @@ class CompositeResource(ResourceInterface, list):
 
 class ResourceFactory:
     TYPES = {
-        ACTIVE: TerminalResource,
-        PASSIVE: TerminalResource,
-        COMPOSITE: CompositeResource
+        ResourceTypeList.ACTIVE: TerminalResource,
+        ResourceTypeList.PASSIVE: TerminalResource,
+        ResourceTypeList.COMPOSITE: CompositeResource
     }
 
     def __init__(self):
