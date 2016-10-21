@@ -34,6 +34,9 @@ class Type:
     def __eq__(self, other):
         return self.same_abstraction(other.abstraction) and self.same_identifier(other.identifier) if isinstance(other, Type) else False
 
+    def __str__(self):
+        return '[%s, %s]' % (self.abstraction, self.identifier)
+
     @classmethod
     def check(cls, instance):
-        return type(instance) == cls
+        return isinstance(instance, cls)

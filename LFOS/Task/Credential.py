@@ -1,6 +1,6 @@
 
 class Credential(object):
-    CREDENTIAL_COUNTER=0
+    CREDENTIAL_COUNTER = 0
 
     def __init__(self, _name, _type=None):
         if not _type:
@@ -9,6 +9,7 @@ class Credential(object):
 
         self.__type = _type
         self.__name = _name
+        self.__importance_levels = list()
 
     def set_name(self, new_name):
         self.__name = new_name
@@ -21,3 +22,9 @@ class Credential(object):
 
     def get_type(self):
         return self.__type
+
+    def add_importance_level(self, new_level):
+        self.__type_importance.append(new_level)
+
+    def get_importance_levels(self):
+        return self.__type_importance

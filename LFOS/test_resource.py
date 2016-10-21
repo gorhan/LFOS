@@ -2,15 +2,16 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from LFOS.Resource.Resource import System, Type, ResourceFactory, PowerFactory, ACTIVE, PASSIVE, COMPOSITE
+from LFOS.Resource.Resource import System, Type, ResourceFactory, PowerFactory
+from LFOS.macros import *
 
 # Initialize resource types
-memory_t = Type(PASSIVE, 'Memory')
-antenna_t = Type(PASSIVE, 'Antenna')
-bus_t = Type(PASSIVE, 'Bus')
-sensor_t = Type(PASSIVE, 'Sensor')
-proc_t = Type(ACTIVE, 'CPU')
-composite_t = Type(COMPOSITE, 'Composite')
+memory_t = Type(ResourceTypeList.PASSIVE, 'Memory')
+antenna_t = Type(ResourceTypeList.PASSIVE, 'Antenna')
+bus_t = Type(ResourceTypeList.PASSIVE, 'Bus')
+sensor_t = Type(ResourceTypeList.PASSIVE, 'Sensor')
+proc_t = Type(ResourceTypeList.ACTIVE, 'CPU')
+composite_t = Type(ResourceTypeList.COMPOSITE, 'Composite')
 
 # Initialize resources
 antenna = ResourceFactory.create_instance(antenna_t, 'Antenna')
@@ -21,7 +22,7 @@ bus = ResourceFactory.create_instance(bus_t, 'Bus')
 prox_sensor = ResourceFactory.create_instance(sensor_t, 'ProximitySensor')
 temp_sensor = ResourceFactory.create_instance(sensor_t, 'TemperatureSensor')
 
-cpu_block = ResourceFactory.create_instance(composite_t, 'CPU')
+cpu_block = ResourceFactory.create_instance(composite_t, 'CPUs')
 gpu_block = ResourceFactory.create_instance(composite_t, 'GPUs')
 
 cpu = ResourceFactory.create_instance(proc_t, 'CPU')
@@ -67,10 +68,10 @@ memory_1.set_capacity(512)
 memory_2.set_capacity(512)
 
 # Initialize power consumption
-proc_power_consumption = PowerFactory.create_instance('DSPC', 0.3, 50, 1.0, 200)
+proc_power_consumption = PowerFactory.create_instance(PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION, 0.3, 50, 1.0, 200)
 proc_power_consumption.add_state(0.65, 100)
 
-mem_power_consumption = PowerFactory.create_instance('FSPC', 1.0, 75)
+mem_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 75)
 # Error-1
 mem_power_consumption.add_state(0.5, 35)
 

@@ -1,7 +1,15 @@
 from LFOS.Log import Logs, LOG
+from LFOS.Data.Token import Token
 
 
 class DependencyItem(object):
+
+    def __new__(cls, _token, _req, _time=0.0):
+        if not isinstance(_token, Token):
+            LOG(msg='Given token parameter does not have the \'Token\' type.', log=Logs.ERROR)
+            return None
+
+        return super(DependencyItem, cls).__new__(cls, _token, _req, _time)
 
     def __init__(self, _token, _req, _time=0.0):
         self.__token = _token
@@ -32,12 +40,15 @@ class DependencyItem(object):
     def __repr__(self):
         return '%s[%d] -- t:%.2f' % (self.__token, self.__n_tokens, self.__seq_dep_set_t)
 
+    def __str__(self):
+        return '%s[%d] -- t:%.2f' % (self.__token, self.__n_tokens, self.__seq_dep_set_t)
+
 
 class Dependency(list):
     def __init__(self):
         list.__init__([])
 
-    def append(self, p_object):
+    def add_dependency(self, p_object):
         if not isinstance(p_object, DependencyItem):
             LOG(msg='Given parameter is not in the type of DependencyItem', log=Logs.ERROR)
             return False
@@ -49,3 +60,6 @@ class Dependency(list):
             self[pos] = p_object
 
         return True
+
+    def get_dependency_list(self):
+        return self

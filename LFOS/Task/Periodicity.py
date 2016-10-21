@@ -4,7 +4,7 @@ from enum import Enum
 
 class PeriodicityInterface(object):
     def __init__(self, _type):
-        self.period = None
+        self.period = -1
         self.type = _type
 
     def set_period(self, new_period):

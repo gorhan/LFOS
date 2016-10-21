@@ -17,6 +17,12 @@ class PreemptionInterface(object):
                        (self.preemption_type == PreemptionTypeList.PARTIALLY_PREEMPTABLE and (current_time - init_time >= self.non_preemptable_execution_duration)) \
                        else False
 
+    def get_preemption_type(self):
+        return self.preemption_type
+
+    def get_non_preemtable_execution_duration(self):
+        return self.non_preemptable_execution_duration
+
     def set_non_preemptable_exec_duration(self, duration):
         LOG(msg='Invalid procedure call.', log=Logs.ERROR)
 
@@ -56,7 +62,7 @@ class PartiallyPreemptable(PreemptionInterface):
                               (self.non_preemptable_execution_duration, init_time_last_fragment, current_time))
 
 
-class PreemptionTypeList(Enum):
+class PreemptionTypeList:
     NOT_PPREEMPTABLE = 'Task.Preemptability.NP'
     COOPERATIVELY_PREEMPTABLE = 'Task.Preemptability.CP'
     FULLY_PREEMPTABLE = 'Task.Preemptability.FP'
@@ -65,7 +71,7 @@ class PreemptionTypeList(Enum):
 class PreemptionFactory:
     TYPES = {
         PreemptionTypeList.NOT_PPREEMPTABLE: NonPreemptable,
-        PreemptionTypeList.PARTIALLY_PREEMPTABLE: PartiallyPreemptable,
+        PreemptionTypeList.COOPERATIVELY_PREEMPTABLE: PartiallyPreemptable,
         PreemptionTypeList.FULLY_PREEMPTABLE: FullyPreemptable
     }
 

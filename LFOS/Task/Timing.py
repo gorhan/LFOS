@@ -27,6 +27,9 @@ class Timing(object):
     def set_deadline(self, new_deadline):
         self.__deadline = new_deadline
 
+    def get_deadline(self):
+        return self.__deadline
+
     def set_periodicity(self, _type):
         self.__periodicity = PeriodicityFactory.create_instance(_type)
 
@@ -34,4 +37,12 @@ class Timing(object):
         For periodicity method calls
     '''
     def __getattr__(self, item):
-        return getattr(self.__periodicity, item)
+        import inspect
+
+        periodicty_methods = inspect.getmembers(self.__periodicity, predicate=inspect.ismethod)
+        periodicty_methods = [method_name for method_name, _ in periodicty_methods]
+        
+        if item in periodicty_methods:
+            return getattr(self.__periodicity, item)
+        else:
+            return super

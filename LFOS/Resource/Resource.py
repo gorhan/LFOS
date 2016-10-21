@@ -27,6 +27,9 @@ class ResourceInterface(object):
     def get_type(self):
         return self.type
 
+    def get_resource_name(self):
+        return self.name
+
     def change_resource_name(self, new_res_name):
         self.name = new_res_name
 
@@ -178,7 +181,7 @@ class TerminalResource(ResourceInterface):
             while resource_ptr:
                 resources = resource_ptr.get_child_resources(self)
                 for resource in resources:
-                    if resource.type.same_abstraction(ModeTypeList.COMPOSITE):
+                    if resource.type.same_abstraction(ResourceTypeList.COMPOSITE):
                         for sub_resource in resource.for_each_sub_terminal_resource():
                             ResourceInterface.ACCESSIBILITY[self].add(sub_resource)
                     else:
@@ -243,7 +246,7 @@ class CompositeResource(ResourceInterface, list):
 
     def search_resources(self, response, **kwargs):
         for resource in self.get_child_resources():
-            resource.search_resources(response, kwargs)
+            resource.search_resources(response, **kwargs)
 
     def for_each_sub_terminal_resource(self):
         stack = [self]
@@ -254,7 +257,7 @@ class CompositeResource(ResourceInterface, list):
             child_resources = comp_resource.get_child_resources()
 
             for resource in child_resources:
-                if resource.type.same_abstraction(ModeTypeList.COMPOSITE):
+                if resource.type.same_abstraction(ResourceTypeList.COMPOSITE):
                     stack.append(resource)
                 else:
                     terminal_resources.append(resource)
@@ -267,7 +270,7 @@ class CompositeResource(ResourceInterface, list):
             while resource_ptr:
                 resources = resource_ptr.get_child_resources(self)
                 for resource in resources:
-                    if not resource.type.same_abstraction(ModeTypeList.COMPOSITE):
+                    if not resource.type.same_abstraction(ResourceTypeList.COMPOSITE):
                         for sub_resource in self.for_each_sub_terminal_resource():
                             ResourceInterface.ACCESSIBILITY[resource].add(sub_resource)
                             ResourceInterface.ACCESSIBILITY[sub_resource].add(resource)
