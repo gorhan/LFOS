@@ -1,4 +1,4 @@
-
+from LFOS.Scheduling.Characteristic.Policy import SchedulingPolicy, SchedulingPolicyRankingTypes
 
 class SchedulingTypes:
     OFFLINE = 'Scheduling.Characteristic.Type.OFFLINE'
@@ -11,8 +11,10 @@ class MigrationTypes:
     JOB_LEVEL_MIGRATION = 'Scheduling.Characteristic.Migration.JobLevelMigration'
 
 
-class SchedulingCharacteristic(object):
+class SchedulingCharacteristic(SchedulingPolicy):
     def __init__(self):
+        SchedulingPolicy.__init__(self)
+
         self.__type = SchedulingTypes.ONLINE
         self.__preemptive = True
         self.__migration = MigrationTypes.JOB_LEVEL_MIGRATION

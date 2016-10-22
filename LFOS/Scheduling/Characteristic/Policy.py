@@ -1,6 +1,6 @@
 from LFOS.Log import LOG, Logs
+from LFOS.Task.Priority import Priority
 from copy import copy
-from operator import methodcaller, itemgetter
 
 def compareFIFO(task1, task2):
     return -1
@@ -94,6 +94,12 @@ class SchedulingPolicy:
             intervals = copy(sub_intervals)
             sub_intervals = []
 
+    @staticmethod
+    def prioritize_taskset(taskset):
+        Priority.define_priority_levels(0, len(taskset), ranking=Priority.Ranking.ASCENDING)
+        for priority, task in enumerate(taskset):
+            task.set_priority(priority)
+
     def sort_tasks(self, taskset):
         assert type(taskset) is list
 
@@ -101,3 +107,4 @@ class SchedulingPolicy:
             self.__group_tasks(taskset)
 
         taskset.sort(cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
+        SchedulingPolicy.prioritize_taskset(taskset)
