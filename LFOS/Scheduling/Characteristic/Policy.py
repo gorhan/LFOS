@@ -1,5 +1,6 @@
 from LFOS.Log import LOG, Logs
-
+from copy import copy
+from operator import methodcaller, itemgetter
 
 def compareFIFO(task1, task2):
     return -1
@@ -55,29 +56,48 @@ class SchedulingPolicy:
     def is_grouping_activated(self):
         return self.__grouping
 
-    def __determine_intervals(self, taskset, level, index_list):
-        start_idx = 0
+    @staticmethod
+    def determine_intervals(taskset, level, index_list, begin):
+        interval_begin = begin
         curr_importance = taskset[0].get_importance_levels()[level]
         for id, task in enumerate(taskset):
             if curr_importance != task.get_importance_levels()[level]:
                 curr_importance = task.get_importance_levels()[level]
-                index_list.append((start_idx, id))
-                start_idx = id
+                index_list.append((interval_begin, id + begin + 1))
+                interval_begin = id + begin + 1
 
-        index_list.append((start_idx, len(taskset)))
+        if interval_begin != len(taskset) + begin:
+            index_list.append((interval_begin, len(taskset) + begin))
 
-    def sort_tasks(self, taskset):
-        assert type(taskset) is list
-        num_levels = 0
+    def __group_tasks(self, taskset):
+        if taskset and taskset[0].get_importance_levels():
+            num_levels = len(taskset[0].get_importance_levels())
+        else:
+            num_levels = 0
 
         for task in taskset:
             num_levels = min(len(task.get_importance_levels()), num_levels)
 
         LOG(msg='Number of importance levels=%d' % num_levels)
 
-        start_end_index = [(0, num_levels)]
+        intervals = [(0, len(taskset))]
+        sub_intervals = []
         for level in range(num_levels):
-            while start_end_index:
-                start_idx, end_idx = start_end_index.pop(0)
-                taskset[start_idx:end_idx].sorted(key=lambda t: t.get_importance_levels()[level])
-                self.__determine_intervals(taskset, level, start_end_index)
+            while intervals:
+                begin, end = intervals.pop(0)
+                print 'Start', begin, 'End', end, 'Level', level
+                taskset[begin:end] = sorted(taskset[begin:end], key=lambda task: task.get_importance_levels()[level])
+                for temp in taskset[begin:end]:
+                    print '%s --> %r' % (temp.name, temp.levels)
+                SchedulingPolicy.determine_intervals(taskset[begin:end], level, sub_intervals, begin)
+
+            intervals = copy(sub_intervals)
+            sub_intervals = []
+
+    def sort_tasks(self, taskset):
+        assert type(taskset) is list
+
+        if self.__grouping:
+            self.__group_tasks(taskset)
+
+        taskset.sort(cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
