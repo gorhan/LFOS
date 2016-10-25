@@ -1,20 +1,18 @@
 from LFOS.Scheduling.Characteristic.Policy import SchedulingPolicy, SchedulingPolicyRankingTypes
-
-class SchedulingTypes:
-    OFFLINE = 'Scheduling.Characteristic.Type.OFFLINE'
-    ONLINE = 'Scheduling.Characteristic.Type.ONLINE'
-
-
-class MigrationTypes:
-    NO_MIGRATION = 'Scheduling.Characteristic.Migration.NoMigration'
-    TASK_LEVEL_MIGRATION = 'Scheduling.Characteristic.Migration.TaskLevelMigration'
-    JOB_LEVEL_MIGRATION = 'Scheduling.Characteristic.Migration.JobLevelMigration'
+from LFOS.Scheduling.Characteristic.Time import Time
+from LFOS.Scheduling.Characteristic.Type import SchedulingTypes
+from LFOS.Scheduling.Characteristic.Migration import MigrationTypes
+from LFOS.Scheduling.Characteristic.PriorityAssigment import PriorityAssignmentTypes
+from LFOS.Scheduling.Characteristic.SchedWindow import SchedulingWindow
 
 
-class SchedulingCharacteristic(SchedulingPolicy):
+class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
     def __init__(self):
         SchedulingPolicy.__init__(self)
+        Time.__init__(self)
+        SchedulingWindow.__init__(self, Time(), Time())
 
         self.__type = SchedulingTypes.ONLINE
         self.__preemptive = True
         self.__migration = MigrationTypes.JOB_LEVEL_MIGRATION
+        self.__priority_assignment = PriorityAssignmentTypes.FIXED
