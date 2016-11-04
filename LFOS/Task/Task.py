@@ -8,6 +8,7 @@ from LFOS.Task.Requirement import RequirementFactory, DeadlineRequirementTypeLis
 
 from LFOS.Log import LOG, Logs
 
+
 class TaskInterface(Credential, Timing, Priority):
     PRE_CHECKLIST = ['name', 'type', 'phase', 'deadline', 'periodicity']
 

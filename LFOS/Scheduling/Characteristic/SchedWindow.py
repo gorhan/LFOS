@@ -4,7 +4,7 @@ from LFOS.Log import LOG, Logs
 
 class SchedulingWindow(object):
 
-    def __init__(self, _begin, _duration):
+    def __init__(self, _begin=Time(), _duration=Time()):
         assert isinstance(_begin, Time)
         assert isinstance(_duration, Time)
 

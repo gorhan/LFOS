@@ -10,7 +10,7 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
     def __init__(self):
         SchedulingPolicy.__init__(self)
         Time.__init__(self)
-        SchedulingWindow.__init__(self, Time(), Time())
+        SchedulingWindow.__init__(self)
 
         self.__type = SchedulingTypes.ONLINE
         self.__preemptive = True

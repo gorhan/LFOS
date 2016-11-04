@@ -2,16 +2,19 @@ from LFOS.Data.Token import *
 
 
 class TokenPool(list):
+    MAX_TOKEN_AMOUNT = 0
+
     def __init__(self):
         list.__init__([])
 
     def add_token(self, token_type, timestamp, quantity=1):
         self += [Token(token_type, timestamp)] * quantity
+        TokenPool.MAX_TOKEN_AMOUNT = max(TokenPool.MAX_TOKEN_AMOUNT, quantity)
         return True
 
     def add_token_list(self, token_lst):
         for item in token_lst:
-            self.append(item)
+            list.append(item)
 
     def remove_token(self, token_type, quantity=1):
         relevant_tokens, num_relevant_tokens = self.get_tokens(token_type)
@@ -49,6 +52,10 @@ class TokenPool(list):
     def get_tokens(self, token_type):
         tokens = [token for token in self if token.get_token_type() == token_type]
         return tokens, len(tokens)
+
+    def __iter__(self):
+        for token in set(self):
+            yield token, list.count(token)
 
     def __repr__(self):
         return '%s' % '\n'.join(['%3d. %s' % (ind+1, str(token)) for ind, token in enumerate(self)])

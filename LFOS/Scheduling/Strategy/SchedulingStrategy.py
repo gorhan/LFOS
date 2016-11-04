@@ -1,4 +1,6 @@
+from LFOS.Scheduling.Solver.Solver import SolverAdapter
 
 
-class SchedulingStrategy:
-    def __init__(self):
+class SchedulingStrategy(SolverAdapter):
+    def __init__(self, **kwargs):
+        SolverAdapter.__init__(**kwargs)
