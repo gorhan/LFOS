@@ -3,3 +3,5 @@
 *.dot
 *.als
 *.js
+PySCIPOpt/
+Numberjack/

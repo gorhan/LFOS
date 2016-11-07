@@ -45,6 +45,7 @@ class Schedule(list):
             last_instance.extend_to(p_object.end)
         else:
             super(Schedule, self).append(p_object)
+            self.sort(key=lambda sc_it: sc_it.begin)
 
     def append_item(self, task, begin_tm, end_tm, reserved={}):
         self.append(ScheduleItem(task, reserved, begin_tm, end_tm))

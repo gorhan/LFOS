@@ -49,8 +49,8 @@ class TokenPool(list):
         relevant_tokens.sort(key=lambda token: token.get_timestamp())
         return relevant_tokens[-1]
 
-    def get_tokens(self, token_type):
-        tokens = [token for token in self if token.get_token_type() == token_type]
+    def get_tokens(self, token_type=None):
+        tokens = [token for token in self if token_type is None or token.get_token_type() == token_type]
         return tokens, len(tokens)
 
     def __iter__(self):
