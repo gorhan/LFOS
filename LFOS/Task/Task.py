@@ -5,8 +5,10 @@ from LFOS.Task.Priority import Priority
 from LFOS.Task.Dependency import Dependency
 from LFOS.Task.Preemptability import PreemptionFactory, PreemptionTypeList
 from LFOS.Task.Requirement import RequirementFactory, DeadlineRequirementTypeList
+from LFOS.Task.Periodicity import PeriodicityTypeList
 
 from LFOS.Log import LOG, Logs
+from copy import copy
 
 
 class TaskInterface(Credential, Timing, Priority):
@@ -107,6 +109,28 @@ class TerminalTask(TaskInterface):
 
     def granularity(self):
         return TaskTypeList.TERMINAL
+
+    def get_jobs(self, begin_tm, end_tm):
+        periodicity_type = self.get_periodicity_type()
+        if periodicity_type == PeriodicityTypeList.APERIODIC or periodicity_type == PeriodicityTypeList.SPORADIC:
+            return [self]
+
+        jobs = []
+        release_time = self.get_release_time()
+        deadline = self.get_extended_deadline()
+        period = self.get_period()
+        while begin_tm <= release_time < deadline and begin_tm <= deadline < end_tm:
+            job = copy(self)
+            job.set_release_time(release_time)
+            job.set_deadline(deadline)
+            jobs += [job]
+
+            release_time += period
+            deadline += period
+        return jobs
+
+
+
 
 
 class CompositeTask(TaskInterface, list):

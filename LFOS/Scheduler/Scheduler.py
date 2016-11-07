@@ -37,7 +37,9 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
 
     def schedule_tasks(self):
         begin, end = self.get_scheduling_window_boundaries()
-        jobs = [job for job in self.__taskset if begin <= job.get_release_time() and job.get_extended_deadline() < end]
+        jobs = []
+        for task in self.__taskset:
+            jobs += task.get_jobs(begin, end)
         if not jobs:
             LOG(msg='There is no jobs within [%r %r]' % (begin, end), log=Logs.ERROR)
             return None

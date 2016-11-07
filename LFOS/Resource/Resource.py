@@ -93,14 +93,15 @@ class ResourceInterface(object):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
 
-class TerminalResource(ResourceInterface):
+class TerminalResource(ResourceInterface, Mode):
     def __init__(self, type, res_name, parent):
         ResourceInterface.__init__(self, type, res_name, parent)
+        Mode.__init__()
+
         self.__capacity = 0.0
         self.__running_tasks = dict()
 
         self.__power = None
-        self.__mode = Mode()
 
         self.__renewable = True
         self.__resource_objectives = None

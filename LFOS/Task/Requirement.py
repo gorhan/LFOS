@@ -13,8 +13,8 @@ class DeadlineRequirementInterface(object):
     def get_deadline_requirement(self):
         return self.deadline_requirement
 
-    def get_extended_deadline(self, deadline):
-        return deadline + self.penalty_duration
+    def get_extended_deadline(self):
+        return self.get_deadline() + self.penalty_duration
 
     def calculate_penalty(self, current_time, deadline):
         penalty = None
@@ -90,58 +90,58 @@ class SoftDeadlineRequirement(DeadlineRequirementInterface):
 
 class ResourceRequirementItem(object):
     def __init__(self):
-        self.__type = None
-        self.__eligible_resources = None
-        self.__required_capacity = 1
+        self.resource_type = None
+        self.eligible_resources = None
+        self.required_capacity = 1
 
     def set_resource_requirement(self, update=None, **kwargs):
         if kwargs.has_key('resource_type'):
             self.__set_type(kwargs['resource_type'])
-        elif self.__type is None:
+        elif self.resource_type is None:
             LOG(msg='The resource type has to be specified before other parameters.', log=Logs.ERROR)
             return False
 
         if kwargs.has_key('eligible_resources'):
-            if self.__type.same_abstraction(ResourceTypeList.ACTIVE):
+            if self.resource_type.same_abstraction(ResourceTypeList.ACTIVE):
                 if not isinstance(kwargs['eligible_resources'], dict):
                     LOG(msg='Eligible Resources have to be defined as dict structure whose keys are resources and values are execution time.', log=Logs.ERROR)
                     return False
 
                 if not update:
-                    self.__eligible_resources = dict()
+                    self.eligible_resources = dict()
                 for resource, exec_time in kwargs['eligible_resources'].items():
-                    if resource.get_type() == self.__type:
-                        self.__eligible_resources[resource] = exec_time
+                    if resource.get_type() == self.resource_type:
+                        self.eligible_resources[resource] = exec_time
                     else:
-                        LOG(msg='%s is not in the type %s. IGNORED...' % (resource.info(), self.__type.get_identifier()), log=Logs.WARN)
+                        LOG(msg='%s is not in the type %s. IGNORED...' % (resource.info(), self.resource_type.get_identifier()), log=Logs.WARN)
 
-            elif self.__type.same_abstraction(ResourceTypeList.PASSIVE):
+            elif self.resource_type.same_abstraction(ResourceTypeList.PASSIVE):
                 if not isinstance(kwargs['eligible_resources'], list):
                     LOG(msg='Eligible Resources have to be defined as list structure including resources.', log=Logs.ERROR)
                     return False
 
                 if not update:
-                    self.__eligible_resources = list()
+                    self.eligible_resources = list()
                 for resource in kwargs['eligible_resources']:
                     try:
-                        if resource.get_type() == self.__type and self.__eligible_resources.index(resource):
+                        if resource.get_type() == self.resource_type and self.eligible_resources.index(resource):
                             LOG(msg='%s is already in the Eligible Resources. IGNORED...' % resource.info(), log=Logs.WARN)
                         else:
-                            LOG(msg='%s is not in the type %s. IGNORED...' % (resource.info(), self.__type.get_identifier()), log=Logs.WARN)
+                            LOG(msg='%s is not in the type %s. IGNORED...' % (resource.info(), self.resource_type.get_identifier()), log=Logs.WARN)
                     except ValueError:
-                        self.__eligible_resources.append(resource)
+                        self.eligible_resources.append(resource)
         else:
-            if self.__type.same_abstraction(ResourceTypeList.ACTIVE):
+            if self.resource_type.same_abstraction(ResourceTypeList.ACTIVE):
                 LOG(msg='Eligible Resources have to be defined with actual execution times on the resources.', log=Logs.ERROR)
                 return False
-            elif self.__type.same_abstraction(ResourceTypeList.PASSIVE):
-                self.__eligible_resources = list()
-                System.search_resources(self.__eligible_resources, type=self.__type)
+            elif self.resource_type.same_abstraction(ResourceTypeList.PASSIVE):
+                self.eligible_resources = list()
+                System.search_resources(self.eligible_resources, type=self.resource_type)
 
         if kwargs.has_key('capacity'):
-            self.__required_capacity = kwargs['capacity']
+            self.required_capacity = kwargs['capacity']
         else:
-            self.__required_capacity = 1
+            self.required_capacity = 1
             LOG(msg='Required capacity for the resource requirement has been set to 1.')
 
         return True
@@ -154,15 +154,15 @@ class ResourceRequirementItem(object):
             LOG(msg='Given resource type is invalid.', log=Logs.ERROR)
             return False
 
-        self.__type = _type
+        self.resource_type = _type
         return True
 
     def __eq__(self, other):
-        return (isinstance(other, ResourceRequirementItem) and self.__type == other.__type) or\
-               (isinstance(other, Type) and self.__type == other)
+        return (isinstance(other, ResourceRequirementItem) and self.resource_type == other.type) or\
+               (isinstance(other, Type) and self.resource_type == other)
 
     def __str__(self):
-        return '(%s)::%s -- Required Capacity=%d' % (', '.join(map(lambda r: r.get_resource_name(), self.__eligible_resources)), self.__type, self.__required_capacity)
+        return '(%s)::%s -- Required Capacity=%d' % (', '.join(map(lambda r: r.get_resource_name(), self.eligible_resources)), self.resource_type, self.required_capacity)
 
 
 class ResourceRequirement(list):

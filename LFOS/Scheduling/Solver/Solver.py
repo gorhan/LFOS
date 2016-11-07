@@ -2,6 +2,8 @@ from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Schedule.Schedule import ScheduleItem, Schedule
 from LFOS.Task.Task import TaskInterface
 from LFOS.Resource.Resource import TerminalResource
+from LFOS.Resource.Type import Type, ResourceTypeList
+from LFOS.Resource.Mode import ModeTypeList
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Data.TokenPool import Token, TokenPool
 from Numberjack import *
@@ -73,7 +75,7 @@ class SolverAdapter(object):
 
         self.__Allocation = {(resource, job): VarArray(self.__latest_deadline, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
 
-        self.__Start = {job: Variable(job.get_release_time(), job.get_extended_deadline() - job.get_execution_time()) for job in self.__jobs}
+        self.__Start = {job: Variable(job.get_release_time(), job.get_extended_deadline(job.get_deadline()) - job.get_execution_time()) for job in self.__jobs}
         self.__End = {job: Variable(job.get_release_time() + job.get_execution_time(), job.get_extended_deadline()) for job in self.__jobs}
         self.__AuxS = {job: VarArray(self.__latest_deadline, 0, job.get_extended_deadline()) for job in self.__jobs}
         self.__AuxE = {job: VarArray(self.__latest_deadline, 0, job.get_extended_deadline()) for job in self.__jobs}
@@ -87,6 +89,32 @@ class SolverAdapter(object):
         for token, amount in self.__token_pool:
             self.__TokenPool[token] = VarArray(self.__latest_deadline, 0, TokenPool.MAX_TOKEN_AMOUNT)
             self.__model += (self.__TokenPool[token][0] == amount)
+
+        for job in self.__jobs:
+            release_time = job.get_release_time()
+            deadline = job.get_extended_deadline()
+            execution_time = 0.0
+            required_resources = job.get_required_resources()
+
+            for item in required_resources:
+                if item.resource_type.same_abstraction(ResourceTypeList.ACTIVE):
+                    execution_time = item.el
+
+            for item in required_resources:
+                for t in range(release_time, deadline):
+                    self.__model += (Sum(self.__Allocation[resource, job][t] for resource in
+                                         item.eligible_resources) == item.required_capacity)
+
+        for resource in self.__resources:
+            if resource.is_mode(ModeTypeList.CB_EXCLUSIVE):
+                for t in range(release_time, deadline):
+                    self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) == resource.get_capacity())
+            elif resource.is_mode(ModeTypeList.SB_EXCLUSIVE):
+                exclusive_resources = resource.get_exclusive_resources()
+                for exc_resource in exclusive_resources:
+                    for t in range(release_time, deadline):
+                        self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0 )
+
 
     def __get_latest_deadline(self):
         return max(job.get_extended_deadline() for job in self.__jobs)
@@ -113,7 +141,7 @@ class SolverAdapter(object):
         for job in self.__jobs:
             for t in range(job.get_release_time(), job.get_extended_deadline()):
                 reserved_resources = {resource: self.__Allocation[job, resource][t] for resource in self.__resources if self.__Allocation[job, resource][t] > 0}
-                self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources)
+                self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources.keys())
 
     def get_last_schedule(self):
         return self.__last_optimized_schedule if self.__optimized else None

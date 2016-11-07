@@ -42,7 +42,7 @@ class Parameter:
         return self.__kwargs
 
 
-class ObjectiveInterface(dict):
+class Objectives(dict):
     def __init__(self):
         dict.__init__({})
 
