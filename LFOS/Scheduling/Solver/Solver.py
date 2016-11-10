@@ -77,6 +77,7 @@ class SolverAdapter(object):
 
         self.__Start = {job: Variable(job.get_release_time(), job.get_extended_deadline(job.get_deadline()) - job.get_execution_time()) for job in self.__jobs}
         self.__End = {job: Variable(job.get_release_time() + job.get_execution_time(), job.get_extended_deadline()) for job in self.__jobs}
+        # self.__End = {job: VarArray(self.__latest_deadline, 0, 1) for job in self.__jobs}
         self.__AuxS = {job: VarArray(self.__latest_deadline, 0, job.get_extended_deadline()) for job in self.__jobs}
         self.__AuxE = {job: VarArray(self.__latest_deadline, 0, job.get_extended_deadline()) for job in self.__jobs}
 
@@ -93,27 +94,37 @@ class SolverAdapter(object):
         for job in self.__jobs:
             release_time = job.get_release_time()
             deadline = job.get_extended_deadline()
-            execution_time = 0.0
-            required_resources = job.get_required_resources()
+            active_resource_requirements = job.get_required_resources(ResourceTypeList.ACTIVE)
+            passive_resource_requirements = job.get_required_resources(ResourceTypeList.PASSIVE)
 
-            for item in required_resources:
-                if item.resource_type.same_abstraction(ResourceTypeList.ACTIVE):
-                    execution_time = item.el
+            for resource_type, el_resources_dict, req_capacity in active_resource_requirements:
+                resources = el_resources_dict.keys()
+                exec_time = el_resources_dict(resources[0])
 
-            for item in required_resources:
+                self.__model += (Sum(self.__Allocation[resource, job][t] for resource in resources for t in range(release_time, deadline)) == exec_time * req_capacity)
                 for t in range(release_time, deadline):
-                    self.__model += (Sum(self.__Allocation[resource, job][t] for resource in
-                                         item.eligible_resources) == item.required_capacity)
+                    self.__model += (Sum(self.__Allocation[resource, job][t] for resource in resources) <= req_capacity)
+
+                    self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
+                    self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
+
+                self.__model += (Max(self.__AuxE[job]) + 1 == self.__End[job])
+                self.__model += (deadline - Max(self.__AuxS[job]) == self.__Start[job])
+
+                if not job.is_preemptable():
+                    self.__model += (self.__End[job] - self.__Start[job] == exec_time)
+
+            # TODO: The constraints for passive resource requirements have to be implemented.
 
         for resource in self.__resources:
             if resource.is_mode(ModeTypeList.CB_EXCLUSIVE):
                 for t in range(release_time, deadline):
-                    self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) == resource.get_capacity())
+                    self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) <= resource.get_capacity())
             elif resource.is_mode(ModeTypeList.SB_EXCLUSIVE):
                 exclusive_resources = resource.get_exclusive_resources()
                 for exc_resource in exclusive_resources:
                     for t in range(release_time, deadline):
-                        self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0 )
+                        self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
 
 
     def __get_latest_deadline(self):

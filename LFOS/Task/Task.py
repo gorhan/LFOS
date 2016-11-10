@@ -4,7 +4,7 @@ from LFOS.Task.Timing import Timing
 from LFOS.Task.Priority import Priority
 from LFOS.Task.Dependency import Dependency
 from LFOS.Task.Preemptability import PreemptionFactory, PreemptionTypeList
-from LFOS.Task.Requirement import RequirementFactory, DeadlineRequirementTypeList
+from LFOS.Task.Requirement import RequirementFactory, DeadlineRequirementTypeList, ResourceTypeList
 from LFOS.Task.Periodicity import PeriodicityTypeList
 
 from LFOS.Log import LOG, Logs
@@ -29,8 +29,8 @@ class TaskInterface(Credential, Timing, Priority):
 
         # Default parameters. They can be changed with their internal member functions
         self.__dependencies = Dependency()
-        self.__preemptability = PreemptionFactory.create_instance(PreemptionTypeList.FULLY_PREEMPTABLE)
-        self.__requirement = RequirementFactory.create_instance(DeadlineRequirementTypeList.SOFT)
+        self.__preemptability = PreemptionFactory.create_instance(kwargs['preemptability'] if 'preemptability' in kwargs else PreemptionTypeList.FULLY_PREEMPTABLE)
+        self.__requirement = RequirementFactory.create_instance(kwargs['deadline_type'] if 'deadline_type' in kwargs else DeadlineRequirementTypeList.HARD)
 
         self.set_periodicity(kwargs['periodicity'])
 
@@ -79,7 +79,7 @@ class TaskInterface(Credential, Timing, Priority):
             requirement_detail += '%sDeadline Requirement Type=%s\n' % ('\t'*2, self.get_deadline_requirement())
             requirement_detail += '%sPenalty (per unit time)=%.2f\n' % ('\t'*2, self.get_penalty_per_unit_time())
             requirement_detail += '%sPenalty Duration=%.2f\n' % ('\t' * 2, self.get_penalty_duration())
-            requirement_detail += '%sRequired Resources:\n\t\t\t%s\n' % ('\t' * 2, '\n\t\t\t'.join(map(str, self.get_required_resources())) if self.get_required_resources() else 'EMPTY')
+            requirement_detail += '%sRequired Resources:\n\t\t\t%s\n' % ('\t' * 2, '\n\t\t\t'.join(map(str, reduce(lambda r_l, r_r: r_l + r_r, self.get_required_resources().values()))) if self.get_required_resources() else 'EMPTY')
 
             granularity_detail ='\tGRANULARITY:%s\n' % (self.granularity())
 
@@ -128,9 +128,6 @@ class TerminalTask(TaskInterface):
             release_time += period
             deadline += period
         return jobs
-
-
-
 
 
 class CompositeTask(TaskInterface, list):

@@ -3,86 +3,6 @@ from LFOS.Resource.Resource import System
 from LFOS.Resource.Type import Type, ResourceTypeList
 
 
-class DeadlineRequirementInterface(object):
-    def __init__(self, _type):
-        self.deadline_requirement = _type
-
-        self.penalty_per_unit_time = 0
-        self.penalty_duration = 0
-
-    def get_deadline_requirement(self):
-        return self.deadline_requirement
-
-    def get_extended_deadline(self):
-        return self.get_deadline() + self.penalty_duration
-
-    def calculate_penalty(self, current_time, deadline):
-        penalty = None
-        threshold_time_exceeded = False
-
-        if current_time < deadline:
-            penalty = 0
-        elif deadline <= current_time <= (deadline + self.penalty_duration):
-            penalty = (current_time - deadline) * self.penalty_per_unit_time
-        else:
-            penalty = self.penalty_duration * self.penalty_per_unit_time
-            threshold_time_exceeded = True
-            LOG(msg='End time for deadline penalty has been exceeded. Current Time: %2.f, End Time: %.2f' % (current_time, self.get_penalty_end_time()))
-
-        return penalty, threshold_time_exceeded
-
-    def get_penalty_per_unit_time(self):
-        return self.penalty_per_unit_time
-
-    def set_penalty_duration(self, duration):
-        self.penalty_duration = duration
-
-    def get_penalty_duration(self):
-        return self.penalty_duration
-
-    def get_penalty_end_time(self, deadline):
-        return deadline + self.penalty_duration
-
-    def set_penalty_per_unit_time(self, duration, penalty):
-        LOG(msg='Invalid procedure call.', log=Logs.ERROR)
-
-
-class HardDeadlineRequirement(DeadlineRequirementInterface):
-    def __init__(self, _type):
-        super(HardDeadlineRequirement, self).__init__(_type)
-
-    def set_penalty_per_unit_time(self, duration, penalty):
-        if penalty == 0:
-            LOG(msg='Wrong penalty value. For hard deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
-        else:
-            self.penalty_per_unit_time = abs(penalty)
-            self.penalty_duration = duration
-            LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
-
-
-class FirmDeadlineRequirement(DeadlineRequirementInterface):
-    def __init__(self, _type):
-        super(FirmDeadlineRequirement, self).__init__(_type)
-
-    def set_penalty_per_unit_time(self, duration, penalty=0):
-        self.penalty_per_unit_time = penalty
-        self.penalty_duration = duration
-        LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
-
-
-class SoftDeadlineRequirement(DeadlineRequirementInterface):
-    def __init__(self, _type):
-        super(SoftDeadlineRequirement, self).__init__(_type)
-
-    def set_penalty_per_unit_time(self, duration, penalty):
-        if penalty == 0:
-            LOG(msg='Wrong penalty value. For soft deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
-        else:
-            self.penalty_per_unit_time = -abs(penalty)
-            self.penalty_duration = duration
-            LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
-
-
 '''
     Capacity, Time, ResourceList, ResourceType
 '''
@@ -147,7 +67,7 @@ class ResourceRequirementItem(object):
         return True
 
     def uodate_resource_requirement(self, **kwargs):
-        return self.set_resource_requirement(True, kwargs)
+        return self.set_resource_requirement(True, **kwargs)
 
     def __set_type(self, _type):
         if not Type.check(_type):
@@ -158,36 +78,126 @@ class ResourceRequirementItem(object):
         return True
 
     def __eq__(self, other):
-        return (isinstance(other, ResourceRequirementItem) and self.resource_type == other.type) or\
+        return (isinstance(other, ResourceRequirementItem) and self.resource_type == other.resource_type) or\
                (isinstance(other, Type) and self.resource_type == other)
 
     def __str__(self):
         return '(%s)::%s -- Required Capacity=%d' % (', '.join(map(lambda r: r.get_resource_name(), self.eligible_resources)), self.resource_type, self.required_capacity)
 
 
-class ResourceRequirement(list):
+class ResourceRequirement(dict):
     def __init__(self):
-        list.__init__([])
+        dict.__init__({})
+
+        self[ResourceTypeList.ACTIVE] = list()
+        self[ResourceTypeList.PASSIVE] = list()
+        self[ResourceTypeList.COMPOSITE] = list()
 
     def add_resource_requirement(self, **kwargs):
         new_req = ResourceRequirementItem()
-        if new_req.set_resource_requirement(**kwargs) and new_req not in self:
-            self.append(new_req)
-            LOG(msg='New ResourceRequirement has been added to the ResourceRequirementList.')
-        elif new_req in self:
-            pos = self.index(new_req)
-            self[pos].update_resource_requirement(**kwargs)
-            LOG(msg='ResourceRequirementList has been updated.')
-        else:
+        if not new_req.set_resource_requirement(**kwargs):
             return False
+
+        resource_abs = new_req.resource_type.get_abstraction()
+
+        if new_req not in self[resource_abs]:
+            self[resource_abs].append(new_req)
+            LOG(msg='New ResourceRequirement has been added to the ResourceRequirementList.')
+        else:
+            pos = self[resource_abs].index(new_req)
+            self[resource_abs][pos].update_resource_requirement(**kwargs)
+            LOG(msg='ResourceRequirementList has been updated.')
 
         return True
 
     def remove_resource_requirement(self, _type):
-        return self.remove(_type)
+        return self[_type].remove(_type)
 
-    def get_required_resources(self):
-        return self
+    def get_required_resources(self, _abstraction=None):
+        return self[_abstraction] if _abstraction else self
+
+
+class DeadlineRequirementInterface(object):
+    def __init__(self, _type):
+        self.deadline_requirement = _type
+
+        self.penalty_per_unit_time = 0
+        self.penalty_duration = 0
+
+    def get_deadline_requirement(self):
+        return self.deadline_requirement
+
+    def get_extended_deadline(self):
+        return self.get_deadline() + self.penalty_duration
+
+    def calculate_penalty(self, current_time, deadline):
+        penalty = None
+        threshold_time_exceeded = False
+
+        if current_time < deadline:
+            penalty = 0
+        elif deadline <= current_time <= (deadline + self.penalty_duration):
+            penalty = (current_time - deadline) * self.penalty_per_unit_time
+        else:
+            penalty = self.penalty_duration * self.penalty_per_unit_time
+            threshold_time_exceeded = True
+            LOG(msg='End time for deadline penalty has been exceeded. Current Time: %2.f, End Time: %.2f' % (current_time, self.get_penalty_end_time()))
+
+        return penalty, threshold_time_exceeded
+
+    def get_penalty_per_unit_time(self):
+        return self.penalty_per_unit_time
+
+    def set_penalty_duration(self, duration):
+        self.penalty_duration = duration
+
+    def get_penalty_duration(self):
+        return self.penalty_duration
+
+    def get_penalty_end_time(self, deadline):
+        return deadline + self.penalty_duration
+
+    def set_penalty_per_unit_time(self, duration, penalty):
+        LOG(msg='Invalid procedure call.', log=Logs.ERROR)
+
+
+class RequirementsWHardDeadline(DeadlineRequirementInterface, ResourceRequirement):
+    def __init__(self, _deadline_type):
+        DeadlineRequirementInterface.__init__(self, _deadline_type)
+        ResourceRequirement.__init__(self)
+
+    def set_penalty_per_unit_time(self, duration, penalty):
+        if penalty == 0:
+            LOG(msg='Wrong penalty value. For hard deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
+        else:
+            self.penalty_per_unit_time = abs(penalty)
+            self.penalty_duration = duration
+            LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
+
+
+class RequirementsWFirmDeadline(DeadlineRequirementInterface, ResourceRequirement):
+    def __init__(self, _deadline_type):
+        DeadlineRequirementInterface.__init__(self, _deadline_type)
+        ResourceRequirement.__init__(self)
+
+    def set_penalty_per_unit_time(self, duration, penalty=0):
+        self.penalty_per_unit_time = penalty
+        self.penalty_duration = duration
+        LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
+
+
+class RequirementsWSoftDeadline(DeadlineRequirementInterface, ResourceRequirement):
+    def __init__(self, _deadline_type):
+        DeadlineRequirementInterface.__init__(self, _deadline_type)
+        ResourceRequirement.__init__(self)
+
+    def set_penalty_per_unit_time(self, duration, penalty):
+        if penalty == 0:
+            LOG(msg='Wrong penalty value. For soft deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
+        else:
+            self.penalty_per_unit_time = -abs(penalty)
+            self.penalty_duration = duration
+            LOG(msg='Deadline Penalty is set: %.2f. Duration: %.2f' % (self.get_penalty_per_unit_time(), self.get_penalty_duration()))
 
 
 class DeadlineRequirementTypeList:
@@ -198,9 +208,9 @@ class DeadlineRequirementTypeList:
 
 class RequirementFactory:
     TYPES = {
-        DeadlineRequirementTypeList.HARD: HardDeadlineRequirement,
-        DeadlineRequirementTypeList.FIRM: FirmDeadlineRequirement,
-        DeadlineRequirementTypeList.SOFT: SoftDeadlineRequirement
+        DeadlineRequirementTypeList.HARD: RequirementsWHardDeadline,
+        DeadlineRequirementTypeList.FIRM: RequirementsWFirmDeadline,
+        DeadlineRequirementTypeList.SOFT: RequirementsWSoftDeadline
     }
 
     def __init__(self):
@@ -209,7 +219,7 @@ class RequirementFactory:
     @classmethod
     def create_instance(cls, _type):
         if _type in cls.TYPES:
-            return type('Requirement', (cls.TYPES[_type], ResourceRequirement), {})(_type)
+            return cls.TYPES[_type](_type)
         else:
             LOG(msg='Invalid factory construction request.', log=Logs.ERROR)
             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)

@@ -12,9 +12,9 @@ class PreemptionInterface(object):
         self.preemption_type = _type
         self.non_preemptable_execution_duration = 0
 
-    def is_preemptable(self, init_time, current_time):
+    def is_preemptable(self, init_time=0.0, current_time=0.0):
         return True if self.preemption_type == PreemptionTypeList.FULLY_PREEMPTABLE or \
-                       (self.preemption_type == PreemptionTypeList.PARTIALLY_PREEMPTABLE and (current_time - init_time >= self.non_preemptable_execution_duration)) \
+                       (self.preemption_type == PreemptionTypeList.COOPERATIVELY_PREEMPTABLE and (current_time - init_time >= self.non_preemptable_execution_duration)) \
                        else False
 
     def get_preemption_type(self):

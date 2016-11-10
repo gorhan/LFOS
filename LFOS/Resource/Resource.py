@@ -96,7 +96,7 @@ class ResourceInterface(object):
 class TerminalResource(ResourceInterface, Mode):
     def __init__(self, type, res_name, parent):
         ResourceInterface.__init__(self, type, res_name, parent)
-        Mode.__init__()
+        Mode.__init__(self)
 
         self.__capacity = 0.0
         self.__running_tasks = dict()
