@@ -52,8 +52,6 @@ class TaskInterface(Credential, Timing, Priority):
             return getattr(self.__requirement, item)
         elif item in preemption_methods:
             return getattr(self.__preemptability, item)
-        else:
-            return super(TaskInterface, self).__getattr__(item)
 
     def info(self, detailed=False):
         credential_detail = '%s %s::%s %s\n' % ('#' * 20, self.get_name(), self.get_type(), '#' * 20)
@@ -111,7 +109,7 @@ class TerminalTask(TaskInterface):
         return TaskTypeList.TERMINAL
 
     def get_jobs(self, begin_tm, end_tm):
-        periodicity_type = self.get_periodicity_type()
+        periodicity_type = self.get_period_type()
         if periodicity_type == PeriodicityTypeList.APERIODIC or periodicity_type == PeriodicityTypeList.SPORADIC:
             return [self]
 

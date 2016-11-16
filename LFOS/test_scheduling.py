@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath('..'))
 from LFOS.Resource.Resource import *
 from LFOS.Task.Task import TaskFactory, TaskTypeList
 from LFOS.Scheduling.Characteristic.Time import Time
+from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.macros import *
 
 # Initialize resource types
@@ -65,7 +66,7 @@ System.add(cpu)
 # proc_block.add(gpu_block)
 
 # Set resource capacities
-# cpu.set_capacity(1)
+cpu.set_capacity(1)
 # memory_1.set_capacity(512)
 # memory_2.set_capacity(512)
 
@@ -103,6 +104,19 @@ task_3.info(True)
 task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_4', type='DGD', phase=Time(11), deadline=Time(12), periodicity=PeriodicityTypeList.APERIODIC)
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu: Time(1)}, capacity=1)
 task_4.info(True)
+
+scheduler = Scheduler()
+LOG(msg='Available Solver Types: %s' % ', '.join(Scheduler.get_solver_types()))
+
+scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
+
+print (task_1.get_extended_deadline(task_1.get_deadline()))
+
+scheduler.set_scheduling_window_start_time(Time(0))
+scheduler.set_scheduling_window_duration(Time(20))
+
+print scheduler.schedule_tasks()
+
 # print '1'
 # task_1 = TaskFactory.create_instance('Terminal', 0, 50, 'hard', 'Task_1', 'DGD')
 # task_2 = TaskFactory.create_instance('Terminal', 10, 80, 'hard', 'Task_2', 'DGD')

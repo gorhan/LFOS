@@ -12,7 +12,7 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
         Time.__init__(self)
         SchedulingWindow.__init__(self)
 
-        self.__type = SchedulingTypes.ONLINE
+        self.__type = SchedulingTypes.OFFLINE
         self.__preemptive = True
         self.__migration = MigrationTypes.JOB_LEVEL_MIGRATION
         self.__priority_assignment = PriorityAssignmentTypes.FIXED

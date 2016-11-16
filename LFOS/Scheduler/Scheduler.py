@@ -1,6 +1,6 @@
 from LFOS.Task.Task import TaskFactory, TaskInterface
 from LFOS.Resource.Resource import ResourceTypeList, ResourceFactory, System
-from LFOS.Data.TokenPool import TokenPool, Token
+from LFOS.Data.TokenPool import TokenPool
 from LFOS.Log import Logs, LOG
 from LFOS.Scheduling.Characteristic.SchedulingCharacteristic import SchedulingCharacteristic
 from LFOS.Scheduling.Characteristic.Time import Time
@@ -8,6 +8,7 @@ from LFOS.Scheduling.Strategy.SchedulingStrategy import SchedulingStrategy
 
 
 class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
+
     def __init__(self, **kwargs):
         SchedulingCharacteristic.__init__(self)
         SchedulingStrategy.__init__(self, **kwargs)
@@ -22,8 +23,12 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
             LOG(msg='New task is added to the taskset. Task:%s' % task.info(False))
             return True
 
-        LOG(msg='Given parameter is not task or already in the taskset.', log=Logs.ERROR)
+        LOG(msg='Given parameter is not a task or already in the taskset.', log=Logs.ERROR)
         return False
+
+    def add_task_in_bundle(self, *task_list):
+        for task in task_list:
+            self.add_task(task)
 
     def remove_task(self, task):
         if isinstance(task, TaskInterface) and task in self.__taskset:

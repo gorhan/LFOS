@@ -91,6 +91,10 @@ class SchedulingPolicy:
                     print '%s --> %r' % (temp.name, temp.levels)
                 SchedulingPolicy.determine_intervals(taskset[begin:end], level, sub_intervals, begin)
 
+            if level == num_levels - 1:
+                for begin, end in sub_intervals:
+                    taskset[begin:end] = sorted(taskset[begin:end], cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
+
             intervals = copy(sub_intervals)
             sub_intervals = []
 
@@ -106,5 +110,4 @@ class SchedulingPolicy:
         if self.__grouping:
             self.__group_tasks(taskset)
 
-        taskset.sort(cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
         SchedulingPolicy.prioritize_taskset(taskset)

@@ -1,16 +1,7 @@
 from LFOS.Log import Logs, LOG
-from LFOS.Data.Token import Token
 
 
 class DependencyItem(object):
-
-    def __new__(cls, _token, _req, _time=0.0):
-        if not isinstance(_token, Token):
-            LOG(msg='Given token parameter does not have the \'Token\' type.', log=Logs.ERROR)
-            return None
-
-        return super(DependencyItem, cls).__new__(cls, _token, _req, _time)
-
     def __init__(self, _token, _req, _time=0.0):
         self.__token = _token
         self.__n_tokens = _req
@@ -31,7 +22,7 @@ class DependencyItem(object):
     def set_sequence_dependent_setup_time(self, new_time):
         self.__seq_dep_set_t = new_time
 
-    def get_sequence_dependent_setup_time(self, new_time):
+    def get_sequence_dependent_setup_time(self):
         return self.__seq_dep_set_t
 
     def __eq__(self, other):

@@ -23,6 +23,9 @@ class Credential(object):
     def get_type(self):
         return self.__type
 
+    def get_credential(self):
+        return '%s::%s' % (self.__name, self.__type)
+
     def add_importance_level(self, new_level):
         self.__importance_levels.append(new_level)
 

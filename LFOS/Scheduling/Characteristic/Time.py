@@ -2,7 +2,7 @@ from __future__ import division
 from LFOS.Log import LOG, Logs
 
 
-class TimeResolution(object):
+class TimeResolution:
     def __init__(self, _res):
         self.__time_resolution = _res
 
@@ -26,11 +26,11 @@ class Time(int):
     TIME_RESOLUTION = TimeResolution(2)
     TIME_UNIT = 'msec'
 
-    def __new__(cls, _time=0.0):
+    def __new__(cls, _time=0):
         return super(Time, cls).__new__(cls, Time.encode(_time))
 
-    def __init__(self, _time=0.0):
-        super(Time, self).__init__(self, _time)
+    def __init__(self, _time=0):
+        int.__init__(_time)
 
     def __add__(self, other):
         if isinstance(other, Time):

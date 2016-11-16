@@ -2,7 +2,7 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Log import LOG, Logs
 
 
-class SchedulingWindow(object):
+class SchedulingWindow:
 
     def __init__(self, _begin=Time(), _duration=Time()):
         assert isinstance(_begin, Time)

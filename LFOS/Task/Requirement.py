@@ -1,5 +1,6 @@
 from LFOS.Log import LOG, Logs
 from LFOS.Resource.Resource import System
+from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Resource.Type import Type, ResourceTypeList
 
 
@@ -121,27 +122,27 @@ class DeadlineRequirementInterface(object):
     def __init__(self, _type):
         self.deadline_requirement = _type
 
-        self.penalty_per_unit_time = 0
-        self.penalty_duration = 0
+        self.penalty_per_unit_time = 0.0
+        self.penalty_duration = Time(0)
 
     def get_deadline_requirement(self):
         return self.deadline_requirement
 
-    def get_extended_deadline(self):
-        return self.get_deadline() + self.penalty_duration
+    def get_extended_deadline(self, deadline):
+        return deadline + self.penalty_duration
 
     def calculate_penalty(self, current_time, deadline):
         penalty = None
         threshold_time_exceeded = False
 
         if current_time < deadline:
-            penalty = 0
+            penalty = 0.0
         elif deadline <= current_time <= (deadline + self.penalty_duration):
             penalty = (current_time - deadline) * self.penalty_per_unit_time
         else:
             penalty = self.penalty_duration * self.penalty_per_unit_time
             threshold_time_exceeded = True
-            LOG(msg='End time for deadline penalty has been exceeded. Current Time: %2.f, End Time: %.2f' % (current_time, self.get_penalty_end_time()))
+            LOG(msg='End time for deadline penalty has been exceeded. Current Time: %.2f, End Time: %.2f' % (current_time, self.get_penalty_end_time()))
 
         return penalty, threshold_time_exceeded
 
@@ -167,7 +168,7 @@ class RequirementsWHardDeadline(DeadlineRequirementInterface, ResourceRequiremen
         ResourceRequirement.__init__(self)
 
     def set_penalty_per_unit_time(self, duration, penalty):
-        if penalty == 0:
+        if penalty == Time(0):
             LOG(msg='Wrong penalty value. For hard deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
         else:
             self.penalty_per_unit_time = abs(penalty)
@@ -192,7 +193,7 @@ class RequirementsWSoftDeadline(DeadlineRequirementInterface, ResourceRequiremen
         ResourceRequirement.__init__(self)
 
     def set_penalty_per_unit_time(self, duration, penalty):
-        if penalty == 0:
+        if penalty == Time(0):
             LOG(msg='Wrong penalty value. For soft deadline requirement, the penalty cannot be zero. Value: %d' % penalty, log=Logs.ERROR)
         else:
             self.penalty_per_unit_time = -abs(penalty)
