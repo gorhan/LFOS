@@ -3,61 +3,40 @@ from LFOS.Task.Credential import Credential
 from LFOS.Task.Timing import Timing
 from LFOS.Task.Priority import Priority
 from LFOS.Task.Dependency import Dependency
-from LFOS.Task.Preemptability import PreemptionFactory, PreemptionTypeList
-from LFOS.Task.Requirement import RequirementFactory, DeadlineRequirementTypeList, ResourceTypeList
+from LFOS.Task.Preemptability import PreemptionTypeList, Preemption
+from LFOS.Task.Requirement import DeadlineRequirementTypeList, DeadlineRequirement
 from LFOS.Task.Periodicity import PeriodicityTypeList
 
 from LFOS.Log import LOG, Logs
-from copy import copy
+from copy import copy, deepcopy
 
 
-class TaskInterface(Credential, Timing, Priority):
+class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, DeadlineRequirement):
     PRE_CHECKLIST = ['name', 'type', 'phase', 'deadline', 'periodicity']
 
-    def __new__(cls, **kwargs):
-        for key in cls.PRE_CHECKLIST:
-            if key not in kwargs:
-                LOG(msg='Invalid task instantiation. REASON: no \'%s\' in the arguments' % key, log=Logs.ERROR)
-                return None
-
-        return super(TaskInterface, cls).__new__(cls, kwargs)
+    # def __new__(cls, **kwargs):
+    #     for key in cls.PRE_CHECKLIST:
+    #         if key not in kwargs:
+    #             LOG(msg='Invalid task instantiation. REASON: no \'%s\' in the arguments' % key, log=Logs.ERROR)
+    #             return None
+    #
+    #     return super(TaskInterface, cls).__new__(cls, kwargs)
 
     def __init__(self, **kwargs):
         Credential.__init__(self, kwargs['name'], kwargs['type'])
         Timing.__init__(self, kwargs['phase'], kwargs['deadline'])
         Priority.__init__(self, kwargs['priority'] if 'priority' in kwargs else 0)
-
-        # Default parameters. They can be changed with their internal member functions
-        self.__dependencies = Dependency()
-        self.__preemptability = PreemptionFactory.create_instance(kwargs['preemptability'] if 'preemptability' in kwargs else PreemptionTypeList.FULLY_PREEMPTABLE)
-        self.__requirement = RequirementFactory.create_instance(kwargs['deadline_type'] if 'deadline_type' in kwargs else DeadlineRequirementTypeList.HARD)
+        Dependency.__init__(self)
+        DeadlineRequirement.__init__(self, kwargs['deadline_type'] if 'deadline_type' in kwargs else DeadlineRequirementTypeList.HARD)
+        Preemption.__init__(self, kwargs['preemptability'] if 'preemptability' in kwargs else PreemptionTypeList.FULLY_PREEMPTABLE)
 
         self.set_periodicity(kwargs['periodicity'])
 
-    def __getattr__(self, item):
-        import inspect
-
-        dependency_methods = inspect.getmembers(self.__dependencies, predicate=inspect.ismethod)
-        dependency_methods = [method_name for method_name, _ in dependency_methods]
-
-        requirement_methods = inspect.getmembers(self.__requirement, predicate=inspect.ismethod)
-        requirement_methods = [method_name for method_name, _ in requirement_methods]
-
-        preemption_methods = inspect.getmembers(self.__preemptability, predicate=inspect.ismethod)
-        preemption_methods = [method_name for method_name, _ in preemption_methods]
-
-        if item in dependency_methods:
-            return getattr(self.__dependencies, item)
-        elif item in requirement_methods:
-            return getattr(self.__requirement, item)
-        elif item in preemption_methods:
-            return getattr(self.__preemptability, item)
-
     def info(self, detailed=False):
-        credential_detail = '%s %s::%s %s\n' % ('#' * 20, self.get_name(), self.get_type(), '#' * 20)
+        credential_detail = '%s %s::%s %s' % ('#' * 20, self.get_name(), self.get_type(), '#' * 20)
         header_length = len(credential_detail)
         if detailed:
-            timing_detail = '\tTIMING:\n'
+            timing_detail = '\n\tTIMING:\n'
             timing_detail += '%sRelease Time=%.2f\n' % ('\t'*2, self.get_release_time())
             timing_detail += '%sDeadline=%.2f\n' % ('\t'*2, self.get_deadline())
             timing_detail += '%sWCET=%.2f\n' % ('\t' * 2, self.get_execution_time())
@@ -81,16 +60,16 @@ class TaskInterface(Credential, Timing, Priority):
 
             granularity_detail ='\tGRANULARITY:%s\n' % (self.granularity())
 
-            print credential_detail\
+            return credential_detail\
                   + timing_detail\
                   + priority_detail\
                   + dependency_detail\
                   + preemption_detail\
                   + requirement_detail\
-                  + granularity_detail
-            print '#' * header_length
+                  + granularity_detail\
+                  + '#' * header_length
         else:
-            print credential_detail
+            return credential_detail
 
     def granularity(self):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
@@ -108,23 +87,36 @@ class TerminalTask(TaskInterface):
     def granularity(self):
         return TaskTypeList.TERMINAL
 
+    def next_look(self):
+        job = copy(self)
+        new_release_time = job.get_release_time() + self.get_period()
+        new_deadline = job.get_deadline() + self.get_period()
+
+        job.set_release_time(new_release_time)
+        job.set_deadline(new_deadline)
+
+        return job
+
     def get_jobs(self, begin_tm, end_tm):
         periodicity_type = self.get_period_type()
         if periodicity_type == PeriodicityTypeList.APERIODIC or periodicity_type == PeriodicityTypeList.SPORADIC:
             return [self]
 
-        jobs = []
-        release_time = self.get_release_time()
-        deadline = self.get_extended_deadline()
-        period = self.get_period()
-        while begin_tm <= release_time < deadline and begin_tm <= deadline < end_tm:
-            job = copy(self)
-            job.set_release_time(release_time)
-            job.set_deadline(deadline)
-            jobs += [job]
+        job = copy(self)
+        while job.get_release_time() < begin_tm:
+            job = job.next_look()
 
-            release_time += period
-            deadline += period
+        jobs = []
+        release_time = job.get_release_time()
+        deadline = job.get_extended_deadline(job.get_deadline())
+
+        while begin_tm <= release_time < deadline and begin_tm <= deadline < end_tm:
+            jobs += [job]
+            # print '%r' % job, job.get_release_time()
+            job = job.next_look()
+            release_time = job.get_release_time()
+            deadline = job.get_deadline()
+
         return jobs
 
 

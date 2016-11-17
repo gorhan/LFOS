@@ -35,9 +35,12 @@ class DependencyItem(object):
         return '%s[%d] -- t:%.2f' % (self.__token, self.__n_tokens, self.__seq_dep_set_t)
 
 
-class Dependency(list):
+class Dependency:
     def __init__(self):
-        list.__init__([])
+        self.__list = list()
+
+    def __getattr__(self, item):
+        getattr(self.__list, item)()
 
     def add_dependency(self, p_object):
         if not isinstance(p_object, DependencyItem):
@@ -47,10 +50,10 @@ class Dependency(list):
         if p_object not in self:
             super(Dependency, self).append(p_object)
         else:
-            pos = self.index(p_object)
-            self[pos] = p_object
+            pos = self.__list.index(p_object)
+            self.__list[pos] = p_object
 
         return True
 
     def get_dependency_list(self):
-        return self
+        return self.__list

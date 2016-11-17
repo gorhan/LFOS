@@ -8,6 +8,8 @@ from LFOS.Scheduling.Strategy.SchedulingStrategy import SchedulingStrategy
 
 
 class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
+    def __new__(cls, **kwargs):
+        return super(Scheduler, cls).__new__(cls)
 
     def __init__(self, **kwargs):
         SchedulingCharacteristic.__init__(self)
@@ -20,7 +22,7 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
     def add_task(self, task):
         if isinstance(task, TaskInterface) and task not in self.__taskset:
             self.__taskset.append(task)
-            LOG(msg='New task is added to the taskset. Task:%s' % task.info(False))
+            LOG(msg='New task is added to the taskset. Task=%s' % task.info())
             return True
 
         LOG(msg='Given parameter is not a task or already in the taskset.', log=Logs.ERROR)
@@ -54,7 +56,7 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
             return None
         token_pool = self.get_tokens()[0]
 
-        self._define_variables(jobs, resources, token_pool)
+        self._define_variables(jobs, resources, token_pool, begin, end)
         if self._optimize():
             return self.get_last_schedule()
         return None

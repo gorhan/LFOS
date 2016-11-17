@@ -16,7 +16,9 @@ class SolverAdapter(object):
         self.__solver = None
         self.__optimized = False
         self.__solver_type = None
-        self.set_solver_type(kwargs['solver'] if 'solver' in kwargs else 'SCIP')
+        if not self.set_solver_type(kwargs['solver'] if 'solver' in kwargs else 'Toulbar2'):
+            exit(1)
+
         self.__verbose = kwargs['verbose'] if 'verbose' in kwargs else 10
         self.__time_cutoff = kwargs['time_cutoff'] if 'time_cutoff' in kwargs else 3
 
@@ -64,22 +66,24 @@ class SolverAdapter(object):
     def get_solver_types(cls):
         return available_solvers()
 
-    def _define_variables(self, jobs, resources, token_pool):
+    def _define_variables(self, jobs, resources, token_pool, sched_begin, sched_end):
         # assert isinstance(token_pool, TokenPool)
         self.__optimized = False
         self.__jobs = jobs
         self.__resources = resources
         self.__token_pool = token_pool
 
-        self.__latest_deadline = self.__get_latest_deadline()
+        self.__sched_window_begin = int(sched_begin)
+        self.__sched_window_end = int(sched_end)
+        self.__sched_window_duration = self.__sched_window_end - self.__sched_window_begin
 
-        self.__Allocation = {(resource, job): VarArray(self.__latest_deadline, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
+        self.__Allocation = {(resource, job): VarArray(self.__sched_window_duration, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
 
         self.__Start = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
         self.__End = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
         # self.__End = {job: VarArray(self.__latest_deadline, 0, 1) for job in self.__jobs}
-        self.__AuxS = {job: VarArray(self.__latest_deadline, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
-        self.__AuxE = {job: VarArray(self.__latest_deadline, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        self.__AuxS = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        self.__AuxE = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
 
         self.__TokenPool = dict()
 
@@ -92,8 +96,8 @@ class SolverAdapter(object):
         #     self.__model += (self.__TokenPool[token][0] == amount)
 
         for job in self.__jobs:
-            release_time = int(job.get_release_time())
-            deadline = int(job.get_extended_deadline(job.get_deadline()))
+            release_time = int(job.get_release_time()) - self.__sched_window_begin
+            deadline = int(job.get_extended_deadline(job.get_deadline())) - self.__sched_window_begin
             active_resource_requirements = job.get_required_resources(ResourceTypeList.ACTIVE)
             passive_resource_requirements = job.get_required_resources(ResourceTypeList.PASSIVE)
 
@@ -104,7 +108,7 @@ class SolverAdapter(object):
 
                 self.__model += (Sum(self.__Allocation[resource, job][release_time:deadline] for resource in resources) == exec_time * req_capacity)
                 for t in range(release_time, deadline):
-                    self.__model += (Sum(self.__Allocation[resource, job][t] for resource in resources) <= req_capacity)
+                    self.__model += (Or([Sum(self.__Allocation[resource, job][t] for resource in resources) == req_capacity, Sum(self.__Allocation[resource, job][t] for resource in resources) == 0]))
 
                     self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
                     self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
@@ -119,19 +123,16 @@ class SolverAdapter(object):
 
         for resource in self.__resources:
             if resource.is_mode(ModeTypeList.CB_EXCLUSIVE):
-                for t in range(self.__latest_deadline):
+                for t in range(self.__sched_window_duration):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) <= resource.get_capacity())
             elif resource.is_mode(ModeTypeList.SB_EXCLUSIVE):
                 exclusive_resources = resource.get_exclusive_resources()
                 for exc_resource in exclusive_resources:
-                    for t in range(self.__latest_deadline):
+                    for t in range(self.__sched_window_duration):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
 
-
-    def __get_latest_deadline(self):
-        return max(int(job.get_extended_deadline(job.get_deadline())) for job in self.__jobs)
-
     def _optimize(self):
+
         self.__solver = self.__model.load(self.__solver_type)
 
         self.__solver.setVerbosity(self.__verbose)
@@ -155,7 +156,7 @@ class SolverAdapter(object):
             print [item.get_value() for item in self.__AuxS[job]]
             print [item.get_value() for item in self.__AuxE[job]]
             for t in range(job.get_release_time(), job.get_extended_deadline(job.get_deadline())):
-                reserved_resources = {resource: self.__Allocation[resource, job][t].get_value() for resource in self.__resources if self.__Allocation[resource, job][t].get_value() > 0}
+                reserved_resources = {resource: self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() for resource in self.__resources if self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() > 0}
                 print [t * sum([self.__Allocation[resource, job][t].get_value() for resource in self.__resources])]
                 # print reserved_resources
                 if reserved_resources:

@@ -8,7 +8,7 @@ class PeriodicityTypeList(Enum):
     PERIODIC = 'Periodic'
 
 
-class Periodicity:
+class Periodicity(object):
     TYPES = [PeriodicityTypeList.APERIODIC, PeriodicityTypeList.SPORADIC, PeriodicityTypeList.PERIODIC]
 
     def __init__(self, _type):
@@ -30,23 +30,3 @@ class Periodicity:
 
     def get_period_type(self):
         return self.type
-
-#
-# class PeriodicityFactory:
-#     TYPES = {
-#         PeriodicityTypeList.APERIODIC: Aperiodic,
-#         PeriodicityTypeList.SPORADIC: Sporadic,
-#         PeriodicityTypeList.PERIODIC: Periodic
-#     }
-#
-#     def __init__(self):
-#         pass
-#
-#     @classmethod
-#     def create_instance(cls, _type):
-#         if _type in cls.TYPES:
-#             return cls.TYPES[_type](_type)
-#         else:
-#             LOG(msg='Invalid factory construction request. %s' % _type, log=Logs.ERROR)
-#             LOG(msg='Valid types: %s' % (', '.join(cls.TYPES.keys())), log=Logs.ERROR)
-#             return None
