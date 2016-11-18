@@ -79,8 +79,11 @@ class SolverAdapter(object):
 
         self.__Allocation = {(resource, job): VarArray(self.__sched_window_duration, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
 
-        self.__Start = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
-        self.__End = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        # self.__Start = {job: VarArray(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        # self.__End = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        self.__Start = {job: VarArray(self.__sched_window_duration, 0, 1) for job in self.__jobs}
+        self.__End = {job: VarArray(self.__sched_window_duration, 0, 1) for job in self.__jobs}
+        self.__AuxWorking = {job: VarArray(self.__sched_window_duration, 0, 100) for job in self.__jobs}
         # self.__End = {job: VarArray(self.__latest_deadline, 0, 1) for job in self.__jobs}
         self.__AuxS = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
         self.__AuxE = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
@@ -108,16 +111,29 @@ class SolverAdapter(object):
 
                 self.__model += (Sum(self.__Allocation[resource, job][release_time:deadline] for resource in resources) == exec_time * req_capacity)
                 for t in range(release_time, deadline):
-                    self.__model += (Or([Sum(self.__Allocation[resource, job][t] for resource in resources) == req_capacity, Sum(self.__Allocation[resource, job][t] for resource in resources) == 0]))
+                    self.__model += (Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxWorking[job][t])
+                    self.__model += (Or([self.__AuxWorking[job][t] == req_capacity, self.__AuxWorking[job][t] == 0]))
 
-                    self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
-                    self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
+                    self.__model += (Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][release_time:t+1]) != 1, self.__Start[job][t] == 0])]),
+                                         Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][release_time:t+1]) == 1, self.__Start[job][t] == 1])]),
+                                         And([self.__AuxWorking[job][t] == 0, self.__Start[job][t] == 0])
+                                         ])]))
 
-                self.__model += (Max(self.__AuxE[job][release_time:deadline]) + 1 == self.__End[job])
-                self.__model += (deadline - Max(self.__AuxS[job][release_time:deadline]) == self.__Start[job])
+                    self.__model += (Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][t:deadline]) != 1, self.__End[job][t+1] == 0])]),
+                                         Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][t:deadline]) == 1, self.__End[job][t+1] == 1])]),
+                                         And([self.__AuxWorking[job][t] == 0, self.__End[job][t+1] == 0])
+                                         ])]))
+                    # self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
+                    # self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
+                    #
+                    # self.__model += (self.__AuxS[job][t] == self.__Start[job][t] * Max(self.__AuxS[job][release_time:deadline]))
+                    # self.__model += (self.__AuxE[job][t] == self.__End[job][t] * Max(self.__AuxE[job][release_time:deadline]))
+
+                # self.__model += (Max(self.__AuxE[job][release_time:deadline]) + 1 == self.__End[job])
+                # self.__model += (deadline - Max(self.__AuxS[job][release_time:deadline]) == self.__Start[job])
 
                 if not job.is_preemptable():
-                    self.__model += (self.__End[job] - self.__Start[job] == exec_time)
+                    self.__model += (Sum(t * self.__End[job][t] for t in range(release_time, deadline)) - Sum(t * self.__Start[job][t] for t in range(release_time, deadline)) == exec_time)
 
             # TODO: The constraints for passive resource requirements have to be implemented.
 
@@ -152,9 +168,11 @@ class SolverAdapter(object):
         self.__last_optimized_schedule = Schedule()
 
         for job in self.__jobs:
-            print '%s --> Start=%d, End=%d' % (job.get_credential(), self.__Start[job].get_value(), self.__End[job].get_value())
-            print [item.get_value() for item in self.__AuxS[job]]
-            print [item.get_value() for item in self.__AuxE[job]]
+            # print '%s --> Start=%d, End=%d' % (job.get_credential(), self.__Start[job].get_value(), self.__End[job].get_value())
+            # print [item.get_value() for item in self.__AuxS[job]]
+            # print [item.get_value() for item in self.__AuxE[job]]
+            print [item.get_value() for item in self.__Start[job]]
+            print [item.get_value() for item in self.__End[job]]
             for t in range(job.get_release_time(), job.get_extended_deadline(job.get_deadline())):
                 reserved_resources = {resource: self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() for resource in self.__resources if self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() > 0}
                 print [t * sum([self.__Allocation[resource, job][t].get_value() for resource in self.__resources])]

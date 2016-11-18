@@ -14,14 +14,6 @@ from copy import copy, deepcopy
 class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, DeadlineRequirement):
     PRE_CHECKLIST = ['name', 'type', 'phase', 'deadline', 'periodicity']
 
-    # def __new__(cls, **kwargs):
-    #     for key in cls.PRE_CHECKLIST:
-    #         if key not in kwargs:
-    #             LOG(msg='Invalid task instantiation. REASON: no \'%s\' in the arguments' % key, log=Logs.ERROR)
-    #             return None
-    #
-    #     return super(TaskInterface, cls).__new__(cls, kwargs)
-
     def __init__(self, **kwargs):
         Credential.__init__(self, kwargs['name'], kwargs['type'])
         Timing.__init__(self, kwargs['phase'], kwargs['deadline'])
@@ -31,6 +23,17 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         Preemption.__init__(self, kwargs['preemptability'] if 'preemptability' in kwargs else PreemptionTypeList.FULLY_PREEMPTABLE)
 
         self.set_periodicity(kwargs['periodicity'])
+
+        self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else ['__%s__' % self.get_name()]
+        self.num_firing_tokens = kwargs['token_num'] if 'token_num' in kwargs else [1] * len(self.firing_tokens)
+
+    def get_output_tokens(self):
+        return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]
+
+    def get_relevant_token_types(self):
+        output_tokens = self.firing_tokens
+        dependency_tokens = [dep_item.get_token_type() for dep_item in self.get_dependency_list()]
+        return output_tokens + dependency_tokens
 
     def info(self, detailed=False):
         credential_detail = '%s %s::%s %s' % ('#' * 20, self.get_name(), self.get_type(), '#' * 20)

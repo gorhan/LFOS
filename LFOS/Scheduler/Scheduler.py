@@ -22,6 +22,7 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
     def add_task(self, task):
         if isinstance(task, TaskInterface) and task not in self.__taskset:
             self.__taskset.append(task)
+            tokens = task.get_relevant_token_types()
             LOG(msg='New task is added to the taskset. Task=%s' % task.info())
             return True
 
@@ -54,7 +55,8 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
         if not resources:
             LOG(msg='There is no resources under System composite resource.', log=Logs.ERROR)
             return None
-        token_pool = self.get_tokens()[0]
+
+        for
 
         self._define_variables(jobs, resources, token_pool, begin, end)
         if self._optimize():

@@ -1,16 +1,17 @@
 from LFOS.Log import Logs, LOG
+from LFOS.Scheduling.Characteristic.Time import Time
 
 
 class DependencyItem(object):
-    def __init__(self, _token, _req, _time=0.0):
+    def __init__(self, _token, _req, _time=Time(0)):
         self.__token = _token
         self.__n_tokens = _req
         self.__seq_dep_set_t = _time
 
-    def set_token(self, new_token):
+    def set_token_type(self, new_token):
         self.__token = new_token
 
-    def get_token(self):
+    def get_token_type(self):
         return self.__token
 
     def set_required_token_amount(self, new_req):

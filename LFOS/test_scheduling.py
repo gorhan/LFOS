@@ -111,7 +111,7 @@ task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_4', type=
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
 print task_4.info(True)
 
-scheduler = Scheduler(solver='SCIP', verbose=1)
+scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=100)
 
 scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
 

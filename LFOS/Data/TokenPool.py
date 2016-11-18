@@ -21,7 +21,7 @@ class TokenPool:
         return True
 
     def add_token_list(self, token_lst):
-        for token_type, timestamp, quantity in token_lst:
+        for token_type, quantity, timestamp in token_lst:
             self.add_token(token_type, timestamp, quantity)
 
     def get_num_tokens(self, target_token_type, latest_timestamp=None):
