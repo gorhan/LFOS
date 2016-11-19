@@ -94,9 +94,9 @@ class SolverAdapter(object):
 
     def __init(self):
         # Initialize initial tokens with the corresponding amount of tokens in the object
-        # for token, amount in self.__token_pool:
-        #     self.__TokenPool[token] = VarArray(self.__latest_deadline, 0, TokenPool.MAX_TOKEN_AMOUNT)
-        #     self.__model += (self.__TokenPool[token][0] == amount)
+        for token, pairs in self.__token_pool.items():
+            self.__TokenPool[token] = VarArray(self.__sched_window_duration+1, 0, TokenPool.MAX_TOKEN_AMOUNT)
+            self.__model += (self.__TokenPool[token][0] == sum(pair[1] for pair in pairs))
 
         for job in self.__jobs:
             release_time = int(job.get_release_time()) - self.__sched_window_begin
@@ -110,6 +110,8 @@ class SolverAdapter(object):
                 exec_time = int(el_resources_dict[resources[0]])
 
                 self.__model += (Sum(self.__Allocation[resource, job][release_time:deadline] for resource in resources) == exec_time * req_capacity)
+                self.__model += (Sum(self.__Start[job]) == 1) # only 1 number of Start
+                self.__model += (Sum(self.__End[job]) == 1) # only 1 number of End
                 for t in range(release_time, deadline):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxWorking[job][t])
                     self.__model += (Or([self.__AuxWorking[job][t] == req_capacity, self.__AuxWorking[job][t] == 0]))
@@ -123,6 +125,19 @@ class SolverAdapter(object):
                                          Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][t:deadline]) == 1, self.__End[job][t+1] == 1])]),
                                          And([self.__AuxWorking[job][t] == 0, self.__End[job][t+1] == 0])
                                          ])]))
+
+                # TODO: The constraints for passive resource requirements have to be implemented.
+
+                if not job.is_preemptable():
+                    self.__model += (Sum(t * self.__End[job][t] for t in range(release_time, deadline)) - Sum(t * self.__Start[job][t] for t in range(release_time, deadline)) == exec_time)
+
+        for t in range(self.__sched_window_begin, self.__sched_window_end):
+            # Token constraints
+            for token in self.__token_pool.keys():
+                self.__model += (self.__TokenPool[token][t] +
+                                 Sum(self.__End[job][t] * job.get_token_number_wrt_token(token) for job in self.__jobs) -
+                                 Sum(self.__Start[job][t] * job.get_required_token_number(token)[1] for job in self.__jobs) == self.__TokenPool[token][t+1])
+
                     # self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
                     # self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
                     #
@@ -131,11 +146,6 @@ class SolverAdapter(object):
 
                 # self.__model += (Max(self.__AuxE[job][release_time:deadline]) + 1 == self.__End[job])
                 # self.__model += (deadline - Max(self.__AuxS[job][release_time:deadline]) == self.__Start[job])
-
-                if not job.is_preemptable():
-                    self.__model += (Sum(t * self.__End[job][t] for t in range(release_time, deadline)) - Sum(t * self.__Start[job][t] for t in range(release_time, deadline)) == exec_time)
-
-            # TODO: The constraints for passive resource requirements have to be implemented.
 
         for resource in self.__resources:
             if resource.is_mode(ModeTypeList.CB_EXCLUSIVE):
@@ -179,6 +189,8 @@ class SolverAdapter(object):
                 # print reserved_resources
                 if reserved_resources:
                     self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources)
+
+        print '%s' % '\n'.join(['%s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()])
 
     def get_last_schedule(self):
         return self.__last_optimized_schedule if self.__optimized else None

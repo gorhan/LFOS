@@ -30,6 +30,13 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
     def get_output_tokens(self):
         return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]
 
+    def get_token_number_wrt_token(self, token):
+        if token in self.firing_tokens:
+            pos = self.firing_tokens.index(token)
+            return self.num_firing_tokens[pos]
+
+        return 0
+
     def get_relevant_token_types(self):
         output_tokens = self.firing_tokens
         dependency_tokens = [dep_item.get_token_type() for dep_item in self.get_dependency_list()]

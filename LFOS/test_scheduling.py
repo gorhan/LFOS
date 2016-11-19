@@ -97,9 +97,10 @@ System.print_accessibilites()
 
 Time.set_time_resolution(0)
 
-task_1 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_1', type='DGD', phase=Time(0), deadline=Time(6), periodicity=PeriodicityTypeList.APERIODIC)
+task_1 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_1', type='DGD', phase=Time(0), deadline=Time(5), periodicity=PeriodicityTypeList.APERIODIC)
 task_1.set_period(Time(7))
 task_1.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(3), cpu2: Time(3)}, capacity=1)
+task_1.add_dependency('__Task_2__', 1)
 print task_1.info(True)
 task_2 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2', type='DGD', phase=Time(2), deadline=Time(4), periodicity=PeriodicityTypeList.APERIODIC)
 task_2.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
