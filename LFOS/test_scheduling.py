@@ -97,27 +97,28 @@ System.print_accessibilites()
 
 Time.set_time_resolution(0)
 
-task_1 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_1', type='DGD', phase=Time(0), deadline=Time(5), periodicity=PeriodicityTypeList.APERIODIC)
+task_1 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_1', type='DGD', phase=Time(0), deadline=Time(6), periodicity=PeriodicityTypeList.APERIODIC)
 task_1.set_period(Time(7))
 task_1.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(3), cpu2: Time(3)}, capacity=1)
 task_1.add_dependency('__Task_2__', 1)
 print task_1.info(True)
-task_2 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2', type='DGD', phase=Time(2), deadline=Time(4), periodicity=PeriodicityTypeList.APERIODIC)
+task_2 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2', type='DGD', phase=Time(2), deadline=Time(4), token_num=[2], periodicity=PeriodicityTypeList.APERIODIC)
 task_2.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
 print task_2.info(True)
-task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_3', type='DGD', phase=Time(5), deadline=Time(13), periodicity=PeriodicityTypeList.APERIODIC)
-task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(7), cpu2: Time(7)}, capacity=1)
+task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_3', type='DGD', phase=Time(5), deadline=Time(14), periodicity=PeriodicityTypeList.APERIODIC)
+task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(3), cpu2: Time(4)}, capacity=1)
+task_3.add_dependency('__Task_1__', 1, Time(4))
 print task_3.info(True)
-task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_4', type='DGD', phase=Time(11), deadline=Time(12), periodicity=PeriodicityTypeList.APERIODIC)
+task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_4', type='DGD', phase=Time(10), deadline=Time(11), periodicity=PeriodicityTypeList.APERIODIC)
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
 print task_4.info(True)
 
-scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=100)
+scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 
 scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
 
 scheduler.set_scheduling_window_start_time(Time(0))
-scheduler.set_scheduling_window_duration(Time(20))
+scheduler.set_scheduling_window_duration(Time(14))
 
 print scheduler.schedule_tasks()
 

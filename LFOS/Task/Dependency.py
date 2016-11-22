@@ -71,3 +71,6 @@ class Dependency:
         except ValueError:
             # LOG(msg='There is no dependency related to Token %s' % token, log=Logs.ERROR)
             return Time(0), 0
+
+    def get_required_tokens(self):
+        return [item.get_token_type() for item in self.__list]

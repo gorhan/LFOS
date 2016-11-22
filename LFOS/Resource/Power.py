@@ -1,4 +1,5 @@
 from LFOS.Log import Logs, LOG
+import numpy as np
 
 
 class Power(object):
@@ -15,15 +16,15 @@ class Power(object):
         return self._active_power_state[1]
 
     def get_power_states(self):
-        return self._active_power_state
+        return np.array([self._max_state[0]]).tolist()
 
     def get_active_power_state(self):
         return self._active_power_state
 
-    def get_max_state(self):
+    def get_max_power_state(self):
         return self._max_state
 
-    def get_min_state(self):
+    def get_min_power_state(self):
         return self._min_state
 
     def range_check(self, scale):
@@ -88,21 +89,21 @@ class DiscreteStatePowerConsumption(Power, dict):
             return None
 
     def set_max_state(self, scale, pow_cons):
-        if scale > self.get_max_state():
+        if scale > self.get_max_power_state():
             self._max_state = (scale, pow_cons)
             self[scale] = pow_cons
         else:
             LOG(msg='Current max power state is already higher.', log=Logs.WARN)
 
     def set_min_state(self, scale, pow_cons):
-        if scale < self.get_min_state():
+        if scale < self.get_min_power_state():
             self._min_state = (scale, pow_cons)
             self[scale] = pow_cons
         else:
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
 
     def get_power_states(self):
-        return self
+        return np.array(self.keys()).tolist()
 
 
 class ContinuousStatePowerConsumption(Power):
@@ -111,6 +112,7 @@ class ContinuousStatePowerConsumption(Power):
         self.set_min_state(min_scale, min_pow_cons)
 
         self.__calculate_power_consumption_slope()
+        self.__power_scale_precision = 0.1
 
     def __calculate_power_consumption_slope(self):
         self.__slope = (self._max_state[1] - self._min_state[1]) / (self._max_state[0] - self._min_state[0])
@@ -125,6 +127,12 @@ class ContinuousStatePowerConsumption(Power):
         else:
             LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
         return None
+
+    def set_power_scale_precision(self, precision):
+        self.__power_scale_precision = precision
+
+    def get_power_scale_precision(self):
+        return self.__power_scale_precision
 
     def set_power_mode(self, scale):
         if self.range_check(scale):
@@ -147,7 +155,7 @@ class ContinuousStatePowerConsumption(Power):
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
 
     def get_power_states(self):
-        return {self._max_state[0]: self._max_state[1], self._min_state[0]: self._min_state[1]}
+        return np.concatenate((np.arange(self._min_state[0], self._max_state[0], self.__power_scale_precision), np.array(self._max_state[0]))).tolist()
 
 
 class PowerTypeList:
