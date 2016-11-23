@@ -103,7 +103,7 @@ class DiscreteStatePowerConsumption(Power, dict):
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
 
     def get_power_states(self):
-        return np.array(self.keys()).tolist()
+        return np.array([float(1.0/scale) for scale in self.keys()]).tolist()
 
 
 class ContinuousStatePowerConsumption(Power):

@@ -57,7 +57,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
             priority_detail += '%sPriority=%d [%d %d]\n' % ('\t'*2, self.get_priority(), Priority.MIN_PRIORITY, Priority.MAX_PRIORITY)
 
             dependency_detail = '\tDEPENDENCY:\n'
-            dependency_detail += '%s[%s]\n' % ('\t'*2, '\n'.join(map(str, self.get_dependency_list())) if self.get_dependency_list() else 'EMPTY')
+            dependency_detail += '%s[%s]\n' % ('\t'*2, ('\n%s' % ('\t'*2)).join(map(str, self.get_dependency_list())) if self.get_dependency_list() else 'EMPTY')
 
             preemption_detail = '\tPREEMPTABILITY:\n'
             preemption_detail += '%s%s in every %.2f\n' % ('\t'*2, self.get_preemption_type(), self.get_non_preemtable_execution_duration())

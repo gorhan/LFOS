@@ -114,10 +114,13 @@ class SolverAdapter(object):
                 for resource, exec_time in el_resources_dict.items():
                     o_resources = el_resources_dict.keys()
                     o_resources.pop(o_resources.index(resource))
-                    self.__model += (
-                        ((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum(self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources) == 0)) |
-                        ((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum(self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources) != 0))
-                                    )
+                    if o_resources:
+                        self.__model += (
+                            ((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0)) |
+                            ((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
+                                        )
+                    else:
+                        self.__model += (Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
 
                 self.__model += (Sum(self.__Start[job]) == 1) # only 1 number of Start
                 self.__model += (Sum(self.__End[job]) == 1) # only 1 number of End
@@ -144,14 +147,11 @@ class SolverAdapter(object):
             # Token constraints
 
             for token in self.__token_pool.keys():
-                for job in self.__jobs:
-                    print job.info(), 't=', t, 'token=', token
-                    print 'job.get_token_number_wrt_token(token)', job.get_token_number_wrt_token(token), 'job.get_required_token_number(token)[1]', job.get_required_token_number(token)[1]
                 self.__model += ((
                                       self.__TokenPool[token][t] +
                                       Sum(self.__End[job][t] * job.get_token_number_wrt_token(token) for job in self.__jobs) -
-                                      Sum(self.__Start[job][t] * job.get_required_token_number(token)[1] * self.__OrDependencyT[job, token][t] for job in self.__jobs) == self.__TokenPool[token][t+1]
-                                 ))
+                                      Sum(Min([self.__Start[job][t], self.__OrDependencyT[job, token][t]]) * job.get_required_token_number(token)[1] for job in self.__jobs) == self.__TokenPool[token][t+1]
+                                ))
 
                 for job in self.__jobs:
                     required_tokens = job.get_required_tokens()
@@ -167,7 +167,7 @@ class SolverAdapter(object):
                         for t_seq in range(t-int(sequence_dependent_setup_time), t):
                             t_seq = max(t_seq, -1)
                             # print token, t, t_seq, sequence_dependent_setup_time, num_tokens
-                            self.__model += (self.__TokenPool[token][t_seq+1] >= num_tokens * self.__Start[job][t] * self.__OrDependencyT[job, token][t])
+                            self.__model += (self.__TokenPool[token][t_seq+1] >= num_tokens * Min([self.__Start[job][t], self.__OrDependencyT[job, token][t]]))
 
                     # self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
                     # self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
@@ -187,6 +187,8 @@ class SolverAdapter(object):
                 for exc_resource in exclusive_resources:
                     for t in range(self.__sched_window_duration):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
+
+        self.__model += Minimise(Max([self.__End[job][t] * t for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
 
     def _optimize(self):
 
@@ -222,7 +224,7 @@ class SolverAdapter(object):
                     self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources)
 
         print '%s' % '\n'.join(['%s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()])
-        print '%s' % '\n'.join(['%s == %r' % ([job.info(), token], [item.get_value() for item in self.__OrDependencyT[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
+        print '%s' % '\n'.join(['%s == %r' % ([job.get_credential(), token], [item.get_value() for item in self.__OrDependencyT[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
 
     def get_last_schedule(self):
         return self.__last_optimized_schedule if self.__optimized else None
