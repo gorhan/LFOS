@@ -1,67 +1,107 @@
-from LFOS.Log import LOG, Logs
+from LFOS.Resource.Resource import System
+from LFOS.Scheduling.Characteristic.Time import Time
 
 
-class ScheduleItem:
-    def __init__(self, task=None, reserved={}, begin_tm=0.0, end_tm=0.0):
-        self.reserved_task = task
-        self.reserved_resources = reserved
-        self.begin = begin_tm
-        self.end = end_tm
+class Schedule:
+    def __init__(self, begin=None, end=None):
+        self.__schedule = {resource:[] for resource in System.for_each_sub_terminal_resource()}
+        self.__jobs = set()
+        self.__begin , self.__end = begin, end
 
-    def extend(self, duration):
-        try:
-            assert duration > 0
-        except AssertionError:
-            LOG(msg='AssertionError: Specified time duration must be greater than zero (duration > 0)', log=Logs.ERROR)
-            return None
-        self.end += duration
+    def search_overlapping_jobs(self, on_resource, begin, end, job=None):
+        return [reservation for reservation in self.__schedule[on_resource] if (reservation[1] <= begin < reservation[2] or
+                                                                               (reservation[1] < end <= reservation[2]) or
+                                                                               (reservation[1] >= begin and reservation[2] <= end)) and
+                                                                               (job is None or job.get_credential() != reservation[0].get_credential())]
 
-    def extend_to(self, tm):
-        try:
-            assert tm > self.end
-        except AssertionError:
-            LOG(msg='AssertionError: Specified finish time to extend must be greater than current finish time (newFinish > currentFinish)', log=Logs.ERROR)
-            return None
-        self.end = tm
+    def __append_slot(self, job, begin, end, on_resource, capacity):
+        for reservation in self.__schedule[on_resource]:
+            if reservation[1] >= end:
+                break
 
-    def __str__(self):
-        return '[%.3f %.3f] - %s ON %s' % (self.begin, self.end,
-                                           self.reserved_task.get_credential() if self.reserved_task else 'EMPTY',
-                                           ', '.join(['%s [%d]' % (resource.get_credential(), capacity) for resource, capacity in self.reserved_resources.items()]))
+            if reservation[2] == begin and job == reservation[0] and capacity == reservation[3]:
+                reservation[2] = end
+                return True
 
-    def __repr__(self):
-        return '[%.3f %.3f] - %s ON %s' % (self.begin, self.end,
-                                           self.reserved_task.get_credential() if self.reserved_task else 'EMPTY',
-                                           ', '.join(['%s [%d]' % (resource.get_credential(), capacity) for resource, capacity in self.reserved_resources.items()]))
+        print job, begin, end, capacity
+        self.__schedule[on_resource].append([job, begin, end, capacity, False])
+        self.__schedule[on_resource].sort(key=lambda slot: slot[1])
 
+    def set_boundaries(self, begin, end):
+        self.__begin, self.__end = begin, end
 
-class Schedule(list):
-    def __init__(self):
-        super(Schedule, self).__init__([])
-
-    def append(self, p_object):
-        last_instance = self.get_last_instance(p_object.reserved_task)
-        if last_instance and last_instance.end == p_object.begin and not p_object.reserved_resources:
-            last_instance.extend_to(p_object.end)
-        else:
-            super(Schedule, self).append(p_object)
-            self.sort(key=lambda sc_it: sc_it.begin)
-
-    def append_item(self, task, begin_tm, end_tm, reserved={}):
-        self.append(ScheduleItem(task, reserved, begin_tm, end_tm))
-
-    def append_empty_slot(self, begin_tm, end_tm):
-        self.append(ScheduleItem(None, {}, begin_tm, end_tm))
-
-    def get_last_instance(self, task):
-        for schedule_item in reversed(self):
-            if schedule_item.reserved_task == task:
-                return schedule_item
-
-        return None
+    def append_item(self, job, begin, end, reserved_resources_dict):
+        for resource, capacity in reserved_resources_dict.items():
+            self.__jobs.add(job.get_credential())
+            self.__append_slot(job, begin, end, resource, capacity)
 
     def __str__(self):
-        return '\n'.join([str(sched_item) for sched_item in self])
+        prnt_str = ''
+        reserved = '#'
+        n_reserved = ' '
+        seperator = '|'
 
-    def __repr__(self):
-        return '\n'.join([str(sched_item) for sched_item in self])
+        import numpy as np
+        from LFOS.Scheduling.Characteristic.Time import Time
+        tm_res = Time.get_time_resolution()
+        l_time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res)
+
+        prnt_str += ' ' * 15
+        prnt_str += ' '.join(['%10s' % tm for tm in l_time_slots]) + '\n'
+
+        for resource, reservations in self.__schedule.items():
+            prnt_str += '%15s: ' % resource.get_resource_name()
+            for reservation in reservations:
+                print 'TODO'
+
+    def __reset_schedule_plot(self):
+        for reservations in self.__schedule.values():
+            for reservation in reservations:
+                reservation[4] = False
+
+    def plot_schedule(self):
+        from matplotlib import colors
+        import matplotlib.pyplot as plt
+        from random import shuffle
+
+        colors_ = colors.cnames.keys()
+        shuffle(colors_)
+        job2colors = {job_cred: colors_[i] for i, job_cred in enumerate(self.__jobs)}
+
+        y_resource = 10.0
+        y_margin = 1.0
+
+        fig, ax = plt.subplots()
+
+        for ind, (resource, reservations) in enumerate(self.__schedule.items()):
+            y_capacity = y_resource / resource.get_capacity()
+
+            import numpy as np
+            from LFOS.Scheduling.Characteristic.Time import Time
+            tm_res = 10 ** Time.get_time_resolution()
+            time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res).tolist()
+            time_slots = zip(time_slots[:-1], time_slots[1:])
+
+            for t_begin, t_end in time_slots:
+                reservations = self.search_overlapping_jobs(resource, t_begin, t_end)
+                y_start = (y_margin + y_resource) * ind + y_margin
+
+                for reservation in reservations:
+                    y_height = y_capacity * reservation[3]
+
+                    ax.broken_barh([(t_begin, t_end - t_begin)],
+                                   (y_start, y_height), facecolor=job2colors[reservation[0].get_credential()],
+                                   label=reservation[0].get_name())
+
+                    y_start += y_height
+
+        ax.legend()
+        ax.grid(True)
+        ax.set_ylim(0, y_start + y_resource + y_margin)
+        ax.set_xlim(self.__begin, self.__end)
+        ax.set_yticks([y_margin + ind * (y_resource + y_margin) + y_resource/2 for ind, resource in enumerate(self.__schedule.keys())])
+        ax.set_yticklabels([resource.get_resource_name() for resource in self.__schedule.keys()])
+        ax.set_xlabel('Time (%s)' % Time.get_time_unit())
+
+        self.__reset_schedule_plot()
+        plt.show()

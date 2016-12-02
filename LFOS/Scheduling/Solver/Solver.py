@@ -1,5 +1,5 @@
 from LFOS.Log import LOG, Logs
-from LFOS.Scheduling.Schedule.Schedule import ScheduleItem, Schedule
+from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Task.Task import TaskInterface
 from LFOS.Resource.Resource import TerminalResource
 from LFOS.Resource.Type import Type, ResourceTypeList
@@ -220,7 +220,7 @@ class SolverAdapter(object):
         return False
 
     def __create_schedule(self):
-        self.__last_optimized_schedule = Schedule()
+        self.__last_optimized_schedule = Schedule(self.__sched_window_begin, self.__sched_window_end)
 
         for job in self.__jobs:
             print '[Start]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__Start[job]])
