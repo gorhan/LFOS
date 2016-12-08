@@ -1,6 +1,11 @@
 from LFOS.Resource.Resource import System
-from LFOS.Scheduling.Characteristic.Time import Time
-
+from LFOS.Scheduling.Characteristic.Time import Time, TimeResolution
+from matplotlib import colors
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.ticker import MultipleLocator
+from random import shuffle
+from LFOS.Log import LOG
 
 class Schedule:
     def __init__(self, begin=None, end=None):
@@ -42,7 +47,7 @@ class Schedule:
         seperator = '|'
 
         import numpy as np
-        from LFOS.Scheduling.Characteristic.Time import Time
+
         tm_res = Time.get_time_resolution()
         l_time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res)
 
@@ -60,9 +65,8 @@ class Schedule:
                 reservation[4] = False
 
     def plot_schedule(self):
-        from matplotlib import colors
-        import matplotlib.pyplot as plt
-        from random import shuffle
+        tm_res = 10 ** Time.get_time_resolution()
+        major_grid_locator = MultipleLocator(tm_res)
 
         colors_ = colors.cnames.keys()
         shuffle(colors_)
@@ -77,8 +81,7 @@ class Schedule:
             y_capacity = y_resource / resource.get_capacity()
 
             import numpy as np
-            from LFOS.Scheduling.Characteristic.Time import Time
-            tm_res = 10 ** Time.get_time_resolution()
+
             time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res).tolist()
             time_slots = zip(time_slots[:-1], time_slots[1:])
 
@@ -96,12 +99,19 @@ class Schedule:
                     y_start += y_height
 
         ax.legend()
-        ax.grid(True)
+        ax.xaxis.set_major_locator(major_grid_locator)
+        ax.grid(b=True, which='major', linestyle='--')
         ax.set_ylim(0, y_start + y_resource + y_margin)
         ax.set_xlim(self.__begin, self.__end)
         ax.set_yticks([y_margin + ind * (y_resource + y_margin) + y_resource/2 for ind, resource in enumerate(self.__schedule.keys())])
         ax.set_yticklabels([resource.get_resource_name() for resource in self.__schedule.keys()])
         ax.set_xlabel('Time (%s)' % Time.get_time_unit())
 
+        dpi = fig.get_dpi()
+        LOG(msg='DPI=%d' % dpi)
+
+        fig.set_size_inches((30 * (self.__end - self.__begin) * (tm_res))/float(dpi), (85.0 * len(self.__schedule))/float(dpi), forward=True)
+
         self.__reset_schedule_plot()
+        plt.tight_layout()
         plt.show()
