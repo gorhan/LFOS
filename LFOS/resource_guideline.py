@@ -55,6 +55,12 @@ pow_mem_1.add_state(0.7, 123) # gives error
 cpu_1.set_power_consumption(pow_cpu_1)
 mem_1.set_power_consumption(pow_mem_1)
 
+cpu_1.set_mode(ModeTypeList.CB_AND_SB_EXCLUSIVE)
+mem_1.set_mode(ModeTypeList.SHARED)
+
+cpu_1.add_exclusive_resource(mem_1)
+mem_1.add_exclusive_resource(cpu_1) # gives warning, has no effect
+
 # Set the capacity of Resource object
 cpu_1.set_capacity(1)
 mem_1.set_capacity(4096)
