@@ -221,7 +221,7 @@ class CompositeResource(ResourceInterface, list):
             resource.set_parent_resource(self)
             resource.update_resource_accessibilities(True)
             LOG(msg='[ADD]: %s --> %s' % (self.info(), resource.info()), log=Logs.INFO)
-            ResourceInterface.ROOT.print_accessibilites()
+            # ResourceInterface.ROOT.print_accessibilites()
         return self
 
     def remove(self, resource):
@@ -230,7 +230,7 @@ class CompositeResource(ResourceInterface, list):
             resource.set_parent_resource(None)
             resource.update_resource_accessibilities(False)
             LOG(msg='[REMOVE]: %s --> %s' % (self.info(), resource.info()), log=Logs.INFO)
-            ResourceInterface.ROOT.print_accessibilites()
+            # ResourceInterface.ROOT.print_accessibilites()
             return resource
 
         LOG(msg='The resource is NOT in the scope of the composite resource %s' % self.name, log=Logs.WARN)
