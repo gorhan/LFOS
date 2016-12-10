@@ -98,7 +98,9 @@ class Schedule:
 
                     y_start += y_height
 
-        ax.legend()
+        handles, labels = ax.get_legend_handles_labels()
+        print 'HANDLES, LABELS', handles, labels
+        ax.legend(handles, labels)
         ax.xaxis.set_major_locator(major_grid_locator)
         ax.grid(b=True, which='major', linestyle='--')
         ax.set_ylim(0, y_start + y_resource + y_margin)
