@@ -126,7 +126,7 @@ scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
 
 scheduler.set_scheduling_window_start_time(Time(0))
-scheduler.set_scheduling_window_duration(Time(17))
+scheduler.set_scheduling_window_duration(Time(20))
 
 schedule = scheduler.schedule_tasks()
 schedule.plot_schedule()

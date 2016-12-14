@@ -2,7 +2,7 @@ from LFOS.Resource.Resource import System
 from LFOS.Scheduling.Characteristic.Time import Time, TimeResolution
 from matplotlib import colors
 import matplotlib.pyplot as plt
-import matplotlib as mpl
+import matplotlib.patches as mpatches
 from matplotlib.ticker import MultipleLocator
 from random import shuffle
 from LFOS.Log import LOG
@@ -73,9 +73,10 @@ class Schedule:
         job2colors = {job_cred: colors_[i] for i, job_cred in enumerate(self.__jobs)}
 
         y_resource = 10.0
-        y_margin = 1.0
+        y_margin = 3.0
 
-        fig, ax = plt.subplots()
+        fig = plt.figure(1)
+        ax = fig.add_axes([0.1, 0.18, 0.65, 0.8])
 
         for ind, (resource, reservations) in enumerate(self.__schedule.items()):
             y_capacity = y_resource / resource.get_capacity()
@@ -93,14 +94,13 @@ class Schedule:
                     y_height = y_capacity * reservation[3]
 
                     ax.broken_barh([(t_begin, t_end - t_begin)],
-                                   (y_start, y_height), facecolor=job2colors[reservation[0].get_credential()],
-                                   label=reservation[0].get_name())
+                                   (y_start, y_height), facecolor=job2colors[reservation[0].get_credential()])
 
                     y_start += y_height
 
-        handles, labels = ax.get_legend_handles_labels()
-        print 'HANDLES, LABELS', handles, labels
-        ax.legend(handles, labels)
+        # ax_legend = fig.add_axes([0.75, 0.15, 0.25, 1.0])
+        patches = [mpatches.Patch(color=pt_color, label=job_cred) for job_cred, pt_color in job2colors.items()]
+        ax.legend(handles=patches, loc='lower left', bbox_to_anchor=(1.01, -0.01))
         ax.xaxis.set_major_locator(major_grid_locator)
         ax.grid(b=True, which='major', linestyle='--')
         ax.set_ylim(0, y_start + y_resource + y_margin)
@@ -111,9 +111,40 @@ class Schedule:
 
         dpi = fig.get_dpi()
         LOG(msg='DPI=%d' % dpi)
+        fig.set_size_inches((40 * (self.__end - self.__begin) * (tm_res))/float(dpi), (60.0 * len(self.__schedule))/float(dpi))
+        # to know size of legend
+        # plt.tight_layout()
+        plt.show()
+        # canvas = FigureCanvasTkAgg(fig, master=root)
+        # canvas.show()
 
-        fig.set_size_inches((30 * (self.__end - self.__begin) * (tm_res))/float(dpi), (85.0 * len(self.__schedule))/float(dpi), forward=True)
+        # padLeft = ax.get_position().x0 * fig.get_size_inches()[0]
+        # padBottom = ax.get_position().y0 * fig.get_size_inches()[1]
+        # padTop = (1 - ax.get_position().y0 - ax.get_position().height) * fig.get_size_inches()[1]
+        # padRight = (1 - ax.get_position().x0 - ax.get_position().width) * fig.get_size_inches()[0]
+        # dpi = fig.get_dpi()
+        # padLegend = ax.get_legend().get_frame().get_width() / dpi
+        #
+        # widthAx = 3  # inches
+        # heightAx = 3  # inches
+        # widthTot = widthAx + padLeft + padRight + padLegend
+        # heightTot = heightAx + padTop + padBottom
+        #
+        # # resize ipython window (optional)
+        # posScreenX = 1366 / 2 - 10  # pixel
+        # posScreenY = 0  # pixel
+        # canvasPadding = 6  # pixel
+        # canvasBottom = 40  # pixel
+        # ipythonWindowSize = '{0}x{1}+{2}+{3}'.format(int(round(widthTot * dpi)) + 2 * canvasPadding
+        #                                              , int(round(heightTot * dpi)) + 2 * canvasPadding + canvasBottom
+        #                                              , posScreenX, posScreenY)
+        # canvas._tkcanvas.master.geometry(ipythonWindowSize)
+        # plt.draw()  # to resize ipython window. Has to be done BEFORE figure resizing!
+        #
+        # # set figure size and ax position
+        # fig.set_size_inches(widthTot, heightTot)
+        # ax.set_position([padLeft / widthTot, padBottom / heightTot, widthAx / widthTot, heightAx / heightTot])
+        # plt.draw()
+        # plt.show()
 
         self.__reset_schedule_plot()
-        plt.tight_layout()
-        plt.show()
