@@ -3,6 +3,8 @@ import sys
 sys.path.insert(0, os.getenv('LFOS_DIR'))
 
 from LFOS.Log import LOG, Logs
+from Feature.Feature import Feature
+from copy import copy
 
 def parse_raw_data_2_instances(raw_data):
     instance_data = []
@@ -67,8 +69,67 @@ def parse_feature_model(fmodelfile):
 
     return list(feature_model_set)
 
-def construct_structure(instance_data):
-    print 'TODO'
+def remove_blanks(src_str):
+    return ''.join([char for char in src_str if char != ' ' and char != '\t'])
+
+def search_stack(stck, search_item):
+    found = []
+    for elem in stck:
+        assert isinstance(elem, Feature)
+        elem.search_feature(search_item, found)
+        if found:
+            return found[0]
+
+    return None
+
+def construct_structure(instance, features):
+    stack = []
+    indent = '  '
+
+    print instance
+    curr_instance = None
+    for data in instance:
+        num_indent = data.count(indent)
+        data = remove_blanks(data)
+
+        ref_ins = data.split('->')
+        reference = ref_ins[0]
+        instance = ref_ins[1] if len(ref_ins) == 2 else None
+
+        reference = reference.split('$')
+        reference_base = reference[0]
+        reference_id = int(reference[1]) if len(reference) == 2 else 0
+
+        # print reference_base, reference_id, instance
+        if num_indent != 0:
+            parent_feature = curr_instance if curr_instance else stack[-1]
+            feature_ptr = parent_feature
+            num_indent -= 1
+            while num_indent > 0:
+                feature_ptr = feature_ptr[-1]
+                num_indent -= 1
+
+
+            child_feature = Feature(reference_base)
+            if instance:
+                found = search_stack(stack, instance)
+                if found:
+                    child_feature = found
+                else:
+                    child_feature = Feature(instance)
+                    child_feature.base = reference_base
+
+            feature_ptr.add(child_feature)
+        else:
+            found = search_stack(stack, reference_base)
+            if found:
+                curr_instance = found
+            else:
+                curr_instance = None
+                feature = Feature(reference_base)
+                stack.append(feature)
+
+    return stack[-1]
 
 def main():
     from optparse import OptionParser
@@ -76,16 +137,19 @@ def main():
     usage = "usage: python %prog [options] arg"
     parser = OptionParser(usage)
 
-    parser.add_option('-f', '--file', dest='filename', default='%s/FM_LFOS/example1.cfr' % os.getenv('LFOS_DIR'), help='The .cfr file containing feature model and configuration.')
-    parser.add_option('-t', '--tool', dest='IGtool', default='%s/tools/chocosolver.jar' % os.getenv('LFOS_DIR') , help='The instance generator tool.')
-    parser.add_option('--fmodel', dest='fmodelfile', default='%s/FM_LFOS/feature_model.cfr' % os.getenv('LFOS_DIR'), help='The .cfr file containing the feature model only.')
-    parser.add_option('-?', action='help', help='Prints the options')
+    parser.add_option('-f', '--file', dest='filename', default='%s/FM_LFOS/example1.cfr' % os.getenv('LFOS_DIR'), help='The Clafer file containing feature model and configuration.')
+    parser.add_option('-t', '--tool', dest='IGtool', default='%s/tools/chocosolver.jar' % os.getenv('LFOS_DIR') , help='The Instance Generator tool.')
+    parser.add_option('--fmodel', dest='fmodelfile', default='%s/FM_LFOS/feature_model.cfr' % os.getenv('LFOS_DIR'), help='The Clafer file containing only the feature model.')
+    parser.add_option('-?', action='help', help='Shows this help message and exits')
 
     options, args = parser.parse_args()
     instance_data = exec_IG_tool(options.IGtool, options.filename)
-    feature_model = parse_feature_model(options.fmodelfile)
+    features = parse_feature_model(options.fmodelfile)
 
-    print feature_model
+    # print '\n'.join(instance_data[0])
+    scheduler_instance = construct_structure(instance_data[0], features)
+    assert isinstance(scheduler_instance, Feature)
+    scheduler_instance.pretty_print()
 
 if __name__ == '__main__':
     main()
