@@ -1,5 +1,6 @@
 import os
 import sys
+from sys import stderr
 sys.path.insert(0, os.getenv('LFOS_DIR'))
 
 from LFOS.Log import LOG, Logs
@@ -40,7 +41,7 @@ def exec_IG_tool(igtool, filename):
     import subprocess
     java_app = 'java'
     java_args = '-jar'
-    IG_args = ['--file', '--prettify']
+    IG_args = ['--file']
 
     proc = subprocess.Popen([java_app, java_args, igtool, IG_args[0], filename] + IG_args[1:], stdout=subprocess.PIPE)
     raw_data = [line.strip('\n') for line in proc.stdout.readlines() if line != '\n'][2:] # cut dummy first two lines
@@ -72,35 +73,49 @@ def parse_feature_model(fmodelfile):
 def remove_blanks(src_str):
     return ''.join([char for char in src_str if char != ' ' and char != '\t'])
 
-def search_stack(stck, search_item):
+def search_stack(stck, feature_name, instance_name):
     found = []
     for elem in stck:
         assert isinstance(elem, Feature)
-        elem.search_feature(search_item, found)
+        elem.search_feature(feature_name, instance_name, found)
         if found:
             return found[0]
 
     return None
 
 def construct_structure(instance, features):
+    import re
     stack = []
     indent = '  '
 
-    print instance
+    # for item in instance:
+    #     print >>stderr, item
+
     curr_instance = None
     for data in instance:
         num_indent = data.count(indent)
         data = remove_blanks(data)
+        feature_name = instance_name = None
+        pattern = re.compile(r'\w+?_(\w+)')
+        if data.find('->') != -1:
+            ref_ins = data.split('->')[-1].split('=')
+            feature_name = pattern.search(ref_ins[0]).group(1)
+            instance_name = pattern.search(ref_ins[-1]).group(1)
+        elif data.find(':') != -1:
+            ref_ins = data.split(':')
+            feature_name = pattern.search(ref_ins[-1]).group(1)
+            instance_name = pattern.search(ref_ins[0].split('=')[0]).group(1)
+        else:
+            feature_name = pattern.search(data).group(1)
 
-        ref_ins = data.split('->')
-        reference = ref_ins[0]
-        instance = ref_ins[1] if len(ref_ins) == 2 else None
+        # reference = ref_ins[0]
+        # instance = ref_ins[1] if len(ref_ins) == 2 else None
+        #
+        # reference = reference.split('$')
+        # reference_base = reference[0]
+        # reference_id = int(reference[1]) if len(reference) == 2 else 0
 
-        reference = reference.split('$')
-        reference_base = reference[0]
-        reference_id = int(reference[1]) if len(reference) == 2 else 0
-
-        # print reference_base, reference_id, instance
+        # print feature_name, instance_name
         if num_indent != 0:
             parent_feature = curr_instance if curr_instance else stack[-1]
             feature_ptr = parent_feature
@@ -109,25 +124,28 @@ def construct_structure(instance, features):
                 feature_ptr = feature_ptr[-1]
                 num_indent -= 1
 
-
-            child_feature = Feature(reference_base)
-            if instance:
-                found = search_stack(stack, instance)
+            child_feature = Feature(feature_name, instance_name)
+            if instance_name:
+                found = search_stack(stack, feature_name, instance_name)
                 if found:
                     child_feature = found
                 else:
-                    child_feature = Feature(instance)
-                    child_feature.base = reference_base
+                    child_feature = Feature(feature_name, instance_name)
 
             feature_ptr.add(child_feature)
         else:
-            found = search_stack(stack, reference_base)
+            found = search_stack(stack, feature_name, instance_name)
             if found:
                 curr_instance = found
             else:
                 curr_instance = None
-                feature = Feature(reference_base)
+                feature = Feature(feature_name, instance_name)
                 stack.append(feature)
+
+        # raw_input('################')
+        # for item in stack:
+        #     item.pretty_print()
+        #     print '#' * 50
 
     return stack[-1]
 
@@ -145,7 +163,6 @@ def main():
     options, args = parser.parse_args()
     instance_data = exec_IG_tool(options.IGtool, options.filename)
     features = parse_feature_model(options.fmodelfile)
-
     # print '\n'.join(instance_data[0])
     scheduler_instance = construct_structure(instance_data[0], features)
     assert isinstance(scheduler_instance, Feature)

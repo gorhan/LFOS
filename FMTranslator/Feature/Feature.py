@@ -2,12 +2,12 @@ from FMTranslator.Composite.Composite import Composite
 
 
 class Feature(Composite):
-    def __init__(self, name):
+    def __init__(self, name, instance=None):
         Composite.__init__(self)
 
         self.name = name
         self.callback_func = '%s_cb' % self.name
-        self.base = None
+        self.instance = instance
         self.__parent = None
 
     def visit(self, operator):
@@ -20,15 +20,12 @@ class Feature(Composite):
     def get_parent(self):
         return self.__parent
 
-    def __eq__(self, other):
-        return self.name == other.name if isinstance(other, Feature) else self.name == other
-
-    def search_feature(self, feature, found=[]):
-        if self == feature:
+    def search_feature(self, name, instance, found=[]):
+        if instance is not None and self.instance == instance and self.name == name:
             found.append(self)
         else:
-            self._search_feature(feature, found)
+            self._search_feature(name, instance, found)
 
     def pretty_print(self, indent=0):
-        print '%s%s, F=%s' % ('\t' * indent, self.name, self.callback_func)
+        print '%s%s(%r), F=%s' % ('\t' * indent, self.name, self.instance, self.callback_func)
         self._pretty_print(indent+1)

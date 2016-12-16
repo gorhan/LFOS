@@ -2,7 +2,6 @@ from LFOS.Log import LOG, Logs
 
 class Composite:
     def __init__(self):
-
         self._container = []
 
     def add(self, feature_or_instance):
@@ -23,9 +22,9 @@ class Composite:
 
         return None
 
-    def _search_feature(self, feature, found):
+    def _search_feature(self, name, instance, found):
         for in_feature in self._container:
-            in_feature.search_feature(feature, found)
+            in_feature.search_feature(name, instance, found)
 
     def _pretty_print(self, indent):
         for item in self._container:

@@ -20,14 +20,14 @@ abstract or abstract_objective_criteria
     resource_related_user_defined_criteria
 
 abstract task_related_objective
-    purpose : objective_purpose
+    task_objective_purpose : objective_purpose
     or criteria
         `time_related_objective_criteria
         `abstract_objective_criteria
             [ task_related_user_defined_criteria && ! resource_related_user_defined_criteria]
 
 abstract resource_related_objective
-    purpose : objective_purpose
+    resource_objective_purpose : objective_purpose
     or criteria
         `resource_related_objective_criteria
         `abstract_objective_criteria
@@ -58,7 +58,7 @@ abstract resource
             discrete
             continuous
         [scalable => resource_type.abstraction.ACTIVE]
-    objective : resource_related_objective ?
+    resource_objective : resource_related_objective ?
 
 abstract timing
     release_time
@@ -68,7 +68,7 @@ abstract timing
         periodic
         aperiodic
             sporadic ?
-
+            
 abstract resource_requirement
     eligible_resources -> resource +
     resource_identifier
@@ -90,7 +90,7 @@ abstract task
     xor granularity
         terminal
         composite
-    objective : task_related_objective ?
+    task_objective : task_related_objective ?
     dependency ?
         token_type
         n_tokens
