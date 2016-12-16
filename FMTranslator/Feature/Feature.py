@@ -10,8 +10,9 @@ class Feature(Composite):
         self.instance = instance
         self.__parent = None
 
-    def visit(self, operator):
-        return getattr(operator, self.callback_func)()
+    def visit(self, host):
+        print 'Visit: %s' % self.callback_func
+        getattr(host, self.callback_func)()
 
     def set_parent(self, parent):
         assert isinstance(parent, Feature)
@@ -29,3 +30,6 @@ class Feature(Composite):
     def pretty_print(self, indent=0):
         print '%s%s(%r), F=%s' % ('\t' * indent, self.name, self.instance, self.callback_func)
         self._pretty_print(indent+1)
+
+    def traverse(self):
+        return [self] + self._traverse()

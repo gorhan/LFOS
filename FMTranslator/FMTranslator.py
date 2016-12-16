@@ -5,7 +5,7 @@ sys.path.insert(0, os.getenv('LFOS_DIR'))
 
 from LFOS.Log import LOG, Logs
 from Feature.Feature import Feature
-from copy import copy
+from Reporter import Reporter
 
 def parse_raw_data_2_instances(raw_data):
     instance_data = []
@@ -158,6 +158,7 @@ def main():
     parser.add_option('-f', '--file', dest='filename', default='%s/FM_LFOS/example1.cfr' % os.getenv('LFOS_DIR'), help='The Clafer file containing feature model and configuration.')
     parser.add_option('-t', '--tool', dest='IGtool', default='%s/tools/chocosolver.jar' % os.getenv('LFOS_DIR') , help='The Instance Generator tool.')
     parser.add_option('--fmodel', dest='fmodelfile', default='%s/FM_LFOS/feature_model.cfr' % os.getenv('LFOS_DIR'), help='The Clafer file containing only the feature model.')
+    parser.add_option('-o', '--output', dest='output', default='FMTranslater.tex', help='Output file name to create a Latex file.')
     parser.add_option('-?', action='help', help='Shows this help message and exits')
 
     options, args = parser.parse_args()
@@ -167,6 +168,13 @@ def main():
     scheduler_instance = construct_structure(instance_data[0], features)
     assert isinstance(scheduler_instance, Feature)
     scheduler_instance.pretty_print()
+
+    report = Reporter(options.output)
+    report.operate()
+    for instance in scheduler_instance.traverse():
+        # print instance.name
+        report.accept(instance)
+    report.terminate()
 
 if __name__ == '__main__':
     main()

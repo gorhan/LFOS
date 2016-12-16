@@ -5,3 +5,6 @@
 *.js
 PySCIPOpt/
 Numberjack/
+*.aux
+*.log
+*.gz

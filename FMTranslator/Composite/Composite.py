@@ -29,3 +29,10 @@ class Composite:
     def _pretty_print(self, indent):
         for item in self._container:
             item.pretty_print(indent)
+
+    def _traverse(self):
+        return_lst = []
+        for item in self._container:
+             return_lst += item.traverse()
+
+        return return_lst
