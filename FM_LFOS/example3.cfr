@@ -152,8 +152,8 @@ abstract scheduling_strategy
     `output
 
 abstract scheduler
-    taskset -> task +
     system -> resource +
+    taskset -> task +
     properties : scheduling_characteristic 
     strategy : scheduling_strategy ?
 

@@ -1,4 +1,4 @@
-from VisitorInterface.VisitorInterface import VisitorInterface
+from VisitorInterface.VisitorInterface import *
 
 
 class Reporter(VisitorInterface):
@@ -30,6 +30,7 @@ class Reporter(VisitorInterface):
 	showspaces=false,                			% show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
 	showstringspaces=false,          			% underline spaces within strings only
 	showtabs=false,                  			% show tabs within strings adding particular underscores
+	numbers=left,
 }
 
 \\begin{document}
@@ -41,358 +42,473 @@ class Reporter(VisitorInterface):
 
     def __init__(self, filename):
         VisitorInterface.__init__(self)
-        self.__file = open(filename, 'w')
+        self.__file = filename
+        self.__ready = False
 
-    def operate(self):
-        self.__file.write(Reporter.HEADER)
+    def open(self):
+        try:
+            self.__file_fp = open(self.__file, 'w')
+            self.write(Reporter.HEADER)
+        except IOError:
+            LOG(msg='Impossible to open file:%s' % self.__file, log=Logs.ERROR)
+            return False
+
+        self.__ready = True
         return True
 
-    def terminate(self):
-        self.__file.write(Reporter.FOOTER)
-        self.__file.close()
+    def close(self):
+        self.write(Reporter.FOOTER)
+        self.__file_fp.close()
         return True
 
     def write(self, text):
-        self.__file.write(text)
-        self.__file.flush()
+        self.__file_fp.write(text)
+        self.__file_fp.flush()
+
+    def set_filename(self, filename):
+        self.__file = filename
+        self.open()
+
+    def get_filename(self):
+        return self.__file
 
     def accept(self, visitor):
+        if not self.__ready:
+            LOG(msg='Unable to proceed.', log=Logs.ERROR)
+            return False
+
         visitor.visit(self)
+        return True
 
-    def exclusive_cb(self):
+    @staticmethod
+    def function_implementation(code, label, caption):
+        return ('''
+\\begin{lstlisting}[language=Python, frame=single, label={lst:%s}, caption={%s}]
+%s
+\\end{lstlisting}
+        ''' % (label, caption, code.strip()))
+
+    def exclusive_cb(self, *args, **kwargs):
         pass
 
-    def dynamic_cb(self):
+    def dynamic_cb(self, *args, **kwargs):
         pass
 
-    def scheduling_window_cb(self):
+    def scheduling_window_cb(self, *args, **kwargs):
         pass
 
-    def deadline_cb(self):
+    def deadline_cb(self, *args, **kwargs):
         pass
 
-    def semantic_based_cb(self):
+    def semantic_based_cb(self, *args, **kwargs):
         pass
 
-    def scheduling_strategy_cb(self):
+    def scheduling_strategy_cb(self, *args, **kwargs):
         pass
 
-    def power_consumption_cb(self):
+    def power_consumption_cb(self, *args, **kwargs):
         pass
 
-    def terminal_cb(self):
+    def terminal_cb(self, *args, **kwargs):
         pass
 
-    def policy_cb(self):
+    def policy_cb(self, *args, **kwargs):
         pass
 
-    def RM_cb(self):
+    def RM_cb(self, *args, **kwargs):
         pass
 
-    def ranking_cb(self):
+    def ranking_cb(self, *args, **kwargs):
         pass
 
-    def string_cb(self):
+    def string_cb(self, *args, **kwargs):
         pass
 
-    def execution_time_cb(self):
+    def execution_time_cb(self, *args, **kwargs):
         pass
 
-    def scalable_cb(self):
+    def scalable_cb(self, *args, **kwargs):
         pass
 
-    def PASSIVE_cb(self):
-        pass
+    def PASSIVE_cb(self, *args, **kwargs):
+        self.write(('''
+For \\emph{abstraction}, \\textsc{passive} is selected. Therefore, you can create the type object using the following code segment:
+%s
+        ''' % self.function_implementation('''
+{0}_t = Type(ResourceTypeList.PASSIVE, '{0}_t')
+        '''.format(self.resource_cb_flag[0]), '%spassiveType' % self.resource_cb_flag[0], 'Passive resource type object instantiation')) + ('''
+According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
+ResourceFactory class shown in Listing \\ref{lst:%spassiveInstantiation}. For passive resources, an object belonging to \\textsf{TerminalResource} class is instantiated
+using factory method pattern to handle the optional feature under \\emph{Abstraction} sub-feature.
 
-    def scheduler_cb(self):
+%s
+''' % (self.resource_cb_flag[0], self.function_implementation('''
+{0} = ResourceFactory.create_instance({0}_t, '{0}')
+        '''.format(self.resource_cb_flag[0]), '%spassiveInstantiation' % self.resource_cb_flag[0], 'Passive resource instantiation using ResourceFactory class'))))
+
+    def scheduler_cb(self, *args, **kwargs):
         print  'Entered scheduler_cb'
         info = '''
-\section{Scheduler class}
-Hebele gubele
-        '''
+\section{Required Modules}
+In order to use LFOS frameowrk API, a programmer should import the required module:
+%s
+
+\section{Scheduler}
+Based on the selected instance, the scheduler instance, namely ``\\textsf{%s}'', can be generated by following the following procedures one-by-one:
+        ''' % (self.function_implementation('''
+from LFOS.Scheduler.Scheduler import Scheduler
+from LFOS.Resource.Resource import *
+from LFOS.Task.Task import *
+from LFOS.Scheduling.Characteristic.Time import Time
+from LFOS.macros import *
+        ''', 'moduleImport', 'Importing required modules'), args[0])
         self.write(info)
 
-    def timing_cb(self):
+    def timing_cb(self, *args, **kwargs):
         pass
 
-    def task_objective_purpose_cb(self):
+    def task_objective_purpose_cb(self, *args, **kwargs):
         pass
 
-    def resource_cb(self):
-        pass
+    def resource_cb(self, *args, **kwargs):
+        self.write('''
+\subsection{Resource Initialization for ``\\textsf{%s}''}
+        ''' % args[0])
+        if not hasattr(self, 'resource_cb_flag'):
+            self.write('''
+Since some of the task specifications are based on the resources, in the framework, a programmer is expected to define the resources, initially.
+As explained in the article, some of the specifications are inevitable for a resource. Therefore, it should be defined for each resource.
+Based on the feature model, the following attributes are inevitable for a resource:
+\\begin{itemize}
+    \\item \\textsc{Capacity} ($\mathcal{C}$): The capacity of the resource are required to determine the maximum amount of capacity which can be utilized
+    per time unit.
+    \\item \\textsc{Type} ($\\Re$): This attribute categorize the resources based on \\emph{Abstractions} and \\emph{Identifier}.
+    \\item \\textsc{Mode} ($\\mathcal{X}$): The mode of a resource may be either \\emph{Shared} or \\emph{Exclusive}.
+    \\item \\textsc{Power Consumption} ($\\mathcal{V}$): A resource consumes power based on this attribute. The resource is either \\emph{Scalable} or not.
+    \\item \\textsc{Objective} ($\\mathcal{O}_\\alpha$): This attribute is related with the resource-related objectives.
+\\end{itemize}
 
-    def name_cb(self):
-        pass
+The only required specification for the instantiation is \\emph{Type} of the resource. The default values for all specification belonging to a resource are
+shown in Table \\ref{tab:resource_vars_default}.
 
-    def solver_cb(self):
-        pass
+\\begin{table}[!htb]
+	\\centering
+	\\begin{tabular}{r || c | c |}
+		\\hline
+		\\textbf{Feature Name} & \\textbf{Variable Type} & \\textbf{Initial Value} \\\\ \\hline \\hline
+		Capacity ($\mathcal{C})$ & float & $0.0$ \\\\ \\hline
+		Type ($\Re$) & LFOS.Resource.Type.ResourceTypeList::Enum & \\textsf{proc\_t} \\\\ \\hline
+		Mode ($\mathcal{X}$) & LFOS.Resource.Mode.ModeTypeList::Enum & \\textsc{cb\_exclusive} \\\\ \\hline
+		Power Consumption ($\mathcal{V}$) & LFOS.Resource.Power & \\textsf{None} \\\\ \\hline
+		Objective ($\mathcal{O}_{\\alpha}$) & LFOS.Objective & \\textsf{None} \\\\ \\hline
+	\end{tabular}
+	\caption{Default instance variables of the \emph{Resource} module and their default values.}
+	\label{tab:resource_vars_default}
+\end{table}
 
-    def scheduling_characteristic_type_cb(self):
-        pass
+            ''')
+        self.resource_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
 
-    def n_tokens_cb(self):
+    def name_cb(self, *args, **kwargs):
         pass
 
-    def discrete_cb(self):
+    def solver_cb(self, *args, **kwargs):
         pass
 
-    def mode_cb(self):
+    def scheduling_characteristic_type_cb(self, *args, **kwargs):
         pass
 
-    def capacity_based_cb(self):
+    def n_tokens_cb(self, *args, **kwargs):
         pass
 
-    def output_cb(self):
+    def discrete_cb(self, *args, **kwargs):
         pass
 
-    def identifier_cb(self):
+    def mode_cb(self, *args, **kwargs):
         pass
 
-    def soft_cb(self):
+    def capacity_based_cb(self, *args, **kwargs):
         pass
 
-    def grouping_cb(self):
+    def output_cb(self, *args, **kwargs):
         pass
 
-    def requirement_cb(self):
+    def identifier_cb(self, *args, **kwargs):
         pass
 
-    def cooperative_cb(self):
+    def soft_cb(self, *args, **kwargs):
         pass
 
-    def periodicity_cb(self):
+    def grouping_cb(self, *args, **kwargs):
         pass
 
-    def sequence_dependent_setup_time_cb(self):
+    def requirement_cb(self, *args, **kwargs):
         pass
 
-    def hard_cb(self):
+    def cooperative_cb(self, *args, **kwargs):
         pass
 
-    def resource_related_user_defined_criteria_cb(self):
+    def periodicity_cb(self, *args, **kwargs):
         pass
 
-    def migration_cb(self):
+    def sequence_dependent_setup_time_cb(self, *args, **kwargs):
         pass
 
-    def sporadic_cb(self):
+    def hard_cb(self, *args, **kwargs):
         pass
 
-    def required_resources_cb(self):
+    def resource_related_user_defined_criteria_cb(self, *args, **kwargs):
         pass
 
-    def centering_cb(self):
+    def migration_cb(self, *args, **kwargs):
         pass
 
-    def resource_identifier_cb(self):
+    def sporadic_cb(self, *args, **kwargs):
         pass
 
-    def aperiodic_cb(self):
+    def required_resources_cb(self, *args, **kwargs):
         pass
 
-    def shared_cb(self):
+    def centering_cb(self, *args, **kwargs):
         pass
 
-    def offline_cb(self):
+    def resource_identifier_cb(self, *args, **kwargs):
         pass
 
-    def task_level_cb(self):
+    def aperiodic_cb(self, *args, **kwargs):
         pass
 
-    def makespan_cb(self):
+    def shared_cb(self, *args, **kwargs):
         pass
 
-    def ED_cb(self):
+    def offline_cb(self, *args, **kwargs):
         pass
 
-    def taskset_cb(self):
+    def task_level_cb(self, *args, **kwargs):
         pass
 
-    def granularity_cb(self):
+    def makespan_cb(self, *args, **kwargs):
         pass
 
-    def ACTIVE_cb(self):
+    def ED_cb(self, *args, **kwargs):
         pass
 
-    def DSB_cb(self):
+    def taskset_cb(self, *args, **kwargs):
         pass
 
-    def properties_cb(self):
+    def granularity_cb(self, *args, **kwargs):
         pass
 
-    def scheduling_policy_cb(self):
+    def ACTIVE_cb(self, *args, **kwargs):
+        self.write(('''
+For \\emph{abstraction}, \\textsc{active} is selected. Therefore, you can create the type object using the following code segment:
+%s
+        ''' % self.function_implementation('''
+{0}_t = Type(ResourceTypeList.ACTIVE, '{0}_t')
+        '''.format(self.resource_cb_flag[0]), 'activeType', 'Active resource type object instantiation')) + ('''
+According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
+ResourceFactory class shown in Listing \\ref{lst:%sactiveInstantiation}. For active resources, an object belonging to \\textsf{TerminalResource} class is instantiated
+using factory method pattern to handle the optional feature under \\emph{Abstraction} sub-feature.
+
+%s
+''' % (self.resource_cb_flag[0], self.function_implementation('''
+{0} = ResourceFactory.create_instance({0}_t, '{0}')
+        '''.format(self.resource_cb_flag[0]), '%sactiveInstantiation' % self.resource_cb_flag[0],
+                                   'Active resource instantiation using ResourceFactory class'))))
+
+    def DSB_cb(self, *args, **kwargs):
         pass
 
-    def solver_meta_knowledge_cb(self):
+    def properties_cb(self, *args, **kwargs):
         pass
 
-    def fixed_cb(self):
+    def scheduling_policy_cb(self, *args, **kwargs):
         pass
 
-    def COMPOSITE_cb(self):
+    def solver_meta_knowledge_cb(self, *args, **kwargs):
         pass
 
-    def task_related_objective_cb(self):
+    def fixed_cb(self, *args, **kwargs):
         pass
 
-    def dependency_cb(self):
+    def COMPOSITE_cb(self, *args, **kwargs):
+        self.write(('''
+For \\emph{abstraction}, \\textsc{composite} is selected. Therefore, you can create the type object using the following code segment:
+%s
+        ''' % self.function_implementation('''
+{0}_t = Type(ResourceTypeList.COMPOSITE, '{0}_t')
+        '''.format(self.resource_cb_flag[0]), 'compositeType', 'Composite resource type object instantiation')) + ('''
+According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
+ResourceFactory class shown in Listing \\ref{lst:%scompositeInstantiation}. For compoiste resources, an object belonging to \\textsf{CompositeResource} class is instantiated
+using factory method pattern to handle the optional feature under \\emph{Abstraction} sub-feature.
+
+%s
+''' % (self.resource_cb_flag[0], self.function_implementation('''
+{0} = ResourceFactory.create_instance({0}_t, '{0}')
+        '''.format(self.resource_cb_flag[0]), '%scompositeInstantiation' % self.resource_cb_flag[0],
+                                   'Composite resource instantiation using ResourceFactory class'))))
+
+    def task_related_objective_cb(self, *args, **kwargs):
         pass
 
-    def periodic_cb(self):
+    def dependency_cb(self, *args, **kwargs):
         pass
 
-    def throughput_cb(self):
+    def periodic_cb(self, *args, **kwargs):
         pass
 
-    def DSLB_cb(self):
+    def throughput_cb(self, *args, **kwargs):
         pass
 
-    def objective_purpose_cb(self):
+    def DSLB_cb(self, *args, **kwargs):
         pass
 
-    def resource_type_cb(self):
+    def objective_purpose_cb(self, *args, **kwargs):
         pass
 
-    def time_resolution_cb(self):
+    def resource_type_cb(self, *args, **kwargs):
         pass
 
-    def SCIP_SoPlex_cb(self):
+    def time_resolution_cb(self, *args, **kwargs):
         pass
 
-    def token_type_cb(self):
+    def SCIP_SoPlex_cb(self, *args, **kwargs):
         pass
 
-    def scheduling_characteristic_cb(self):
+    def token_type_cb(self, *args, **kwargs):
         pass
 
-    def utilization_cb(self):
+    def scheduling_characteristic_cb(self, *args, **kwargs):
         pass
 
-    def tardiness_cb(self):
+    def utilization_cb(self, *args, **kwargs):
         pass
 
-    def system_cb(self):
+    def tardiness_cb(self, *args, **kwargs):
         pass
 
-    def strategy_cb(self):
+    def system_cb(self, *args, **kwargs):
         pass
 
-    def priority_cb(self):
+    def strategy_cb(self, *args, **kwargs):
         pass
 
-    def priority_assignment_cb(self):
+    def priority_cb(self, *args, **kwargs):
         pass
 
-    def criteria_cb(self):
+    def priority_assignment_cb(self, *args, **kwargs):
         pass
 
-    def firm_cb(self):
+    def criteria_cb(self, *args, **kwargs):
         pass
 
-    def SAS_OR_R_cb(self):
+    def firm_cb(self, *args, **kwargs):
         pass
 
-    def task_objective_cb(self):
+    def SAS_OR_R_cb(self, *args, **kwargs):
         pass
 
-    def composite_cb(self):
+    def task_objective_cb(self, *args, **kwargs):
         pass
 
-    def continuous_cb(self):
+    def composite_cb(self, *args, **kwargs):
         pass
 
-    def resource_objective_cb(self):
+    def continuous_cb(self, *args, **kwargs):
         pass
 
-    def FIFO_cb(self):
+    def resource_objective_cb(self, *args, **kwargs):
         pass
 
-    def input_cb(self):
+    def FIFO_cb(self, *args, **kwargs):
         pass
 
-    def SJF_cb(self):
+    def input_cb(self, *args, **kwargs):
         pass
 
-    def abstract_objective_criteria_cb(self):
+    def SJF_cb(self, *args, **kwargs):
         pass
 
-    def default_cb(self):
+    def abstract_objective_criteria_cb(self, *args, **kwargs):
         pass
 
-    def preemptive_cb(self):
+    def default_cb(self, *args, **kwargs):
         pass
 
-    def resource_objective_purpose_cb(self):
+    def preemptive_cb(self, *args, **kwargs):
         pass
 
-    def ERT_cb(self):
+    def resource_objective_purpose_cb(self, *args, **kwargs):
         pass
 
-    def mini_cb(self):
+    def ERT_cb(self, *args, **kwargs):
         pass
 
-    def lateness_cb(self):
+    def mini_cb(self, *args, **kwargs):
         pass
 
-    def task_related_user_defined_criteria_cb(self):
+    def lateness_cb(self, *args, **kwargs):
         pass
 
-    def earliness_cb(self):
+    def task_related_user_defined_criteria_cb(self, *args, **kwargs):
         pass
 
-    def resource_requirement_cb(self):
+    def earliness_cb(self, *args, **kwargs):
         pass
 
-    def IBM_ILOG_CPLEX_Optimizer_cb(self):
+    def resource_requirement_cb(self, *args, **kwargs):
         pass
 
-    def preemptable_cb(self):
+    def IBM_ILOG_CPLEX_Optimizer_cb(self, *args, **kwargs):
         pass
 
-    def resource_related_objective_cb(self):
+    def preemptable_cb(self, *args, **kwargs):
         pass
 
-    def user_defined_cb(self):
+    def resource_related_objective_cb(self, *args, **kwargs):
         pass
 
-    def maxi_cb(self):
+    def user_defined_cb(self, *args, **kwargs):
         pass
 
-    def Knapsack_cb(self):
+    def maxi_cb(self, *args, **kwargs):
         pass
 
-    def online_cb(self):
+    def Knapsack_cb(self, *args, **kwargs):
         pass
 
-    def objective_cb(self):
+    def online_cb(self, *args, **kwargs):
         pass
 
-    def release_time_cb(self):
+    def objective_cb(self, *args, **kwargs):
         pass
 
-    def resource_related_objective_criteria_cb(self):
+    def release_time_cb(self, *args, **kwargs):
         pass
 
-    def eligible_resources_cb(self):
+    def resource_related_objective_criteria_cb(self, *args, **kwargs):
         pass
 
-    def abstraction_cb(self):
+    def eligible_resources_cb(self, *args, **kwargs):
         pass
 
-    def purpose_cb(self):
+    def abstraction_cb(self, *args, **kwargs):
         pass
 
-    def capacity_cb(self):
+    def purpose_cb(self, *args, **kwargs):
         pass
+
+    def capacity_cb(self, *args, **kwargs):
+        self.write('''''')
 
-    def task_cb(self):
+    def task_cb(self, *args, **kwargs):
         pass
 
-    def time_related_objective_criteria_cb(self):
+    def time_related_objective_criteria_cb(self, *args, **kwargs):
         pass
 
-    def job_level_cb(self):
+    def job_level_cb(self, *args, **kwargs):
         pass
 
-    def global_objective_cb(self):
+    def global_objective_cb(self, *args, **kwargs):
         pass

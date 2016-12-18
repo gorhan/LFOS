@@ -12,7 +12,7 @@ class Feature(Composite):
 
     def visit(self, host):
         print 'Visit: %s' % self.callback_func
-        getattr(host, self.callback_func)()
+        return getattr(host, self.callback_func)(self.instance)
 
     def set_parent(self, parent):
         assert isinstance(parent, Feature)

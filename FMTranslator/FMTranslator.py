@@ -170,11 +170,11 @@ def main():
     scheduler_instance.pretty_print()
 
     report = Reporter(options.output)
-    report.operate()
+    report.open()
     for instance in scheduler_instance.traverse():
         # print instance.name
         report.accept(instance)
-    report.terminate()
+    report.close()
 
 if __name__ == '__main__':
     main()

@@ -2,10 +2,10 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from LFOS.Resource.Resource import *
-from LFOS.Task.Task import TaskFactory, TaskTypeList
-from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Scheduler.Scheduler import Scheduler
+from LFOS.Resource.Resource import *
+from LFOS.Task.Task import *
+from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
 # Initialize resource types
