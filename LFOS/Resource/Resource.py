@@ -126,7 +126,7 @@ class TerminalResource(ResourceInterface, Mode):
         self.__power = pc_instance
         LOG(msg='Power consumption has been specified.', log=Logs.INFO)
 
-    def get_power(self):
+    def get_power_consumption(self):
         return self.__power
 
     def get_capacity(self):

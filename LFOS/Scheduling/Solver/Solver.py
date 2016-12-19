@@ -78,7 +78,7 @@ class SolverAdapter(object):
         self.__sched_window_duration = self.__sched_window_end - self.__sched_window_begin
 
         self.__Allocation = {(resource, job): VarArray(self.__sched_window_duration, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
-        self.__ResourcePS = {resource: Variable(resource.get_power().get_power_states()) for resource in self.__resources}
+        self.__ResourcePS = {resource: Variable(resource.get_power_consumption().get_power_states()) for resource in self.__resources}
 
         # self.__Start = {job: VarArray(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
         # self.__End = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}

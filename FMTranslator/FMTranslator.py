@@ -108,14 +108,6 @@ def construct_structure(instance, features):
         else:
             feature_name = pattern.search(data).group(1)
 
-        # reference = ref_ins[0]
-        # instance = ref_ins[1] if len(ref_ins) == 2 else None
-        #
-        # reference = reference.split('$')
-        # reference_base = reference[0]
-        # reference_id = int(reference[1]) if len(reference) == 2 else 0
-
-        # print feature_name, instance_name
         if num_indent != 0:
             parent_feature = curr_instance if curr_instance else stack[-1]
             feature_ptr = parent_feature

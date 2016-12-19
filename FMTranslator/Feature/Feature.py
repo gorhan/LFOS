@@ -1,7 +1,8 @@
-from FMTranslator.Composite.Composite import Composite
+from FMTranslator.Composite.Composite import *
 
 
 class Feature(Composite):
+    VISITED = []
     def __init__(self, name, instance=None):
         Composite.__init__(self)
 
@@ -11,8 +12,13 @@ class Feature(Composite):
         self.__parent = None
 
     def visit(self, host):
-        print 'Visit: %s' % self.callback_func
-        return getattr(host, self.callback_func)(self.instance)
+        if self not in Feature.VISITED:
+            LOG(msg='Not visited. F=%s(%s)' % (self.name, self.instance))
+            Feature.VISITED.append(self)
+            return getattr(host, self.callback_func)(self.instance, self.__parent, self._container)
+        else:
+            LOG(msg='Visited already. F=%s(%s)' % (self.name, self.instance))
+            return getattr(host, 'not_implemented')()
 
     def set_parent(self, parent):
         assert isinstance(parent, Feature)
@@ -28,7 +34,7 @@ class Feature(Composite):
             self._search_feature(name, instance, found)
 
     def pretty_print(self, indent=0):
-        print '%s%s(%r), F=%s' % ('\t' * indent, self.name, self.instance, self.callback_func)
+        print '%s%s(%r), CB=%s' % ('\t' * indent, self.name, self.instance, self.callback_func)
         self._pretty_print(indent+1)
 
     def traverse(self):

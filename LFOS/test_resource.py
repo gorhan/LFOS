@@ -80,9 +80,9 @@ cpu.set_power_consumption(proc_power_consumption)
 memory_1.set_power_consumption(mem_power_consumption)
 memory_2.set_power_consumption(mem_power_consumption)
 
-print cpu.get_power().get_power_states()
-print memory_1.get_power().get_power_states()
-print memory_2.get_power().get_power_states()
+print cpu.get_power_consumption().get_power_states()
+print memory_1.get_power_consumption().get_power_states()
+print memory_2.get_power_consumption().get_power_states()
 
 gpu_block.remove(gpu2_block)
 gpu2_block.remove(gpu2_cache_memory)

@@ -88,8 +88,12 @@ class Reporter(VisitorInterface):
 \\end{lstlisting}
         ''' % (label, caption, code.strip()))
 
-    def exclusive_cb(self, *args, **kwargs):
-        pass
+    def _remove_attributes(self, *args):
+        for arg in args:
+            try:
+                self.__dict__.pop(arg)
+            except KeyError:
+                pass
 
     def dynamic_cb(self, *args, **kwargs):
         pass
@@ -100,14 +104,40 @@ class Reporter(VisitorInterface):
     def deadline_cb(self, *args, **kwargs):
         pass
 
-    def semantic_based_cb(self, *args, **kwargs):
-        pass
-
     def scheduling_strategy_cb(self, *args, **kwargs):
         pass
 
     def power_consumption_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+\\subsubsection{Setting Power Consumption}
+There are three possible types of power consumption:
+\\begin{itemize}
+    \\item \\textsf{PowerTypeList.FIXED_STATE_POWER_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION}
+\\end{itemize}
+Each of these types have their corresponding classes inheriting \\textsf{Resource} class. Therefore, we have utilized factory method design pattern.
+        ''')
+        if not args[2]:
+            self.write('''
+Since you have selected non-scalable power consumption for the resource. The following instantiation can be applied:
+%s
+
+If you want to get the instance of power, then you can use the following function:
+%s
+            ''' % (self.function_implementation('''
+power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
+{0}_pc = PowerFactory.create_instance(power_type, scale, consumption)
+# Arguments: power_type --> PowerTypeList::Enum
+#            scale --> float // a scale value within [0.0, 1.0]
+#            consumption --> float // a power consumption of one-capacity per unit time
+# it returns the instance belonging
+
+{0}.set_power_consumption({0}_pc)
+            '''.format(self.resource_cb_flag[0]), '%screatingPowerConsumption' % self.resource_cb_flag[0], 'Initializing power consumption module and setting it to the resource.'),
+                   self.function_implementation('''
+{0}.get_power_consumption()
+            '''.format(self.resource_cb_flag[0]), '%sgettingPowerConsumption' % self.resource_cb_flag[0], 'Getting power consumption module')))
 
     def terminal_cb(self, *args, **kwargs):
         pass
@@ -147,7 +177,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         '''.format(self.resource_cb_flag[0]), '%spassiveInstantiation' % self.resource_cb_flag[0], 'Passive resource instantiation using ResourceFactory class'))))
 
     def scheduler_cb(self, *args, **kwargs):
-        print  'Entered scheduler_cb'
+        self.scheduler_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
         info = '''
 \section{Required Modules}
 In order to use LFOS frameowrk API, a programmer should import the required module:
@@ -161,7 +191,7 @@ from LFOS.Resource.Resource import *
 from LFOS.Task.Task import *
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
-        ''', 'moduleImport', 'Importing required modules'), args[0])
+        ''', 'moduleImport', 'Importing required modules'), self.scheduler_cb_flag[1])
         self.write(info)
 
     def timing_cb(self, *args, **kwargs):
@@ -225,10 +255,96 @@ shown in Table \\ref{tab:resource_vars_default}.
         pass
 
     def mode_cb(self, *args, **kwargs):
+        self._remove_attributes('semantic_based_cb_flag', 'capacity_based_cb_flag')
+        self.write('''
+\\subsubsection{Setting mode}
+There are three possible types for this ttribute. These are:
+\\begin{itemize}
+    \\item \\textsf{ModeTypeList.SHARED}
+    \\item \\textsf{ModeTypeList.CB\_EXCLUSIVE}
+    \\item \\textsf{ModeTypeList.SB\_EXCLUSIVE}
+    \\item \\textsf{ModeTypeList.CB\_AND\_SB\_EXCLUSIVE}
+\\end{itemize}
+The functionality of these modes are discussed in the article.
+
+As shown in Table \\ref{tab:resource_vars_default}, the mode is initially set to \\textsf{ModeTypeList.CB\_EXCLUSIVE}. A programmer can change the mode of a resource by using the following code segment:
+%s
+
+In order to check the mode of the resource, you can use the functions depicted in Listing \\ref{lst:%sgetMode}.
+%s
+        ''' % (self.function_implementation('''
+{}.set_mode(mode)
+# mode --> ResourceTypeList::Enum
+        '''.format(self.resource_cb_flag[0]), '%ssetMode' % self.resource_cb_flag[0], 'Setting the mode of a resource after creating a resource.'),
+               self.resource_cb_flag[0], self.function_implementation('''
+{0}.is_mode(mode) # mode --> ResourceTypeList::Enum
+# returns True if the argument matches with the mode of the resource.
+
+{0}.is_exclusive()
+# returns True if the mode of the resource is any one of the exclusive mode.
+               '''.format(self.resource_cb_flag[0]), '%sgetMode' % self.resource_cb_flag[0], 'The functions for resource mode check.')))
+
+    def shared_cb(self, *args, **kwargs):
+        self.write('''
+According to your specification, you have selected the \\textsf{SHARED} mode for your resource ``%s''. Therefore, you should manually set it after resource creation using the following code segment:
+%s
+        ''' % (self.resource_cb_flag[0], self.function_implementation('''
+{}.set_mode(ModeTypeList.SHARED)
+        '''.format(self.resource_cb_flag[0]), '%ssetShared' % self.resource_cb_flag[0],
+                                                                      'The resource is set to SHARED mode.')))
+
+    def exclusive_cb(self, *args, **kwargs):
         pass
 
     def capacity_based_cb(self, *args, **kwargs):
-        pass
+        self.capacity_based_cb_flag = True
+
+        if 'semantic_based_cb_flag' in self.__dict__:
+            self.write('''
+In addition to the SB\_EXCLUSIVE mode, you have selected the \\textsf{CB\_EXCLUSIVE} mode for your resource ``%s''. Therefore, you should manually set it after resource creation using the following code segment:
+%s
+        ''' % (self.resource_cb_flag[0], self.function_implementation('''
+{}.set_mode(ModeTypeList.CB_AND_SB_EXCLUSIVE)
+        '''.format(self.resource_cb_flag[0]), '%ssetCBSBExclusiveResource' % self.resource_cb_flag[0], 'The resource is set to CB\_AND\_SB\_EXCLUSIVE mode.')))
+        else:
+            self.write('''
+According to your specification, you have selected at least \\textsf{CB\_EXCLUSIVE} mode for your resource ``%s''. Since the resource is set to this mode initially, you do not need to set it again.
+        ''' % (self.resource_cb_flag[0]))
+
+    def semantic_based_cb(self, *args, **kwargs):
+        self.semantic_based_cb_flag = True
+
+        if 'capacity_based_cb_flag' in self.__dict__:
+            self.write('''
+In addition to the CB\_EXCLUSIVE mode, you have selected the \\textsf{SB\_EXCLUSIVE} mode for your resource ``%s''. Therefore, you should manually set it after resource creation using the following code segment:
+%s
+
+Due to semantic-based exclusive property of the resource, you can define exclusive resources by using the following formula:
+%s
+        ''' % (self.resource_cb_flag[0], self.function_implementation('''
+{}.set_mode(ModeTypeList.CB_AND_SB_EXCLUSIVE)
+        '''.format(self.resource_cb_flag[0]), '%ssetCBSBExclusiveResource' % self.resource_cb_flag[0], 'The resource is set to CB\_AND\_SB\_EXCLUSIVE mode.'),
+               self.function_implementation('''
+{}.add_exclusive_resource(resource)
+# returns True if the SB\_EXCLUSIVE mode is selected and the resource argument is not in the list of exclusive resources. Otherwise, it returns False.
+               '''.format(self.resource_cb_flag[0]), '%saddSBExclusiveResource' % self.resource_cb_flag[0],
+                                            'A function for adding exclusive resources.')))
+        else:
+            self.write('''
+According to your specification, you have selected at least \\textsf{SB\_EXCLUSIVE} mode for your resource ``%s''. Therefore, you should manually set it after resource creation using the following code segment:
+%s
+
+Due to semantic-based exclusive property of the resource, you can define exclusive resources by using the following formula:
+%s
+        ''' % (self.resource_cb_flag[0], self.function_implementation('''
+{}.set_mode(ModeTypeList.SB_EXCLUSIVE)
+        '''.format(self.resource_cb_flag[0]), '%ssetSBexclusive' % self.resource_cb_flag[0],
+                                                                      'The resource is set to SB\_EXCLUSIVE mode.'),
+               self.function_implementation('''
+{}.add_exclusive_resource(resource)
+# returns True if the SB_EXCLUSIVE mode is selected and the resource argument is not in the list of exclusive resources. Otherwise, it returns False.
+               '''.format(self.resource_cb_flag[0]), '%saddSBExclusiveResource' % self.resource_cb_flag[0],
+                                            'A function for adding exclusive resources.')))
 
     def output_cb(self, *args, **kwargs):
         pass
@@ -276,9 +392,6 @@ shown in Table \\ref{tab:resource_vars_default}.
         pass
 
     def aperiodic_cb(self, *args, **kwargs):
-        pass
-
-    def shared_cb(self, *args, **kwargs):
         pass
 
     def offline_cb(self, *args, **kwargs):
@@ -346,7 +459,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
 ''' % (self.resource_cb_flag[0], self.function_implementation('''
 {0} = ResourceFactory.create_instance({0}_t, '{0}')
         '''.format(self.resource_cb_flag[0]), '%scompositeInstantiation' % self.resource_cb_flag[0],
-                                   'Composite resource instantiation using ResourceFactory class'))))
+                                   'Instantiating a composite resource using ResourceFactory class'))))
 
     def task_related_objective_cb(self, *args, **kwargs):
         pass
@@ -499,7 +612,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         pass
 
     def capacity_cb(self, *args, **kwargs):
-        self.write('''''')
+        pass
 
     def task_cb(self, *args, **kwargs):
         pass

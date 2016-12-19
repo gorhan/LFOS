@@ -38,8 +38,11 @@ class Mode(object):
             LOG(msg='Exclusive resource is added to the list. Resource=%s' % (resource.get_credential()))
         elif self.is_exclusive():
             LOG(msg='Given exclusive resource is already in the list. Index=%d' % (self.__exclusive_resources.index(resource)), log=Logs.WARN)
+            return False
         else:
             LOG(msg='The mode of resource is SHARED. Invalid operation.', log=Logs.WARN)
+            return False
+        return True
 
     def remove_exclusive_resource(self, resource):
         if self.is_exclusive() and resource in self.__exclusive_resources:
