@@ -139,6 +139,10 @@ power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
 {0}.get_power_consumption()
             '''.format(self.resource_cb_flag[0]), '%sgettingPowerConsumption' % self.resource_cb_flag[0], 'Getting power consumption module')))
 
+            self.write('''
+
+            ''')
+
     def terminal_cb(self, *args, **kwargs):
         pass
 
