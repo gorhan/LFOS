@@ -112,9 +112,9 @@ class Reporter(VisitorInterface):
 \\subsubsection{Setting Power Consumption}
 There are three possible types of power consumption:
 \\begin{itemize}
-    \\item \\textsf{PowerTypeList.FIXED_STATE_POWER_CONSUMPTION}
-    \\item \\textsf{PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION}
-    \\item \\textsf{PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.FIXED\_STATE\_POWER\_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.DISCRETE\_STATE\_POWER\_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.CONTINUOUS\_STATE\_POWER\_CONSUMPTION}
 \\end{itemize}
 Each of these types have their corresponding classes inheriting \\textsf{Resource} class. Therefore, we have utilized factory method design pattern.
         ''')
@@ -134,14 +134,24 @@ power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
 # it returns the instance belonging
 
 {0}.set_power_consumption({0}_pc)
-            '''.format(self.resource_cb_flag[0]), '%screatingPowerConsumption' % self.resource_cb_flag[0], 'Initializing power consumption module and setting it to the resource.'),
+            '''.format(self.resource_cb_flag[0]), '%ssettingPowerConsumption' % self.resource_cb_flag[0], 'Initializing power consumption module and setting it to the resource.'),
                    self.function_implementation('''
 {0}.get_power_consumption()
             '''.format(self.resource_cb_flag[0]), '%sgettingPowerConsumption' % self.resource_cb_flag[0], 'Getting power consumption module')))
 
             self.write('''
-
+All the other member functions for Power module is as follows:
             ''')
+            from LFOS.Resource.Power import FixedStatePowerConsumption
+            functions = ['%s.%s'%  ('FixedStatePowerConsumption',
+                                    getattr(FixedStatePowerConsumption, function).__doc__.strip().split('\n')[0])
+                         for function in dir(FixedStatePowerConsumption) if not function.startswith('__')]
+            self.write('''
+%s
+            ''' % self.function_implementation('''
+%s
+            ''' % '\n'.join(functions), '%smemberFunctionsPower' % self.resource_cb_flag[0], 'The member functions for \\textsf{FixedStatePowerConsumption} module.'))
+
 
     def terminal_cb(self, *args, **kwargs):
         pass
@@ -159,6 +169,9 @@ power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
         pass
 
     def execution_time_cb(self, *args, **kwargs):
+        pass
+
+    def power_consumption_criteria_cb(self, *args, **kwargs):
         pass
 
     def scalable_cb(self, *args, **kwargs):
@@ -208,7 +221,7 @@ from LFOS.macros import *
         self.write('''
 \subsection{Resource Initialization for ``\\textsf{%s}''}
         ''' % args[0])
-        if not hasattr(self, 'resource_cb_flag'):
+        if 'resource_cb_flag' not in self.__dict__:
             self.write('''
 Since some of the task specifications are based on the resources, in the framework, a programmer is expected to define the resources, initially.
 As explained in the article, some of the specifications are inevitable for a resource. Therefore, it should be defined for each resource.
@@ -262,7 +275,7 @@ shown in Table \\ref{tab:resource_vars_default}.
         self._remove_attributes('semantic_based_cb_flag', 'capacity_based_cb_flag')
         self.write('''
 \\subsubsection{Setting mode}
-There are three possible types for this ttribute. These are:
+There are three possible types for this attribute. These are:
 \\begin{itemize}
     \\item \\textsf{ModeTypeList.SHARED}
     \\item \\textsf{ModeTypeList.CB\_EXCLUSIVE}
@@ -474,7 +487,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def periodic_cb(self, *args, **kwargs):
         pass
 
-    def throughput_cb(self, *args, **kwargs):
+    def throughput_criteria_cb(self, *args, **kwargs):
         pass
 
     def DSLB_cb(self, *args, **kwargs):
@@ -498,7 +511,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def scheduling_characteristic_cb(self, *args, **kwargs):
         pass
 
-    def utilization_cb(self, *args, **kwargs):
+    def utilization_criteria_cb(self, *args, **kwargs):
         pass
 
     def tardiness_cb(self, *args, **kwargs):

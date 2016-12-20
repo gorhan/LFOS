@@ -16,9 +16,9 @@ class Feature(Composite):
             LOG(msg='Not visited. F=%s(%s)' % (self.name, self.instance))
             Feature.VISITED.append(self)
             return getattr(host, self.callback_func)(self.instance, self.__parent, self._container)
-        else:
-            LOG(msg='Visited already. F=%s(%s)' % (self.name, self.instance))
-            return getattr(host, 'not_implemented')()
+
+        LOG(msg='Visited already. F=%s(%s)' % (self.name, self.instance))
+        return getattr(host, 'not_implemented')()
 
     def set_parent(self, parent):
         assert isinstance(parent, Feature)

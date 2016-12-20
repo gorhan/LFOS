@@ -42,49 +42,91 @@ class Power(object):
         return self._active_power_state
 
     def get_max_power_state(self):
+        """
+        get_max_power_state() -> list
+
+        Returns the maximum power state.
+
+        :return: list
+        """
         return self._max_state
 
     def get_min_power_state(self):
+        """
+        get_min_power_state() -> list
+
+        Returns the minimum power state.
+
+        :return: list
+        """
         return self._min_state
 
     def range_check(self, scale):
+        """
+        range_check(scale) -> boolean
+
+        Returns True if the power scale within the range of minimum and maximum power scales. Otherwise, it returns False.
+
+        :param scale: float -> the power scale
+        :return: boolean
+        """
         return self._min_state[0] <= scale <= self._max_state[0]
 
     def max_range_check(self, scale):
+        """
+        max_range_check(scale) -> boolean
+
+        Returns True if the power scale within [0.0, 1.0]. Otherwise, it returns False.
+
+        :param scale: float -> the power scale
+        :return: boolean
+        """
         return 0.0 <= scale <= 1.0
 
     def get_power_consumption_w_scale(self, scale):
         """
+        get_power_consumption_w_scale(scale) -> float (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def set_power_mode(self, scale):
         """
+        set_power_mode(scale) -> boolean (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def add_state(self, scale, pow_cons):
         """
+        add_state(self, scale, pow_cons) -> boolean (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def remove_state(self, scale):
         """
+        remove_state(scale) -> boolean (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def set_min_state(self, scale, pow_cons):
         """
+        set_min_state(scale, pow_cons) -> boolean (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def set_max_state(self, scale, pow_cons):
         """
+        set_max_state(self, scale, pow_cons) -> boolean (Interface Function)
+
         Interface function -> it should be re-implemented for the child classes.
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
@@ -95,6 +137,14 @@ class FixedStatePowerConsumption(Power):
         super(FixedStatePowerConsumption, self).__init__(scale, pow_cons)
 
     def set_power_consumption(self, consumption):
+        """
+        set_power_consumption(consumption) -> None
+
+        Updates the power consumption values for all mininimum, maximum and active power states.
+
+        :param consumption: float -> the power consumption value
+        :return: None
+        """
         self._min_state[1] = self._max_state[1] = self._active_power_state[1] = consumption
 
 
@@ -123,28 +173,40 @@ class DiscreteStatePowerConsumption(Power, dict):
 
     def set_power_mode(self, scale):
         """
-        set_power_mode(scale) -> None
+        set_power_mode(scale) -> list
+
+        Updates the active power states and returns it if given scale is one of the scales in the list of power states.
+        Otherwise, it returns empty list.
 
         :param scale: float -> requested power scale value to be set for active power state
-        :return: None
+        :return: list
         """
         if scale in self:
             self._active_power_state = [scale, self[scale]]
+            return self._active_power_state
+
+        return []
 
     def add_state(self, scale, pow_cons):
         """
-        add_state(scale, pow_cons) -> None
+        add_state(scale, pow_cons) -> boolean
+
+        Returns True if the given power scale is not in the list of power states and range_check is valid. Otherwise, it returns False.
 
         :param scale: float -> power scale of the resource
         :param pow_cons: float -> power consumption value for one-capacity utilization of the resource per time unit
-        :return: None
+        :return: boolean
         """
         if scale not in self and self.range_check(scale):
             self[scale] = pow_cons
-        elif scale in self:
+            return True
+
+        if scale in self:
             LOG(msg='Given power scale is already in the list of power states.', log=Logs.WARN)
         else:
             LOG(msg='Given power scale is not within min and max power state scope.', log=Logs.WARN)
+
+        return False
 
     def remove_state(self, scale):
         """
@@ -164,6 +226,8 @@ class DiscreteStatePowerConsumption(Power, dict):
         """
         set_max_state(scale, pow_cons) -> boolean
 
+        Returns if given scale is higher than the current maximum power scale. Otherwise, it returns False.
+
         :param scale: float -> power scale value meant to be set
         :param pow_cons: float -> power consumption value belonging to given power scale
         :return: True if given scale is higher than the current maximum power scale. Otherwise, False.
@@ -182,6 +246,8 @@ class DiscreteStatePowerConsumption(Power, dict):
         """
         set_min_state(scale, pow_cons) -> boolean
 
+        Returns if given scale is less than the current minimum power scale. Otherwise, it returns False.
+
         :param scale: float -> power scale value meant to be set
         :param pow_cons: float -> power consumption value belonging to given power scale
         :return: True if given scale is less than the current minimum power scale. Otherwise, False.
@@ -199,6 +265,8 @@ class DiscreteStatePowerConsumption(Power, dict):
     def get_power_states(self):
         """
         get_power_states() -> Numpy.array
+
+        Returns the array of the list of power states.
 
         :return: array of scale^(-1) of power states.
         """
@@ -343,8 +411,7 @@ class PowerFactory:
     @classmethod
     def create_instance(cls, _type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
         """
-        create_instance(_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None) ->
-                FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
+        create_instance(_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None) -> FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
 
         Returns the corresponding instance for given _type.
 

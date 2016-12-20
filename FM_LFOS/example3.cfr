@@ -10,9 +10,9 @@ abstract or time_related_objective_criteria
     centering
 
 abstract or resource_related_objective_criteria
-    power_consumption
-    utilization
-    throughput
+    power_consumption_criteria
+    utilization_criteria
+    throughput_criteria
 
 
 abstract or abstract_objective_criteria
@@ -160,7 +160,7 @@ abstract scheduler
 // EXAMPLE-3: COMPLEX SCHEDULING APPLICATION
 // Resources
 cpu1 : resource
-[cpu1.power_consumption.scalable.continuous && cpu1.mode.exclusive.capacity_based && cpu1.mode.exclusive.semantic_based && cpu1.resource_objective.criteria.resource_related_objective_criteria.power_consumption && !cpu1.resource_objective.criteria.resource_related_objective_criteria.utilization && !cpu1.resource_objective.criteria.resource_related_objective_criteria.throughput && cpu1.resource_objective.resource_objective_purpose.mini]
+[cpu1.power_consumption.scalable.continuous && cpu1.mode.exclusive.capacity_based && cpu1.mode.exclusive.semantic_based && cpu1.resource_objective.criteria.resource_related_objective_criteria.power_consumption_criteria && !cpu1.resource_objective.criteria.resource_related_objective_criteria.utilization_criteria && !cpu1.resource_objective.criteria.resource_related_objective_criteria.throughput_criteria && cpu1.resource_objective.resource_objective_purpose.mini]
 [cpu1.resource_type.abstraction.ACTIVE]
 cpu2 : resource
 [cpu2.power_consumption.scalable.discrete && cpu2.mode.exclusive.capacity_based && !cpu2.resource_objective ]

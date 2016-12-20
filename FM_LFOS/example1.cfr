@@ -10,9 +10,9 @@ abstract or time_related_objective_criteria
     centering
 
 abstract or resource_related_objective_criteria
-    power_consumption
-    utilization
-    throughput
+    power_consumption_criteria
+    utilization_criteria
+    throughput_criteria
 
 
 abstract or abstract_objective_criteria
