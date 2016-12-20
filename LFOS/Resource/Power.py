@@ -5,7 +5,7 @@ import numpy as np
 class Power(object):
 
     def __init__(self, scale, pow_cons):
-        self._active_power_state = {scale: pow_cons}
+        self._active_power_state = [scale, pow_cons]
         self._min_state = [scale, pow_cons]
         self._max_state = [scale, pow_cons]
 
@@ -95,7 +95,7 @@ class FixedStatePowerConsumption(Power):
         super(FixedStatePowerConsumption, self).__init__(scale, pow_cons)
 
     def set_power_consumption(self, consumption):
-        self._min_state[1] = self._max_state[1] = self._active_power_state[self._max_state[0]] = consumption
+        self._min_state[1] = self._max_state[1] = self._active_power_state[1] = consumption
 
 
 class DiscreteStatePowerConsumption(Power, dict):
@@ -198,9 +198,9 @@ class DiscreteStatePowerConsumption(Power, dict):
 
     def get_power_states(self):
         """
-        get_power_states() -> Numpy.arrar
+        get_power_states() -> Numpy.array
 
-        :return: array of (1
+        :return: array of scale^(-1) of power states.
         """
         return np.array([float(1.0/scale) for scale in self.keys()]).tolist()
 
@@ -214,39 +214,99 @@ class ContinuousStatePowerConsumption(Power):
         self.__power_scale_precision = 0.1
 
     def __calculate_power_consumption_slope(self):
+        """
+        __calculate_power_consumption_slope()
+
+        Calculates the slope and offset for a linear power consumption based on minimum and maximum power states.
+
+        :return: None
+        """
         self.__slope = (self._max_state[1] - self._min_state[1]) / (self._max_state[0] - self._min_state[0])
         self.__offset = self._min_state[1] - self.__slope * self._min_state[0]
 
-    def __calculate_power_consumption(self, scale):
-        return self.__slope * scale + self.__offset
-
     def get_power_consumption_w_scale(self, scale):
+        """
+        get_power_consumption_w_scale(scale) -> float
+
+        Returns power consumption value if the given scale within minimum and maximum scale. Otherwise, it
+        returns -1.0.
+
+        :param scale: float -> the power scale at which the power consumption value is needed.
+        :return: float ->
+        """
         if self.range_check(scale):
             return self.__slope * scale + self.__offset
-        else:
-            LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
-        return None
+
+        LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
+        return -1.0
 
     def set_power_scale_precision(self, precision):
+        """
+        set_power_scale_precision(precision) -> None
+
+        Sets the power scale precision. It is important for solving scheduling problem using solver. It is impossible to
+        define scheduling problem without discritizing the continuous power scales.
+
+        :param precision: float -> power scale discritization value
+        :return: None
+        """
         self.__power_scale_precision = precision
 
     def get_power_scale_precision(self):
+        """
+        get_power_scale_precision() -> float
+
+        :return: float -> power scale discritization value
+        """
         return self.__power_scale_precision
 
     def set_power_mode(self, scale):
+        """
+        set_power_mode(scale) -> list(scale, power consumption)
+
+        Updates the active power state and returns it if given scale within the range of minimum and
+        maximum power scales. Otherwise, it returns empty list.
+
+        :param scale: float -> the power scale value
+        :return: list -> updates the active power state and returns it if given scale within the range of minimum and
+                         maximum power scales. Otherwise, it returns empty list.
+        """
         if self.range_check(scale):
-            self._active_power_state = (scale, self.__calculate_power_consumption(scale))
-        else:
-            LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
+            self._active_power_state = [scale, self.get_power_consumption_w_scale(scale)]
+            return self._active_power_state
+        LOG(msg='Given scale is not within the range of minimum and maximum power scales.', log=Logs.WARN)
+        return []
 
     def set_max_state(self, scale, pow_cons):
+        """
+        set_max_state(scale, pow_cons) -> boolean
+
+        Returns True if the given power scale is more than the current maximum power scale, and it updates the slope and
+        offset of a linear power consumption equation. Otherwise, it returns False.
+
+        :param scale: float -> the power scale
+        :param pow_cons: float -> the power consumption for 'scale'
+        :return: boolean
+        """
         if scale > self._max_state[0]:
             self._max_state = [scale, pow_cons]
             self.__calculate_power_consumption_slope()
-        else:
-            LOG(msg='Current max power state is already higher.', log=Logs.WARN)
+            return True
+
+        LOG(msg='Current max power state is already higher.', log=Logs.WARN)
+        return False
 
     def set_min_state(self, scale, pow_cons):
+        """
+        set_min_state(scale, pow_cons) -> boolean
+
+        Returns True if the given power scale is less than the current minimum power scale, and it updates the slope and
+        offset of a linear power consumption equation. Otherwise, it returns False.
+
+        :param scale: float -> the power scale
+        :param pow_cons: float -> the power consumption for 'scale'
+        :return: boolean
+        """
         if scale < self._min_state[0]:
             self._min_state = [scale, pow_cons]
             self.__calculate_power_consumption_slope()
@@ -254,6 +314,13 @@ class ContinuousStatePowerConsumption(Power):
             LOG(msg='Current min power state is already lower.', log=Logs.WARN)
 
     def get_power_states(self):
+        """
+        get_power_states() -> Numpy.array
+
+        Returns all power scales based on power scale precision.
+
+        :return: Numpy.array
+        """
         return np.concatenate((np.arange(self._min_state[0], self._max_state[0], self.__power_scale_precision), np.array(self._max_state[0]))).tolist()
 
 
@@ -275,6 +342,22 @@ class PowerFactory:
 
     @classmethod
     def create_instance(cls, _type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None):
+        """
+        create_instance(_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None) ->
+                FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
+
+        Returns the corresponding instance for given _type.
+
+        :param _type:
+            PowerTypeList.FIXED_STATE_POWER_CONSUMPTION |
+            PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION |
+            PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION
+        :param min_scale: float -> minimum power scale
+        :param min_pow_cons: float -> minimum power consumption
+        :param max_scale: float -> maximum power scale
+        :param max_pow_cons: float -> maximum power consumption
+        :return: FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
+        """
         if _type in cls.TYPES:
             return cls.TYPES[_type](min_scale, min_pow_cons, max_scale, max_pow_cons)
         else:
