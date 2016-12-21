@@ -88,6 +88,26 @@ class Reporter(VisitorInterface):
 \\end{lstlisting}
         ''' % (label, caption, code.strip()))
 
+    @staticmethod
+    def function_doc(obj, attr):
+        docs = getattr(obj, attr).__doc__.strip().split('\n')
+        explanation = '\n'.join(['# %s' % doc for doc in docs])
+        return explanation
+
+    @staticmethod
+    def member_functions_doc(cls):
+        inherited_classes = cls.__bases__
+        inherited_attrs = set()
+        for base_cls in inherited_classes:
+            if base_cls == list or base_cls == dict:
+                inherited_attrs = inherited_attrs.union(set(dir(base_cls)))
+
+        class_member_functions = set(dir(cls)).difference(inherited_attrs)
+
+        functions = ['%s.%s' % (cls.__name__, getattr(cls, function).__doc__.strip().split('\n')[0]) for function in class_member_functions if not function.startswith('__')]
+
+        return functions
+
     def _remove_attributes(self, *args):
         for arg in args:
             try:
@@ -106,52 +126,6 @@ class Reporter(VisitorInterface):
 
     def scheduling_strategy_cb(self, *args, **kwargs):
         pass
-
-    def power_consumption_cb(self, *args, **kwargs):
-        self.write('''
-\\subsubsection{Setting Power Consumption}
-There are three possible types of power consumption:
-\\begin{itemize}
-    \\item \\textsf{PowerTypeList.FIXED\_STATE\_POWER\_CONSUMPTION}
-    \\item \\textsf{PowerTypeList.DISCRETE\_STATE\_POWER\_CONSUMPTION}
-    \\item \\textsf{PowerTypeList.CONTINUOUS\_STATE\_POWER\_CONSUMPTION}
-\\end{itemize}
-Each of these types have their corresponding classes inheriting \\textsf{Resource} class. Therefore, we have utilized factory method design pattern.
-        ''')
-        if not args[2]:
-            self.write('''
-Since you have selected non-scalable power consumption for the resource. The following instantiation can be applied:
-%s
-
-If you want to get the instance of power, then you can use the following function:
-%s
-            ''' % (self.function_implementation('''
-power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
-{0}_pc = PowerFactory.create_instance(power_type, scale, consumption)
-# Arguments: power_type --> PowerTypeList::Enum
-#            scale --> float // a scale value within [0.0, 1.0]
-#            consumption --> float // a power consumption of one-capacity per unit time
-# it returns the instance belonging
-
-{0}.set_power_consumption({0}_pc)
-            '''.format(self.resource_cb_flag[0]), '%ssettingPowerConsumption' % self.resource_cb_flag[0], 'Initializing power consumption module and setting it to the resource.'),
-                   self.function_implementation('''
-{0}.get_power_consumption()
-            '''.format(self.resource_cb_flag[0]), '%sgettingPowerConsumption' % self.resource_cb_flag[0], 'Getting power consumption module')))
-
-            self.write('''
-All the other member functions for Power module is as follows:
-            ''')
-            from LFOS.Resource.Power import FixedStatePowerConsumption
-            functions = ['%s.%s'%  ('FixedStatePowerConsumption',
-                                    getattr(FixedStatePowerConsumption, function).__doc__.strip().split('\n')[0])
-                         for function in dir(FixedStatePowerConsumption) if not function.startswith('__')]
-            self.write('''
-%s
-            ''' % self.function_implementation('''
-%s
-            ''' % '\n'.join(functions), '%smemberFunctionsPower' % self.resource_cb_flag[0], 'The member functions for \\textsf{FixedStatePowerConsumption} module.'))
-
 
     def terminal_cb(self, *args, **kwargs):
         pass
@@ -176,22 +150,6 @@ All the other member functions for Power module is as follows:
 
     def scalable_cb(self, *args, **kwargs):
         pass
-
-    def PASSIVE_cb(self, *args, **kwargs):
-        self.write(('''
-For \\emph{abstraction}, \\textsc{passive} is selected. Therefore, you can create the type object using the following code segment:
-%s
-        ''' % self.function_implementation('''
-{0}_t = Type(ResourceTypeList.PASSIVE, '{0}_t')
-        '''.format(self.resource_cb_flag[0]), '%spassiveType' % self.resource_cb_flag[0], 'Passive resource type object instantiation')) + ('''
-According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
-ResourceFactory class shown in Listing \\ref{lst:%spassiveInstantiation}. For passive resources, an object belonging to \\textsf{TerminalResource} class is instantiated
-using factory method pattern to handle the optional feature under \\emph{Abstraction} sub-feature.
-
-%s
-''' % (self.resource_cb_flag[0], self.function_implementation('''
-{0} = ResourceFactory.create_instance({0}_t, '{0}')
-        '''.format(self.resource_cb_flag[0]), '%spassiveInstantiation' % self.resource_cb_flag[0], 'Passive resource instantiation using ResourceFactory class'))))
 
     def scheduler_cb(self, *args, **kwargs):
         self.scheduler_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
@@ -268,9 +226,6 @@ shown in Table \\ref{tab:resource_vars_default}.
     def n_tokens_cb(self, *args, **kwargs):
         pass
 
-    def discrete_cb(self, *args, **kwargs):
-        pass
-
     def mode_cb(self, *args, **kwargs):
         self._remove_attributes('semantic_based_cb_flag', 'capacity_based_cb_flag')
         self.write('''
@@ -307,8 +262,7 @@ According to your specification, you have selected the \\textsf{SHARED} mode for
 %s
         ''' % (self.resource_cb_flag[0], self.function_implementation('''
 {}.set_mode(ModeTypeList.SHARED)
-        '''.format(self.resource_cb_flag[0]), '%ssetShared' % self.resource_cb_flag[0],
-                                                                      'The resource is set to SHARED mode.')))
+        '''.format(self.resource_cb_flag[0]), '%ssetShared' % self.resource_cb_flag[0], 'The resource is set to SHARED mode.')))
 
     def exclusive_cb(self, *args, **kwargs):
         pass
@@ -362,6 +316,98 @@ Due to semantic-based exclusive property of the resource, you can define exclusi
 # returns True if the SB_EXCLUSIVE mode is selected and the resource argument is not in the list of exclusive resources. Otherwise, it returns False.
                '''.format(self.resource_cb_flag[0]), '%saddSBExclusiveResource' % self.resource_cb_flag[0],
                                             'A function for adding exclusive resources.')))
+
+    def power_consumption_cb(self, *args, **kwargs):
+        from LFOS.Resource.Power import PowerFactory
+
+        self.write('''
+\\subsubsection{Setting Power Consumption}
+There are three possible types of power consumption:
+\\begin{itemize}
+    \\item \\textsf{PowerTypeList.FIXED\_STATE\_POWER\_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.DISCRETE\_STATE\_POWER\_CONSUMPTION}
+    \\item \\textsf{PowerTypeList.CONTINUOUS\_STATE\_POWER\_CONSUMPTION}
+\\end{itemize}
+Each of these types have their corresponding classes inheriting \\textsf{Resource} class. Therefore, we have utilized factory method design pattern.
+        ''')
+        if not args[2]:
+            self.write('''
+Since you have selected non-scalable power consumption for the resource. The following instantiation can be applied:
+%s
+
+If you want to get the instance of power, then you can use the following function:
+%s
+            ''' % (self.function_implementation('''
+power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
+{0}_pc = PowerFactory.create_instance(power_type, scale, consumption)
+{1}
+
+{0}.set_power_consumption({0}_pc)
+            '''.format(self.resource_cb_flag[0], self.function_doc(PowerFactory, 'create_instance')), '%ssettingPowerConsumption' % self.resource_cb_flag[0],
+                                                'Initializing power consumption module and setting it to the resource.'),
+                   self.function_implementation('''
+{0}.get_power_consumption()
+            '''.format(self.resource_cb_flag[0]), '%sgettingPowerConsumption' % self.resource_cb_flag[0],
+                                                'Getting power consumption module')))
+
+            self.write('''
+All the other member functions for the object is as follows:
+            ''')
+            from LFOS.Resource.Power import FixedStatePowerConsumption
+            self.write('''
+%s
+            ''' % self.function_implementation('''
+%s
+            ''' % '\n'.join(self.member_functions_doc(FixedStatePowerConsumption)), '%smemberFunctionsPower' % self.resource_cb_flag[0],
+                                               'The member functions for \\textsf{FixedStatePowerConsumption} module.'))
+
+    def discrete_cb(self, *args, **kwargs):
+        from LFOS.Resource.Power import PowerFactory, DiscreteStatePowerConsumption
+        self.write('''
+You have selected discrete-state power consumption. Therefore, you can create your power consumption object with the code as follows:
+%s
+       ''' % (self.function_implementation('''
+power_type = PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
+{0}_pc = PowerFactory.create_instance(power_type, scale, consumption)
+{1}
+       '''.format(self.resource_cb_flag[0], self.function_doc(PowerFactory, 'create_instance')),
+                    '%ssettingPowerConsumptionDiscrete' % self.resource_cb_flag[0], 'Power consumption object is created for Discrete-State Power Consumption type.')))
+
+        self.write('''
+All the other member functions for the object is shown in Listing \\ref{lst:%smemberFunctionsPowerDiscrete}:
+            ''' % self.resource_cb_flag[0])
+        self.write('''
+%s
+            ''' % self.function_implementation('''
+%s
+            ''' % '\n'.join(self.member_functions_doc(DiscreteStatePowerConsumption)), '%smemberFunctionsPowerDiscrete' % self.resource_cb_flag[0],
+                                                       'The member functions for \\textsf{DiscreteStatePowerConsumption} module.'))
+
+
+
+    def continuous_cb(self, *args, **kwargs):
+        from LFOS.Resource.Power import PowerFactory, ContinuousStatePowerConsumption
+        self.write('''
+You have selected continuous-state power consumption. Therefore, you can create your power consumption object with the code as follows:
+%s
+       ''' % (self.function_implementation('''
+power_type = PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION
+{0}_pc = PowerFactory.create_instance(power_type, scale, consumption)
+{1}
+       '''.format(self.resource_cb_flag[0], self.function_doc(PowerFactory, 'create_instance')),
+                                           '%ssettingPowerConsumptionContinuous' % self.resource_cb_flag[0],
+                                           'Power consumption object is created for Continuous-State Power Consumption type.')))
+
+        self.write('''
+All other member functions for the class is shown in Listing \\ref{lst:%smemberFunctionsPowerContinuous}
+            ''' % self.resource_cb_flag[0])
+
+        self.write('''
+%s
+            ''' % self.function_implementation('''
+%s
+            ''' % '\n'.join(self.member_functions_doc(ContinuousStatePowerConsumption)), '%smemberFunctionsPowerContinuous' % self.resource_cb_flag[0],
+                                               'The member functions for \\textsf{ContinuousStatePowerConsumption} module.'))
 
     def output_cb(self, *args, **kwargs):
         pass
@@ -446,20 +492,23 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         '''.format(self.resource_cb_flag[0]), '%sactiveInstantiation' % self.resource_cb_flag[0],
                                    'Active resource instantiation using ResourceFactory class'))))
 
-    def DSB_cb(self, *args, **kwargs):
-        pass
+    def PASSIVE_cb(self, *args, **kwargs):
+        self.write(('''
+For \\emph{abstraction}, \\textsc{passive} is selected. Therefore, you can create the type object using the following code segment:
+%s
+        ''' % self.function_implementation('''
+{0}_t = Type(ResourceTypeList.PASSIVE, '{0}_t')
+        '''.format(self.resource_cb_flag[0]), '%spassiveType' % self.resource_cb_flag[0],
+                                           'Passive resource type object instantiation')) + ('''
+According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
+ResourceFactory class shown in Listing \\ref{lst:%spassiveInstantiation}. For passive resources, an object belonging to \\textsf{TerminalResource} class is instantiated
+using factory method pattern to handle the optional feature under \\emph{Abstraction} sub-feature.
 
-    def properties_cb(self, *args, **kwargs):
-        pass
-
-    def scheduling_policy_cb(self, *args, **kwargs):
-        pass
-
-    def solver_meta_knowledge_cb(self, *args, **kwargs):
-        pass
-
-    def fixed_cb(self, *args, **kwargs):
-        pass
+%s
+''' % (self.resource_cb_flag[0], self.function_implementation('''
+{0} = ResourceFactory.create_instance({0}_t, '{0}')
+        '''.format(self.resource_cb_flag[0]), '%spassiveInstantiation' % self.resource_cb_flag[0],
+                                                              'Passive resource instantiation using ResourceFactory class'))))
 
     def COMPOSITE_cb(self, *args, **kwargs):
         self.write(('''
@@ -476,7 +525,22 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
 ''' % (self.resource_cb_flag[0], self.function_implementation('''
 {0} = ResourceFactory.create_instance({0}_t, '{0}')
         '''.format(self.resource_cb_flag[0]), '%scompositeInstantiation' % self.resource_cb_flag[0],
-                                   'Instantiating a composite resource using ResourceFactory class'))))
+                                                              'Instantiating a composite resource using ResourceFactory class'))))
+
+    def DSB_cb(self, *args, **kwargs):
+        pass
+
+    def properties_cb(self, *args, **kwargs):
+        pass
+
+    def scheduling_policy_cb(self, *args, **kwargs):
+        pass
+
+    def solver_meta_knowledge_cb(self, *args, **kwargs):
+        pass
+
+    def fixed_cb(self, *args, **kwargs):
+        pass
 
     def task_related_objective_cb(self, *args, **kwargs):
         pass
@@ -542,9 +606,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         pass
 
     def composite_cb(self, *args, **kwargs):
-        pass
-
-    def continuous_cb(self, *args, **kwargs):
         pass
 
     def resource_objective_cb(self, *args, **kwargs):
