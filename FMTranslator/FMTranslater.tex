@@ -298,4 +298,21 @@ DiscreteStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean
 \end{lstlisting}
         
             
+\section{Task Initialization for \textsf{t1}}
+        
+In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be speficified as either \emph{terminal} or \emph{composite}. This information comes from the feature diagram.
+Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to expalin these branches to make a programmar familiar with
+the terminology.
+\begin{itemize}
+    \item \textsc{Granularity} ($\mathcal{G}$): The granularity of a task (\emph{terminal} or \emph{composite}).
+    \item \textsc{Timing} ($T$): This attribute includes all the relevant time-related task properties such as \emph{release time}, \emph{execution time}, \emph{deadline}, and \emph{period} information.
+    \item \textsc{Requirement} ($\mathcal{R}$): The requirements of tasks that are \emph{Resource Requirement} and \emph{Deadline Requirement}.
+    \item \textsc{Priority} ($\rho$): The priority information of a task.
+    \item \textsc{Dependency} ($\Delta$): The dependency relation with respect to other tasks.
+    \item \textsc{Preemptability} ($\mathcal{P}_\tau$): The preemptability property of a task.
+    \item \textsc{Objective} ($\mathcal{O}_{\tau}$): This attribute holds the task-related objective information, which is optional.
+\end{itemize}
+            
+\section{Task Initialization for \textsf{t2}}
+        
 \end{document}

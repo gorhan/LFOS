@@ -5,10 +5,10 @@ class ObjectivePurposes:
     MINIMIZE = 'ObjectivePurposes.MINIMIZE'
     MAXIMIZE = 'ObjectivePurposes.MAXIMIZE'
 
-class ParameterTypes:
-    FUNCTION = 'ParameterTypes.FUNCTION'
-    CONSTANT = 'ParameterTypes.CONSTANT'
-    FORMULA = 'ParameterTypes.CONSTRAINT'
+
+class CriteriaTypeList:
+    DEFAULT = 'CriteriaTypeList.DEFAULT'
+    USER_DEF = 'CriteriaTypeList.USER_DEF'
 
 
 class ObjectiveTypeList:
@@ -16,10 +16,12 @@ class ObjectiveTypeList:
     TASK_RELATED = 'ObjectiveTypeList.TASK_RELATED'
     ABSTRACT = 'ObjectiveTypeList.ABSTRACT'
 
+
 class ResourceRelatedObjectiveCriteria:
     POWER_CONSUMPTION = 'ResourceRelatedObjectiveCriteria.POWER_CONSUMPTION'
     THROUGHPUT = 'ResourceRelatedObjectiveCriteria.THROUGHPUT'
     UTILIZATION = 'ResourceRelatedObjectiveCriteria.UTILIZATION'
+
 
 class TaskRelatedObjectiveCriteria:
     EARLINESS = 'TaskRelatedObjectiveCriteria.EARLINESS'
@@ -30,7 +32,7 @@ class TaskRelatedObjectiveCriteria:
 
 
 class ObjectiveItem:
-    TYPES = [ParameterTypes.FUNCTION, ParameterTypes.CONSTANT, ParameterTypes.FORMULA]
+    TYPES = [getattr(CriteriaTypeList, attr) for attr in dir(CriteriaTypeList) if attr.isupper()]
 
     def __new__(cls, **kwargs):
         if kwargs['type'] not in cls.TYPES:
@@ -42,28 +44,18 @@ class ObjectiveItem:
     def __init__(self, **kwargs):
         self.__type = kwargs['type']
         self.__purpose = kwargs['purpose'] if 'purpose' in kwargs else ObjectivePurposes.MINIMIZE
-        self.__rhs = kwargs['rhs']
-        self.__kwargs = {}
+        self.__criteria = kwargs['criteria']
+        self.__rhs = {}
 
-        if 'kwargs' in kwargs:
-            self.__kwargs = kwargs['kwargs']
-
-    def eval(self):
-        if self.__type == ParameterTypes.FUNCTION:
-            return self.__rhs(**self.__kwargs)
-        elif self.__type == ParameterTypes.CONSTANT:
-            return self.__rhs
-        else:
-            return 0
+        if 'rhs' in kwargs:
+            self.__rhs = kwargs['rhs']
 
     def get_type(self):
         return self.__type
 
-    def get_kwargs(self):
-        return self.__kwargs
-
     def __repr__(self):
-        return '%s '
+        return '%s --> %s %s' % (self.__type.split('.')[-1], self.__purpose.split('.')[-1], self.__criteria)
+
 
 class Objectives:
     def __init__(self):
@@ -111,15 +103,6 @@ class Objectives:
 
         LOG(msg='Given identifier for ObjectItem instance is not valid. Identifier=%s' % identifier)
         return None
-
-    def evaluate_parameters(self):
-        return sum(objective_item.eval() for param_name, objective_item in self.__objectives.items())
-
-    def evaluate_objective(self, identifier):
-        if identifier in self.__objectives:
-            return self.__objectives[identifier].eval()
-
-        LOG(msg='Given identifier for ObjectItem instance is not valid. Identifier=%s' % identifier)
 
     def __repr__(self):
         r_str = ''

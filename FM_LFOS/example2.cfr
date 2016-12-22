@@ -82,14 +82,14 @@ abstract requirement
     [no res: required_resources.eligible_resources | res.resource_type.abstraction.COMPOSITE]
 
 abstract task
+    xor granularity
+        terminal
+        composite
     `timing
     priority
     preemptable ?
         cooperative ?
     `requirement
-    xor granularity
-        terminal
-        composite
     objective : task_related_objective ?
     dependency ?
         token_type

@@ -693,7 +693,37 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         pass
 
     def task_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+\section{Task Initialization for \\textsf{%s}}
+        ''' % ('\\_'.join(args[0].split('_'))))
+
+        if 'task_cb_flag' not in self.__dict__:
+            self.write('''
+In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be speficified as either \\emph{terminal} or \\emph{composite}. This information comes from the feature diagram.
+Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to expalin these branches to make a programmar familiar with
+the terminology.
+\\begin{itemize}
+    \\item \\textsc{Granularity} ($\\mathcal{G}$): The granularity of a task (\\emph{terminal} or \\emph{composite}).
+    \\item \\textsc{Timing} ($T$): This attribute includes all the relevant time-related task properties such as \\emph{release time}, \\emph{execution time}, \\emph{deadline}, and \\emph{period} information.
+    \\item \\textsc{Requirement} ($\\mathcal{R}$): The requirements of tasks that are \\emph{Resource Requirement} and \\emph{Deadline Requirement}.
+    \\item \\textsc{Priority} ($\\rho$): The priority information of a task.
+    \\item \\textsc{Dependency} ($\\Delta$): The dependency relation with respect to other tasks, which is optional.
+    \\item \\textsc{Preemptable} ($\\mathcal{P}_\\tau$): The preemptability property of a task, which is optional.
+    \\item \\textsc{Objective} ($\\mathcal{O}_{\\tau}$): This attribute holds the task-related objective information, which is optional.
+\\end{itemize}
+
+In the second phase, a programmer should specify the values for each attribute in the feature model. The keywords and correlated information is represented in Table \\ref{tab:}
+\\begin{table}
+\\centering
+    \\begin{tabular}{ r|| c | c |}
+        \\hline
+        \\textbf{Keyword} & \\textbf{Type} & \\textbf{Default Value} \\\\ \\hline
+        \\textsf{}
+    \\end{tabular}
+\\end{table}
+            ''')
+
+        self.task_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
 
     def time_related_objective_criteria_cb(self, *args, **kwargs):
         pass

@@ -12,7 +12,60 @@ from copy import copy, deepcopy
 
 
 class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, DeadlineRequirement):
-    PRE_CHECKLIST = ['name', 'type', 'phase', 'deadline', 'periodicity']
+    MAN_KEYWORDS = {
+        'name': {
+            'variable': 'string',
+            'default': '-',
+            'desc': 'The name of a task'
+        },
+        'type': {
+            'variable': 'string',
+            'default': '-',
+            'desc': 'The type of a task'
+        },
+        'phase': {
+            'variable': 'LFOS.Scheduling.Characteristic.Time',
+            'default': '-',
+            'desc': 'The first release time of a task'
+        },
+        'deadline': {
+            'variable': 'LFOS.Scheduling.Characteristic.Time',
+            'default': '-',
+            'desc': 'The deadline of a task'
+        },
+        'periodicity': {
+            'variable': 'LFOS.Task.Periodicity.PeriodicityTypeList',
+            'default': '-',
+            'desc': 'The periodicty type of a task'
+        }}
+
+    OPT_KEYWORDS = {
+        'priority': {
+            'variable': 'int',
+            'default': '0',
+            'desc': 'The priority of a task'
+        },
+        'deadline_type': {
+            'variable': 'LFOS.Task.Requirement.DeadlineRequirementTypeList',
+            'default': 'DeadlineRequirementTypeList.HARD',
+            'desc': 'The deadline satisfaction type of a task'
+        },
+        'preemptability': {
+            'variable': 'LFOS.Task.Preemptability.PreemptionTypeList',
+            'default': 'PreemptionTypeList.FULLY_PREEMPTABLE',
+            'desc': 'The preemptability of a task'
+        },
+        'token_name': {/////
+            'variable': 'LFOS.Scheduling.Characteristic.Time',
+            'default': '-',
+            'desc': 'The deadline of a task'
+        },
+        'periodicity': {
+            'variable': 'LFOS.Task.Periodicity.PeriodicityTypeList',
+            'default': '-',
+            'desc': 'The periodicty type of a task'
+        }}
+    OPT_KEYWORDS = ['priority', 'deadline_type', 'preemptability', 'token_name', 'token_num']
 
     def __init__(self, **kwargs):
         Credential.__init__(self, kwargs['name'], kwargs['type'])
