@@ -104,7 +104,7 @@ def construct_structure(instance, features):
         elif data.find(':') != -1:
             ref_ins = data.split(':')
             feature_name = pattern.search(ref_ins[-1]).group(1)
-            instance_name = pattern.search(ref_ins[0].split('=')[0]).group(1)
+            instance_name = pattern.search(ref_ins[0]).group(1)
         else:
             feature_name = pattern.search(data).group(1)
 

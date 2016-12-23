@@ -3,6 +3,8 @@
 
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
+\usepackage{array}
 
 % Title Page
 \title{Language Framework for Optimal Schedulers (LFOS)}
@@ -300,18 +302,38 @@ DiscreteStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean
             
 \section{Task Initialization for \textsf{t1}}
         
-In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be speficified as either \emph{terminal} or \emph{composite}. This information comes from the feature diagram.
-Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to expalin these branches to make a programmar familiar with
+In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be specified as either \emph{terminal} or \emph{composite}. This information comes from the feature diagram.
+Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to explain these branches to make a programmar familiar with
 the terminology.
 \begin{itemize}
     \item \textsc{Granularity} ($\mathcal{G}$): The granularity of a task (\emph{terminal} or \emph{composite}).
     \item \textsc{Timing} ($T$): This attribute includes all the relevant time-related task properties such as \emph{release time}, \emph{execution time}, \emph{deadline}, and \emph{period} information.
     \item \textsc{Requirement} ($\mathcal{R}$): The requirements of tasks that are \emph{Resource Requirement} and \emph{Deadline Requirement}.
     \item \textsc{Priority} ($\rho$): The priority information of a task.
-    \item \textsc{Dependency} ($\Delta$): The dependency relation with respect to other tasks.
-    \item \textsc{Preemptability} ($\mathcal{P}_\tau$): The preemptability property of a task.
+    \item \textsc{Dependency} ($\Delta$): The dependency relation with respect to other tasks, which is optional.
+    \item \textsc{Preemptable} ($\mathcal{P}_\tau$): The preemptability property of a task, which is optional.
     \item \textsc{Objective} ($\mathcal{O}_{\tau}$): This attribute holds the task-related objective information, which is optional.
 \end{itemize}
+
+In the second phase, a programmer should specify the values for each attribute in the feature model. The keywords and correlated information is represented in Table \ref{tab:keywords_task}
+\begin{table}
+\hspace{-17mm}
+    \resizebox{1.2\textwidth}{!}{\begin{tabular}{ | >{\centering\arraybackslash} m{3cm} || >{\centering\arraybackslash} m{10cm} | >{\centering\arraybackslash} m{8cm} | >{\centering\arraybackslash} m{7cm}| }
+        \hline \hline \textbf{Keyword} & \textbf{Type} & \textbf{Default Value} & \textbf{Description} \\ \hline		name & string & - & The name of a task \\ \hline
+		periodicity & LFOS.Task.Periodicity.PeriodicityTypeList & - & The periodicty type of a task \\ \hline
+		deadline\_type & LFOS.Task.Requirement.DeadlineRequirementTypeList & DeadlineRequirementTypeList.HARD & The deadline satisfaction type of a task \\ \hline
+		priority & int & 0 & The priority of a task \\ \hline
+		deadline & LFOS.Scheduling.Characteristic.Time & - & The deadline of a task \\ \hline
+		token\_number & list(int) & [1] & The list of numbers of a specific token that would be fired. There exist one-to-one relation between the list and token\_name list with respect to index. \\ \hline
+		phase & LFOS.Scheduling.Characteristic.Time & - & The first release time of a task \\ \hline
+		preemptability & LFOS.Task.Preemptability.PreemptionTypeList & PreemptionTypeList.FULLY\_PREEMPTABLE & The preemptability of a task \\ \hline
+		type & string & - & The type of a task \\ \hline
+		token\_name & list(str) & list("\_\_$<$name$>$\_\_"] & The list of names of the token which would be fired after completion of the task instance. \\ \hline
+
+    \end{tabular}}
+    \caption{\emph{Keywords} to instantiate a task object.}
+    \label{tab:keywords_task}
+\end{table}
             
 \section{Task Initialization for \textsf{t2}}
         

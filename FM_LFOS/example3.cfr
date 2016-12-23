@@ -74,7 +74,7 @@ abstract resource_requirement
     resource_identifier
 
 abstract requirement
-    xor deadline
+    xor deadline_requirement
         hard
         soft
         firm
@@ -172,11 +172,11 @@ cpu2 : resource
 t1 : task
 req1 : resource_requirement
 [ req1.eligible_resources = cpu1 ]
-[t1.requirement.required_resources = req1 && !t1.dependency && ! t1.task_objective && t1.timing.periodicity.periodic && t1.granularity.terminal && ! t1.preemptable && t1.requirement.deadline.soft]
+[t1.requirement.required_resources = req1 && !t1.dependency && ! t1.task_objective && t1.timing.periodicity.periodic && t1.granularity.terminal && ! t1.preemptable && t1.requirement.deadline_requirement.soft]
 t2 : task
 req2 : resource_requirement
 [ req2.eligible_resources = cpu2 ]
-[t2.requirement.required_resources = req2 && t2.dependency && t2.task_objective.task_objective_purpose.mini && t2.task_objective.criteria.time_related_objective_criteria.centering && !t2.task_objective.criteria.time_related_objective_criteria.makespan && !t2.task_objective.criteria.time_related_objective_criteria.lateness && !t2.task_objective.criteria.time_related_objective_criteria.tardiness && !t2.task_objective.criteria.time_related_objective_criteria.earliness && t2.timing.periodicity.aperiodic && !t2.timing.periodicity.aperiodic.sporadic && t2.granularity.terminal && t2.preemptable.cooperative && t2.requirement.deadline.hard]
+[t2.requirement.required_resources = req2 && t2.dependency && t2.task_objective.task_objective_purpose.mini && t2.task_objective.criteria.time_related_objective_criteria.centering && !t2.task_objective.criteria.time_related_objective_criteria.makespan && !t2.task_objective.criteria.time_related_objective_criteria.lateness && !t2.task_objective.criteria.time_related_objective_criteria.tardiness && !t2.task_objective.criteria.time_related_objective_criteria.earliness && t2.timing.periodicity.aperiodic && !t2.timing.periodicity.aperiodic.sporadic && t2.granularity.terminal && t2.preemptable.cooperative && t2.requirement.deadline_requirement.hard]
 
 objective_gl : global_objective
 [  objective_gl.purpose.mini &&

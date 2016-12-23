@@ -55,17 +55,16 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
             'default': 'PreemptionTypeList.FULLY_PREEMPTABLE',
             'desc': 'The preemptability of a task'
         },
-        'token_name': {/////
-            'variable': 'LFOS.Scheduling.Characteristic.Time',
-            'default': '-',
-            'desc': 'The deadline of a task'
+        'token_name': {
+            'variable': 'list(str)',
+            'default': 'list(\"__<name>__\"]',
+            'desc': 'The list of names of the token which would be fired after completion of the task instance.'
         },
-        'periodicity': {
-            'variable': 'LFOS.Task.Periodicity.PeriodicityTypeList',
-            'default': '-',
-            'desc': 'The periodicty type of a task'
+        'token_number': {
+            'variable': 'list(int)',
+            'default': '[1]',
+            'desc': 'The list of numbers of a specific token that would be fired. There exist one-to-one relation between the list and token_name list with respect to index.'
         }}
-    OPT_KEYWORDS = ['priority', 'deadline_type', 'preemptability', 'token_name', 'token_num']
 
     def __init__(self, **kwargs):
         Credential.__init__(self, kwargs['name'], kwargs['type'])

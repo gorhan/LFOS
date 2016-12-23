@@ -74,7 +74,7 @@ abstract resource_requirement
     resource_identifier
 
 abstract requirement
-    xor deadline
+    xor deadline_requirement
         hard
         soft
         firm
@@ -164,7 +164,7 @@ machine: resource
 city: task
 task_req: resource_requirement
 [ task_req.eligible_resources = machine ]
-[ city.timing.periodicity.aperiodic && !city.timing.periodicity.aperiodic.sporadic && city.requirement.deadline.soft && city.requirement.required_resources = task_req && city.granularity.terminal && !city.objective && city.dependency ]
+[ city.timing.periodicity.aperiodic && !city.timing.periodicity.aperiodic.sporadic && city.requirement.deadline_requirement.soft && city.requirement.required_resources = task_req && city.granularity.terminal && !city.objective && city.dependency ]
 
 tsp_scheduler: scheduler
 mini_objective: global_objective

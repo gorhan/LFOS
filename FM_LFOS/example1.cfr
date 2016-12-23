@@ -74,7 +74,7 @@ abstract resource_requirement
     resource_identifier
 
 abstract requirement
-    xor deadline
+    xor deadline_requirement
         hard
         soft
         firm
@@ -164,7 +164,7 @@ machine: resource
 t: task
 task_req: resource_requirement
 [ task_req.eligible_resources = machine ]
-[ t.timing.periodicity.periodic && t.preemptable && !t.preemptable.cooperative && t.requirement.deadline.hard && t.requirement.required_resources = task_req && t.granularity.terminal && !t.objective && !t.dependency ]
+[ t.timing.periodicity.periodic && t.preemptable && !t.preemptable.cooperative && t.requirement.deadline_requirement.hard && t.requirement.required_resources = task_req && t.granularity.terminal && !t.objective && !t.dependency ]
 
 rms_scheduler: scheduler
 min_lateness_objective: global_objective

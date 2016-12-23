@@ -7,6 +7,8 @@ class Reporter(VisitorInterface):
 
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
+\usepackage{array}
 
 % Title Page
 \\title{Language Framework for Optimal Schedulers (LFOS)}
@@ -108,6 +110,13 @@ class Reporter(VisitorInterface):
 
         return functions
 
+    @staticmethod
+    def latex_character_convertor(src):
+        target = '\\_'.join(src.split('_'))
+        target = '$<$'.join(target.split('<'))
+        target = '$>$'.join(target.split('>'))
+        return target
+
     def _remove_attributes(self, *args):
         for arg in args:
             try:
@@ -121,13 +130,7 @@ class Reporter(VisitorInterface):
     def scheduling_window_cb(self, *args, **kwargs):
         pass
 
-    def deadline_cb(self, *args, **kwargs):
-        pass
-
     def scheduling_strategy_cb(self, *args, **kwargs):
-        pass
-
-    def terminal_cb(self, *args, **kwargs):
         pass
 
     def policy_cb(self, *args, **kwargs):
@@ -140,9 +143,6 @@ class Reporter(VisitorInterface):
         pass
 
     def string_cb(self, *args, **kwargs):
-        pass
-
-    def execution_time_cb(self, *args, **kwargs):
         pass
 
     def power_consumption_criteria_cb(self, *args, **kwargs):
@@ -168,9 +168,6 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
         ''', 'moduleImport', 'Importing required modules'), self.scheduler_cb_flag[1])
         self.write(info)
-
-    def timing_cb(self, *args, **kwargs):
-        pass
 
     def task_objective_purpose_cb(self, *args, **kwargs):
         pass
@@ -415,25 +412,13 @@ All other member functions for the class is shown in Listing \\ref{lst:%smemberF
     def identifier_cb(self, *args, **kwargs):
         pass
 
-    def soft_cb(self, *args, **kwargs):
-        pass
-
     def grouping_cb(self, *args, **kwargs):
-        pass
-
-    def requirement_cb(self, *args, **kwargs):
         pass
 
     def cooperative_cb(self, *args, **kwargs):
         pass
 
-    def periodicity_cb(self, *args, **kwargs):
-        pass
-
     def sequence_dependent_setup_time_cb(self, *args, **kwargs):
-        pass
-
-    def hard_cb(self, *args, **kwargs):
         pass
 
     def resource_related_user_defined_criteria_cb(self, *args, **kwargs):
@@ -442,19 +427,10 @@ All other member functions for the class is shown in Listing \\ref{lst:%smemberF
     def migration_cb(self, *args, **kwargs):
         pass
 
-    def sporadic_cb(self, *args, **kwargs):
-        pass
-
     def required_resources_cb(self, *args, **kwargs):
         pass
 
     def centering_cb(self, *args, **kwargs):
-        pass
-
-    def resource_identifier_cb(self, *args, **kwargs):
-        pass
-
-    def aperiodic_cb(self, *args, **kwargs):
         pass
 
     def offline_cb(self, *args, **kwargs):
@@ -470,9 +446,6 @@ All other member functions for the class is shown in Listing \\ref{lst:%smemberF
         pass
 
     def taskset_cb(self, *args, **kwargs):
-        pass
-
-    def granularity_cb(self, *args, **kwargs):
         pass
 
     def ACTIVE_cb(self, *args, **kwargs):
@@ -548,9 +521,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def dependency_cb(self, *args, **kwargs):
         pass
 
-    def periodic_cb(self, *args, **kwargs):
-        pass
-
     def throughput_criteria_cb(self, *args, **kwargs):
         pass
 
@@ -587,25 +557,16 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def strategy_cb(self, *args, **kwargs):
         pass
 
-    def priority_cb(self, *args, **kwargs):
-        pass
-
     def priority_assignment_cb(self, *args, **kwargs):
         pass
 
     def criteria_cb(self, *args, **kwargs):
         pass
 
-    def firm_cb(self, *args, **kwargs):
-        pass
-
     def SAS_OR_R_cb(self, *args, **kwargs):
         pass
 
     def task_objective_cb(self, *args, **kwargs):
-        pass
-
-    def composite_cb(self, *args, **kwargs):
         pass
 
     def resource_objective_cb(self, *args, **kwargs):
@@ -647,9 +608,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def earliness_cb(self, *args, **kwargs):
         pass
 
-    def resource_requirement_cb(self, *args, **kwargs):
-        pass
-
     def IBM_ILOG_CPLEX_Optimizer_cb(self, *args, **kwargs):
         pass
 
@@ -674,13 +632,7 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def objective_cb(self, *args, **kwargs):
         pass
 
-    def release_time_cb(self, *args, **kwargs):
-        pass
-
     def resource_related_objective_criteria_cb(self, *args, **kwargs):
-        pass
-
-    def eligible_resources_cb(self, *args, **kwargs):
         pass
 
     def abstraction_cb(self, *args, **kwargs):
@@ -692,15 +644,26 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def capacity_cb(self, *args, **kwargs):
         pass
 
+    def _task_cb_table_creator(self):
+        from LFOS.Task.Task import TaskInterface
+        inner_table = '\\hline \\hline \\textbf{Keyword} & \\textbf{Type} & \\textbf{Default Value} & \\textbf{Description} \\\\ \\hline'
+        kwargs_table = dict(TaskInterface.MAN_KEYWORDS, **TaskInterface.OPT_KEYWORDS)
+        for keyword, misc in kwargs_table.items():
+            line = [keyword, misc['variable'], misc['default'], misc['desc']]
+            line = map(self.latex_character_convertor, line)
+            inner_table += '\t\t{} & {} & {} & {} \\\\ \\hline\n'.format(*line)
+
+        return inner_table
+
     def task_cb(self, *args, **kwargs):
         self.write('''
 \section{Task Initialization for \\textsf{%s}}
-        ''' % ('\\_'.join(args[0].split('_'))))
+        ''' % (self.latex_character_convertor(args[0])))
 
         if 'task_cb_flag' not in self.__dict__:
             self.write('''
-In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be speficified as either \\emph{terminal} or \\emph{composite}. This information comes from the feature diagram.
-Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to expalin these branches to make a programmar familiar with
+In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be specified as either \\emph{terminal} or \\emph{composite}. This information comes from the feature diagram.
+Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to explain these branches to make a programmar familiar with
 the terminology.
 \\begin{itemize}
     \\item \\textsc{Granularity} ($\\mathcal{G}$): The granularity of a task (\\emph{terminal} or \\emph{composite}).
@@ -712,18 +675,78 @@ the terminology.
     \\item \\textsc{Objective} ($\\mathcal{O}_{\\tau}$): This attribute holds the task-related objective information, which is optional.
 \\end{itemize}
 
-In the second phase, a programmer should specify the values for each attribute in the feature model. The keywords and correlated information is represented in Table \\ref{tab:}
+In the second phase, a programmer should specify the values for each attribute in the feature model. The keywords and correlated information is represented in Table \\ref{tab:keywords_task}
 \\begin{table}
-\\centering
-    \\begin{tabular}{ r|| c | c |}
-        \\hline
-        \\textbf{Keyword} & \\textbf{Type} & \\textbf{Default Value} \\\\ \\hline
-        \\textsf{}
-    \\end{tabular}
+\\hspace{-17mm}
+    \\resizebox{1.2\\textwidth}{!}{\\begin{tabular}{ | >{\\centering\\arraybackslash} m{3cm} || >{\\centering\\arraybackslash} m{10cm} | >{\\centering\\arraybackslash} m{8cm} | >{\\centering\\arraybackslash} m{7cm}| }
+        %s
+    \\end{tabular}}
+    \\caption{\\emph{Keywords} to instantiate a task object.}
+    \\label{tab:keywords_task}
 \\end{table}
-            ''')
+            ''' % self._task_cb_table_creator())
 
         self.task_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
+
+    def granularity_cb(self, *args, **kwargs):
+        pass
+
+    def terminal_cb(self, *args, **kwargs):
+        pass
+
+    def composite_cb(self, *args, **kwargs):
+        pass
+
+    def timing_cb(self, *args, **kwargs):
+        pass
+
+    def release_time_cb(self, *args, **kwargs):
+        pass
+
+    def execution_time_cb(self, *args, **kwargs):
+        pass
+
+    def deadline_cb(self, *args, **kwargs):
+        pass
+
+    def periodicity_cb(self, *args, **kwargs):
+        pass
+
+    def periodic_cb(self, *args, **kwargs):
+        pass
+
+    def aperiodic_cb(self, *args, **kwargs):
+        pass
+
+    def sporadic_cb(self, *args, **kwargs):
+        pass
+
+    def priority_cb(self, *args, **kwargs):
+        pass
+
+    def requirement_cb(self, *args, **kwargs):
+        pass
+
+    def deadline_requirement_cb(self, *args, **kwargs):
+        pass
+
+    def hard_cb(self, *args, **kwargs):
+        pass
+
+    def firm_cb(self, *args, **kwargs):
+        pass
+
+    def soft_cb(self, *args, **kwargs):
+        pass
+
+    def resource_requirement_cb(self, *args, **kwargs):
+        pass
+
+    def eligible_resources_cb(self, *args, **kwargs):
+        pass
+
+    def resource_identifier_cb(self, *args, **kwargs):
+        pass
 
     def time_related_objective_criteria_cb(self, *args, **kwargs):
         pass

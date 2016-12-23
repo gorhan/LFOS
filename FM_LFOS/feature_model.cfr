@@ -74,7 +74,7 @@ abstract resource_requirement
     resource_identifier
 
 abstract requirement
-    xor deadline
+    xor deadline_requirement
         hard
         soft
         firm
