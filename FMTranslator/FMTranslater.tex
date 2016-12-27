@@ -306,7 +306,13 @@ In order to create a task instance, a programmer first needs to specify the gran
 Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to explain these branches to make a programmar familiar with
 the terminology.
 \begin{itemize}
-    \item \textsc{Granularity} ($\mathcal{G}$): The granularity of a task (\emph{terminal} or \emph{composite}).
+    \item \textsc{Granularity} ($\mathcal{G}$): The granularity of a task (\emph{terminal} or \emph{composite}) that is termed as \textsf{TaskType} in the implementation.
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:TaskTypeListt1}, caption={The enumeration of the type of tasks.}]
+TaskTypeList.TERMINAL
+TaskTypeList.COMPOSITE
+\end{lstlisting}
+        
     \item \textsc{Timing} ($T$): This attribute includes all the relevant time-related task properties such as \emph{release time}, \emph{execution time}, \emph{deadline}, and \emph{period} information.
     \item \textsc{Requirement} ($\mathcal{R}$): The requirements of tasks that are \emph{Resource Requirement} and \emph{Deadline Requirement}.
     \item \textsc{Priority} ($\rho$): The priority information of a task.
@@ -335,6 +341,104 @@ In the second phase, a programmer should specify the values for each attribute i
     \label{tab:keywords_task}
 \end{table}
             
+\subsection{Specifying the Granularity of task ``t1''}
+There are two types of tasks, namely \emph{Terminal} and \emph{Composite}. These are enumerated within \textsf{TaskTypeList} as follows:
+
+                
+Since you have defined the task ``t1'' as \emph{Terminal}, you should the following line:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:TaskTypeInstt1}, caption={Terminal task type definition.}]
+task_type_t1 = TaskTypeList.TERMINAL
+\end{lstlisting}
+        
+        
+\subsubsection{Setting the time attributes}
+The time-related attributes for a task is kept under \textsf{Timing} class that inherits \textsf{Periodicity} class. Since the task class also inherits from the Timing class, a programmer can set and get the values directly
+from an intance of a task. The following member functions are utilized to interact with the task instance to access the timing attributes defined above:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1memberFunctionsTiming}, caption={The member functions for \textsf{Timing} module.}]
+Timing.set_deadline(new_deadline) -> None
+Timing.str(object='') -> string
+Timing.set_release_time(new_release_time) -> None
+Timing.get_release_time() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_deadline() -> LFOS.Scheduling.Characteristic.Time
+Timing.set_period(new_period) -> boolean
+Timing.set_execution_time(new_exec_time) -> None
+Timing.get_period_type() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_period() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_execution_time() -> LFOS.Scheduling.Characteristic.Time
+Timing.set_periodicity(_type) -> None
+\end{lstlisting}
+        
+
+The periodicity types are as follows:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1PerioidictyTypeList}, caption={The \textsf{Periodicity} type enumeration.}]
+PeriodicityTypeList.APERIODIC
+PeriodicityTypeList.PERIODIC
+PeriodicityTypeList.SPORADIC
+\end{lstlisting}
+        
+        
+\subsubsection{Setting the priority}
+The priority class is a compact small class consists of three class vairables:
+\begin{itemize}
+    \item \textsc{min\_priority}: the minimum value for priority value.
+    \item \textsc{max\_priority}: the maximum value for priority value.
+    \item \textsc{importance\_ranking}: the importance criteria stating whether ascending or descending priority values have higher privilege for a task. \textsf{PriorityRanking} class includes this enumeration attributes
+    as class variables:
+    
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1PriorityRanking}, caption={The \textsf{PriorityRanking} enumeration.}]
+PriorityRanking.ASCENDING
+PriorityRanking.DESCENDING
+\end{lstlisting}
+        
+\end{itemize}
+        
+This class also includes three functions, two of which setting and getting the priority value, and one of which is responsible for setting the class variables:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1memberFunctionsPriority}, caption={The member functions for \textsf{Priority} module.}]
+Priority.get_priority() -> int
+Priority.set_class_vars(min_prio=None, max_prio=None, ranking=None) -> None (class method)
+Priority.set_priority(new_prio) -> boolean
+\end{lstlisting}
+        
+        
 \section{Task Initialization for \textsf{t2}}
+        
+\subsection{Specifying the Granularity of task ``t1''}
+There are two types of tasks, namely \emph{Terminal} and \emph{Composite}. These are enumerated within \textsf{TaskTypeList} as follows:
+
+                
+Since you have defined the task ``t1'' as \emph{Terminal}, you should the following line:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:TaskTypeInstt1}, caption={Terminal task type definition.}]
+task_type_t1 = TaskTypeList.TERMINAL
+\end{lstlisting}
+        
+        
+\subsubsection{Setting the priority}
+The priority class is a compact small class consists of three class vairables:
+\begin{itemize}
+    \item \textsc{min\_priority}: the minimum value for priority value.
+    \item \textsc{max\_priority}: the maximum value for priority value.
+    \item \textsc{importance\_ranking}: the importance criteria stating whether ascending or descending priority values have higher privilege for a task. \textsf{PriorityRanking} class includes this enumeration attributes
+    as class variables:
+    
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1PriorityRanking}, caption={The \textsf{PriorityRanking} enumeration.}]
+PriorityRanking.ASCENDING
+PriorityRanking.DESCENDING
+\end{lstlisting}
+        
+\end{itemize}
+        
+This class also includes three functions, two of which setting and getting the priority value, and one of which is responsible for setting the class variables:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1memberFunctionsPriority}, caption={The member functions for \textsf{Priority} module.}]
+Priority.get_priority() -> int
+Priority.set_class_vars(min_prio=None, max_prio=None, ranking=None) -> None (class method)
+Priority.set_priority(new_prio) -> boolean
+\end{lstlisting}
+        
         
 \end{document}

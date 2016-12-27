@@ -7,8 +7,10 @@ from LFOS.Task.Preemptability import PreemptionTypeList, Preemption
 from LFOS.Task.Requirement import DeadlineRequirementTypeList, DeadlineRequirement
 from LFOS.Task.Periodicity import PeriodicityTypeList
 
+from LFOS.Objective.Objective import *
+
 from LFOS.Log import LOG, Logs
-from copy import copy, deepcopy
+from copy import copy
 
 
 class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, DeadlineRequirement):
@@ -78,6 +80,8 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
 
         self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else ['__%s__' % self.get_name()]
         self.num_firing_tokens = kwargs['token_num'] if 'token_num' in kwargs else [1] * len(self.firing_tokens)
+
+        self.objectives = ObjectiveFactory.create_instance(ObjectiveTypeList.TASK_RELATED)
 
     def get_output_tokens(self):
         return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]

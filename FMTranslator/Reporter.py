@@ -106,7 +106,7 @@ class Reporter(VisitorInterface):
 
         class_member_functions = set(dir(cls)).difference(inherited_attrs)
 
-        functions = ['%s.%s' % (cls.__name__, getattr(cls, function).__doc__.strip().split('\n')[0]) for function in class_member_functions if not function.startswith('__')]
+        functions = ['%s.%s' % (cls.__name__, getattr(cls, function).__doc__.strip().split('\n')[0]) for function in class_member_functions if not function.startswith('__') and not function.isupper()]
 
         return functions
 
@@ -168,9 +168,6 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
         ''', 'moduleImport', 'Importing required modules'), self.scheduler_cb_flag[1])
         self.write(info)
-
-    def task_objective_purpose_cb(self, *args, **kwargs):
-        pass
 
     def resource_cb(self, *args, **kwargs):
         self.write('''
@@ -515,9 +512,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def fixed_cb(self, *args, **kwargs):
         pass
 
-    def task_related_objective_cb(self, *args, **kwargs):
-        pass
-
     def dependency_cb(self, *args, **kwargs):
         pass
 
@@ -558,9 +552,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         pass
 
     def priority_assignment_cb(self, *args, **kwargs):
-        pass
-
-    def criteria_cb(self, *args, **kwargs):
         pass
 
     def SAS_OR_R_cb(self, *args, **kwargs):
@@ -611,9 +602,6 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
     def IBM_ILOG_CPLEX_Optimizer_cb(self, *args, **kwargs):
         pass
 
-    def preemptable_cb(self, *args, **kwargs):
-        pass
-
     def resource_related_objective_cb(self, *args, **kwargs):
         pass
 
@@ -661,12 +649,14 @@ using factory method pattern to handle the optional feature under \\emph{Abstrac
         ''' % (self.latex_character_convertor(args[0])))
 
         if 'task_cb_flag' not in self.__dict__:
+            self.task_cb_flag = self.latex_character_convertor(args[0])
             self.write('''
 In order to create a task instance, a programmer first needs to specify the granularity of the task. A task can be specified as either \\emph{terminal} or \\emph{composite}. This information comes from the feature diagram.
 Secondly, she has to define each mandatory keyword that is inevitable to create task instance. The task model consists of many sub-feature models. It is necessary to explain these branches to make a programmar familiar with
 the terminology.
 \\begin{itemize}
-    \\item \\textsc{Granularity} ($\\mathcal{G}$): The granularity of a task (\\emph{terminal} or \\emph{composite}).
+    \\item \\textsc{Granularity} ($\\mathcal{G}$): The granularity of a task (\\emph{terminal} or \\emph{composite}) that is termed as \\textsf{TaskType} in the implementation.
+%s
     \\item \\textsc{Timing} ($T$): This attribute includes all the relevant time-related task properties such as \\emph{release time}, \\emph{execution time}, \\emph{deadline}, and \\emph{period} information.
     \\item \\textsc{Requirement} ($\\mathcal{R}$): The requirements of tasks that are \\emph{Resource Requirement} and \\emph{Deadline Requirement}.
     \\item \\textsc{Priority} ($\\rho$): The priority information of a task.
@@ -684,21 +674,51 @@ In the second phase, a programmer should specify the values for each attribute i
     \\caption{\\emph{Keywords} to instantiate a task object.}
     \\label{tab:keywords_task}
 \\end{table}
-            ''' % self._task_cb_table_creator())
-
-        self.task_cb_flag = [args[0], '\\_'.join(args[0].split('_'))]
+            ''' % (self.function_implementation('''
+TaskTypeList.TERMINAL
+TaskTypeList.COMPOSITE
+                ''', 'TaskTypeList%s' % self.task_cb_flag, 'The enumeration of the type of tasks.'),
+                   self._task_cb_table_creator()))
 
     def granularity_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+\\subsection{Specifying the Granularity of task ``%s''}
+There are two types of tasks, namely \\emph{Terminal} and \\emph{Composite}. These are enumerated within \\textsf{TaskTypeList} as follows:
+
+                ''' % (self.task_cb_flag))
 
     def terminal_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+Since you have defined the task ``%s'' as \\emph{Terminal}, you should the following line:
+%s
+        ''' % (self.task_cb_flag, self.function_implementation('''
+task_type_{} = TaskTypeList.TERMINAL
+        '''.format(self.task_cb_flag), 'TaskTypeInst%s' % self.task_cb_flag, 'Terminal task type definition.')))
 
     def composite_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+Since you have defined the task ``%s'' as \\emph{Composite}, you should the following line:
+%s
+        ''' % (self.task_cb_flag, self.function_implementation('''
+task_type_{} = TaskTypeList.TERMINAL
+        '''.format(self.task_cb_flag), 'TaskTypeInst%s' % self.task_cb_flag, 'Terminal task type definition.')))
 
     def timing_cb(self, *args, **kwargs):
-        pass
+        from LFOS.Task.Timing import Timing, Periodicity
+        self.write('''
+\\subsubsection{Setting the time attributes}
+The time-related attributes for a task is kept under \\textsf{Timing} class that inherits \\textsf{Periodicity} class. Since the task class also inherits from the Timing class, a programmer can set and get the values directly
+from an intance of a task. The following member functions are utilized to interact with the task instance to access the timing attributes defined above:
+%s
+
+The periodicity types are as follows:
+%s
+        ''' % (self.function_implementation('\n'.join(self.member_functions_doc(Timing)), '%smemberFunctionsTiming' % self.task_cb_flag,
+                                               'The member functions for \\textsf{Timing} module.'),
+               self.function_implementation('''
+%s
+               ''' % ('\n'.join(Periodicity.TYPES)), '%sPerioidictyTypeList' % self.task_cb_flag,
+                                            'The \\textsf{Periodicity} type enumeration.')))
 
     def release_time_cb(self, *args, **kwargs):
         pass
@@ -722,6 +742,27 @@ In the second phase, a programmer should specify the values for each attribute i
         pass
 
     def priority_cb(self, *args, **kwargs):
+        from LFOS.Task.Priority import Priority, PriorityRanking
+        self.write('''
+\\subsubsection{Setting the priority}
+The priority class is a compact small class consists of three class vairables:
+\\begin{itemize}
+    \\item \\textsc{min\_priority}: the minimum value for priority value.
+    \\item \\textsc{max\_priority}: the maximum value for priority value.
+    \\item \\textsc{importance\_ranking}: the importance criteria stating whether ascending or descending priority values have higher privilege for a task. \\textsf{PriorityRanking} class includes this enumeration attributes
+    as class variables:
+    %s
+\\end{itemize}
+        ''' % (self.function_implementation('\n'.join([getattr(PriorityRanking, attr) for attr in dir(PriorityRanking) if attr.isupper()]),
+                                            '%sPriorityRanking' % self.task_cb_flag, 'The \\textsf{PriorityRanking} enumeration.')))
+
+        self.write('''
+This class also includes three functions, two of which setting and getting the priority value, and one of which is responsible for setting the class variables:
+%s
+        ''' % (self.function_implementation('\n'.join(self.member_functions_doc(Priority)), '%smemberFunctionsPriority'  % self.task_cb_flag,
+                                            'The member functions for \\textsf{Priority} module.')))
+
+    def preemptable_cb(self, *args, **kwargs):
         pass
 
     def requirement_cb(self, *args, **kwargs):
@@ -746,6 +787,15 @@ In the second phase, a programmer should specify the values for each attribute i
         pass
 
     def resource_identifier_cb(self, *args, **kwargs):
+        pass
+
+    def task_related_objective_cb(self, *args, **kwargs):
+        pass
+
+    def task_objective_purpose_cb(self, *args, **kwargs):
+        pass
+
+    def criteria_cb(self, *args, **kwargs):
         pass
 
     def time_related_objective_criteria_cb(self, *args, **kwargs):

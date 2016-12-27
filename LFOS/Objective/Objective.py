@@ -17,18 +17,18 @@ class ObjectiveTypeList:
     ABSTRACT = 'ObjectiveTypeList.ABSTRACT'
 
 
-class ResourceRelatedObjectiveCriteria:
-    POWER_CONSUMPTION = 'ResourceRelatedObjectiveCriteria.POWER_CONSUMPTION'
-    THROUGHPUT = 'ResourceRelatedObjectiveCriteria.THROUGHPUT'
-    UTILIZATION = 'ResourceRelatedObjectiveCriteria.UTILIZATION'
+class ResourceRelatedCriteriaList:
+    POWER_CONSUMPTION = 'ResourceRelatedCriteriaList.POWER_CONSUMPTION'
+    THROUGHPUT = 'ResourceRelatedCriteriaList.THROUGHPUT'
+    UTILIZATION = 'ResourceRelatedCriteriaList.UTILIZATION'
 
 
-class TaskRelatedObjectiveCriteria:
-    EARLINESS = 'TaskRelatedObjectiveCriteria.EARLINESS'
-    CENTERING = 'TaskRelatedObjectiveCriteria.CENTERING'
-    LATENESS = 'TaskRelatedObjectiveCriteria.LATENESS'
-    TARDINESS = 'TaskRelatedObjectiveCriteria.TARDINESS'
-    MAKESPAN = 'TaskRelatedObjectiveCriteria.MAKESPAN'
+class TaskRelatedCriteriaList:
+    EARLINESS = 'TaskRelatedCriteriaList.EARLINESS'
+    CENTERING = 'TaskRelatedCriteriaList.CENTERING'
+    LATENESS = 'TaskRelatedCriteriaList.LATENESS'
+    TARDINESS = 'TaskRelatedCriteriaList.TARDINESS'
+    MAKESPAN = 'TaskRelatedCriteriaList.MAKESPAN'
 
 
 class ObjectiveItem:
@@ -42,19 +42,25 @@ class ObjectiveItem:
         return super(ObjectiveItem, cls).__new__(cls, **kwargs)
 
     def __init__(self, **kwargs):
-        self.__type = kwargs['type']
-        self.__purpose = kwargs['purpose'] if 'purpose' in kwargs else ObjectivePurposes.MINIMIZE
-        self.__criteria = kwargs['criteria']
-        self.__rhs = {}
+        self.__attrs = {}
+        self.__attrs['type'] = kwargs['type']
+        self.__attrs['purpose'] = kwargs['purpose'] if 'purpose' in kwargs else ObjectivePurposes.MINIMIZE
+        self.__attrs['criteria'] = kwargs['criteria']
+        self.__attrs['contribution'] = {'raw': kwargs['contribution'], 'norm': 0.0}
+        self.__attrs['rhs'] = {}
 
         if 'rhs' in kwargs:
-            self.__rhs = kwargs['rhs']
+            self.__attrs['rhs'] = kwargs['rhs']
 
-    def get_type(self):
-        return self.__type
+    def __getattr__(self, key):
+        if key not in self.__attrs:
+            LOG(msg='Invalid attribute name.', log=Logs.ERROR)
+            return None
+
+        return getattr(self.__attrs, key)
 
     def __repr__(self):
-        return '%s --> %s %s' % (self.__type.split('.')[-1], self.__purpose.split('.')[-1], self.__criteria)
+        return '%s --> %s %s' % (self.__attrs['type'].split('.')[-1], self.__attrs['purpose'].split('.')[-1], self.__attrs['criteria'])
 
 
 class Objectives:
@@ -77,8 +83,8 @@ class Objectives:
         if 'item' in kwargs:
             if isinstance(kwargs['item'], ObjectiveItem):
                 if kwargs['item'] not in self.__objectives:
-                    identifier = 'ObjectiveItemId_%02d' % len(self.__objectives)
-                    self.__objectives[identifier](kwargs['item'])
+                    identifier = self.id()
+                    self.__objectives[identifier] = kwargs['item']
                     return identifier
                 else:
                     LOG(msg='Given ObjectiveItem object is already in the list.', log=Logs.WARN)
@@ -87,12 +93,15 @@ class Objectives:
         else:
             objective = ObjectiveItem(**kwargs)
             if objective:
-                identifier = 'ObjectiveItemId_%03d' % len(self.__objectives)
-                self.__objectives[identifier](objective)
-                LOG(msg='New objective has been successfuly added to the list.')
-                return True
+                identifier = self.id()
+                self.__objectives[identifier] = objective
+                LOG(msg='New objective has been successfully added to the list.')
+                return identifier
 
         return None
+
+    def id(self):
+        return 'ObjectiveItemId_%02d' % len(self.__objectives)
 
     def pop_item(self, identifier):
         if identifier in self.__objectives:
@@ -104,6 +113,20 @@ class Objectives:
         LOG(msg='Given identifier for ObjectItem instance is not valid. Identifier=%s' % identifier)
         return None
 
+    def normalize(self):
+        sum_contributions = sum([obj.contribution['raw'] for obj in self.__objectives.values()])
+        if sum_contributions == 0:
+            return False
+
+        mult_ = 1.0 / float(sum_contributions)
+        for obj in self.__objectives.values():
+            obj.contribution['norm'] = float(obj.contribution['raw']) * mult_
+        return True
+
+    def __iter__(self):
+        for identifier, objective in self.__objectives.items():
+            yield identifier, objective
+
     def __repr__(self):
         r_str = ''
         for id, item in self.__objectives.items():
@@ -112,13 +135,51 @@ class Objectives:
 
 
 class ResourceRelatedObjectives(Objectives):
+    TYPES = [getattr(ResourceRelatedCriteriaList, attr) for attr in dir(ResourceRelatedCriteriaList) if attr.isupper()]
+
     def __init__(self):
         Objectives.__init__(self)
+
+    def add_item(self, **kwargs):
+        if 'item' in kwargs:
+            if isinstance(kwargs['item'], ObjectiveItem):
+                item = kwargs['item']
+                if item.type == ObjectiveTypeList.RESOURCE_RELATED and item.criteria in ResourceRelatedObjectives.TYPES:
+                    return Objectives.add_item(**kwargs)
+            else:
+                LOG(msg='Given ObjectiveItem object is invalid.', log=Logs.ERROR)
+        else:
+            if 'type' not in kwargs:
+                kwargs['type'] = ObjectiveTypeList.RESOURCE_RELATED
+
+            if kwargs['type'] == ObjectiveTypeList.RESOURCE_RELATED and kwargs['criteria'] in ResourceRelatedObjectives.TYPES:
+                return Objectives.add_item(**kwargs)
+
+        LOG(msg='Impossible to add an objective other than Resource-related objectives.', log=Logs.WARN)
+        return None
 
 
 class TaskRelatedObjectives(Objectives):
+    TYPES = [getattr(TaskRelatedCriteriaList, attr) for attr in dir(TaskRelatedCriteriaList) if attr.isupper()]
+
     def __init__(self):
         Objectives.__init__(self)
+
+    def add_item(self, **kwargs):
+        if 'item' in kwargs:
+            if isinstance(kwargs['item'], ObjectiveItem):
+                item = kwargs['item']
+                if item.type == ObjectiveTypeList.TASK_RELATED and item.criteria in TaskRelatedObjectives.TYPES:
+                    return Objectives.add_item(**kwargs)
+            else:
+                LOG(msg='Given ObjectiveItem object is invalid.', log=Logs.ERROR)
+        else:
+            if kwargs['type'] == ObjectiveTypeList.TASK_RELATED and kwargs['criteria'] in TaskRelatedObjectives.TYPES:
+                return Objectives.add_item(**kwargs)
+
+        LOG(msg='Impossible to add an objective other than Task-related objectives.', log=Logs.WARN)
+        return None
+
 
 class AbstractObjectives(Objectives):
     def __init__(self):

@@ -2,6 +2,8 @@ from LFOS.Resource.Type import *
 from LFOS.Resource.Mode import *
 from LFOS.Resource.Power import *
 
+from LFOS.Objective.Objective import *
+
 from copy import copy
 
 ROOT_TYPE = Type(ResourceTypeList.COMPOSITE, 'ROOT')
@@ -104,7 +106,7 @@ class TerminalResource(ResourceInterface, Mode):
         self.__power = None
 
         self.__renewable = True
-        self.__resource_objectives = None
+        self.objectives = ObjectiveFactory.create_instance(ObjectiveTypeList.RESOURCE_RELATED)
 
     def is_running(self):
         return True if self.__running_tasks else False
