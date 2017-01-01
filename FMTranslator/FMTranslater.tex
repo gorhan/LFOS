@@ -380,6 +380,14 @@ PeriodicityTypeList.SPORADIC
 \end{lstlisting}
         
         
+Since you have classified task ``t1'' as \textsc{periodic}, you can set a parameter for this attribute as follows:
+        
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1periodicitySetting}, caption={Periodicity for parameter is stored in the variable to use it later in instantiation.}]
+periodicity_t1 = PeriodictyTypeList.PERIODIC
+\end{lstlisting}
+        
+        
 \subsubsection{Setting the priority}
 The priority class is a compact small class consists of three class vairables:
 \begin{itemize}
@@ -417,6 +425,42 @@ task_type_t1 = TaskTypeList.TERMINAL
 \end{lstlisting}
         
         
+\subsubsection{Setting the time attributes}
+The time-related attributes for a task is kept under \textsf{Timing} class that inherits \textsf{Periodicity} class. Since the task class also inherits from the Timing class, a programmer can set and get the values directly
+from an intance of a task. The following member functions are utilized to interact with the task instance to access the timing attributes defined above:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1memberFunctionsTiming}, caption={The member functions for \textsf{Timing} module.}]
+Timing.set_deadline(new_deadline) -> None
+Timing.str(object='') -> string
+Timing.set_release_time(new_release_time) -> None
+Timing.get_release_time() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_deadline() -> LFOS.Scheduling.Characteristic.Time
+Timing.set_period(new_period) -> boolean
+Timing.set_execution_time(new_exec_time) -> None
+Timing.get_period_type() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_period() -> LFOS.Scheduling.Characteristic.Time
+Timing.get_execution_time() -> LFOS.Scheduling.Characteristic.Time
+Timing.set_periodicity(_type) -> None
+\end{lstlisting}
+        
+
+The periodicity types are as follows:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1PerioidictyTypeList}, caption={The \textsf{Periodicity} type enumeration.}]
+PeriodicityTypeList.APERIODIC
+PeriodicityTypeList.PERIODIC
+PeriodicityTypeList.SPORADIC
+\end{lstlisting}
+        
+        
+Since you have classified task ``t1'' as \textsc{aperiodic}, you can set a parameter for this attribute as follows:
+            
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:t1periodicitySetting}, caption={Periodicity for parameter is stored in the variable to use it later in instantiation.}]
+periodicity_t1 = PeriodictyTypeList.APERIODIC
+\end{lstlisting}
+        
+            
 \subsubsection{Setting the priority}
 The priority class is a compact small class consists of three class vairables:
 \begin{itemize}

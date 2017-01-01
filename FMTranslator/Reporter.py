@@ -733,13 +733,35 @@ The periodicity types are as follows:
         pass
 
     def periodic_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+Since you have classified task ``%s'' as \\textsc{periodic}, you can set a parameter for this attribute as follows:
+        ''' % self.task_cb_flag)
+        self.write('''
+%s
+        ''' % self.function_implementation('''
+periodicity_{} = PeriodictyTypeList.PERIODIC
+        '''.format(self.task_cb_flag), '%speriodicitySetting' % self.task_cb_flag, 'Periodicity for parameter is stored in the variable to use it later in instantiation.'))
 
     def aperiodic_cb(self, *args, **kwargs):
-        pass
+        if not args[2]:
+            self.write('''
+Since you have classified task ``%s'' as \\textsc{aperiodic}, you can set a parameter for this attribute as follows:
+            ''' % self.task_cb_flag)
+            self.write('''
+%s
+            ''' % self.function_implementation('''
+periodicity_{} = PeriodictyTypeList.APERIODIC
+            '''.format(self.task_cb_flag), '%speriodicitySetting' % self.task_cb_flag, 'Periodicity for parameter is stored in the variable to use it later in instantiation.'))
 
     def sporadic_cb(self, *args, **kwargs):
-        pass
+        self.write('''
+Since you have classified task ``%s'' as \\textsc{sporadic}, you can set a parameter for this attribute as follows:
+        ''' % self.task_cb_flag)
+        self.write('''
+%s
+        ''' % self.function_implementation('''
+periodicity_{} = PeriodictyTypeList.SPORADIC
+        '''.format(self.task_cb_flag), '%speriodicitySetting' % self.task_cb_flag, 'Periodicity for parameter is stored in the variable to use it later in instantiation.'))
 
     def priority_cb(self, *args, **kwargs):
         from LFOS.Task.Priority import Priority, PriorityRanking

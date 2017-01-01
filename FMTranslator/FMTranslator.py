@@ -73,13 +73,17 @@ def parse_feature_model(fmodelfile):
 def remove_blanks(src_str):
     return ''.join([char for char in src_str if char != ' ' and char != '\t'])
 
-def search_stack(stck, feature_name, instance_name):
+def search_stack(stck, feature_name, instance_name, roots=False):
     found = []
     for elem in stck:
         assert isinstance(elem, Feature)
-        elem.search_feature(feature_name, instance_name, found)
-        if found:
-            return found[0]
+        if roots:
+            if elem.name == feature_name and elem.instance == instance_name:
+                return elem
+        else:
+            elem.search_feature(feature_name, instance_name, found)
+            if found:
+                return found[0]
 
     return None
 
@@ -118,11 +122,9 @@ def construct_structure(instance, features):
 
             child_feature = Feature(feature_name, instance_name)
             if instance_name:
-                found = search_stack(stack, feature_name, instance_name)
+                found = search_stack(stack, feature_name, instance_name, True)
                 if found:
                     child_feature = found
-                else:
-                    child_feature = Feature(feature_name, instance_name)
 
             feature_ptr.add(child_feature)
         else:
