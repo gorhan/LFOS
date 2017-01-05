@@ -1,6 +1,7 @@
 from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Task.Task import TaskInterface
+from LFOS.Task.Priority import *
 from LFOS.Resource.Resource import TerminalResource
 from LFOS.Resource.Type import Type, ResourceTypeList
 from LFOS.Resource.Mode import ModeTypeList
@@ -206,7 +207,7 @@ class SolverAdapter(object):
                     for t in range(self.__sched_window_duration):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
 
-        self.__model += Minimise(Sum([self.__End[job][t] * t for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
+        self.__model += Minimise(Sum([self.__End[job][t] * t * (job.get_priority()**3) for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
 
     def _optimize(self):
 
@@ -220,10 +221,15 @@ class SolverAdapter(object):
 
         if self.__solver.is_sat():
             self.__create_schedule()
-            return True
+            schedules = [self.get_last_schedule()]
+            while self.__solver.solutions():
+                if self.__solver.is_sat():
+                    self.__create_schedule()
+                    schedules.append(self.get_last_schedule())
+            return schedules
 
         LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
-        return False
+        return []
 
     def __create_schedule(self):
         self.__last_optimized_schedule = Schedule(self.__sched_window_begin, self.__sched_window_end)

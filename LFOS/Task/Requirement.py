@@ -83,7 +83,7 @@ class ResourceRequirementItem(object):
                (isinstance(other, Type) and self.resource_type == other)
 
     def __str__(self):
-        return '(%s)::%s -- Required Capacity=%d' % (', '.join(map(lambda r: r.get_resource_name(), self.eligible_resources)), self.resource_type, self.required_capacity)
+        return '(%s)::%s -- Required Capacity=%d' % (', '.join(map(lambda r: '%s [%d]' % (r.get_resource_name(), self.eligible_resources[r]), self.eligible_resources)), self.resource_type, self.required_capacity)
 
 
 class ResourceRequirement:

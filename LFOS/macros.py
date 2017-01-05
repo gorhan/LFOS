@@ -11,3 +11,4 @@ from LFOS.Resource.Power import PowerTypeList
 from LFOS.Scheduling.Characteristic.Type import SchedulingTypes
 from LFOS.Scheduling.Characteristic.Migration import MigrationTypes
 from LFOS.Scheduling.Characteristic.PriorityAssigment import PriorityAssignmentTypes
+from LFOS.Scheduling.Characteristic.Policy import SchedulingPolicyRankingTypes

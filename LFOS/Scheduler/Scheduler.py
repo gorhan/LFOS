@@ -33,12 +33,14 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
     def add_task_in_bundle(self, *task_list):
         for task in task_list:
             self.add_task(task)
+        self.update_taskset(self.__taskset)
 
     def remove_task(self, task):
         if isinstance(task, TaskInterface) and task in self.__taskset:
             index = self.__taskset.index(task)
             self.__taskset.pop(index)
             LOG(msg='The task is removed from the taskset. Task=%s' % task.info(False))
+            self.update_taskset(self.__taskset)
             return task
 
         LOG(msg='Given parameter is not task or not in the taskset.', log=Logs.ERROR)
@@ -60,6 +62,4 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
         token_pool = self.get_tokens_as_dict()
 
         self._define_variables(jobs, resources, token_pool, begin, end)
-        if self._optimize():
-            return self.get_last_schedule()
-        return None
+        return self._optimize()

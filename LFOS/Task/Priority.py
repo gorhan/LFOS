@@ -26,7 +26,7 @@ class Priority:
         """
         if Priority.MIN_PRIORITY <= new_prio <= Priority.MAX_PRIORITY:
             self.__priority = new_prio
-            LOG(msg='New priority value has been assigned. Priority=%d' % self.__priority)
+            LOG(msg='New priority value has been assigned. Priority=%d' % (self.__priority))
             return True
 
         LOG(msg='Given priority value is not within the range of [%d, %d].' % (Priority.MIN_PRIORITY, Priority.MAX_PRIORITY), log=Logs.ERROR)
@@ -40,7 +40,7 @@ class Priority:
 
         :return: int
         """
-        return self.__priority
+        return self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority
 
     @classmethod
     def set_class_vars(cls, min_prio=None, max_prio=None, ranking=None):
