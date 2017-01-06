@@ -74,8 +74,11 @@ class SolverAdapter(object):
         self.__resources = resources
         self.__token_pool = token_pool
 
+        latest_deadline = max(int(job.get_extended_deadline(job.get_deadline())) for job in jobs)
+
         self.__sched_window_begin = int(sched_begin)
-        self.__sched_window_end = int(sched_end)
+        self.__sched_window_end = int(sched_end) if latest_deadline <= int(sched_end) else latest_deadline
+        self.__sched_window_actual_end = int(sched_end)
         self.__sched_window_duration = self.__sched_window_end - self.__sched_window_begin
 
         self.__Allocation = {(resource, job): VarArray(self.__sched_window_duration, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
@@ -206,8 +209,9 @@ class SolverAdapter(object):
                 for exc_resource in exclusive_resources:
                     for t in range(self.__sched_window_duration):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
-
-        self.__model += Minimise(Sum([self.__End[job][t] * t * (job.get_priority()**3) for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
+        for job in self.__jobs:
+            print 'PPRRIIOOOTTTIIIYYYY', job.get_credential(), job.get_priority()
+        self.__model += Minimise(Sum([self.__End[job][t] * t * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
 
     def _optimize(self):
 
@@ -216,23 +220,25 @@ class SolverAdapter(object):
         self.__solver.setVerbosity(self.__verbose)
         self.__solver.setTimeLimit(self.__time_cutoff)
 
-        self.__solver.solve()
-        self.__optimized = True
+        schedules = []
 
-        if self.__solver.is_sat():
-            self.__create_schedule()
-            schedules = [self.get_last_schedule()]
-            while self.__solver.solutions():
-                if self.__solver.is_sat():
-                    self.__create_schedule()
-                    schedules.append(self.get_last_schedule())
-            return schedules
+        if self.get_solver_type() == 'Mistral':
+            self.__solver.startNewSearch()
+            while self.__solver.getNextSolution() == SAT:
+                self.__create_schedule()
+                schedules.append(self.get_last_schedule())
+        else:
+            self.__solver.solve()
+            self.__optimized = True
+            if self.__solver.is_sat():
+                self.__create_schedule()
+                schedules = [self.get_last_schedule()]
 
-        LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
-        return []
+        # LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
+        return schedules
 
     def __create_schedule(self):
-        self.__last_optimized_schedule = Schedule(self.__sched_window_begin, self.__sched_window_end)
+        self.__last_optimized_schedule = Schedule(self.__sched_window_begin, self.__sched_window_actual_end)
 
         for job in self.__jobs:
             print '[Start]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__Start[job]])

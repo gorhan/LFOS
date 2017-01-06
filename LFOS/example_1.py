@@ -39,9 +39,9 @@ tasks = generate_timing_attributes(4)
 
 tasks = [
     [0, 7, 26, 29],
-    [6, 8, 32, 28],
-    [1, 7, 23, 22],
-    # [1, 4, 27, 25]
+    [3, 3, 32, 28],
+    [2, 2, 23, 22],
+    [1, 4, 27, 25]
 ]
 
 task_instances = []
@@ -60,7 +60,7 @@ scheduler.add_task_in_bundle(*task_instances)
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.RM)
 
 scheduler.set_scheduling_window_start_time(Time(0))
-scheduler.set_scheduling_window_duration(Time(60))
+scheduler.set_scheduling_window_duration(Time(40))
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

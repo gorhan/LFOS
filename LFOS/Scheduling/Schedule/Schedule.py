@@ -99,7 +99,7 @@ class Schedule:
                     y_start += y_height
 
         # ax_legend = fig.add_axes([0.75, 0.15, 0.25, 1.0])
-        patches = [mpatches.Patch(color=pt_color, label=job_cred) for job_cred, pt_color in job2colors.items()]
+        patches = [mpatches.Patch(color=job2colors[job_cred], label=job_cred) for job_cred in sorted(job2colors.keys())]
         ax.legend(handles=patches, loc='lower left', bbox_to_anchor=(1.01, -0.01))
         ax.xaxis.set_major_locator(major_grid_locator)
         ax.grid(b=True, which='major', linestyle='--')

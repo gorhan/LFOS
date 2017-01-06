@@ -40,7 +40,7 @@ class Priority:
 
         :return: int
         """
-        return self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority
+        return (10**4) * (self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority)
 
     @classmethod
     def set_class_vars(cls, min_prio=None, max_prio=None, ranking=None):
@@ -59,12 +59,12 @@ class Priority:
         """
         if min_prio and min_prio > cls.MIN_PRIORITY:
             LOG(msg='Given new minimum priority value is higher than the current one. New=%d - Current=%d' % (min_prio, cls.MIN_PRIORITY), log=Logs.WARN)
-        elif min_prio:
+        if min_prio:
             cls.MIN_PRIORITY = min_prio
 
-        if max_prio and max_prio > cls.MAX_PRIORITY:
+        if max_prio and max_prio < cls.MAX_PRIORITY:
             LOG(msg='Given new maximum priority value is lower than the current one. New=%d - Current=%d' % (max_prio, cls.MAX_PRIORITY), log=Logs.WARN)
-        elif min_prio:
+        if max_prio:
             cls.MAX_PRIORITY = max_prio
 
         if ranking and ranking in [getattr(PriorityRanking, attr) for attr in dir(PriorityRanking) if attr.isupper()]:

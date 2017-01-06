@@ -114,6 +114,9 @@ class ResourceRequirement:
 
         return True
 
+    def get_max_wcet_time(self):
+        return max([wcet for item in self.__dict[ResourceTypeList.ACTIVE] for wcet in item.eligible_resources.values()])
+
     def remove_resource_requirement(self, _type):
         return self.__dict[_type].remove(_type)
 

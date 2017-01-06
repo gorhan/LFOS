@@ -176,7 +176,7 @@ class TerminalTask(TaskInterface):
         release_time = job.get_release_time()
         deadline = job.get_extended_deadline(job.get_deadline())
 
-        while begin_tm <= release_time < end_tm and begin_tm <= deadline <= end_tm:
+        while begin_tm <= release_time < end_tm and begin_tm <= (release_time+self.get_max_wcet_time()) <= end_tm:
             jobs += [job]
             # print '%r' % job, job.get_release_time()
             job = job.next_look()

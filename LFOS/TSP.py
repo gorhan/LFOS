@@ -23,7 +23,7 @@ System.print_accessibilites()
 Time.set_time_resolution(0)
 
 
-cities = ['A', 'B', 'C', 'D']
+cities = ['A', 'C', 'B', 'D']
 Distances = [
     [ 0,  2, 10,  9],
     [ 2,  0,  5,  5],
@@ -64,4 +64,6 @@ finish_city.add_dependency('__City_A__', 1)
 
 scheduler.add_task(finish_city)
 
-print scheduler.schedule_tasks()
+schedules = scheduler.schedule_tasks()
+for schedule in schedules:
+    schedule.plot_schedule()
