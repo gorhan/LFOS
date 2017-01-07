@@ -151,6 +151,8 @@ class SolverAdapter(object):
                     #                  Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][t:deadline]) == 1, self.__End[job][t+1] == 1])]),
                     #                      And([self.__AuxWorking[job][t] == 0, self.__End[job][t+1] == 0])
                     #                      ])]))
+                if not job.is_preemptable():
+                    self.__model += (Sum(t * req_capacity * (self.__End[job][t] - self.__Start[job][t]) for t in range(release_time, deadline)) == Sum(self.__AuxWorking[job]))
 
             # TODO: The constraints for passive resource requirements have to be implemented.
             for requirement_item in passive_resource_requirements:
@@ -159,9 +161,6 @@ class SolverAdapter(object):
                 for t in range(release_time, deadline):
                     self.__model += (((self.__AuxWorking[job][t] > 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == req_capacity)) |
                                      ((self.__AuxWorking[job][t] == 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == 0)))
-
-            if not job.is_preemptable():
-                self.__model += (Sum(t * (self.__End[job][t] - self.__Start[job][t]) for t in range(release_time, deadline)) == exec_time)
 
         for t in range(self.__sched_window_begin, self.__sched_window_end):
             # Token constraints

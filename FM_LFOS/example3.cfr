@@ -160,23 +160,29 @@ abstract scheduler
 // EXAMPLE-3: COMPLEX SCHEDULING APPLICATION
 // Resources
 cpu1 : resource
-[cpu1.power_consumption.scalable.continuous && cpu1.mode.exclusive.capacity_based && cpu1.mode.exclusive.semantic_based && cpu1.resource_objective.criteria.resource_related_objective_criteria.power_consumption_criteria && !cpu1.resource_objective.criteria.resource_related_objective_criteria.utilization_criteria && !cpu1.resource_objective.criteria.resource_related_objective_criteria.throughput_criteria && cpu1.resource_objective.resource_objective_purpose.mini]
+[!cpu1.power_consumption.scalable && cpu1.mode.exclusive.capacity_based && cpu1.mode.exclusive.semantic_based && !cpu1.resource_objective]
 [cpu1.resource_type.abstraction.ACTIVE]
 cpu2 : resource
-[cpu2.power_consumption.scalable.discrete && cpu2.mode.exclusive.capacity_based && !cpu2.resource_objective ]
+[!cpu2.power_consumption.scalable && cpu2.mode.exclusive.capacity_based && !cpu2.resource_objective ]
 [cpu2.resource_type.abstraction.ACTIVE]
+memory1 : resource
+[!memory1.power_consumption.scalable && memory1.mode.exclusive.capacity_based && !memory1.mode.exclusive.semantic_based && !memory1.resource_objective]
+[memory1.resource_type.abstraction.PASSIVE]
+memory2 : resource
+[!memory2.power_consumption.scalable && memory2.mode.exclusive.capacity_based && !memory2.resource_objective ]
+[memory2.resource_type.abstraction.PASSIVE]
 //CPUs : resource
 //[! CPUs.power_consumption.scalable && CPUs.mode.exclusive.capacity_based && CPUs.resource_type.abstraction.COMPOSITE]
 
 // Tasks
 t1 : task
 req1 : resource_requirement
-[ req1.eligible_resources = cpu1 ]
+[ req1.eligible_resources = cpu1 ++ cpu2 ]
 [t1.requirement.required_resources = req1 && !t1.dependency && ! t1.task_objective && t1.timing.periodicity.periodic && t1.granularity.terminal && ! t1.preemptable && t1.requirement.deadline_requirement.soft]
 t2 : task
 req2 : resource_requirement
-[ req2.eligible_resources = cpu2 ]
-[t2.requirement.required_resources = req2 && t2.dependency && t2.task_objective.task_objective_purpose.mini && t2.task_objective.criteria.time_related_objective_criteria.centering && !t2.task_objective.criteria.time_related_objective_criteria.makespan && !t2.task_objective.criteria.time_related_objective_criteria.lateness && !t2.task_objective.criteria.time_related_objective_criteria.tardiness && !t2.task_objective.criteria.time_related_objective_criteria.earliness && t2.timing.periodicity.aperiodic && !t2.timing.periodicity.aperiodic.sporadic && t2.granularity.terminal && t2.preemptable.cooperative && t2.requirement.deadline_requirement.hard]
+[ req2.eligible_resources = cpu1 ++ cpu2 ]
+[t2.requirement.required_resources = req2 && t2.dependency && t2.task_objective.task_objective_purpose.mini && t2.task_objective.criteria.time_related_objective_criteria.centering && !t2.task_objective.criteria.time_related_objective_criteria.makespan && !t2.task_objective.criteria.time_related_objective_criteria.lateness && !t2.task_objective.criteria.time_related_objective_criteria.tardiness && !t2.task_objective.criteria.time_related_objective_criteria.earliness && t2.timing.periodicity.aperiodic && !t2.timing.periodicity.aperiodic.sporadic && t2.granularity.terminal && t2.preemptable && !t2.preemptable.cooperative && t2.requirement.deadline_requirement.hard]
 
 objective_gl : global_objective
 [  objective_gl.purpose.mini &&
@@ -184,7 +190,7 @@ objective_gl : global_objective
 
 sched : scheduler
 [ sched.taskset = t1 ++ t2 ]
-[ sched.system = cpu1 ++ cpu2 ]
+[ sched.system = cpu1 ++ cpu2 ++ memory1 ++ memory2]
 [ sched.properties.objective = objective_gl && sched.properties.policy.ranking.default.FIFO && !sched.properties.policy.grouping && sched.properties.scheduling_characteristic_type.offline && sched.properties.preemptive && sched.properties.priority_assignment.dynamic ]
 [ !sched.strategy ]
 

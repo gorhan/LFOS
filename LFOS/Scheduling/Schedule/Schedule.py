@@ -1,4 +1,4 @@
-from LFOS.Resource.Resource import System
+from LFOS.Resource.Resource import System, ResourceTypeList
 from LFOS.Scheduling.Characteristic.Time import Time, TimeResolution
 from matplotlib import colors
 import matplotlib.pyplot as plt
@@ -106,7 +106,7 @@ class Schedule:
         ax.set_ylim(0, y_start + y_resource + y_margin)
         ax.set_xlim(self.__begin, self.__end)
         ax.set_yticks([y_margin + ind * (y_resource + y_margin) + y_resource/2 for ind, resource in enumerate(self.__schedule.keys())])
-        ax.set_yticklabels([resource.get_resource_name() for resource in self.__schedule.keys()])
+        ax.set_yticklabels(['%s%s' % (resource.get_resource_name(), '*' if resource.get_type().get_abstraction() == ResourceTypeList.ACTIVE else '') for resource in self.__schedule.keys()])
         ax.set_xlabel('Time (%s)' % Time.get_time_unit())
 
         dpi = fig.get_dpi()

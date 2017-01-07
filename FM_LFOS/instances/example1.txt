@@ -9,7 +9,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -20,7 +20,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -65,7 +65,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -76,7 +76,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -120,7 +120,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -131,7 +131,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -178,7 +178,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -189,7 +189,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -235,7 +235,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -246,7 +246,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -293,7 +293,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -304,7 +304,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -350,7 +350,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -361,7 +361,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -407,7 +407,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -418,7 +418,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -463,7 +463,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -474,7 +474,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -522,7 +522,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -533,7 +533,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -580,7 +580,7 @@ c0_machine : c0_resource
   c0_mode 
     c0_exclusive 
       c0_capacity_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -591,7 +591,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
@@ -639,7 +639,7 @@ c0_machine : c0_resource
     c0_exclusive 
       c0_capacity_based 
       c0_semantic_based 
-  c1_power_consumption 
+  c0_power_consumption 
 c0_t : c0_task 
   c1_timing : c0_timing 
     c0_release_time 
@@ -650,7 +650,7 @@ c0_t : c0_task
   c0_priority 
   c0_preemptable 
   c1_requirement : c0_requirement 
-    c1_deadline 
+    c0_deadline_requirement 
       c0_hard 
     c0_required_resources -> c0_resource_requirement = c0_task_req 
   c0_granularity 
