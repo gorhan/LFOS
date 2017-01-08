@@ -131,6 +131,10 @@ class Power(object):
         """
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
+    def get_type(self):
+        LOG(msg='Invalid procedure call', log=Logs.ERROR)
+        return None
+
 
 class FixedStatePowerConsumption(Power):
     def __init__(self, scale, pow_cons, dump1=None, dump2=None):
@@ -146,6 +150,9 @@ class FixedStatePowerConsumption(Power):
         :return: None
         """
         self._min_state[1] = self._max_state[1] = self._active_power_state[1] = consumption
+
+    def get_type(self):
+        return PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
 
 
 class DiscreteStatePowerConsumption(Power, dict):
@@ -270,7 +277,10 @@ class DiscreteStatePowerConsumption(Power, dict):
 
         :return: array of scale^(-1) of power states.
         """
-        return np.array([float(1.0/scale) for scale in self.keys()]).tolist()
+        return np.array(self.keys()).tolist()
+
+    def get_type(self):
+        return PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
 
 
 class ContinuousStatePowerConsumption(Power):
@@ -390,6 +400,9 @@ class ContinuousStatePowerConsumption(Power):
         :return: Numpy.array
         """
         return np.concatenate((np.arange(self._min_state[0], self._max_state[0], self.__power_scale_precision), np.array(self._max_state[0]))).tolist()
+
+    def get_type(self):
+        return PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION
 
 
 class PowerTypeList:

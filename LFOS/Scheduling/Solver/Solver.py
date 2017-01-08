@@ -2,7 +2,7 @@ from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Task.Task import TaskInterface
 from LFOS.Task.Priority import *
-from LFOS.Resource.Resource import TerminalResource
+from LFOS.Resource.Resource import TerminalResource, PowerTypeList
 from LFOS.Resource.Type import Type, ResourceTypeList
 from LFOS.Resource.Mode import ModeTypeList
 from LFOS.Scheduling.Characteristic.Time import Time
@@ -82,7 +82,7 @@ class SolverAdapter(object):
         self.__sched_window_duration = self.__sched_window_end - self.__sched_window_begin
 
         self.__Allocation = {(resource, job): VarArray(self.__sched_window_duration, 0, resource.get_capacity()) for resource in self.__resources for job in self.__jobs}
-        self.__ResourcePS = {resource: Variable(resource.get_power_consumption().get_power_states()) for resource in self.__resources}
+        # self.__ResourcePS = {resource: Variable(resource.get_power_consumption().get_power_states()) for resource in self.__resources}
 
         # self.__Start = {job: VarArray(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
         # self.__End = {job: Variable(int(job.get_release_time()), int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
@@ -124,13 +124,29 @@ class SolverAdapter(object):
                 for resource, exec_time in el_resources_dict.items():
                     o_resources = el_resources_dict.keys()
                     o_resources.pop(o_resources.index(resource))
+                    expr = []
                     if o_resources:
-                        self.__model += (
-                            ((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0)) |
-                            ((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
-                                        )
+                        from math import ceil
+                        if resource.get_power_consumption().get_type() == PowerTypeList.FIXED_STATE_POWER_CONSUMPTION:
+                            expr = (
+                                ((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0)) |
+                                ((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
+                                            )
+                        elif resource.get_power_consumption().get_type() == PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION:
+                            exec_times = [int(ceil(1.0/scale*exec_time)) for scale in resource.get_power_consumption().get_power_states()]
+                            for exec_time in exec_times:
+                                expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == exec_time * req_capacity) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0))
+                            expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
+                            expr = Disjunction(expr)
+                        elif resource.get_power_consumption().get_type() == PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION:
+                            exec_times = range(int(ceil(1.0/resource.get_power_consumption().get_mix_state()[0]*exec_time)), exec_time+1)
+                            for exec_time in exec_times:
+                                expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0))
+                            expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
+                            expr = Disjunction(expr)
                     else:
-                        self.__model += (Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
+                        expr = (Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
+                    self.__model += expr
 
                 for t in range(release_time, deadline):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for resource in el_resources_dict.keys()) == self.__AuxWorking[job][t])
@@ -141,10 +157,10 @@ class SolverAdapter(object):
                     #                      And([self.__AuxWorking[job][t] == 0, self.__Start[job][t] == 0])
                     #                      ])]))
 
-                    self.__model += ( ((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][release_time:t + 1]) == 1) & self.__Start[job][t] == 1) |
+                    self.__model += ( ((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][release_time:t + 1]) == req_capacity) & self.__Start[job][t] == 1) |
                                       (self.__Start[job][t] == 0) )
 
-                    self.__model += (((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][t:deadline]) == 1) & self.__End[job][t+1] == 1) |
+                    self.__model += (((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][t:deadline]) == req_capacity) & self.__End[job][t+1] == 1) |
                                      (self.__End[job][t+1] == 0))
 
                     # self.__model += (Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][t:deadline]) != 1, self.__End[job][t+1] == 0])]),
@@ -152,7 +168,8 @@ class SolverAdapter(object):
                     #                      And([self.__AuxWorking[job][t] == 0, self.__End[job][t+1] == 0])
                     #                      ])]))
                 if not job.is_preemptable():
-                    self.__model += (Sum(t * req_capacity * (self.__End[job][t] - self.__Start[job][t]) for t in range(release_time, deadline)) == Sum(self.__AuxWorking[job]))
+                    print 'NOT PREEMPTABLE'
+                    self.__model += (Sum(req_capacity * (self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) for t in range(release_time, deadline)) == Sum(self.__AuxWorking[job][release_time:deadline]))
 
             # TODO: The constraints for passive resource requirements have to be implemented.
             for requirement_item in passive_resource_requirements:
@@ -210,7 +227,8 @@ class SolverAdapter(object):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
         for job in self.__jobs:
             print 'PPRRIIOOOTTTIIIYYYY', job.get_credential(), job.get_priority()
-        self.__model += Minimise(Sum([self.__End[job][t] * t * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end+1) for job in self.__jobs]))
+        # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
+        self.__model += Maximize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
 
     def _optimize(self):
 
@@ -242,6 +260,7 @@ class SolverAdapter(object):
         for job in self.__jobs:
             print '[Start]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__Start[job]])
             print '  [End]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__End[job]])
+            print '  [AuxWorking]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__AuxWorking[job]])
             for t in range(job.get_release_time(), job.get_extended_deadline(job.get_deadline())):
                 reserved_resources = {resource: self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() for resource in self.__resources if self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() > 0}
 
