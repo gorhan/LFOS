@@ -116,7 +116,7 @@ task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: 
 task_3.add_resource_requirement(resource_type=memory_t, capacity=140)
 # task_3.add_dependency('__Task_1__', 1, Time(2))
 task_3.add_dependency('__Task_1_1__', 1, Time(3))
-task_3.add_dependency('__Task_1_2__', 1, Time(1))
+task_3.add_dependency('__Task_1_2__', 1, Time(3))
 print task_3.info(True)
 task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_2', type='Default', phase=Time(8), deadline=Time(11), periodicity=PeriodicityTypeList.APERIODIC)
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)

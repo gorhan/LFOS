@@ -68,7 +68,19 @@ class Schedule:
         tm_res = 10 ** Time.get_time_resolution()
         major_grid_locator = MultipleLocator(tm_res)
 
-        colors_ = colors.cnames.keys()
+        colors_ = [
+            'r',
+            'g',
+            'b',
+            'y',
+            'darkviolet',
+            'navy',
+            'gray',
+            'brown'
+        ]
+        if len(self.__jobs) > len(colors_):
+            LOG(msg='Color names have been extended to the larger set.')
+            colors_ = colors.cnames.keys()
         shuffle(colors_)
         job2colors = {job_cred: colors_[i] for i, job_cred in enumerate(self.__jobs)}
 
