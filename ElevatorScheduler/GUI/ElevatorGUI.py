@@ -1,18 +1,17 @@
 
 import Tkinter as tk
 import tkFont
-import threading
 from TaskSpecGUI import TaskSpecUI
 
 
-class ElevatorUI(tk.Frame, threading.Thread):
+class ElevatorUI(tk.Frame):
     def __init__(self, invoker, master=None):
         tk.Frame.__init__(self, master)
         self.master.title('Elevator Scheduling GUI')
         self._invoker = invoker
         self.grid()
         self._create_widgets()
-        threading.Thread.__init__(self)
+        self.mainloop()
 
     def _create_widgets(self):
         self._label_frame_text = tk.LabelFrame(self, text='Output Console', labelanchor='n')
@@ -33,6 +32,8 @@ class ElevatorUI(tk.Frame, threading.Thread):
     def set_params(self, params):
         self._params = params
         self.__set_text('New Task: {}, Direction: {}, Target: {}\n'.format(*self._params))
+        if self._invoker:
+            self._invoker.publish_task(params)
 
     def _update_taskset(self):
         master = tk.Toplevel(self.master)
@@ -49,6 +50,3 @@ class ElevatorUI(tk.Frame, threading.Thread):
 
     def _continue(self):
         self.__set_text('Continuing...\n')
-
-    def run(self):
-        self.mainloop()

@@ -60,7 +60,5 @@ class TaskSpecUI:
         self._radio_bt_directions[1].config(state=tk.NORMAL)
 
     def _terminate(self):
-        print 'Button Pressed'
         self._invoker.set_params([self._request.get(), self._direction.get(), self._floor.get()])
-        print 'Button Params Set'
         self.master.destroy()
