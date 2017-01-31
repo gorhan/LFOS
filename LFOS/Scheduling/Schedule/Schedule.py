@@ -71,17 +71,17 @@ class Schedule:
         colors_ = [
             'r',
             'g',
-            'b',
-            'y',
             'darkviolet',
             'navy',
             'gray',
-            'brown'
+            'brown',
+            'b',
+            'y'
         ]
         if len(self.__jobs) > len(colors_):
             LOG(msg='Color names have been extended to the larger set.')
             colors_ = colors.cnames.keys()
-        shuffle(colors_)
+        # shuffle(colors_)
         job2colors = {job_cred: colors_[i] for i, job_cred in enumerate(self.__jobs)}
 
         y_resource = 10.0

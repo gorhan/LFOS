@@ -130,21 +130,6 @@ cpu1.is_exclusive()
         
 According to your specification, you have selected at least \textsf{CB\_EXCLUSIVE} mode for your resource ``cpu1''. Since the resource is set to this mode initially, you do not need to set it again.
         
-In addition to the CB\_EXCLUSIVE mode, you have selected the \textsf{SB\_EXCLUSIVE} mode for your resource ``cpu1''. Therefore, you should manually set it after resource creation using the following code segment:
-
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1setCBSBExclusiveResource}, caption={The resource is set to CB\_AND\_SB\_EXCLUSIVE mode.}]
-cpu1.set_mode(ModeTypeList.CB_AND_SB_EXCLUSIVE)
-\end{lstlisting}
-        
-
-Due to semantic-based exclusive property of the resource, you can define exclusive resources by using the following formula:
-
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1addSBExclusiveResource}, caption={A function for adding exclusive resources.}]
-cpu1.add_exclusive_resource(resource)
-# returns True if the SB\_EXCLUSIVE mode is selected and the resource argument is not in the list of exclusive resources. Otherwise, it returns False.
-\end{lstlisting}
-        
-        
 \subsubsection{Setting Power Consumption}
 There are three possible types of power consumption:
 \begin{itemize}
@@ -154,10 +139,10 @@ There are three possible types of power consumption:
 \end{itemize}
 Each of these types have their corresponding classes inheriting \textsf{Resource} class. Therefore, we have utilized factory method design pattern.
         
-You have selected continuous-state power consumption. Therefore, you can create your power consumption object with the code as follows:
+You have selected discrete-state power consumption. Therefore, you can create your power consumption object with the code as follows:
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1settingPowerConsumptionContinuous}, caption={Power consumption object is created for Continuous-State Power Consumption type.}]
-power_type = PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION
+\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1settingPowerConsumptionDiscrete}, caption={Power consumption object is created for Discrete-State Power Consumption type.}]
+power_type = PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
 cpu1_pc = PowerFactory.create_instance(power_type, scale, consumption)
 # create_instance(_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None) -> FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
 # 
@@ -175,46 +160,44 @@ cpu1_pc = PowerFactory.create_instance(power_type, scale, consumption)
 \end{lstlisting}
         
        
-All other member functions for the class is shown in Listing \ref{lst:cpu1memberFunctionsPowerContinuous}
+All the other member functions for the object is shown in Listing \ref{lst:cpu1memberFunctionsPowerDiscrete}:
             
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1memberFunctionsPowerContinuous}, caption={The member functions for \textsf{ContinuousStatePowerConsumption} module.}]
-ContinuousStatePowerConsumption.set_max_state(scale, pow_cons) -> boolean
-ContinuousStatePowerConsumption.max_range_check(scale) -> boolean
-ContinuousStatePowerConsumption.get_power_consumption_w_scale(scale) -> float
-ContinuousStatePowerConsumption.get_active_power_state() -> dict
-ContinuousStatePowerConsumption.get_max_power_state() -> list
-ContinuousStatePowerConsumption.get_min_power_state() -> list
-ContinuousStatePowerConsumption.get_power_states() -> Numpy.array
-ContinuousStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean
-ContinuousStatePowerConsumption.remove_state(scale) -> boolean (Interface Function)
-ContinuousStatePowerConsumption.range_check(scale) -> boolean
-ContinuousStatePowerConsumption.get_power_consumption() -> float
-ContinuousStatePowerConsumption.set_power_scale_precision(precision) -> None
-ContinuousStatePowerConsumption.set_power_mode(scale) -> list(scale, power consumption)
-ContinuousStatePowerConsumption.get_power_scale_precision() -> float
-ContinuousStatePowerConsumption.__calculate_power_consumption_slope()
-ContinuousStatePowerConsumption.add_state(self, scale, pow_cons) -> boolean (Interface Function)
-ContinuousStatePowerConsumption.get_power_scale() -> float
+\begin{lstlisting}[language=Python, frame=single, label={lst:cpu1memberFunctionsPowerDiscrete}, caption={The member functions for \textsf{DiscreteStatePowerConsumption} module.}]
+DiscreteStatePowerConsumption.get_power_states() -> Numpy.array
+DiscreteStatePowerConsumption.set_power_mode(scale) -> list
+DiscreteStatePowerConsumption.range_check(scale) -> boolean
+DiscreteStatePowerConsumption.get_max_power_state() -> list
+DiscreteStatePowerConsumption.get_min_power_state() -> list
+DiscreteStatePowerConsumption.get_active_power_state() -> dict
+DiscreteStatePowerConsumption.remove_state(scale) -> float | None
+DiscreteStatePowerConsumption.max_range_check(scale) -> boolean
+DiscreteStatePowerConsumption.get_type() -> PowerTypeList
+DiscreteStatePowerConsumption.get_power_consumption_w_scale(scale) -> float
+DiscreteStatePowerConsumption.add_state(scale, pow_cons) -> boolean
+DiscreteStatePowerConsumption.set_max_state(scale, pow_cons) -> boolean
+DiscreteStatePowerConsumption.get_power_scale() -> float
+DiscreteStatePowerConsumption.get_power_consumption() -> float
+DiscreteStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean
 \end{lstlisting}
         
             
-\subsection{Resource Initialization for ``\textsf{cpu2}''}
+\subsection{Resource Initialization for ``\textsf{memory1}''}
         
-For \emph{abstraction}, \textsc{active} is selected. Therefore, you can create the type object using the following code segment:
+For \emph{abstraction}, \textsc{passive} is selected. Therefore, you can create the type object using the following code segment:
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:activeType}, caption={Active resource type object instantiation}]
-cpu2_t = Type(ResourceTypeList.ACTIVE, 'cpu2_t')
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1passiveType}, caption={Passive resource type object instantiation}]
+memory1_t = Type(ResourceTypeList.PASSIVE, 'memory1_t')
 \end{lstlisting}
         
         
 According to the specification, a programmer can create the resource giving type object and a name of the resource as arguments to the class method of the
-ResourceFactory class shown in Listing \ref{lst:cpu2activeInstantiation}. For active resources, an object belonging to \textsf{TerminalResource} class is instantiated
+ResourceFactory class shown in Listing \ref{lst:memory1passiveInstantiation}. For passive resources, an object belonging to \textsf{TerminalResource} class is instantiated
 using factory method pattern to handle the optional feature under \emph{Abstraction} sub-feature.
 
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu2activeInstantiation}, caption={Active resource instantiation using ResourceFactory class}]
-cpu2 = ResourceFactory.create_instance(cpu2_t, 'cpu2')
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1passiveInstantiation}, caption={Passive resource instantiation using ResourceFactory class}]
+memory1 = ResourceFactory.create_instance(memory1_t, 'memory1')
 \end{lstlisting}
         
 
@@ -230,24 +213,24 @@ The functionality of these modes are discussed in the article.
 
 As shown in Table \ref{tab:resource_vars_default}, the mode is initially set to \textsf{ModeTypeList.CB\_EXCLUSIVE}. A programmer can change the mode of a resource by using the following code segment:
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu2setMode}, caption={Setting the mode of a resource after creating a resource.}]
-cpu2.set_mode(mode)
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1setMode}, caption={Setting the mode of a resource after creating a resource.}]
+memory1.set_mode(mode)
 # mode --> ResourceTypeList::Enum
 \end{lstlisting}
         
 
-In order to check the mode of the resource, you can use the functions depicted in Listing \ref{lst:cpu2getMode}.
+In order to check the mode of the resource, you can use the functions depicted in Listing \ref{lst:memory1getMode}.
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu2getMode}, caption={The functions for resource mode check.}]
-cpu2.is_mode(mode) # mode --> ResourceTypeList::Enum
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1getMode}, caption={The functions for resource mode check.}]
+memory1.is_mode(mode) # mode --> ResourceTypeList::Enum
 # returns True if the argument matches with the mode of the resource.
 
-cpu2.is_exclusive()
+memory1.is_exclusive()
 # returns True if the mode of the resource is any one of the exclusive mode.
 \end{lstlisting}
         
         
-According to your specification, you have selected at least \textsf{CB\_EXCLUSIVE} mode for your resource ``cpu2''. Since the resource is set to this mode initially, you do not need to set it again.
+According to your specification, you have selected at least \textsf{CB\_EXCLUSIVE} mode for your resource ``memory1''. Since the resource is set to this mode initially, you do not need to set it again.
         
 \subsubsection{Setting Power Consumption}
 There are three possible types of power consumption:
@@ -258,11 +241,11 @@ There are three possible types of power consumption:
 \end{itemize}
 Each of these types have their corresponding classes inheriting \textsf{Resource} class. Therefore, we have utilized factory method design pattern.
         
-You have selected discrete-state power consumption. Therefore, you can create your power consumption object with the code as follows:
+Since you have selected non-scalable power consumption for the resource. The following instantiation can be applied:
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu2settingPowerConsumptionDiscrete}, caption={Power consumption object is created for Discrete-State Power Consumption type.}]
-power_type = PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
-cpu2_pc = PowerFactory.create_instance(power_type, scale, consumption)
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1settingPowerConsumption}, caption={Initializing power consumption module and setting it to the resource.}]
+power_type = PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
+memory1_pc = PowerFactory.create_instance(power_type, scale, consumption)
 # create_instance(_type, min_scale, min_pow_cons, max_scale=None, max_pow_cons=None) -> FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
 # 
 #         Returns the corresponding instance for given _type.
@@ -276,27 +259,38 @@ cpu2_pc = PowerFactory.create_instance(power_type, scale, consumption)
 #         :param max_scale: float -> maximum power scale
 #         :param max_pow_cons: float -> maximum power consumption
 #         :return: FixedStatePowerConsumption | DiscreteStatePowerConsumption | ContinuousStatePowerConsumption
+
+memory1.set_power_consumption(memory1_pc)
 \end{lstlisting}
         
-       
-All the other member functions for the object is shown in Listing \ref{lst:cpu2memberFunctionsPowerDiscrete}:
+
+If you want to get the instance of power, then you can use the following function:
+
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1gettingPowerConsumption}, caption={Getting power consumption module}]
+memory1.get_power_consumption()
+\end{lstlisting}
+        
+            
+All the other member functions for the object is as follows:
             
 
-\begin{lstlisting}[language=Python, frame=single, label={lst:cpu2memberFunctionsPowerDiscrete}, caption={The member functions for \textsf{DiscreteStatePowerConsumption} module.}]
-DiscreteStatePowerConsumption.get_power_states() -> Numpy.array
-DiscreteStatePowerConsumption.set_power_mode(scale) -> list
-DiscreteStatePowerConsumption.range_check(scale) -> boolean
-DiscreteStatePowerConsumption.get_max_power_state() -> list
-DiscreteStatePowerConsumption.get_min_power_state() -> list
-DiscreteStatePowerConsumption.get_active_power_state() -> dict
-DiscreteStatePowerConsumption.remove_state(scale) -> float | None
-DiscreteStatePowerConsumption.max_range_check(scale) -> boolean
-DiscreteStatePowerConsumption.get_power_consumption_w_scale(scale) -> float
-DiscreteStatePowerConsumption.add_state(scale, pow_cons) -> boolean
-DiscreteStatePowerConsumption.set_max_state(scale, pow_cons) -> boolean
-DiscreteStatePowerConsumption.get_power_scale() -> float
-DiscreteStatePowerConsumption.get_power_consumption() -> float
-DiscreteStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean
+\begin{lstlisting}[language=Python, frame=single, label={lst:memory1memberFunctionsPower}, caption={The member functions for \textsf{FixedStatePowerConsumption} module.}]
+FixedStatePowerConsumption.set_max_state(self, scale, pow_cons) -> boolean (Interface Function)
+FixedStatePowerConsumption.max_range_check(scale) -> boolean
+FixedStatePowerConsumption.get_type() -> PowerTypeList
+FixedStatePowerConsumption.get_power_consumption_w_scale(scale) -> float (Interface Function)
+FixedStatePowerConsumption.set_power_consumption(consumption) -> None
+FixedStatePowerConsumption.get_active_power_state() -> dict
+FixedStatePowerConsumption.get_max_power_state() -> list
+FixedStatePowerConsumption.get_min_power_state() -> list
+FixedStatePowerConsumption.get_power_states() -> Numpy.array
+FixedStatePowerConsumption.set_min_state(scale, pow_cons) -> boolean (Interface Function)
+FixedStatePowerConsumption.remove_state(scale) -> boolean (Interface Function)
+FixedStatePowerConsumption.range_check(scale) -> boolean
+FixedStatePowerConsumption.get_power_consumption() -> float
+FixedStatePowerConsumption.set_power_mode(scale) -> boolean (Interface Function)
+FixedStatePowerConsumption.add_state(self, scale, pow_cons) -> boolean (Interface Function)
+FixedStatePowerConsumption.get_power_scale() -> float
 \end{lstlisting}
         
             

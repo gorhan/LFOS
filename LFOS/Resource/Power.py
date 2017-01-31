@@ -152,6 +152,13 @@ class FixedStatePowerConsumption(Power):
         self._min_state[1] = self._max_state[1] = self._active_power_state[1] = consumption
 
     def get_type(self):
+        """
+        get_type() -> PowerTypeList
+
+        Returns the type of the instance of a class.
+
+        :return: PowerTypeList
+        """
         return PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
 
 
@@ -280,6 +287,13 @@ class DiscreteStatePowerConsumption(Power, dict):
         return np.array(self.keys()).tolist()
 
     def get_type(self):
+        """
+        get_type() -> PowerTypeList
+
+        Returns the type of the instance of a class.
+
+        :return: PowerTypeList
+        """
         return PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
 
 
@@ -402,6 +416,13 @@ class ContinuousStatePowerConsumption(Power):
         return np.concatenate((np.arange(self._min_state[0], self._max_state[0], self.__power_scale_precision), np.array(self._max_state[0]))).tolist()
 
     def get_type(self):
+        """
+        get_type() -> PowerTypeList
+
+        Returns the type of the instance of a class.
+
+        :return: PowerTypeList
+        """
         return PowerTypeList.CONTINUOUS_STATE_POWER_CONSUMPTION
 
 

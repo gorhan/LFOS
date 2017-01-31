@@ -1,6 +1,6 @@
 #!/bin/sh
 
-to_path="$HOME/Dropbox/GPCE16/figures/"
+to_path="$HOME/Dropbox/ECOOP17/figures/"
 
 for pdf_file in *.pdf; do
 	cp $pdf_file $to_path
