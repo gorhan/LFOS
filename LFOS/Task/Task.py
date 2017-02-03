@@ -78,7 +78,8 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
 
         self.set_periodicity(kwargs['periodicity'])
 
-        self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else ['__%s__' % self.get_name()]
+        # self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else ['__%s__' % self.get_name()]
+        self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else []
         self.num_firing_tokens = kwargs['token_num'] if 'token_num' in kwargs else [1] * len(self.firing_tokens)
 
         self.objectives = ObjectiveFactory.create_instance(ObjectiveTypeList.TASK_RELATED)
@@ -165,7 +166,7 @@ class TerminalTask(TaskInterface):
 
     def get_jobs(self, begin_tm, end_tm):
         periodicity_type = self.get_period_type()
-        if periodicity_type == PeriodicityTypeList.APERIODIC or periodicity_type == PeriodicityTypeList.SPORADIC:
+        if (periodicity_type == PeriodicityTypeList.APERIODIC or periodicity_type == PeriodicityTypeList.SPORADIC):
             return [self]
 
         job = copy(self)

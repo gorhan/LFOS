@@ -37,7 +37,7 @@ class Timing(Periodicity):
 
         :return: LFOS.Scheduling.Characteristic.Time
         """
-        return self.__execution_time
+        return self.get_max_wcet_time()
 
     def set_release_time(self, new_release_time):
         """

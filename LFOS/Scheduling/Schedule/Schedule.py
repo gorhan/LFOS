@@ -6,6 +6,7 @@ import matplotlib.patches as mpatches
 from matplotlib.ticker import MultipleLocator
 from random import shuffle
 from LFOS.Log import LOG
+import numpy as np
 
 class Schedule:
     def __init__(self, begin=None, end=None):
@@ -40,13 +41,21 @@ class Schedule:
             self.__jobs.add(job.get_credential())
             self.__append_slot(job, begin, end, resource, capacity)
 
+    def get_partial_schedule(self, resource, begin, end):
+        partial_schedule = []
+
+        for reservation in self.__schedule[resource]:
+            LOG(msg='Begin=%d, End=%d, reservation=%d,%d' % (begin, end, reservation[1], reservation[2]))
+            if reservation[1] <= begin < reservation[2] and end <= reservation[2]:
+                partial_schedule.append(reservation)
+
+        return partial_schedule
+
     def __str__(self):
         prnt_str = ''
         reserved = '#'
         n_reserved = ' '
         seperator = '|'
-
-        import numpy as np
 
         tm_res = Time.get_time_resolution()
         l_time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res)
@@ -92,8 +101,6 @@ class Schedule:
 
         for ind, (resource, reservations) in enumerate(self.__schedule.items()):
             y_capacity = y_resource / resource.get_capacity()
-
-            import numpy as np
 
             time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res).tolist()
             time_slots = zip(time_slots[:-1], time_slots[1:])

@@ -67,7 +67,7 @@ class ResourceRequirementItem(object):
 
         return True
 
-    def uodate_resource_requirement(self, **kwargs):
+    def update_resource_requirement(self, **kwargs):
         return self.set_resource_requirement(True, **kwargs)
 
     def __set_type(self, _type):
@@ -108,7 +108,7 @@ class ResourceRequirement:
             self.__dict[resource_abs].append(new_req)
             LOG(msg='New ResourceRequirement has been added to the ResourceRequirementList.')
         else:
-            pos = self[resource_abs].index(new_req)
+            pos = self.__dict[resource_abs].index(new_req)
             self.__dict[resource_abs][pos].update_resource_requirement(**kwargs)
             LOG(msg='ResourceRequirementList has been updated.')
 
@@ -118,7 +118,7 @@ class ResourceRequirement:
         return max([wcet for item in self.__dict[ResourceTypeList.ACTIVE] for wcet in item.eligible_resources.values()])
 
     def remove_resource_requirement(self, _type):
-        return self.__dict[_type].remove(_type)
+        return self.__dict[_type.get_abstraction()].remove(_type)
 
     def get_required_resources(self, _abstraction=None):
         return self.__dict[_abstraction] if _abstraction else self.__dict

@@ -35,6 +35,9 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
             self.add_task(task)
         self.update_taskset(self.__taskset)
 
+    def get_taskset(self):
+        return self.__taskset
+
     def remove_task(self, task):
         if isinstance(task, TaskInterface) and task in self.__taskset:
             index = self.__taskset.index(task)
@@ -51,6 +54,8 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
         jobs = []
         for task in self.__taskset:
             jobs += task.get_jobs(begin, end)
+            print begin, end
+            print jobs
         if not jobs:
             LOG(msg='There is no jobs within [%r %r]' % (begin, end), log=Logs.ERROR)
             return None

@@ -12,8 +12,6 @@ from Numberjack import *
 
 class SolverAdapter(object):
     def __init__(self, **kwargs):
-        self.__model = Model()
-
         self.__solver = None
         self.__optimized = False
         self.__solver_type = None
@@ -74,6 +72,8 @@ class SolverAdapter(object):
         self.__resources = resources
         self.__token_pool = token_pool
 
+        self.__model = Model()
+
         latest_deadline = max(int(job.get_extended_deadline(job.get_deadline())) for job in jobs)
 
         self.__sched_window_begin = int(sched_begin)
@@ -131,7 +131,7 @@ class SolverAdapter(object):
                             expr = (
                                 ((Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity)) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) == 0)) |
                                 ((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
-                                            )
+                                   )
                         elif resource.get_power_consumption().get_type() == PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION:
                             exec_times = [int(ceil(1.0/scale*exec_time)) for scale in resource.get_power_consumption().get_power_states()]
                             for exec_time in exec_times:
@@ -145,20 +145,28 @@ class SolverAdapter(object):
                             expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
                             expr = Disjunction(expr)
                     else:
-                        expr = (Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
+                        expr = (Sum(self.__Allocation[resource, job]) == (exec_time * req_capacity))
+
                     self.__model += expr
+
+                for resource in self.__resources:
+                    for t in range(release_time):
+                        self.__model += ( (self.__Allocation[resource, job][t] == 0) )
+                    for t in range(deadline, self.__sched_window_duration):
+                        self.__model += ( (self.__Allocation[resource, job][t] == 0) )
 
                 for t in range(release_time, deadline):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for resource in el_resources_dict.keys()) == self.__AuxWorking[job][t])
                     self.__model += (Or([self.__AuxWorking[job][t] == req_capacity, self.__AuxWorking[job][t] == 0]))
+
 
                     # self.__model += (Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][release_time:t+1]) != 1, self.__Start[job][t] == 0])]),
                     #                  Or([And([self.__AuxWorking[job][t] == req_capacity, And([Sum(self.__AuxWorking[job][release_time:t+1]) == 1, self.__Start[job][t] == 1])]),
                     #                      And([self.__AuxWorking[job][t] == 0, self.__Start[job][t] == 0])
                     #                      ])]))
 
-                    self.__model += ( ((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][release_time:t + 1]) == req_capacity) & self.__Start[job][t] == 1) |
-                                      (self.__Start[job][t] == 0) )
+                    self.__model += (((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][release_time:t + 1]) == req_capacity) & self.__Start[job][t] == 1) |
+                                     (self.__Start[job][t] == 0))
 
                     self.__model += (((self.__AuxWorking[job][t] == req_capacity) & (Sum(self.__AuxWorking[job][t:deadline]) == req_capacity) & self.__End[job][t+1] == 1) |
                                      (self.__End[job][t+1] == 0))
@@ -179,7 +187,7 @@ class SolverAdapter(object):
                     self.__model += (((self.__AuxWorking[job][t] > 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == req_capacity)) |
                                      ((self.__AuxWorking[job][t] == 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == 0)))
 
-        for t in range(self.__sched_window_begin, self.__sched_window_end):
+        for t in range(self.__sched_window_duration):
             # Token constraints
 
             for job in self.__jobs:
@@ -227,7 +235,7 @@ class SolverAdapter(object):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
         for job in self.__jobs:
             print 'PPRRIIOOOTTTIIIYYYY', job.get_credential(), job.get_priority()
-        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
+        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
         # self.__model += Maximize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
 
     def _optimize(self):
@@ -244,6 +252,7 @@ class SolverAdapter(object):
             while self.__solver.getNextSolution() == SAT:
                 self.__create_schedule()
                 schedules.append(self.get_last_schedule())
+
         else:
             self.__solver.solve()
             self.__optimized = True
@@ -251,7 +260,9 @@ class SolverAdapter(object):
                 self.__create_schedule()
                 schedules = [self.get_last_schedule()]
 
-        # LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
+        if not schedules:
+            LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
+
         return schedules
 
     def __create_schedule(self):
@@ -261,12 +272,14 @@ class SolverAdapter(object):
             print '[Start]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__Start[job]])
             print '  [End]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__End[job]])
             print '  [AuxWorking]%s --> %r' % (job.get_credential(), [item.get_value() for item in self.__AuxWorking[job]])
+            print '\n'.join(['[Allocation] %s on %s --> %r' % (job.get_name(), resource.get_resource_name(), ', '.join(str(item.get_value()) for item in self.__Allocation[resource, job])) for resource in self.__resources])
+            print '\n'.join(['[Allocation] %s on %s --> %r' % (job.get_name(), resource.get_resource_name(), ', '.join('%r' % item.name() for item in self.__Allocation[resource, job])) for resource in self.__resources])
             for t in range(job.get_release_time(), job.get_extended_deadline(job.get_deadline())):
                 reserved_resources = {resource: self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() for resource in self.__resources if self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() > 0}
-
                 if reserved_resources:
                     self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources)
 
+        # self.__last_optimized_schedule.plot_schedule()
         print '%s' % '\n'.join(['%8s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()])
         print '%s' % '\n'.join(['[%s, %8s] == %r' % (job.get_credential(), token, [item.get_value() for item in self.__OrDependencyT[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
 
