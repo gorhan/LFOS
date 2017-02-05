@@ -46,7 +46,7 @@ class Schedule:
 
         for reservation in self.__schedule[resource]:
             LOG(msg='Begin=%d, End=%d, reservation=%d,%d' % (begin, end, reservation[1], reservation[2]))
-            if reservation[1] <= begin < reservation[2] and end <= reservation[2]:
+            if reservation[1] < end <= reservation[2]:
                 partial_schedule.append(reservation)
 
         return partial_schedule

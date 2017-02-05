@@ -61,6 +61,10 @@ class TokenPool:
 
         return pairs
 
+    def clear_tokens(self):
+        self.__pool = {}
+        LOG(msg='Token pool has been flushed...')
+
     def query(self, query_tuples):
         for q_tuple in query_tuples:
             if self.remove_token(q_tuple[0], q_tuple[1], q_tuple[2]):

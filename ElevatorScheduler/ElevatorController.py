@@ -31,7 +31,7 @@ class ElevatorController:
 
         for elevator_id in range(self._num_elevator):
             elevator = ResourceFactory.create_instance(self._elevator_t, 'Elevator_%02d' % elevator_id)
-            elevator.set_capacity(8)
+            elevator.set_capacity(1)
             self._current_floors[elevator] = 0
             self._elevator_directions[elevator] = Direction.UP
 
@@ -59,38 +59,74 @@ class ElevatorController:
         LOG(msg='task_t=%s, direction=%s, Target=%d' % (task_t, direction, target_floor))
         self.generate_task(task_t, direction, target_floor, current_tm)
 
+    def _update_execution_times(self, jobs, tm):
+        for job in jobs:
+            resource_requirements = {}
+            for resource in System.for_each_sub_terminal_resource():
+                current_floor = self._current_floors[resource]
+                target_floor = int(job.get_name().split('_')[-1])
+                resource_requirements[resource] = Time(abs(target_floor-current_floor))
+
+            job.set_release_time(Time(tm))
+            job.add_resource_requirement(resource_type=self._elevator_t,
+                                         eligible_resources=resource_requirements,
+                                         capacity=1)
+            self._scheduler.add_token(job.get_type(), Time(tm), 1)
+
+            print job.info(True)
+
     def generate_task(self, task_t, direction, floor, tm):
         LOG(msg='Time=%d' % (tm))
 
-        for resource in System.for_each_sub_terminal_resource():
-            executed = Time(tm) - self._scheduler.get_scheduling_window_start_time()
-            prev_schedule = self._schedule.get_partial_schedule(resource, self._scheduler.get_scheduling_window_start_time(), Time(tm)) if self._schedule else []
-            for reservation in prev_schedule:
-                if Time(tm) <= reservation[2]:
-                    obsolete_job = self._scheduler.remove_task(reservation[0])
-                    obsolete_job.set_release_time(Time(tm))
-                    obsolete_job.add_resource_requirement(resource_type=self._elevator_t, eligible_resources={resource:Time(abs(obsolete_job.get_max_wcet_time()-executed)) for resource in System.for_each_sub_terminal_resource()}, capacity=1)
-                    print obsolete_job.info(True)
-
-                    self._scheduler.add_token(obsolete_job.get_type(), Time(tm), 1)
-                    self._scheduler.add_task(obsolete_job)
+        elevator_moving_flag = False
+        self._update_execution_times(self._scheduler.get_taskset(), tm)
+        # for resource in System.for_each_sub_terminal_resource():
+        #     executed = Time(tm) - self._scheduler.get_scheduling_window_start_time()
+        #     prev_schedule = self._schedule.get_partial_schedule(resource, self._scheduler.get_scheduling_window_start_time(), Time(tm)) if self._schedule else []
+        #     for reservation in prev_schedule:
+        #         print Time(tm), reservation[2]
+        #         if Time(tm) <= reservation[2]:
+        #             elevator_moving_flag = True
+        #             obsolete_job = self._scheduler.remove_task(reservation[0])
+        #             obsolete_job.set_release_time(Time(tm))
+        #             obsolete_job.add_resource_requirement(resource_type=self._elevator_t, eligible_resources={resource:Time(abs(obsolete_job.get_max_wcet_time()-executed)) for resource in System.for_each_sub_terminal_resource()}, capacity=1)
+        #             print obsolete_job.info(True)
+        #
+        #             self._scheduler.add_token(obsolete_job.get_type(), Time(tm), 1)
+        #             self._scheduler.add_task(obsolete_job)
 
         self._scheduler.set_scheduling_window_start_time(Time(tm))
 
-        task_name = '%s_%02d' % (task_t.split('.')[-1], floor)
-        if task_t == Tasks.CarCall:
-            task_type_name = Direction.UP if self._current_floors < floor else Direction.DOWN
-        else:
-            task_type_name = direction
-        task = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=task_type_name, phase=Time(tm), deadline=Time(tm+2*number_of_floors), periodicity=PeriodicityTypeList.APERIODIC, token_name=[task_type_name])
-        task.add_resource_requirement(resource_type=self._elevator_t, eligible_resources={resource:Time(abs(floor-self._current_floors[resource])) for resource in System.for_each_sub_terminal_resource()}, capacity=1)
-        task.add_dependency(task_type_name, 1)
-        print task.info(True)
-        self._scheduler.add_task(task)
-        self._scheduler.add_token(task_type_name, Time(tm), 1)
-        self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
-        self._schedules = self._scheduler.schedule_tasks()
-        self._schedule = self._schedules[0] if self._schedules else []
+        same_floor_flag = False
+        for resource in System.for_each_sub_terminal_resource():
+            if floor - self._current_floors[resource] == 0:
+                same_floor_flag = True
+
+        if not same_floor_flag or elevator_moving_flag:
+            task_name = '%s_%02d' % (task_t.split('.')[-1], floor)
+            if task_t == Tasks.CarCall:
+                task_type_name = Direction.UP if self._current_floors < floor else Direction.DOWN
+            else:
+                task_type_name = direction
+
+            task = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=task_type_name,
+                                               phase=Time(tm), deadline=Time(tm + 2 * number_of_floors),
+                                               periodicity=PeriodicityTypeList.APERIODIC, token_name=[task_type_name])
+
+            task.add_resource_requirement(resource_type=self._elevator_t,
+                                          eligible_resources={resource: Time(abs(floor - self._current_floors[resource])) for resource in System.for_each_sub_terminal_resource()},
+                                          capacity=1)
+
+            task.add_dependency(task_type_name, 1)
+            print task.info(True)
+
+            if not self._scheduler.get_taskset():
+                self._scheduler.add_token(task_type_name, Time(tm), 1)
+
+            self._scheduler.add_task(task)
+            self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+            self._schedules = self._scheduler.schedule_tasks()
+            self._schedule = self._schedules[0] if self._schedules else []
 
     def get_schedule(self, begin, end):
         log = '[%02d %02d]\n' % (begin, end)
@@ -115,6 +151,18 @@ class ElevatorController:
 
                 if int(target_floor) == self._current_floors[resource]:
                     self._scheduler.remove_task(reservation[0])
+                    self._update_execution_times(self._scheduler.get_taskset(), Time(end))
+                    self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+                    self._schedules = self._scheduler.schedule_tasks()
+                    self._schedule = self._schedules[0] if self._schedules else []
+
+                    taskset = self._scheduler.get_taskset()
+                    if taskset:
+                        self._scheduler.clear_tokens()
+                        self._scheduler.add_token(taskset[0].get_type(), Time(end), 1)
+                        self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+                        self._schedules = self._scheduler.schedule_tasks()
+                        self._schedule = self._schedules[0] if self._schedules else []
 
             log += ' Floor=%d\n' % self._current_floors[resource]
         return log
