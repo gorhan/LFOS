@@ -27,6 +27,8 @@ class ElevatorController:
         self._gui = ElevatorUI(self)
 
     def __initialize_env(self):
+        self._waiting_jobs = []
+        self._elevator_dir = Direction.UP
         self._elevator_t = Type(ResourceTypeList.ACTIVE, 'Elevator')
 
         for elevator_id in range(self._num_elevator):
@@ -102,10 +104,11 @@ class ElevatorController:
             if floor - self._current_floors[resource] == 0:
                 same_floor_flag = True
 
-        if not same_floor_flag or elevator_moving_flag:
+        if not same_floor_flag:
             task_name = '%s_%02d' % (task_t.split('.')[-1], floor)
+            the_resource = System.for_each_sub_terminal_resource()[0]
             if task_t == Tasks.CarCall:
-                task_type_name = Direction.UP if self._current_floors < floor else Direction.DOWN
+                task_type_name = Direction.UP if self._current_floors[the_resource] < floor else Direction.DOWN
             else:
                 task_type_name = direction
 
@@ -120,13 +123,17 @@ class ElevatorController:
             task.add_dependency(task_type_name, 1)
             print task.info(True)
 
-            if not self._scheduler.get_taskset():
+            if not self._scheduler.get_taskset() or\
+                (self._elevator_dir == Direction.UP and task_type_name == Direction.UP) or\
+                (self._elevator_dir == Direction.DOWN and task_type_name == Direction.DOWN):
+                self._scheduler.add_task(task)
                 self._scheduler.add_token(task_type_name, Time(tm), 1)
-
-            self._scheduler.add_task(task)
-            self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
-            self._schedules = self._scheduler.schedule_tasks()
-            self._schedule = self._schedules[0] if self._schedules else []
+                self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+                self._schedules = self._scheduler.schedule_tasks()
+                self._schedule = self._schedules[0] if self._schedules else []
+            else:
+                LOG(msg='A new job is added to the waiting list.')
+                self._waiting_jobs.append(task)
 
     def get_schedule(self, begin, end):
         log = '[%02d %02d]\n' % (begin, end)
@@ -152,17 +159,23 @@ class ElevatorController:
                 if int(target_floor) == self._current_floors[resource]:
                     self._scheduler.remove_task(reservation[0])
                     self._update_execution_times(self._scheduler.get_taskset(), Time(end))
-                    self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
-                    self._schedules = self._scheduler.schedule_tasks()
-                    self._schedule = self._schedules[0] if self._schedules else []
+                    # self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+                    # self._schedules = self._scheduler.schedule_tasks()
+                    # self._schedule = self._schedules[0] if self._schedules else []
 
                     taskset = self._scheduler.get_taskset()
                     if taskset:
                         self._scheduler.clear_tokens()
                         self._scheduler.add_token(taskset[0].get_type(), Time(end), 1)
-                        self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
-                        self._schedules = self._scheduler.schedule_tasks()
-                        self._schedule = self._schedules[0] if self._schedules else []
+                    else:
+                        if self._waiting_jobs:
+                            self._scheduler.add_token(self._waiting_jobs[0].get_type(), Time(end), 1)
+                            self._scheduler.add_task_in_bundle(*self._waiting_jobs)
+                            self._waiting_jobs = []
+
+                    self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF)
+                    self._schedules = self._scheduler.schedule_tasks()
+                    self._schedule = self._schedules[0] if self._schedules else []
 
             log += ' Floor=%d\n' % self._current_floors[resource]
         return log
