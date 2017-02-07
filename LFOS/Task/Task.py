@@ -84,6 +84,9 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
 
         self.objectives = ObjectiveFactory.create_instance(ObjectiveTypeList.TASK_RELATED)
 
+    def __eq__(self, other):
+        return isinstance(other, TaskInterface) and self.get_type() == other.get_type() and self.get_name() == other.get_name()
+
     def get_output_tokens(self):
         return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]
 

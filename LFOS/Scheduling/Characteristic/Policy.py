@@ -40,9 +40,10 @@ class SchedulingPolicy:
         self.__grouping = grouping
         self.__taskset = taskset
 
-    def set_ranking_policy(self, new_policy):
+    def set_ranking_policy(self, new_policy, taskset):
         if new_policy in SchedulingPolicy.RANKING_COMPARE:
             self.__ranking = new_policy
+            self.__taskset = taskset
             LOG(msg='New Scheduling Ranking Policy has been set. Policy=%s' % self.__ranking)
             self.sort_tasks()
             return True

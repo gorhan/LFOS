@@ -54,6 +54,6 @@ class ElevatorUI(tk.Frame):
         self.__set_text(text)
 
     def _continue(self):
-        log = self._invoker.get_schedule(self._clock, self._clock+1)
+        log = self._invoker.monitor(self._clock, self._clock+1)
         self.__set_text(log)
         self._clock+=1
