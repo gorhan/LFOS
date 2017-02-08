@@ -4,7 +4,7 @@ import time
 sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
-from GUI.elevator_params import number_of_floors, Tasks, Direction
+from GUI.elevator_params import number_of_floors, Tasks, Direction, reverse_direction
 
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Scheduling.Schedule.Schedule import Schedule
@@ -76,6 +76,7 @@ class ElevatorController:
         for task in _tasks:
             assert isinstance(task, TaskInterface)
             task.set_release_time(Time(_time))
+            task.set_deadline(Time(_time + 2 * number_of_floors))
             task.add_resource_requirement(resource_type=self._elevator_t,
                                           eligible_resources=self._update_resource_requirements(task),
                                           capacity=1)
@@ -131,8 +132,32 @@ class ElevatorController:
     def _fetch_tasks_from_waiting_list(self):
         ready_list = self._waiting[self._waiting['FirstCome']]
         self._waiting[self._waiting['FirstCome']] = []
-        self._waiting['FirstCome'] = Direction.UP if self._waiting['FirstCome'] == Direction.DOWN else Direction.DOWN
+        self._waiting['FirstCome'] = reverse_direction(self._waiting['FirstCome'])
         return ready_list
+
+    def _search_waiting_list(self, _task):
+        if _task in self._waiting[Direction.UP]:
+            return Direction.UP, self._waiting[Direction.UP].index(_task)
+        if _task in self._waiting[Direction.DOWN]:
+            return Direction.DOWN, self._waiting[Direction.DOWN].index(_task)
+
+        LOG(msg='Given task is NOT in the waiting list...', log=Logs.ERROR)
+        return None, -1
+
+    def _remove_from_waiting_list(self, _task):
+        t_direction, t_index = self._search_waiting_list(_task)
+        if t_direction:
+            if not self._waiting[t_direction]:
+                self._waiting['FirstCome'] = reverse_direction(t_direction)
+            return self._waiting[t_direction].pop(t_index)
+
+        return None
+
+    def _waiting_list_iterator(self):
+        for _task in self._waiting[self._waiting['FirstCome']]:
+            yield _task
+        for _task in self._waiting[reverse_direction(self._waiting['FirstCome'])]:
+            yield _task
 
     def _move_elevator(self, resource, target_floor):
         if self._current_floors[resource] < target_floor:
@@ -143,9 +168,17 @@ class ElevatorController:
             self._elevator_directions[resource] = Direction.DOWN
 
     def _eliminate_task_from_taskset(self, task, current_floor):
-        if self._get_target_floor(task) == current_floor:
-            self._scheduler.remove_task(task)
-            LOG(msg='The task has been removed from the taskset. Task=%s' % task.get_credential())
+        target_floor = self._get_target_floor(task)
+        if target_floor == current_floor:
+            # Remove the tasks in the taskset and waiting list with the same semantic. CarCall_XX == HallCall_XX
+            for _task in self._scheduler.get_taskset():
+                if target_floor == self._get_target_floor(_task):
+                    self._scheduler.remove_task(_task)
+                    LOG(msg='The task has been removed from the taskset. Task=%s' % task.get_credential())
+            for _task in self._waiting_list_iterator():
+                if target_floor == self._get_target_floor(_task):
+                    self._remove_from_waiting_list(_task)
+                    LOG(msg='The task has been removed from the waiting list. Task=%s' % task.get_credential())
             return True
         return False
 
