@@ -135,6 +135,12 @@ class ElevatorController:
         self._waiting['FirstCome'] = reverse_direction(self._waiting['FirstCome'])
         return ready_list
 
+    def _fetch_tasks_wrt_direction_from_waiting_list(self, _direction):
+        task_list = self._waiting[_direction]
+        self._waiting['FirstCome'] = reverse_direction(_direction)
+        self._waiting[_direction] = []
+        return task_list
+
     def _search_waiting_list(self, _task):
         if _task in self._waiting[Direction.UP]:
             return Direction.UP, self._waiting[Direction.UP].index(_task)
@@ -171,14 +177,18 @@ class ElevatorController:
         target_floor = self._get_target_floor(task)
         if target_floor == current_floor:
             # Remove the tasks in the taskset and waiting list with the same semantic. CarCall_XX == HallCall_XX
+            eliminated_list = []
             for _task in self._scheduler.get_taskset():
                 if target_floor == self._get_target_floor(_task):
-                    self._scheduler.remove_task(_task)
                     LOG(msg='The task has been removed from the taskset. Task=%s' % task.get_credential())
+                    eliminated_list.append(_task)
+            map(lambda _task: self._scheduler.remove_task(_task), eliminated_list)
+            eliminated_list = []
             for _task in self._waiting_list_iterator():
                 if target_floor == self._get_target_floor(_task):
-                    self._remove_from_waiting_list(_task)
                     LOG(msg='The task has been removed from the waiting list. Task=%s' % task.get_credential())
+                    eliminated_list.append(_task)
+            map(lambda _task: self._remove_from_waiting_list(_task), eliminated_list)
             return True
         return False
 
@@ -189,6 +199,8 @@ class ElevatorController:
         taskset = self._scheduler.get_taskset()
         the_resource = System.for_each_sub_terminal_resource()[0]
         new_task_dir = self._get_direction(new_task)
+
+        LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
 
         if not self._current_floors[the_resource] == target_floor:
             LOG(msg='Elevator:%s, Task:%s' % (self._elevator_directions[the_resource], new_task_dir))
@@ -206,13 +218,15 @@ class ElevatorController:
 
     def monitor(self, _begin, _end):
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
-
+        the_resource = System.for_each_sub_terminal_resource()[0]
+        LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
         LOG(msg='scheduled_flag=%r, updated_taskset_flag=%r' % (self._scheduled_flag, self._updated_taskset_flag))
         if not self._scheduled_flag:
             taskset = self._scheduler.get_taskset()
             if taskset:
                 if self._updated_taskset_flag:
                     self._scheduler.set_scheduling_window_start_time(Time(_begin))
+                    self._scheduler.add_task_in_bundle(*self._fetch_tasks_wrt_direction_from_waiting_list(self._elevator_directions[the_resource]))
                     self._update_time_attrs(self._scheduler.get_taskset(), Time(_begin))
                     self._do_schedule()
             else:
@@ -220,6 +234,7 @@ class ElevatorController:
                     ready_list = self._fetch_tasks_from_waiting_list()
                     self._update_time_attrs(ready_list, _begin)
                     self._scheduler.add_task_in_bundle(*ready_list)
+                    self._elevator_directions[the_resource] = ready_list[0].get_type() # update elevator direction based on the tasks in the waiting list.
                     LOG(msg='The waiting list tasks has been added to the taskset. Tasks=%s' % ', '.join(task.get_name() for task in ready_list))
                     self._do_schedule()
 
