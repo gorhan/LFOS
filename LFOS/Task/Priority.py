@@ -40,7 +40,8 @@ class Priority:
 
         :return: int
         """
-        return (10**4) * (self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority)
+        priority_value = (self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority)
+        return (4**(4*priority_value)) * priority_value
 
     @classmethod
     def set_class_vars(cls, min_prio=None, max_prio=None, ranking=None):

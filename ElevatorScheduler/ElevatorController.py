@@ -48,7 +48,7 @@ class ElevatorController:
 
         Time.set_time_resolution(0)
 
-        self._scheduler = Scheduler(solver='Mistral2', verbose=4, time_cutoff=35)
+        self._scheduler = Scheduler(solver='Mistral2', verbose=0, time_cutoff=35)
         self._scheduler.set_scheduling_window_start_time(Time(0))
         self._scheduler.set_scheduling_window_duration(Time(2*number_of_floors))
         self._do_schedule()
