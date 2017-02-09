@@ -1,0 +1,65 @@
+[FLOOR:00 TIME:000]	Task=  Tasks.CarCall_15, Direction=   Direction.UP, Target Floor=15
+[FLOOR:01 BEGIN:000 END:001]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:02 BEGIN:001 END:002]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:03 BEGIN:002 END:003]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:04 BEGIN:003 END:004]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:05 BEGIN:004 END:005]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:06 BEGIN:005 END:006]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:07 BEGIN:006 END:007]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:08 BEGIN:007 END:008]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:09 BEGIN:008 END:009]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:10 BEGIN:009 END:010]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:11 BEGIN:010 END:011]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:12 BEGIN:011 END:012]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:13 BEGIN:012 END:013]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:14 BEGIN:013 END:014]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:15 BEGIN:014 END:015]	    Elevator_00 --> Task=   Tasks.CarCall_15::Direction.UP, Capacity=1
+[FLOOR:15 BEGIN:015 END:016]	    Elevator_00 --> EMPTY
+[FLOOR:15 BEGIN:016 END:017]	    Elevator_00 --> EMPTY
+[FLOOR:15 TIME:017]	Task= Tasks.HallCall_13, Direction= Direction.DOWN, Target Floor=13
+[FLOOR:15 TIME:017]	Task= Tasks.HallCall_14, Direction= Direction.DOWN, Target Floor=14
+[FLOOR:15 TIME:017]	Task= Tasks.HallCall_13, Direction= Direction.DOWN, Target Floor=13
+[FLOOR:14 BEGIN:017 END:018]	    Elevator_00 --> Task=Tasks.HallCall_14::Direction.DOWN, Capacity=1
+[FLOOR:14 TIME:018]	Task=  Tasks.CarCall_03, Direction= Direction.DOWN, Target Floor=03
+[FLOOR:13 BEGIN:018 END:019]	    Elevator_00 --> Task=Tasks.HallCall_13::Direction.DOWN, Capacity=1
+[FLOOR:13 TIME:019]	Task=  Tasks.CarCall_03, Direction= Direction.DOWN, Target Floor=03
+[FLOOR:13 TIME:019]	Task= Tasks.HallCall_00, Direction=   Direction.UP, Target Floor=00
+[FLOOR:13 TIME:019]	Task= Tasks.HallCall_11, Direction= Direction.DOWN, Target Floor=11
+[FLOOR:12 BEGIN:019 END:020]	    Elevator_00 --> Task=Tasks.HallCall_11::Direction.DOWN, Capacity=1
+[FLOOR:11 BEGIN:020 END:021]	    Elevator_00 --> Task=Tasks.HallCall_11::Direction.DOWN, Capacity=1
+[FLOOR:11 TIME:021]	Task=  Tasks.CarCall_06, Direction= Direction.DOWN, Target Floor=06
+[FLOOR:10 BEGIN:021 END:022]	    Elevator_00 --> Task= Tasks.CarCall_06::Direction.DOWN, Capacity=1
+[FLOOR:09 BEGIN:022 END:023]	    Elevator_00 --> Task= Tasks.CarCall_06::Direction.DOWN, Capacity=1
+[FLOOR:08 BEGIN:023 END:024]	    Elevator_00 --> Task= Tasks.CarCall_06::Direction.DOWN, Capacity=1
+[FLOOR:07 BEGIN:024 END:025]	    Elevator_00 --> Task= Tasks.CarCall_06::Direction.DOWN, Capacity=1
+[FLOOR:06 BEGIN:025 END:026]	    Elevator_00 --> Task= Tasks.CarCall_06::Direction.DOWN, Capacity=1
+[FLOOR:05 BEGIN:026 END:027]	    Elevator_00 --> Task= Tasks.CarCall_03::Direction.DOWN, Capacity=1
+[FLOOR:05 TIME:027]	Task= Tasks.HallCall_04, Direction= Direction.DOWN, Target Floor=04
+[FLOOR:04 BEGIN:027 END:028]	    Elevator_00 --> Task=Tasks.HallCall_04::Direction.DOWN, Capacity=1
+[FLOOR:04 TIME:028]	Task=  Tasks.CarCall_00, Direction= Direction.DOWN, Target Floor=00
+[FLOOR:04 TIME:028]	Task= Tasks.HallCall_03, Direction= Direction.DOWN, Target Floor=03
+[FLOOR:04 TIME:028]	Task= Tasks.HallCall_03, Direction=   Direction.UP, Target Floor=03
+[FLOOR:03 BEGIN:028 END:029]	    Elevator_00 --> Task= Tasks.CarCall_03::Direction.DOWN, Capacity=1
+[FLOOR:03 TIME:029]	Task=  Tasks.CarCall_00, Direction= Direction.DOWN, Target Floor=00
+[FLOOR:03 TIME:029]	Task=  Tasks.CarCall_11, Direction=   Direction.UP, Target Floor=11
+[FLOOR:03 TIME:029]	Task=  Tasks.CarCall_05, Direction=   Direction.UP, Target Floor=05
+[FLOOR:03 TIME:029]	Task=  Tasks.CarCall_00, Direction= Direction.DOWN, Target Floor=00
+[FLOOR:02 BEGIN:029 END:030]	    Elevator_00 --> Task= Tasks.CarCall_00::Direction.DOWN, Capacity=1
+[FLOOR:01 BEGIN:030 END:031]	    Elevator_00 --> Task= Tasks.CarCall_00::Direction.DOWN, Capacity=1
+[FLOOR:00 BEGIN:031 END:032]	    Elevator_00 --> Task= Tasks.CarCall_00::Direction.DOWN, Capacity=1
+[FLOOR:00 TIME:032]	Task=  Tasks.CarCall_03, Direction=   Direction.UP, Target Floor=03
+[FLOOR:01 BEGIN:032 END:033]	    Elevator_00 --> Task=   Tasks.CarCall_03::Direction.UP, Capacity=1
+[FLOOR:02 BEGIN:033 END:034]	    Elevator_00 --> Task=   Tasks.CarCall_03::Direction.UP, Capacity=1
+[FLOOR:03 BEGIN:034 END:035]	    Elevator_00 --> Task=   Tasks.CarCall_03::Direction.UP, Capacity=1
+[FLOOR:04 BEGIN:035 END:036]	    Elevator_00 --> Task=   Tasks.CarCall_05::Direction.UP, Capacity=1
+[FLOOR:05 BEGIN:036 END:037]	    Elevator_00 --> Task=   Tasks.CarCall_05::Direction.UP, Capacity=1
+[FLOOR:06 BEGIN:037 END:038]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:07 BEGIN:038 END:039]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:08 BEGIN:039 END:040]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:09 BEGIN:040 END:041]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:10 BEGIN:041 END:042]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:11 BEGIN:042 END:043]	    Elevator_00 --> Task=   Tasks.CarCall_11::Direction.UP, Capacity=1
+[FLOOR:11 BEGIN:043 END:044]	    Elevator_00 --> EMPTY
+[FLOOR:11 BEGIN:044 END:045]	    Elevator_00 --> EMPTY
+[FLOOR:11 BEGIN:045 END:046]	    Elevator_00 --> EMPTY
+

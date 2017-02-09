@@ -76,7 +76,7 @@ class ElevatorController:
         for task in _tasks:
             assert isinstance(task, TaskInterface)
             task.set_release_time(Time(_time))
-            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in self._scheduler.get_taskset()])+3))
+            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks])+3))
             task.add_resource_requirement(resource_type=self._elevator_t,
                                           eligible_resources=self._update_resource_requirements(task),
                                           capacity=1)
