@@ -76,7 +76,7 @@ class ElevatorController:
         for task in _tasks:
             assert isinstance(task, TaskInterface)
             task.set_release_time(Time(_time))
-            task.set_deadline(Time(_time + 2 * number_of_floors))
+            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in self._scheduler.get_taskset()])+3))
             task.add_resource_requirement(resource_type=self._elevator_t,
                                           eligible_resources=self._update_resource_requirements(task),
                                           capacity=1)
@@ -90,8 +90,7 @@ class ElevatorController:
         task_t = params[0]
         direction = params[1]
         target_floor = int(params[2].split(' ')[-1])
-        LOG(msg='task_t=%s, direction=%s, Target=%d' % (task_t, direction, target_floor))
-        self.generate_task(task_t, direction, target_floor, current_tm)
+        return self.generate_task(task_t, direction, target_floor, current_tm)
 
     def _create_task(self, task_t, direction, target_floor, _time):
         the_resource = System.for_each_sub_terminal_resource()[0]
@@ -201,7 +200,7 @@ class ElevatorController:
         new_task_dir = self._get_direction(new_task)
 
         LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
-
+        log = '[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % (self._current_floors[the_resource], Time(_time), new_task.get_name(), new_task_dir, target_floor)
         if not self._current_floors[the_resource] == target_floor:
             LOG(msg='Elevator:%s, Task:%s' % (self._elevator_directions[the_resource], new_task_dir))
             if (not taskset) or self._elevator_directions[the_resource] == new_task_dir:
@@ -215,6 +214,8 @@ class ElevatorController:
         self._update_time_attrs(self._scheduler.get_taskset(), Time(_time))
 
         self._scheduled_flag = False
+
+        return log
 
     def monitor(self, _begin, _end):
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
