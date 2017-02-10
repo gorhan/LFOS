@@ -3,6 +3,7 @@ import Tkinter as tk
 import tkFileDialog
 from PIL import Image, ImageTk
 from TaskSpecGUI import TaskSpecUI
+import os
 
 
 class ElevatorUI(tk.Frame):
@@ -23,7 +24,8 @@ class ElevatorUI(tk.Frame):
         self._label_frame_text.grid(row=0, column=0, columnspan=7, padx=10, pady=10)
         self._scroll_bar = tk.Scrollbar(self._label_frame_text)
         self._scroll_bar.grid(row=0, column=6, sticky=tk.N+tk.W+tk.E+tk.S)
-        self._text_log = tk.Text(self._label_frame_text, state=tk.DISABLED, wrap=tk.NONE, width=150, height=60, yscrollcommand=self._scroll_bar.set,
+        self._text_log = tk.Text(self._label_frame_text, state=tk.DISABLED, wrap=tk.NONE, width=150, height=50,
+                                 yscrollcommand=self._scroll_bar.set,
                                  font=('Courier', 12, 'bold'),
                                  bg='#1e263f')
         self._text_log.grid(row=0, column=0, columnspan=7)
@@ -39,9 +41,9 @@ class ElevatorUI(tk.Frame):
         self._button_save = tk.Button(self, text='Save', command=self._save_file)
         self._button_save.grid(row=1, column=4, columnspan=2,  sticky=tk.N + tk.W + tk.E + tk.S, padx=5, pady=5)
 
-        self._logo = ImageTk.PhotoImage(Image.open('GUI/images/ut_logo_ds.jpg'))
-        self._logo_label = tk.Label(self, image=self._logo, height=40, width=100)
-        self._logo_label.grid(row=1, column=6, columnspan=1, padx=5, pady=5, sticky=tk.N+tk.E)
+        self._logo = ImageTk.PhotoImage(Image.open('GUI/images/logo.jpg'))
+        self._logo_label = tk.Label(self, image=self._logo, height=50, width=210)
+        self._logo_label.grid(row=1, column=6, columnspan=1, pady=5, sticky=tk.N+tk.E+tk.W)
 
         # self.grid_propagate(False)
 
