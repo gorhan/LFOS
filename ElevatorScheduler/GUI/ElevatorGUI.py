@@ -26,7 +26,7 @@ class ElevatorUI(tk.Frame):
         self._scroll_bar.grid(row=0, column=6, sticky=tk.N+tk.W+tk.E+tk.S)
         self._text_log = tk.Text(self._label_frame_text, state=tk.DISABLED, wrap=tk.NONE, width=150, height=50,
                                  yscrollcommand=self._scroll_bar.set,
-                                 font=('Courier', 12, 'bold'),
+                                 font=('Courier', 14, 'bold'),
                                  bg='#1e263f')
         self._text_log.grid(row=0, column=0, columnspan=7)
         self._scroll_bar.config(command=self._text_log.yview)
