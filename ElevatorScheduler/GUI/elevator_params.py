@@ -10,4 +10,5 @@ class Direction:
 def reverse_direction(_direction):
     return Direction.UP if _direction == Direction.DOWN else Direction.DOWN
 
-number_of_floors=16
+number_of_floors = 16
+number_of_passengers_per_car = 8
