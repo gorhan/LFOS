@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
 from GUI.elevator_params import number_of_floors, Tasks, Direction, reverse_direction
-from Statistics.ElevatorStatistics import ElevatorStatistics
+from ElevatorStatistics import ElevatorStatistics
 
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Scheduling.Schedule.Schedule import Schedule
