@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
 from GUI.elevator_params import number_of_floors, Tasks, Direction, reverse_direction
+from Statistics.ElevatorStatistics import ElevatorStatistics
 
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Scheduling.Schedule.Schedule import Schedule
@@ -27,8 +28,13 @@ class ElevatorController:
         self._gui = ElevatorUI(self)
 
     def __initialize_env(self):
+        Time.set_time_resolution(0)
+
+        self._stat = ElevatorStatistics(number_of_floors)
         self._waiting = {Direction.UP:[], Direction.DOWN:[], 'FirstCome':Direction.UP}
         self._updated_taskset_flag = False
+        self._wait_for = Time(5)
+        self._waited = Time(0)
 
         self._elevator_t = Type(ResourceTypeList.ACTIVE, 'Elevator')
 
@@ -45,8 +51,6 @@ class ElevatorController:
 
         System.pretty_print()
         System.print_accessibilites()
-
-        Time.set_time_resolution(0)
 
         self._scheduler = Scheduler(solver='Mistral2', verbose=0, time_cutoff=35)
         self._scheduler.set_scheduling_window_start_time(Time(0))
@@ -84,13 +88,6 @@ class ElevatorController:
             print task.info(True)
         self._scheduled_flag = False
         self._updated_taskset_flag = True
-
-
-    def publish_task(self, params, current_tm):
-        task_t = params[0]
-        direction = params[1]
-        target_floor = int(params[2].split(' ')[-1])
-        return self.generate_task(task_t, direction, target_floor, current_tm)
 
     def _create_task(self, task_t, direction, target_floor, _time):
         the_resource = System.for_each_sub_terminal_resource()[0]
@@ -200,8 +197,9 @@ class ElevatorController:
         new_task_dir = self._get_direction(new_task)
 
         LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
-        log = '[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % (self._current_floors[the_resource], Time(_time), new_task.get_name(), new_task_dir, target_floor)
+        log = '%12s[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % ('REQUEST =>', self._current_floors[the_resource], Time(_time), new_task.get_name(), new_task_dir, target_floor)
         if not self._current_floors[the_resource] == target_floor:
+            self._stat.call(target_floor, _time)
             LOG(msg='Elevator:%s, Task:%s' % (self._elevator_directions[the_resource], new_task_dir))
             if (not taskset) or self._elevator_directions[the_resource] == new_task_dir:
                 self._scheduler.add_task(new_task)
@@ -217,13 +215,19 @@ class ElevatorController:
 
         return log
 
+    def publish_task(self, params, current_tm):
+        task_t = params[0]
+        direction = params[1]
+        target_floor = int(params[2].split(' ')[-1])
+        return self.generate_task(task_t, direction, target_floor, current_tm)
+
     def monitor(self, _begin, _end):
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
         the_resource = System.for_each_sub_terminal_resource()[0]
         LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
         LOG(msg='scheduled_flag=%r, updated_taskset_flag=%r' % (self._scheduled_flag, self._updated_taskset_flag))
+        taskset = self._scheduler.get_taskset()
         if not self._scheduled_flag:
-            taskset = self._scheduler.get_taskset()
             if taskset:
                 if self._updated_taskset_flag:
                     self._scheduler.set_scheduling_window_start_time(Time(_begin))
@@ -239,12 +243,28 @@ class ElevatorController:
                     LOG(msg='The waiting list tasks has been added to the taskset. Tasks=%s' % ', '.join(task.get_name() for task in ready_list))
                     self._do_schedule()
 
+        if not taskset and self._is_waiting_list_empty():
+            # Goto the most frequently called floor have to be inserted at this point.
+            self._waited += 1
+            print '#############', self._waited
+            print '#############', self._wait_for
+            if self._waited >= self._wait_for:
+                task_t = Tasks.CarCall
+                target_floor = self._stat.get_most_frequent_floor()[0]
+                _time = _end
+
+                print '#############', target_floor
+                self.generate_task(task_t, None, target_floor, _time)
+                self._waited = Time(0)
+                self._do_schedule()
+
         for resource in System.for_each_sub_terminal_resource():
             self._reservation_slot = self._schedule.get_partial_schedule(resource, _begin, _end) if self._schedule else []
 
             log += '\t%15s --> %s' % (resource.get_resource_name(), '' if self._reservation_slot else 'EMPTY')
             multiple_reservation_flag = True
             for reservation in self._reservation_slot:
+                self._waited = Time(0)
                 log += 'Task=%33s, Capacity=%d' % (reservation[0].get_credential(), reservation[3])
                 target_floor = self._get_target_floor(reservation[0])
 
@@ -255,7 +275,7 @@ class ElevatorController:
                 self._eliminate_task_from_taskset(reservation[0], self._current_floors[resource])
                 self._update_time_attrs(self._scheduler.get_taskset(), _end)
 
-            log = '[FLOOR:%02d ' % (self._current_floors[resource]) + log + '\n'
+            log = '%12s[FLOOR:%02d ' % ('SCHEDULE =>', self._current_floors[resource]) + log + '\n'
 
         return log
 
