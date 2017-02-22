@@ -21,6 +21,7 @@ class ElevatorController:
         self._num_elevator = kwargs['num_elevator'] if 'num_elevator' in kwargs else 1
         self._current_floors = {}
         self._elevator_directions = {}
+        self._elevator_weights = {}
 
         self.__initialize_env()
         self.__initialize_GUI()
@@ -44,6 +45,7 @@ class ElevatorController:
             elevator.set_capacity(1)
             self._current_floors[elevator] = 0
             self._elevator_directions[elevator] = Direction.UP
+            self._elevator_weights[elevator] = 0
 
             elevator_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 100)
             elevator.set_power_consumption(elevator_power_consumption)
@@ -114,58 +116,6 @@ class ElevatorController:
 
         return new_task
 
-    # def _add_waiting_list(self, _task, direction):
-    #     if (direction == Direction.UP and not self._waiting[Direction.DOWN]) or (direction == Direction.DOWN and not self._waiting[Direction.UP]):
-    #         self._waiting['FirstCome'] = direction
-    #         LOG(msg='First Come Direction has been updated. Direction=%s' % (direction))
-    #
-    #     if _task in self._waiting[direction]:
-    #         LOG(msg='The task has already been in the waiting list.')
-    #         return False
-    #
-    #     self._waiting[direction].append(_task)
-    #     LOG(msg='The task has been appended to the waiting list. Direction=%s Content=%s' % (direction, ', '.join(task.get_credential() for task in self._waiting[direction])))
-    #     return True
-    #
-    # def _is_waiting_list_empty(self):
-    #     return not (self._waiting[Direction.UP] or self._waiting[Direction.DOWN])
-    #
-    # def _fetch_tasks_from_waiting_list(self):
-    #     ready_list = self._waiting[self._waiting['FirstCome']]
-    #     self._waiting[self._waiting['FirstCome']] = []
-    #     self._waiting['FirstCome'] = reverse_direction(self._waiting['FirstCome'])
-    #     return ready_list
-    #
-    # def _fetch_tasks_wrt_direction_from_waiting_list(self, _direction):
-    #     task_list = self._waiting[_direction]
-    #     self._waiting['FirstCome'] = reverse_direction(_direction)
-    #     self._waiting[_direction] = []
-    #     return task_list
-    #
-    # def _search_waiting_list(self, _task):
-    #     if _task in self._waiting[Direction.UP]:
-    #         return Direction.UP, self._waiting[Direction.UP].index(_task)
-    #     if _task in self._waiting[Direction.DOWN]:
-    #         return Direction.DOWN, self._waiting[Direction.DOWN].index(_task)
-    #
-    #     LOG(msg='Given task is NOT in the waiting list...', log=Logs.ERROR)
-    #     return None, -1
-    #
-    # def _remove_from_waiting_list(self, _task):
-    #     t_direction, t_index = self._search_waiting_list(_task)
-    #     if t_direction:
-    #         if not self._waiting[t_direction]:
-    #             self._waiting['FirstCome'] = reverse_direction(t_direction)
-    #         return self._waiting[t_direction].pop(t_index)
-    #
-    #     return None
-    #
-    # def _waiting_list_iterator(self):
-    #     for _task in self._waiting[self._waiting['FirstCome']]:
-    #         yield _task
-    #     for _task in self._waiting[reverse_direction(self._waiting['FirstCome'])]:
-    #         yield _task
-
     def _move_elevator(self, resource, target_floor):
         if self._current_floors[resource] < target_floor:
             self._current_floors[resource] += 1
@@ -193,7 +143,7 @@ class ElevatorController:
             return True
         return False
 
-    def generate_task(self, task_t, direction, target_floor, _time):
+    def generate_task(self, task_t, direction, target_floor, n_passengers, _time):
         target_floor = int(target_floor)
 
         new_task = self._create_task(task_t, direction, target_floor, _time)
@@ -224,7 +174,8 @@ class ElevatorController:
         task_t = params[0]
         direction = params[1]
         target_floor = int(params[2].split(' ')[-1])
-        return self.generate_task(task_t, direction, target_floor, current_tm)
+        n_passengers = params[3]
+        return self.generate_task(task_t, direction, target_floor, n_passengers, current_tm)
 
     def monitor(self, _begin, _end):
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
@@ -259,7 +210,7 @@ class ElevatorController:
                 _time = _end
 
                 print '#############', target_floor
-                self.generate_task(task_t, None, target_floor, _time)
+                self.generate_task(task_t, None, target_floor, 0, _time)
                 self._waited = Time(0)
                 self._do_schedule()
 
