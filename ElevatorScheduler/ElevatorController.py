@@ -4,7 +4,7 @@ import time
 sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
-from GUI.elevator_params import number_of_floors, Tasks, Direction, reverse_direction
+from GUI.elevator_params import number_of_floors, number_of_passengers_per_car, Tasks, Direction, reverse_direction
 from ElevatorStatistics import ElevatorStatistics
 from WaitingQueue import WaitingQueue
 
@@ -60,11 +60,14 @@ class ElevatorController:
         self._scheduler.set_scheduling_window_duration(Time(2*number_of_floors))
         self._do_schedule()
 
-    def _identify_task(self, raw_task_name, floor, direction):
-        return '%s_%02d' % (raw_task_name, int(floor)), direction
+    def _identify_task(self, raw_task_name, floor, direction, n_passengers):
+        return '%s_%02d_%d' % (raw_task_name, int(floor), n_passengers), direction
 
     def _get_target_floor(self, _task):
-        return int(_task.get_name().split('_')[-1])
+        return int(_task.get_name().split('_')[1])
+
+    def _get_n_passengers(self, _task):
+        return int(_task.get_name().split('_')[2])
 
     def _get_direction(self, _task):
         return _task.get_type()
@@ -96,12 +99,14 @@ class ElevatorController:
         self._scheduled_flag = False
         self._updated_taskset_flag = True
 
-    def _create_task(self, task_t, direction, target_floor, _time):
+    def _create_task(self, task_t, direction, target_floor, n_passengers, _time):
         the_resource = System.for_each_sub_terminal_resource()[0]
         if task_t == Tasks.CarCall:
             direction = Direction.UP if target_floor > self._current_floors[the_resource] else Direction.DOWN
+        elif task_t == Tasks.HallCall:
+            n_passengers = 0 # hallcalls are requested otuside an elevator.
 
-        new_task_name, new_task_type = self._identify_task(task_t, target_floor, direction)
+        new_task_name, new_task_type = self._identify_task(task_t, target_floor, direction, n_passengers)
         new_task = TaskFactory.create_instance(TaskTypeList.TERMINAL,
                                                name=new_task_name,
                                                type=new_task_type,
@@ -126,6 +131,7 @@ class ElevatorController:
 
     def _eliminate_task_from_taskset(self, task, current_floor):
         target_floor = self._get_target_floor(task)
+        the_resource = System.for_each_sub_terminal_resource()[0]
         if target_floor == current_floor:
             # Remove the tasks in the taskset and waiting list with the same semantic. CarCall_XX == HallCall_XX
             eliminated_list = []
@@ -133,12 +139,16 @@ class ElevatorController:
                 if target_floor == self._get_target_floor(_task):
                     LOG(msg='The task has been removed from the taskset. Task=%s' % task.get_credential())
                     eliminated_list.append(_task)
+                    self._elevator_weights[the_resource] -= self._get_n_passengers(_task)
+                    # reduce the elevator weight here
             map(lambda _task: self._scheduler.remove_task(_task), eliminated_list)
             eliminated_list = []
             for _task in self._waiting_q.iter():
                 if target_floor == self._get_target_floor(_task):
                     LOG(msg='The task has been removed from the waiting list. Task=%s' % task.get_credential())
                     eliminated_list.append(_task)
+                    self._elevator_weights[the_resource] -= self._get_n_passengers(_task)
+                    # reduce the elevator weight here
             map(lambda _task: self._waiting_q.remove(_task), eliminated_list)
             return True
         return False
@@ -146,22 +156,30 @@ class ElevatorController:
     def generate_task(self, task_t, direction, target_floor, n_passengers, _time):
         target_floor = int(target_floor)
 
-        new_task = self._create_task(task_t, direction, target_floor, _time)
+        new_task = self._create_task(task_t, direction, target_floor, n_passengers, _time)
         taskset = self._scheduler.get_taskset()
         the_resource = System.for_each_sub_terminal_resource()[0]
         new_task_dir = self._get_direction(new_task)
+        new_n_passengers = self._get_n_passengers(new_task)
 
         LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
+        LOG(msg='ELEVATOR WEIGHT=%d' % self._elevator_weights[the_resource])
         log = '%12s[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % ('REQUEST =>', self._current_floors[the_resource], Time(_time), new_task.get_name(), new_task_dir, target_floor)
         if not self._current_floors[the_resource] == target_floor:
             self._stat.call(target_floor, _time)
-            LOG(msg='Elevator:%s, Task:%s' % (self._elevator_directions[the_resource], new_task_dir))
-            if (not taskset) or self._elevator_directions[the_resource] == new_task_dir:
-                self._scheduler.add_task(new_task)
-                self._elevator_directions[the_resource] = new_task_dir
-                self._updated_taskset_flag = True
-            else:
-                self._waiting_q.add(new_task, new_task_dir)
+            LOG(msg='Elevator:%s, Task:%s, Passengers:%d' % (self._elevator_directions[the_resource], new_task_dir, new_n_passengers))
+
+            if self._elevator_weights[the_resource] + new_n_passengers < number_of_passengers_per_car or task_t == Tasks.CarCall:
+                if (not taskset) or self._elevator_directions[the_resource] == new_task_dir:
+                    self._scheduler.add_task(new_task)
+                    self._elevator_directions[the_resource] = new_task_dir
+                    self._updated_taskset_flag = True
+                else:
+                    self._waiting_q.add(new_task, new_task_dir)
+                self._elevator_weights[the_resource] += new_n_passengers
+            elif task_t == Tasks.HallCall:
+                # self._waiting_q.add(new_task, new_task_dir)
+                LOG(msg='New HallCall requests have been ignored due to excessive weight of the elevator.', log=Logs.WARN)
 
         self._scheduler.set_scheduling_window_start_time(Time(_time))
         self._update_time_attrs(self._scheduler.get_taskset(), Time(_time))
@@ -181,6 +199,7 @@ class ElevatorController:
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
         the_resource = System.for_each_sub_terminal_resource()[0]
         LOG(msg='ELEVATOR DIRECTION=%s' % self._elevator_directions[the_resource])
+        LOG(msg='ELEVATOR WEIGHT=%d' % self._elevator_weights[the_resource])
         LOG(msg='scheduled_flag=%r, updated_taskset_flag=%r' % (self._scheduled_flag, self._updated_taskset_flag))
         taskset = self._scheduler.get_taskset()
         if not self._scheduled_flag:
