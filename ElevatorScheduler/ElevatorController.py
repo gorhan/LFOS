@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath('..'))
 from GUI.ElevatorGUI import ElevatorUI
 from GUI.elevator_params import number_of_floors, Tasks, Direction, reverse_direction
 from ElevatorStatistics import ElevatorStatistics
+from WaitingQueue import WaitingQueue
 
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Scheduling.Schedule.Schedule import Schedule
@@ -31,7 +32,7 @@ class ElevatorController:
         Time.set_time_resolution(0)
 
         self._stat = ElevatorStatistics(number_of_floors)
-        self._waiting = {Direction.UP:[], Direction.DOWN:[], 'FirstCome':Direction.UP}
+        self._waiting_q = WaitingQueue()
         self._updated_taskset_flag = False
         self._wait_for = Time(5)
         self._waited = Time(0)
@@ -80,12 +81,16 @@ class ElevatorController:
         for task in _tasks:
             assert isinstance(task, TaskInterface)
             task.set_release_time(Time(_time))
-            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks])+3))
             task.add_resource_requirement(resource_type=self._elevator_t,
                                           eligible_resources=self._update_resource_requirements(task),
                                           capacity=1)
 
+        # the deadlines have to be determined after updating the execution time of the tasks.
+        LOG(msg='Worst-Case Execution Time Total: %d' % sum([t.get_max_wcet_time() for t in _tasks]))
+        for task in _tasks:
+            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks]) + 3))
             print task.info(True)
+
         self._scheduled_flag = False
         self._updated_taskset_flag = True
 
@@ -109,57 +114,57 @@ class ElevatorController:
 
         return new_task
 
-    def _add_waiting_list(self, _task, direction):
-        if (direction == Direction.UP and not self._waiting[Direction.DOWN]) or (direction == Direction.DOWN and not self._waiting[Direction.UP]):
-            self._waiting['FirstCome'] = direction
-            LOG(msg='First Come Direction has been updated. Direction=%s' % (direction))
-
-        if _task in self._waiting[direction]:
-            LOG(msg='The task has already been in the waiting list.')
-            return False
-
-        self._waiting[direction].append(_task)
-        LOG(msg='The task has been appended to the waiting list. Direction=%s Content=%s' % (direction, ', '.join(task.get_credential() for task in self._waiting[direction])))
-        return True
-
-    def _is_waiting_list_empty(self):
-        return not (self._waiting[Direction.UP] or self._waiting[Direction.DOWN])
-
-    def _fetch_tasks_from_waiting_list(self):
-        ready_list = self._waiting[self._waiting['FirstCome']]
-        self._waiting[self._waiting['FirstCome']] = []
-        self._waiting['FirstCome'] = reverse_direction(self._waiting['FirstCome'])
-        return ready_list
-
-    def _fetch_tasks_wrt_direction_from_waiting_list(self, _direction):
-        task_list = self._waiting[_direction]
-        self._waiting['FirstCome'] = reverse_direction(_direction)
-        self._waiting[_direction] = []
-        return task_list
-
-    def _search_waiting_list(self, _task):
-        if _task in self._waiting[Direction.UP]:
-            return Direction.UP, self._waiting[Direction.UP].index(_task)
-        if _task in self._waiting[Direction.DOWN]:
-            return Direction.DOWN, self._waiting[Direction.DOWN].index(_task)
-
-        LOG(msg='Given task is NOT in the waiting list...', log=Logs.ERROR)
-        return None, -1
-
-    def _remove_from_waiting_list(self, _task):
-        t_direction, t_index = self._search_waiting_list(_task)
-        if t_direction:
-            if not self._waiting[t_direction]:
-                self._waiting['FirstCome'] = reverse_direction(t_direction)
-            return self._waiting[t_direction].pop(t_index)
-
-        return None
-
-    def _waiting_list_iterator(self):
-        for _task in self._waiting[self._waiting['FirstCome']]:
-            yield _task
-        for _task in self._waiting[reverse_direction(self._waiting['FirstCome'])]:
-            yield _task
+    # def _add_waiting_list(self, _task, direction):
+    #     if (direction == Direction.UP and not self._waiting[Direction.DOWN]) or (direction == Direction.DOWN and not self._waiting[Direction.UP]):
+    #         self._waiting['FirstCome'] = direction
+    #         LOG(msg='First Come Direction has been updated. Direction=%s' % (direction))
+    #
+    #     if _task in self._waiting[direction]:
+    #         LOG(msg='The task has already been in the waiting list.')
+    #         return False
+    #
+    #     self._waiting[direction].append(_task)
+    #     LOG(msg='The task has been appended to the waiting list. Direction=%s Content=%s' % (direction, ', '.join(task.get_credential() for task in self._waiting[direction])))
+    #     return True
+    #
+    # def _is_waiting_list_empty(self):
+    #     return not (self._waiting[Direction.UP] or self._waiting[Direction.DOWN])
+    #
+    # def _fetch_tasks_from_waiting_list(self):
+    #     ready_list = self._waiting[self._waiting['FirstCome']]
+    #     self._waiting[self._waiting['FirstCome']] = []
+    #     self._waiting['FirstCome'] = reverse_direction(self._waiting['FirstCome'])
+    #     return ready_list
+    #
+    # def _fetch_tasks_wrt_direction_from_waiting_list(self, _direction):
+    #     task_list = self._waiting[_direction]
+    #     self._waiting['FirstCome'] = reverse_direction(_direction)
+    #     self._waiting[_direction] = []
+    #     return task_list
+    #
+    # def _search_waiting_list(self, _task):
+    #     if _task in self._waiting[Direction.UP]:
+    #         return Direction.UP, self._waiting[Direction.UP].index(_task)
+    #     if _task in self._waiting[Direction.DOWN]:
+    #         return Direction.DOWN, self._waiting[Direction.DOWN].index(_task)
+    #
+    #     LOG(msg='Given task is NOT in the waiting list...', log=Logs.ERROR)
+    #     return None, -1
+    #
+    # def _remove_from_waiting_list(self, _task):
+    #     t_direction, t_index = self._search_waiting_list(_task)
+    #     if t_direction:
+    #         if not self._waiting[t_direction]:
+    #             self._waiting['FirstCome'] = reverse_direction(t_direction)
+    #         return self._waiting[t_direction].pop(t_index)
+    #
+    #     return None
+    #
+    # def _waiting_list_iterator(self):
+    #     for _task in self._waiting[self._waiting['FirstCome']]:
+    #         yield _task
+    #     for _task in self._waiting[reverse_direction(self._waiting['FirstCome'])]:
+    #         yield _task
 
     def _move_elevator(self, resource, target_floor):
         if self._current_floors[resource] < target_floor:
@@ -180,11 +185,11 @@ class ElevatorController:
                     eliminated_list.append(_task)
             map(lambda _task: self._scheduler.remove_task(_task), eliminated_list)
             eliminated_list = []
-            for _task in self._waiting_list_iterator():
+            for _task in self._waiting_q.iter():
                 if target_floor == self._get_target_floor(_task):
                     LOG(msg='The task has been removed from the waiting list. Task=%s' % task.get_credential())
                     eliminated_list.append(_task)
-            map(lambda _task: self._remove_from_waiting_list(_task), eliminated_list)
+            map(lambda _task: self._waiting_q.remove(_task), eliminated_list)
             return True
         return False
 
@@ -206,7 +211,7 @@ class ElevatorController:
                 self._elevator_directions[the_resource] = new_task_dir
                 self._updated_taskset_flag = True
             else:
-                self._add_waiting_list(new_task, new_task_dir)
+                self._waiting_q.add(new_task, new_task_dir)
 
         self._scheduler.set_scheduling_window_start_time(Time(_time))
         self._update_time_attrs(self._scheduler.get_taskset(), Time(_time))
@@ -231,19 +236,19 @@ class ElevatorController:
             if taskset:
                 if self._updated_taskset_flag:
                     self._scheduler.set_scheduling_window_start_time(Time(_begin))
-                    self._scheduler.add_task_in_bundle(*self._fetch_tasks_wrt_direction_from_waiting_list(self._elevator_directions[the_resource]))
+                    self._scheduler.add_task_in_bundle(*self._waiting_q.fetch_tasks_wrt_direction(self._elevator_directions[the_resource]))
                     self._update_time_attrs(self._scheduler.get_taskset(), Time(_begin))
                     self._do_schedule()
             else:
-                if not self._is_waiting_list_empty():
-                    ready_list = self._fetch_tasks_from_waiting_list()
-                    self._update_time_attrs(ready_list, _begin)
+                if not self._waiting_q.empty():
+                    ready_list = self._waiting_q.fetch()
                     self._scheduler.add_task_in_bundle(*ready_list)
+                    self._update_time_attrs(ready_list, _begin)
                     self._elevator_directions[the_resource] = ready_list[0].get_type() # update elevator direction based on the tasks in the waiting list.
                     LOG(msg='The waiting list tasks has been added to the taskset. Tasks=%s' % ', '.join(task.get_name() for task in ready_list))
                     self._do_schedule()
 
-        if not taskset and self._is_waiting_list_empty():
+        if not taskset and self._waiting_q.empty():
             # Goto the most frequently called floor have to be inserted at this point.
             self._waited += 1
             print '#############', self._waited

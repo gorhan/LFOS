@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+
 from GUI.elevator_params import Tasks, Direction, reverse_direction
 from LFOS.Log import LOG, Logs
 
@@ -8,12 +12,11 @@ class WaitingQueue:
         self.__first_dir = Direction.UP
 
     def add(self, _task, _direction):
-        if (_direction == Direction.UP and not self.__q[Direction.DOWN]) or\
-           (_direction == Direction.DOWN and not self.__q[Direction.UP]):
+        if not self.__q[reverse_direction(_direction)] and self.__first_dir != _direction:
             self.__first_dir = _direction
             LOG(msg='First Come Direction has been updated. Direction=%s' % (_direction))
 
-        if _task in self.__q[_direction]:
+        if _task in self.__q[_direction] or _task in self.__q[reverse_direction(_direction)]:
             LOG(msg='The task has already been in the waiting list.')
             return False
 
@@ -21,13 +24,15 @@ class WaitingQueue:
         LOG(msg='The task has been appended to the waiting list. Direction=%s Content=%s' % (_direction, ', '.join(task.get_credential() for task in self.__q[_direction])))
         return True
 
-    def delete(self, _task):
+    def remove(self, _task):
         direction, index = self.search(_task)
         if direction:
             self.__q[direction].pop(index)
             if self.empty(direction):
                 self.__first_dir = reverse_direction(direction)
+            return True
 
+        return False
 
     def empty(self, _direction=None):
         if _direction is None:
@@ -61,7 +66,12 @@ class WaitingQueue:
 
     def iter(self):
         for task in self.__q[self.__first_dir]:
-            raise task
+            yield task
         for task in self.__q[reverse_direction(self.__first_dir)]:
-            raise task
+            yield task
 
+    def __str__(self):
+        out  = '%15s --> %s\n' % (Direction.UP, ', '.join('%s' % item for item in self.__q[Direction.UP]))
+        out += '%15s --> %s\n' % (Direction.DOWN, ', '.join('%s' % item for item in self.__q[Direction.DOWN]))
+        out += 'First Direction --> %15s' % (self.__first_dir)
+        return out
