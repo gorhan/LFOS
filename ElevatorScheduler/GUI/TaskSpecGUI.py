@@ -1,5 +1,6 @@
 import Tkinter as tk
-import elevator_params as params
+
+from ElevatorScheduler import elevator_params as params
 
 
 class TaskSpecUI:

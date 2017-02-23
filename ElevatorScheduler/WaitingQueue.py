@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from GUI.elevator_params import Tasks, Direction, reverse_direction
+from ElevatorScheduler.elevator_params import Direction, reverse_direction
 from LFOS.Log import LOG, Logs
 
 

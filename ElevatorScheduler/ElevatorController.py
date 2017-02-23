@@ -1,15 +1,14 @@
 import os
 import sys
-import time
+
 sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
-from GUI.elevator_params import number_of_floors, number_of_passengers_per_car, Tasks, Direction, reverse_direction
+from ElevatorScheduler.elevator_params import number_of_floors, number_of_passengers_per_car, Tasks, Direction
 from ElevatorStatistics import ElevatorStatistics
 from WaitingQueue import WaitingQueue
 
 from LFOS.Scheduler.Scheduler import Scheduler
-from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Resource.Resource import *
 from LFOS.Task.Task import *
 from LFOS.Scheduling.Characteristic.Time import Time
