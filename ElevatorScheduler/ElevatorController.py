@@ -4,7 +4,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 from GUI.ElevatorGUI import ElevatorUI
-from ElevatorScheduler.elevator_params import number_of_floors, number_of_passengers_per_car, Tasks, Direction
+from ElevatorScheduler.elevator_params import number_of_floors, number_of_passengers_per_car, Tasks, Direction, PassengerPriority
 from ElevatorStatistics import ElevatorStatistics
 from WaitingQueue import WaitingQueue
 
@@ -59,8 +59,8 @@ class ElevatorController:
         self._scheduler.set_scheduling_window_duration(Time(2*number_of_floors))
         self._do_schedule()
 
-    def _identify_task(self, raw_task_name, floor, direction, n_passengers):
-        return '%s_%02d_%d' % (raw_task_name, int(floor), n_passengers), direction
+    def _identify_task(self, raw_task_name, floor, direction, n_passengers, passenger_priority):
+        return '%s_%02d_%d_%s' % (raw_task_name, int(floor), n_passengers, passenger_priority.upper()), direction
 
     def _get_target_floor(self, _task):
         return int(_task.get_name().split('_')[1])
@@ -98,14 +98,14 @@ class ElevatorController:
         self._scheduled_flag = False
         self._updated_taskset_flag = True
 
-    def _create_task(self, task_t, direction, target_floor, n_passengers, _time):
+    def _create_task(self, task_t, direction, target_floor, n_passengers, passenger_priority, _time):
         the_resource = System.for_each_sub_terminal_resource()[0]
         if task_t == Tasks.CarCall:
             direction = Direction.UP if target_floor > self._current_floors[the_resource] else Direction.DOWN
         elif task_t == Tasks.HallCall:
             n_passengers = 0 # hallcalls are requested otuside an elevator.
 
-        new_task_name, new_task_type = self._identify_task(task_t, target_floor, direction, n_passengers)
+        new_task_name, new_task_type = self._identify_task(task_t, target_floor, direction, n_passengers, passenger_priority)
         new_task = TaskFactory.create_instance(TaskTypeList.TERMINAL,
                                                name=new_task_name,
                                                type=new_task_type,
@@ -152,10 +152,10 @@ class ElevatorController:
             return True
         return False
 
-    def generate_task(self, task_t, direction, target_floor, n_passengers, _time):
+    def generate_task(self, task_t, direction, target_floor, n_passengers, passenger_priority, _time):
         target_floor = int(target_floor)
 
-        new_task = self._create_task(task_t, direction, target_floor, n_passengers, _time)
+        new_task = self._create_task(task_t, direction, target_floor, n_passengers, passenger_priority, _time)
         taskset = self._scheduler.get_taskset()
         the_resource = System.for_each_sub_terminal_resource()[0]
         new_task_dir = self._get_direction(new_task)
@@ -193,7 +193,7 @@ class ElevatorController:
         target_floor = int(params[2].split(' ')[-1])
         n_passengers = params[3]
         passenger_priority = params[4]
-        return self.generate_task(task_t, direction, target_floor, n_passengers, current_tm)
+        return self.generate_task(task_t, direction, target_floor, n_passengers, passenger_priority, current_tm)
 
     def monitor(self, _begin, _end):
         log = 'BEGIN:%03d END:%03d]' % (_begin, _end)
@@ -229,7 +229,7 @@ class ElevatorController:
                 _time = _end
 
                 print '#############', target_floor
-                self.generate_task(task_t, None, target_floor, 0, _time)
+                self.generate_task(task_t, None, target_floor, 0, PassengerPriority.NORMAL, _time)
                 self._waited = Time(0)
                 self._do_schedule()
 
