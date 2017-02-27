@@ -192,6 +192,7 @@ class ElevatorController:
         direction = params[1]
         target_floor = int(params[2].split(' ')[-1])
         n_passengers = params[3]
+        passenger_priority = params[4]
         return self.generate_task(task_t, direction, target_floor, n_passengers, current_tm)
 
     def monitor(self, _begin, _end):
