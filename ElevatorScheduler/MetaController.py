@@ -56,13 +56,13 @@ class MetaControllerGUI(MetaController):
         self._fmt_logo = self._fmt_logo.resize((200, 200), Image.ANTIALIAS)
         self._fmt_logo = ImageTk.PhotoImage(self._fmt_logo)
         self._fmt_logo_label = tk.Label(self._label_frame_logos, image=self._fmt_logo, height=200, width=200)
-        self._fmt_logo_label.grid(row=0, column=0, sticky=tk.N)
+        self._fmt_logo_label.grid(row=0, column=0, sticky=tk.N+tk.S)
 
         self._ut_logo = Image.open('GUI/images/ut_logo.jpg')
-        self._ut_logo = self._ut_logo.resize((240, 120), Image.ANTIALIAS)
+        self._ut_logo = self._ut_logo.resize((200, 100), Image.ANTIALIAS)
         self._ut_logo = ImageTk.PhotoImage(self._ut_logo)
-        self._ut_logo_label = tk.Label(self._label_frame_logos, image=self._ut_logo, height=120, width=240)
-        self._ut_logo_label.grid(row=0, column=1, sticky=tk.N)
+        self._ut_logo_label = tk.Label(self._label_frame_logos, image=self._ut_logo, height=100, width=200)
+        self._ut_logo_label.grid(row=0, column=1, sticky=tk.N+tk.S)
         self._label_frame_logos.grid(row=1, column=0, sticky=tk.N)
 
     def __create_task_spec_widgets(self, frame):
@@ -181,4 +181,4 @@ class MetaControllerGUI(MetaController):
         print ''
 
 if __name__ == '__main__':
-    MetaControllerGUI(2, 20)
+    MetaControllerGUI(3, 20)
