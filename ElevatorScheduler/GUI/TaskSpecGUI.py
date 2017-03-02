@@ -1,7 +1,7 @@
 import Tkinter as tk
 
-from ElevatorScheduler import elevator_params as params
-
+# from ElevatorScheduler import elevator_params as params
+from ..ElevatorParameters import CarCall, HallCall, UP, DOWN
 
 class TaskSpecUI:
     def __init__(self, invoker, master=None):
@@ -22,21 +22,21 @@ class TaskSpecUI:
         self._label_frame_task = tk.LabelFrame(self.frame, text='Task', padx=5, pady=5, labelanchor='n')
         self._label_frame_task.pack(padx=10, pady=10, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
         self._request = tk.StringVar()
-        self._request.set(params.Tasks.HallCall)
+        self._request.set(HallCall())
         self._radio_bt_tasks = [None, None]
-        self._radio_bt_tasks[0] = tk.Radiobutton(self._label_frame_task, text='Hall Call', variable=self._request, value=params.Tasks.HallCall, command=self._activate_widgets)
+        self._radio_bt_tasks[0] = tk.Radiobutton(self._label_frame_task, text='Hall Call', variable=self._request, value=HallCall(), command=self._activate_widgets)
         self._radio_bt_tasks[0].pack(anchor=tk.CENTER)
-        self._radio_bt_tasks[1] = tk.Radiobutton(self._label_frame_task, text='Car Call', variable=self._request, value=params.Tasks.CarCall, command=self._deactivate_widgets)
+        self._radio_bt_tasks[1] = tk.Radiobutton(self._label_frame_task, text='Car Call', variable=self._request, value=CarCall(), command=self._deactivate_widgets)
         self._radio_bt_tasks[1].pack(anchor=tk.CENTER)
 
         self._label_frame_dir = tk.LabelFrame(self.frame, text='Direction', padx=5, pady=5, labelanchor='n')
         self._label_frame_dir.pack(padx=10, pady=10, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
         self._direction = tk.StringVar()
-        self._direction.set(params.Direction.UP)
-        self._radio_bt_directions = [None] * params.num_class_vars(params.Direction)
-        self._radio_bt_directions[0] = tk.Radiobutton(self._label_frame_dir, text='Up', variable=self._direction, value=params.Direction.UP)
+        self._direction.set(UP())
+        self._radio_bt_directions = [None] * 2
+        self._radio_bt_directions[0] = tk.Radiobutton(self._label_frame_dir, text='Up', variable=self._direction, value=UP())
         self._radio_bt_directions[0].pack(anchor=tk.CENTER)
-        self._radio_bt_directions[1] = tk.Radiobutton(self._label_frame_dir, text='Down', variable=self._direction, value=params.Direction.DOWN)
+        self._radio_bt_directions[1] = tk.Radiobutton(self._label_frame_dir, text='Down', variable=self._direction, value=DOWN())
         self._radio_bt_directions[1].pack(anchor=tk.CENTER)
 
         self._label_frame_floor = tk.LabelFrame(self.frame, text='Floor', padx=5, pady=5, labelanchor='n')

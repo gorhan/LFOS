@@ -3,6 +3,12 @@ class Tasks:
     HallCall = 'Tasks.HallCall'
     CarCall = 'Tasks.CarCall'
 
+class HallCall(Tasks):
+    pass
+
+class CarCall(Tasks):
+    pass
+
 
 class Direction:
     UP = 'Direction.UP'
@@ -21,5 +27,5 @@ def reverse_direction(_direction):
 def num_class_vars(cls):
     return len([var for var in cls.__dict__.keys() if not (var.startswith('__') and var.endswith('__'))])
 
-number_of_floors = 16
-number_of_passengers_per_car = 8
+# number_of_floors = 16
+# number_of_passengers_per_car = 8

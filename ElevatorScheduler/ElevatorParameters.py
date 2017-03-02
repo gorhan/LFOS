@@ -55,6 +55,11 @@ parameters_table = {
         'Type'       : int,
         'Default'    : 16
     },
+    'available_floors': {
+        'Explanation': 'The floors to which the car is eligible to move.',
+        'Type'       : list,
+        'Default'    : range(16)
+    },
     'direction': {
         'Explanation': 'The direction of the car.',
         'Type'       : Direction,
@@ -89,21 +94,44 @@ parameters_table = {
         'Explanation': 'The initial time of the scheduling window.',
         'Type'       : Time,
         'Default'    : Time(0)
+    },
+    'executing': {
+        'Explanation': 'The credential of currently executing task.',
+        'Type'       : str,
+        'Default'    : 'EMPTY'
     }
 }
 
 
 class ElevatorParameters:
     def __init__(self, car, **kwargs):
-        for param, desc in parameters_table.items():
-            if param in kwargs and isinstance(kwargs[param], desc['Type']):
-                self.__dict__[param] = kwargs[param]
-            else:
-                self.__dict__[param] = desc['Default']
+        specified = set(kwargs.keys())
+        for param, value in kwargs.items():
+            if param in parameters_table and isinstance(value, parameters_table[param]['Type']):
+                if param == 'num_floors':
+                    self.__dict__['available_floors'] = range(value)
+                    specified.add('available_floors')
+                    LOG(msg='Parameter (%s): %r' % ('available_floors'.upper(), self.__dict__['available_floors']), log=Logs.INFO)
 
-            LOG(msg='Parameter (%s): %r' % (param, self.__dict__[param]), log=Logs.INFO)
+                self.__dict__[param] = value
+                LOG(msg='Parameter (%s): %r' % (param.upper(), self.__dict__[param]), log=Logs.INFO)
+        n_specified = set(parameters_table.keys()).difference(specified)
+        for param in n_specified:
+            self.__dict__[param] = parameters_table[param]['Default']
 
+            LOG(msg='Parameter (%s): %r' % (param.upper(), self.__dict__[param]), log=Logs.INFO)
+
+        LOG(msg='    SPECIFIED PARAMETERS: %s' % ', '.join(specified))
+        LOG(msg='NON-SPECIFIED PARAMETERS: %s' % ', '.join(n_specified))
         self.__dict__['car'] = car
+
+    def set_parameter(self, param, value):
+        if param in parameters_table and isinstance(value, parameters_table[param]['Type']) and self.__dict__[param] != value:
+            self.__dict__[param] = value
+            LOG(msg='Parameter (%s): %r' % (param.upper(), self.__dict__[param]), log=Logs.INFO)
+            return True
+
+        return False
 
     @classmethod
     def help(cls):

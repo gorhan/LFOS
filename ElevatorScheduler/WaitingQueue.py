@@ -2,21 +2,22 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-from ElevatorScheduler.elevator_params import Direction, reverse_direction
+# from ElevatorScheduler.elevator_params import Direction, reverse_direction
+from ElevatorParameters import *
 from LFOS.Log import LOG, Logs
 
 
 class WaitingQueue:
     def __init__(self):
-        self.__q = {Direction.UP:[], Direction.DOWN:[]}
-        self.__first_dir = Direction.UP
+        self.__q = {UP():[], DOWN():[]}
+        self.__first_dir = UP()
 
     def add(self, _task, _direction):
-        if not self.__q[reverse_direction(_direction)] and self.__first_dir != _direction:
+        if not self.__q[not _direction] and self.__first_dir != _direction:
             self.__first_dir = _direction
             LOG(msg='First Come Direction has been updated. Direction=%s' % (_direction))
 
-        if _task in self.__q[_direction] or _task in self.__q[reverse_direction(_direction)]:
+        if _task in self.__q[_direction] or _task in self.__q[not _direction]:
             LOG(msg='The task has already been in the waiting list.')
             return False
 
@@ -29,15 +30,15 @@ class WaitingQueue:
         if direction:
             self.__q[direction].pop(index)
             if self.empty(direction):
-                self.__first_dir = reverse_direction(direction)
+                self.__first_dir = not direction
             return True
 
         return False
 
     def empty(self, _direction=None):
         if _direction is None:
-            return not (self.__q[Direction.UP] or self.__q[Direction.DOWN])
-        elif _direction == Direction.UP or _direction == Direction.DOWN:
+            return not (self.__q[UP()] or self.__q[DOWN()])
+        elif _direction == UP() or _direction == DOWN():
             return not self.__q[_direction]
 
         LOG(msg='Invalid argument has been given...')
@@ -46,20 +47,20 @@ class WaitingQueue:
     def fetch(self):
         ready_list = self.__q[self.__first_dir]
         self.__q[self.__first_dir] = []
-        self.__first_dir = reverse_direction(self.__first_dir)
+        self.__first_dir = not self.__first_dir
         return ready_list
 
     def fetch_tasks_wrt_direction(self, _direction):
         task_list = self.__q[_direction]
         self.__q[_direction] = []
-        self.__first_dir = reverse_direction(_direction)
+        self.__first_dir = not _direction
         return task_list
 
     def search(self, _task):
-        if _task in self.__q[Direction.UP]:
-            return Direction.UP, self.__q[Direction.UP].index(_task)
-        if _task in self.__q[Direction.DOWN]:
-            return Direction.DOWN, self.__q[Direction.DOWN].index(_task)
+        if _task in self.__q[UP()]:
+            return UP(), self.__q[UP()].index(_task)
+        if _task in self.__q[DOWN()]:
+            return DOWN(), self.__q[DOWN()].index(_task)
 
         LOG(msg='Given task is NOT in the waiting list...', log=Logs.ERROR)
         return None, -1
@@ -67,11 +68,11 @@ class WaitingQueue:
     def iter(self):
         for task in self.__q[self.__first_dir]:
             yield task
-        for task in self.__q[reverse_direction(self.__first_dir)]:
+        for task in self.__q[not self.__first_dir]:
             yield task
 
     def __str__(self):
-        out  = '%15s --> %s\n' % (Direction.UP, ', '.join('%s' % item for item in self.__q[Direction.UP]))
-        out += '%15s --> %s\n' % (Direction.DOWN, ', '.join('%s' % item for item in self.__q[Direction.DOWN]))
+        out  = '%15s --> %s\n' % (UP(), ', '.join('%s' % item for item in self.__q[UP()]))
+        out += '%15s --> %s\n' % (DOWN(), ', '.join('%s' % item for item in self.__q[DOWN()]))
         out += 'First Direction --> %15s' % (self.__first_dir)
         return out

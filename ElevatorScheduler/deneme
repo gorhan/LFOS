@@ -1,0 +1,129 @@
+  REQUEST =>[FLOOR:00 TIME:000]	Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=10
+ SCHEDULE =>[FLOOR:01 BEGIN:000 END:001]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:02 BEGIN:001 END:002]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:002 END:003]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:003 END:004]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:004 END:005]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:005 END:006]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:06 TIME:006]	Task=Tasks.HallCall_07_0_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=07
+ SCHEDULE =>[FLOOR:07 BEGIN:006 END:007]	    Elevator_00 --> Task=Tasks.HallCall_07_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:07 TIME:007]	Task=Tasks.CarCall_11_4_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=11
+ SCHEDULE =>[FLOOR:08 BEGIN:007 END:008]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:09 BEGIN:008 END:009]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:009 END:010]	    Elevator_00 --> Task=Tasks.CarCall_10_7_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:11 BEGIN:010 END:011]	    Elevator_00 --> Task=Tasks.CarCall_11_4_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:11 BEGIN:011 END:012]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:012 END:013]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:013 END:014]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:014 END:015]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:015 END:016]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:016 END:017]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:017 END:018]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:11 BEGIN:018 END:019]	    Elevator_00 --> EMPTY
+  REQUEST =>[FLOOR:11 TIME:019]	Task=Tasks.HallCall_10_0_PASSENGERPRIORITY.NORMAL, Direction= Direction.DOWN, Target Floor=10
+ SCHEDULE =>[FLOOR:10 BEGIN:019 END:020]	    Elevator_00 --> Task=Tasks.HallCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:020 END:021]	    Elevator_00 --> EMPTY
+  REQUEST =>[FLOOR:10 TIME:021]	Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL, Direction= Direction.DOWN, Target Floor=02
+ SCHEDULE =>[FLOOR:09 BEGIN:021 END:022]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:08 BEGIN:022 END:023]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:07 BEGIN:023 END:024]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:024 END:025]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:025 END:026]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:026 END:027]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:027 END:028]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:02 BEGIN:028 END:029]	    Elevator_00 --> Task=Tasks.CarCall_02_1_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:02 BEGIN:029 END:030]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:02 BEGIN:030 END:031]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:02 BEGIN:031 END:032]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:02 BEGIN:032 END:033]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:02 BEGIN:033 END:034]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:03 BEGIN:034 END:035]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:035 END:036]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:036 END:037]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:037 END:038]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:07 BEGIN:038 END:039]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:08 BEGIN:039 END:040]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:09 BEGIN:040 END:041]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:041 END:042]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:042 END:043]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:043 END:044]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:044 END:045]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:045 END:046]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:046 END:047]	    Elevator_00 --> EMPTY
+  REQUEST =>[FLOOR:10 TIME:047]	Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=00
+  REQUEST =>[FLOOR:10 TIME:047]	Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=00
+ SCHEDULE =>[FLOOR:09 BEGIN:047 END:048]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:09 TIME:048]	Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=00
+ SCHEDULE =>[FLOOR:08 BEGIN:048 END:049]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:07 BEGIN:049 END:050]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:07 TIME:050]	Task=Tasks.HallCall_03_0_PASSENGERPRIORITY.NORMAL, Direction= Direction.DOWN, Target Floor=03
+ SCHEDULE =>[FLOOR:06 BEGIN:050 END:051]	    Elevator_00 --> Task=Tasks.HallCall_03_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:051 END:052]	    Elevator_00 --> Task=Tasks.HallCall_03_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:052 END:053]	    Elevator_00 --> Task=Tasks.HallCall_03_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:053 END:054]	    Elevator_00 --> Task=Tasks.HallCall_03_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:02 BEGIN:054 END:055]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:02 TIME:055]	Task=Tasks.CarCall_14_1_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=14
+ SCHEDULE =>[FLOOR:01 BEGIN:055 END:056]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:00 BEGIN:056 END:057]	    Elevator_00 --> Task=Tasks.HallCall_00_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:01 BEGIN:057 END:058]	    Elevator_00 --> Task=Tasks.CarCall_14_1_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+  REQUEST =>[FLOOR:01 TIME:058]	Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=13
+  REQUEST =>[FLOOR:01 TIME:058]	Task=Tasks.CarCall_15_1_PASSENGERPRIORITY.NORMAL, Direction=   Direction.UP, Target Floor=15
+ SCHEDULE =>[FLOOR:02 BEGIN:058 END:059]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:059 END:060]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:060 END:061]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:061 END:062]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:062 END:063]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:07 BEGIN:063 END:064]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:08 BEGIN:064 END:065]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:09 BEGIN:065 END:066]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:066 END:067]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:11 BEGIN:067 END:068]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:12 BEGIN:068 END:069]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:13 BEGIN:069 END:070]	    Elevator_00 --> Task=Tasks.HallCall_13_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:14 BEGIN:070 END:071]	    Elevator_00 --> Task=Tasks.CarCall_14_1_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:15 BEGIN:071 END:072]	    Elevator_00 --> Task=Tasks.CarCall_15_1_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:15 BEGIN:072 END:073]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:15 BEGIN:073 END:074]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:15 BEGIN:074 END:075]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:15 BEGIN:075 END:076]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:15 BEGIN:076 END:077]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:14 BEGIN:077 END:078]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:13 BEGIN:078 END:079]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:12 BEGIN:079 END:080]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:11 BEGIN:080 END:081]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:081 END:082]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:082 END:083]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:083 END:084]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:084 END:085]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:085 END:086]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:086 END:087]	    Elevator_00 --> EMPTY
+  REQUEST =>[FLOOR:10 TIME:087]	Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL, Direction= Direction.DOWN, Target Floor=03
+ SCHEDULE =>[FLOOR:09 BEGIN:087 END:088]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:08 BEGIN:088 END:089]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+  REQUEST =>[FLOOR:08 TIME:089]	Task=Tasks.HallCall_05_0_PASSENGERPRIORITY.NORMAL, Direction= Direction.DOWN, Target Floor=05
+ SCHEDULE =>[FLOOR:07 BEGIN:089 END:090]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:090 END:091]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:091 END:092]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:04 BEGIN:092 END:093]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:093 END:094]	    Elevator_00 --> Task=Tasks.CarCall_03_8_PASSENGERPRIORITY.NORMAL::Direction.DOWN, Capacity=1
+ SCHEDULE =>[FLOOR:03 BEGIN:094 END:095]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:03 BEGIN:095 END:096]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:03 BEGIN:096 END:097]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:03 BEGIN:097 END:098]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:03 BEGIN:098 END:099]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:04 BEGIN:099 END:100]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:05 BEGIN:100 END:101]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:06 BEGIN:101 END:102]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:07 BEGIN:102 END:103]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:08 BEGIN:103 END:104]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:09 BEGIN:104 END:105]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:105 END:106]	    Elevator_00 --> Task=Tasks.CarCall_10_0_PASSENGERPRIORITY.NORMAL::Direction.UP, Capacity=1
+ SCHEDULE =>[FLOOR:10 BEGIN:106 END:107]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:107 END:108]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:108 END:109]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:109 END:110]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:110 END:111]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:111 END:112]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:112 END:113]	    Elevator_00 --> EMPTY
+ SCHEDULE =>[FLOOR:10 BEGIN:113 END:114]	    Elevator_00 --> EMPTY
+

@@ -1,6 +1,7 @@
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Log import Logs, LOG
 
+
 class ElevatorStatistics:
     def __init__(self, num_floors, base_floor=0):
         self._num_floor = num_floors

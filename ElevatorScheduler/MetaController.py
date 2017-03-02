@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 import Tkinter as tk
+from PIL import Image, ImageTk
 
 from ElevatorParameters import *
 from LFOS.Resource.Resource import ResourceFactory, Type, ResourceTypeList, System
@@ -42,16 +43,27 @@ class MetaControllerGUI(MetaController):
     def __create_widgets(self):
         self._label_frame_request = tk.LabelFrame(self.frame, text='Elevator Request Controller', padx=10, pady=10, labelanchor='n')
         self.__create_task_spec_widgets(self._label_frame_request)
-        self._label_frame_request.grid(row=0, column=0, rowspan=self.num_cars, padx=10, pady=10)
+        self._label_frame_request.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N + tk.E + tk.W)
 
         self._label_frame_elevator_status = tk.LabelFrame(self.frame, text='Elevator Status Information', padx=10, pady=10, labelanchor='n')
         for elevator_id in range(self.num_cars):
-            self.__create_elevator_widgets(self.params[elevator_id], self._label_frame_elevator_status, elevator_id, 0)
-        self._button_update_params = tk.Button(self._label_frame_elevator_status, text='Update', command=self.__update_parameters)
-        self._button_reset_params = tk.Button(self._label_frame_elevator_status, text='Reset', command=self.__reset_parameters)
-        self._button_update_params.grid(row=self.num_cars, column=0, sticky=tk.N + tk.W + tk.E + tk.S)
-        self._button_reset_params.grid(row=self.num_cars, column=1, sticky=tk.N + tk.W + tk.E + tk.S)
-        self._label_frame_elevator_status.grid(row=0, column=1, padx=10, pady=10)
+            self.__create_elevator_widgets(elevator_id, self.params[elevator_id], self._label_frame_elevator_status, elevator_id, 0)
+        self._label_frame_elevator_status.grid(row=0, column=1, rowspan=2, padx=10, pady=10, sticky=tk.N)
+
+
+        self._label_frame_logos = tk.LabelFrame(self.frame, relief=tk.FLAT)
+        self._fmt_logo = Image.open('GUI/images/fmt_logo.jpg')
+        self._fmt_logo = self._fmt_logo.resize((200, 200), Image.ANTIALIAS)
+        self._fmt_logo = ImageTk.PhotoImage(self._fmt_logo)
+        self._fmt_logo_label = tk.Label(self._label_frame_logos, image=self._fmt_logo, height=200, width=200)
+        self._fmt_logo_label.grid(row=0, column=0, sticky=tk.N)
+
+        self._ut_logo = Image.open('GUI/images/ut_logo.jpg')
+        self._ut_logo = self._ut_logo.resize((240, 120), Image.ANTIALIAS)
+        self._ut_logo = ImageTk.PhotoImage(self._ut_logo)
+        self._ut_logo_label = tk.Label(self._label_frame_logos, image=self._ut_logo, height=120, width=240)
+        self._ut_logo_label.grid(row=0, column=1, sticky=tk.N)
+        self._label_frame_logos.grid(row=1, column=0, sticky=tk.N)
 
     def __create_task_spec_widgets(self, frame):
         self._label_frame_task = tk.LabelFrame(frame, text='Task', padx=5, pady=5, labelanchor='n')
@@ -106,21 +118,41 @@ class MetaControllerGUI(MetaController):
         self._button_add = tk.Button(frame, text='Add', command=self._dispatch)
         self._button_add.pack(fill=tk.X)
 
-    def __create_elevator_widgets(self, params, frame, row, col):
+        self._label_frame_action = tk.LabelFrame(frame, pady=50, relief=tk.FLAT)
+        self._button_request = tk.Button(self._label_frame_action, text='Request', command=self._request_task)
+        self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue)
+        self._button_request.pack(anchor=tk.CENTER, fill=tk.BOTH)
+        self._button_continue.pack(anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_action.pack(fill=tk.BOTH)
+
+    def __create_elevator_widgets(self, elevator_id, params, frame, row, col):
         label_frame_elevator_status = tk.LabelFrame(frame, text=params.car.get_resource_name(), padx=10, pady=10, labelanchor='n')
         # label_frame_elevator_status.pack(padx=10, pady=10, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
         label_frame_elevator_status.grid(row=row, column=col, columnspan=2, padx=10, pady=10, sticky=tk.N + tk.W + tk.S + tk.E)
         assert isinstance(params, ElevatorParameters)
         for row_id, param_name in enumerate(parameters_table.keys()):
             value = getattr(params, param_name)
-            print param_name, value
-            # raw_input('Enter:::')
-            label_param_name = tk.Label(label_frame_elevator_status, text=param_name, padx=5, pady=5)
+
+            label_param_name = tk.Label(label_frame_elevator_status, text=param_name.upper(), padx=5, pady=5)
             label_param_name.grid(row=row_id, column=0, sticky=tk.N + tk.E + tk.S+ tk.E)
-            self._elevator_spec_widgets[param_name] = tk.Entry(label_frame_elevator_status)
-            self._elevator_spec_widgets[param_name].delete(0, tk.END)
-            self._elevator_spec_widgets[param_name].insert(0, str(value))
-            self._elevator_spec_widgets[param_name].grid(row=row_id, column=1, sticky=tk.N + tk.W + tk.S+ tk.E)
+            self._elevator_spec_widgets[elevator_id, param_name] = tk.Entry(label_frame_elevator_status)
+            self._elevator_spec_widgets[elevator_id, param_name].delete(0, tk.END)
+            self._elevator_spec_widgets[elevator_id, param_name].insert(0, str(value))
+            self._elevator_spec_widgets[elevator_id, param_name].grid(row=row_id, column=1, sticky=tk.N + tk.W + tk.S+ tk.E)
+
+        # self._label_frame_text = tk.LabelFrame(label_frame_elevator_status, text='Output Console', labelanchor='n')
+        # self._label_frame_text.grid(row=0, column=2, rowspan=len(parameters_table), columnspan=7, padx=10, pady=10, sticky=tk.N + tk.W + tk.E)
+        self._scroll_bar = tk.Scrollbar(label_frame_elevator_status)
+        self._scroll_bar.grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E + tk.S)
+        self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=100, height=23,
+                                 yscrollcommand=self._scroll_bar.set,
+                                 font=('Courier', 14, 'bold'),
+                                 bg='#1e263f')
+        self._elevator_spec_widgets[elevator_id, 'LOG'].grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E)
+        self._scroll_bar.config(command=self._elevator_spec_widgets[elevator_id, 'LOG'].yview)
+
+        self._elevator_spec_widgets[elevator_id, 'LOG'].tag_configure('request', foreground='#13f128')
+        self._elevator_spec_widgets[elevator_id, 'LOG'].tag_configure('continue', foreground='#d5f90b')
 
     def _deactivate_widgets(self):
         self._radio_bt_directions[0].config(state=tk.DISABLED)
@@ -132,11 +164,18 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_directions[1].config(state=tk.NORMAL)
         self._option_passengers.config(state=tk.DISABLED)
 
-    def __reset_parameters(self):
-        print 'TODO'
+    def _request_task(self):
+        LOG(msg='TODO')
 
-    def __update_parameters(self):
-        print 'TODO'
+    def _continue(self):
+        LOG(msg='TODO')
+
+    def __set_text(self, elevator_id, text, tag, pos=tk.END):
+        self._elevator_spec_widgets[elevator_id, 'LOG'].config(state=tk.NORMAL)
+        self._elevator_spec_widgets[elevator_id, 'LOG'].insert(pos, text, tag)
+        self._elevator_spec_widgets[elevator_id, 'LOG'].see(tk.END) # to auto-scroll down the scrollbar
+        self._elevator_spec_widgets[elevator_id, 'LOG'].config(state=tk.DISABLED)
+
 
     def _dispatch(self):
         print ''

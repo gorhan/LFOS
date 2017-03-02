@@ -6,21 +6,22 @@ from TaskSpecGUI import TaskSpecUI
 import os
 
 
-class ElevatorUI(tk.Frame):
+class ElevatorUI:
     def __init__(self, invoker, master=None):
-        tk.Frame.__init__(self, master, width=1000, height=500)
+        self.master = master if master else tk.Tk()
+        self.frame = tk.Frame(master, width=1000, height=500)
         self.master.title('Elevator Scheduling GUI')
-        self.grid()
+        self.frame.grid()
         self._create_widgets()
 
         self._invoker = invoker
         self._clock = 0
 
-        self.mainloop()
+        self.frame.mainloop()
 
     def _create_widgets(self):
 
-        self._label_frame_text = tk.LabelFrame(self, text='Output Console', labelanchor='n')
+        self._label_frame_text = tk.LabelFrame(self.frame, text='Output Console', labelanchor='n')
         self._label_frame_text.grid(row=0, column=0, columnspan=7, padx=10, pady=10)
         self._scroll_bar = tk.Scrollbar(self._label_frame_text)
         self._scroll_bar.grid(row=0, column=6, sticky=tk.N+tk.W+tk.E+tk.S)
@@ -34,15 +35,15 @@ class ElevatorUI(tk.Frame):
         self._text_log.tag_configure('request', foreground='#13f128')
         self._text_log.tag_configure('continue', foreground='#d5f90b')
 
-        self._button_cnt = tk.Button(self, text='Continue', command=self._continue)
+        self._button_cnt = tk.Button(self.frame, text='Continue', command=self._continue)
         self._button_cnt.grid(row=1, column=0, columnspan=2, sticky=tk.N + tk.W + tk.E + tk.S, padx=5, pady=5)
-        self._button_add = tk.Button(self, text='Request', command=self._update_taskset)
+        self._button_add = tk.Button(self.frame, text='Request', command=self._update_taskset)
         self._button_add.grid(row=1, column=2, columnspan=2,  sticky=tk.N + tk.W + tk.E + tk.S, padx=5, pady=5)
-        self._button_save = tk.Button(self, text='Save', command=self._save_file)
+        self._button_save = tk.Button(self.frame, text='Save', command=self._save_file)
         self._button_save.grid(row=1, column=4, columnspan=2,  sticky=tk.N + tk.W + tk.E + tk.S, padx=5, pady=5)
 
         self._logo = ImageTk.PhotoImage(Image.open('GUI/images/logo.jpg'))
-        self._logo_label = tk.Label(self, image=self._logo, height=50, width=210)
+        self._logo_label = tk.Label(self.frame, image=self._logo, height=50, width=210)
         self._logo_label.grid(row=1, column=6, columnspan=1, pady=5, sticky=tk.N+tk.E+tk.W)
 
         # self.grid_propagate(False)
