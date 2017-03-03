@@ -3,8 +3,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath('..'))
 
-from GUI.ElevatorGUI import ElevatorUI
-from Tkinter import Tk
 from ElevatorParameters import *
 from ElevatorStatistics import ElevatorStatistics
 from WaitingQueue import WaitingQueue
@@ -31,49 +29,12 @@ class ElevatorController:
 
         self._updated_taskset_flag = False
         self._scheduled_flag = False
-        self._wait_for = Time(5)
         self._waited = Time(0)
 
         self._scheduler = Scheduler(solver=self._params.solver, verbose=self._params.verbose, time_cutoff=self._params.time_cutoff)
         self._scheduler.set_scheduling_window_start_time(self._params.start_time)
         self._scheduler.set_scheduling_window_duration(Time(2*self._params.num_floors))
         self._do_schedule()
-
-        # self.__initialize_env()
-        # self.__initialize_GUI()
-
-
-    # def __initialize_GUI(self):
-    #     self._gui = ElevatorUI(self, Tk())
-    #
-    # def __initialize_env(self):
-    #
-    #     self._waiting_q = WaitingQueue()
-    #     self._updated_taskset_flag = False
-    #     self._wait_for = Time(5)
-    #     self._waited = Time(0)
-    #
-    #     self._elevator_t = Type(ResourceTypeList.ACTIVE, 'Elevator')
-    #
-    #     for elevator_id in range(self._num_elevator):
-    #         elevator = ResourceFactory.create_instance(self._elevator_t, 'Elevator_%02d' % elevator_id)
-    #         elevator.set_capacity(1)
-    #         self._current_floors[elevator] = 0
-    #         self._elevator_directions[elevator] = Direction.UP
-    #         self._elevator_weights[elevator] = 0
-    #
-    #         elevator_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 100)
-    #         elevator.set_power_consumption(elevator_power_consumption)
-    #
-    #         System.add(elevator)
-    #
-    #     System.pretty_print()
-    #     System.print_accessibilites()
-    #
-    #     self._scheduler = Scheduler(solver='Mistral2', verbose=0, time_cutoff=35)
-    #     self._scheduler.set_scheduling_window_start_time(Time(0))
-    #     self._scheduler.set_scheduling_window_duration(Time(2*number_of_floors))
-    #     self._do_schedule()
 
     def _identify_task(self, raw_task_name, floor, direction, n_passengers, passenger_priority):
         return '%s_%02d_%d_%s' % (raw_task_name, int(floor), n_passengers, passenger_priority), direction
@@ -234,14 +195,13 @@ class ElevatorController:
         if not taskset and self._waiting_q.empty():
             # Goto the most frequently called floor have to be inserted at this point.
             self._waited += 1
-            print '#############', self._waited
-            print '#############', self._wait_for
-            if self._waited >= self._wait_for:
+            LOG(msg='Elevator Waited=%d' % self._waited)
+            LOG(msg='Elevator Wait Time=%d' % self._params.wait_time)
+            if self._waited >= self._params.wait_time:
                 task_t = CarCall()
                 target_floor = self._stat.get_most_frequent_floor()[0]
                 _time = _end
 
-                print '#############', target_floor
                 self.generate_task(task_t, None, target_floor, 0, NORMAL, _time)
                 self._waited = Time(0)
                 self._do_schedule()

@@ -23,7 +23,7 @@ class TimeResolution:
 
 
 class Time(int):
-    TIME_RESOLUTION = TimeResolution(2)
+    TIME_RESOLUTION = TimeResolution(0)
     TIME_UNIT = 'msec'
 
     def __new__(cls, _time=0):

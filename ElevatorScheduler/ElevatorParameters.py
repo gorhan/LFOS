@@ -4,44 +4,67 @@ sys.path.insert(0, os.path.abspath('..'))
 from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Characteristic.Time import Time
 
+
 class Task:
-    pass
+    def __str__(self):
+        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
 class CarCall(Task):
     def __eq__(self, other):
-        return isinstance(other, CarCall)
+        return isinstance(other, CarCall) or (isinstance(other, str) and other == str(self))
 class HallCall(Task):
     def __eq__(self, other):
-        return isinstance(other, HallCall)
+        return isinstance(other, HallCall) or (isinstance(other, str) and other == str(self))
+
 
 class Direction:
-    pass
+    def __str__(self):
+        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
 class UP(Direction):
     def __neg__(self):
         return DOWN()
     def __eq__(self, other):
-        return isinstance(other, UP)
-    def __str__(self):
-        return 'Direction.UP'
+        return isinstance(other, UP) or (isinstance(other, str) and other == str(self))
 class DOWN(Direction):
     def __neg__(self):
         return UP()
     def __eq__(self, other):
-        return isinstance(other, DOWN)
-    def __str__(self):
-        return 'Direction.DOWN'
+        return isinstance(other, DOWN) or (isinstance(other, str) and other == str(self))
 
 
 class PassengerPriority:
-    pass
+    def __str__(self):
+        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
 class NORMAL(PassengerPriority):
-    def __str__(self):
-        return 'PassengerPriority.NOMAL'
+    def __eq__(self, other):
+        return isinstance(other, NORMAL) or (isinstance(other, str) and other == str(self))
 class HIGH(PassengerPriority):
-    def __str__(self):
-        return 'PassengerPriority.HIGH'
+    def __eq__(self, other):
+        return isinstance(other, HIGH) or (isinstance(other, str) and other == str(self))
 class URGENT(PassengerPriority):
+    def __eq__(self, other):
+        return isinstance(other, URGENT) or (isinstance(other, str) and other == str(self))
+
+
+class HLDS:
     def __str__(self):
-        return 'PassengerPriority.URGENT'
+        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
+class Sectors(HLDS):
+    def __eq__(self, other):
+        return isinstance(other, NORMAL) or (isinstance(other, str) and other == str(self))
+class NEwoutCC(HLDS):
+    def __eq__(self, other):
+        return isinstance(other, NORMAL) or (isinstance(other, str) and other == str(self))
+class NEwCC(HLDS):
+    def __eq__(self, other):
+        return isinstance(other, NORMAL) or (isinstance(other, str) and other == str(self))
 
 
 parameters_table = {
@@ -55,10 +78,10 @@ parameters_table = {
         'Type'       : int,
         'Default'    : 16
     },
-    'available_floors': {
+    'disabled_floors': {
         'Explanation': 'The floors to which the car is eligible to move.',
         'Type'       : list,
-        'Default'    : range(16)
+        'Default'    : []
     },
     'direction': {
         'Explanation': 'The direction of the car.',
@@ -99,6 +122,11 @@ parameters_table = {
         'Explanation': 'The credential of currently executing task.',
         'Type'       : str,
         'Default'    : 'EMPTY'
+    },
+    'wait_time': {
+        'Explanation': 'The duration when the elevator does not get any request to move the car to the specific floor.',
+        'Type'       : Time,
+        'Default'    : Time(5)
     }
 }
 
