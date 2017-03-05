@@ -66,7 +66,7 @@ class MetaControllerGUI(MetaController):
         self._label_frame_request.grid(row=1, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
 
         self._label_frame_high_level_dispatch_strategy = tk.LabelFrame(self.frame,
-                                                                       text='Passenger-to-car Assignment Strategy',
+                                                                       text='Passenger-2-Car Assignment Strategy',
                                                                        padx=10, pady=10, labelanchor='n')
         self._high_level_strategy = tk.Variable()
         self._high_level_strategy.set(Sectors())
@@ -194,16 +194,21 @@ class MetaControllerGUI(MetaController):
             tk.Label(frame, text='Elevator_%02d' % elevator_id).grid(row=0, column=elevator_id, sticky=tk.W)
 
             self._listbox_sectors.append(tk.Listbox(frame, listvariable=floors, selectmode=tk.MULTIPLE, height=num_floors_height, exportselection=0))
+            map(lambda floor: self._listbox_sectors[-1].selection_set(floor), set(range(num_floors_height)).difference(self.params[elevator_id].disabled_floors))
             self._listbox_sectors[-1].grid(row=1, column=elevator_id, sticky=tk.W)
 
-        tk.Button(frame, text='SET').grid(row=2, column=0, columnspan=num_floors_height, sticky=tk.W+tk.E, command=self.__listbox_cb)
+        tk.Button(frame, text='SET', command=lambda :self.__listbox_cb(master)).grid(row=2, column=0, columnspan=num_floors_height, sticky=tk.W+tk.E)
 
-    def __listbox_cb(self):
+    def __listbox_cb(self, master):
         for elevator_id in range(self.num_cars):
-            selections = set(self._listbox_sectors[elevator_id].curselection())
+            selections = set(map(int, self._listbox_sectors[elevator_id].curselection()))
             all_floors = set(range(self.params[elevator_id].num_floors))
             disabled_floors = list(all_floors.difference(selections))
+            # print selections, all_floors, disabled_floors
+            self.params[elevator_id].disabled_floors = disabled_floors
 
+        self.__update_elevator_parameters()
+        master.destroy()
 
     def _deactivate_widgets(self):
         LOG(msg='==CarCall:%r, ==HallCall:%r' % (self._request.get() == CarCall(), self._request.get() == HallCall()))
@@ -235,8 +240,13 @@ class MetaControllerGUI(MetaController):
         self._elevator_spec_widgets[elevator_id, param_name].insert(0, str(text))
         self._elevator_spec_widgets[elevator_id, param_name].config(state=tk.DISABLED)
 
+    def __update_elevator_parameters(self):
+        for elevator_id in range(self.num_cars):
+            for param_name in parameters_table.keys():
+                self.__set_entry(elevator_id, param_name, getattr(self.params[elevator_id], param_name))
+
     def _dispatch(self):
         print ''
 
 if __name__ == '__main__':
-    MetaControllerGUI(2, 20)
+    MetaControllerGUI(2, 8)
