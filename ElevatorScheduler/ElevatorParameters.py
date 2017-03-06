@@ -161,6 +161,11 @@ class ElevatorParameters:
 
         return False
 
+    def get_available_floors(self):
+        disabled_floors = set(self.__dict__['disabled_floors'])
+        all_floors = set(range(self.__dict__['num_floors']))
+        return list(all_floors.difference(disabled_floors))
+
     @classmethod
     def help(cls):
         LOG(msg='PARAMETERS:\n%s' % ('\n'.join(['\t%s --> %s' % (param, desc['Explanation']) for param, desc in parameters_table.items()])))

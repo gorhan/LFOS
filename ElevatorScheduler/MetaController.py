@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import Tkinter as tk
 from PIL import Image, ImageTk
+from functools import reduce
 
 from ElevatorParameters import *
 from ElevatorController import ElevatorController
@@ -17,6 +18,7 @@ class MetaController:
         self.num_floors = num_floors
         self.params = {}
         self.controllers = {}
+        self.clock = 0
 
         if Time.get_time_resolution() != 0:
             Time.set_time_resolution(0)
@@ -61,31 +63,31 @@ class MetaControllerGUI(MetaController):
         self._ut_logo_label.grid(row=0, column=1, sticky=tk.N + tk.S)
         self._label_frame_logos.grid(row=0, column=0, sticky=tk.N)
 
-        self._label_frame_request = tk.LabelFrame(self.frame, text='Elevator Request Controller', pady=10, labelanchor='n')
-        self.__create_task_spec_widgets(self._label_frame_request)
-        self._label_frame_request.grid(row=1, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
-
         self._label_frame_high_level_dispatch_strategy = tk.LabelFrame(self.frame,
                                                                        text='Passenger-2-Car Assignment Strategy',
-                                                                       padx=10, pady=10, labelanchor='n')
+                                                                       pady=10, labelanchor='n')
         self._high_level_strategy = tk.Variable()
         self._high_level_strategy.set(Sectors())
         self._radio_bt_high_level_strategy = [None] * 3
         self._radio_bt_high_level_strategy[0] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(Sectors()), variable=self._high_level_strategy,
                                                                value=Sectors(), command=self._create_sector_frame)
-        self._radio_bt_high_level_strategy[0].grid(row=0, column=0)
+        self._radio_bt_high_level_strategy[0].pack(anchor=tk.CENTER)
         self._radio_bt_high_level_strategy[1] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(NEwCC()),
                                                                variable=self._high_level_strategy,
                                                                value=NEwCC())
-        self._radio_bt_high_level_strategy[1].grid(row=0, column=1)
+        self._radio_bt_high_level_strategy[1].pack(anchor=tk.CENTER)
         self._radio_bt_high_level_strategy[2] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(NEwoutCC()),
                                                                variable=self._high_level_strategy,
                                                                value=NEwoutCC())
-        self._radio_bt_high_level_strategy[2].grid(row=0, column=2)
-        self._label_frame_high_level_dispatch_strategy.grid(row=2, column=0, sticky=tk.S + tk.E + tk.W)
+        self._radio_bt_high_level_strategy[2].pack(anchor=tk.CENTER)
+        self._label_frame_high_level_dispatch_strategy.grid(row=1, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
+
+        self._label_frame_request = tk.LabelFrame(self.frame, text='Elevator Request Controller', pady=10, labelanchor='n')
+        self.__create_task_spec_widgets(self._label_frame_request)
+        self._label_frame_request.grid(row=2, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
 
         self._label_frame_elevator_status = tk.LabelFrame(self.frame, text='Elevator Status Information', padx=10, pady=10, labelanchor='n')
         for elevator_id in range(self.num_cars):
@@ -123,7 +125,7 @@ class MetaControllerGUI(MetaController):
 
         self._label_frame_passengers = tk.LabelFrame(frame, text='Number of Passengers', padx=5, pady=5, labelanchor='n')
         self._label_frame_passengers.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
-        passengers = [passenger + 1 for passenger in range(10)]
+        passengers = [passenger for passenger in range(11)]
         self._passengers = tk.IntVar()
         self._passengers.set(passengers[0])
         self._option_passengers = tk.OptionMenu(self._label_frame_passengers, self._passengers, *passengers)
@@ -145,7 +147,7 @@ class MetaControllerGUI(MetaController):
         self._button_add = tk.Button(frame, text='Add', command=self._dispatch)
         self._button_add.pack(fill=tk.X)
 
-        self._label_frame_action = tk.LabelFrame(frame, pady=5, relief=tk.FLAT)
+        self._label_frame_action = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
         self._button_request = tk.Button(self._label_frame_action, text='Request', command=self._request_task)
         self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue)
         self._button_request.pack(fill=tk.BOTH)
@@ -168,9 +170,9 @@ class MetaControllerGUI(MetaController):
 
         self._scroll_bar = tk.Scrollbar(label_frame_elevator_status)
         self._scroll_bar.grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E + tk.S)
-        self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=100, height=23,
+        self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=130, height=28,
                                  yscrollcommand=self._scroll_bar.set,
-                                 font=('Courier', 14, 'bold'),
+                                 font=('Courier', 12, 'bold'),
                                  bg='#1e263f')
         self._elevator_spec_widgets[elevator_id, 'LOG'].grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E)
         self._scroll_bar.config(command=self._elevator_spec_widgets[elevator_id, 'LOG'].yview)
@@ -194,7 +196,7 @@ class MetaControllerGUI(MetaController):
             tk.Label(frame, text='Elevator_%02d' % elevator_id).grid(row=0, column=elevator_id, sticky=tk.W)
 
             self._listbox_sectors.append(tk.Listbox(frame, listvariable=floors, selectmode=tk.MULTIPLE, height=num_floors_height, exportselection=0))
-            map(lambda floor: self._listbox_sectors[-1].selection_set(floor), set(range(num_floors_height)).difference(self.params[elevator_id].disabled_floors))
+            map(lambda floor: self._listbox_sectors[-1].selection_set(floor), self.params[elevator_id].get_available_floors())
             self._listbox_sectors[-1].grid(row=1, column=elevator_id, sticky=tk.W)
 
         tk.Button(frame, text='SET', command=lambda :self.__listbox_cb(master)).grid(row=2, column=0, columnspan=num_floors_height, sticky=tk.W+tk.E)
@@ -222,12 +224,6 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_directions[1].config(state=tk.NORMAL)
         self._option_passengers.config(state=tk.DISABLED)
 
-    def _request_task(self):
-        LOG(msg='TODO')
-
-    def _continue(self):
-        LOG(msg='TODO')
-
     def __set_text(self, elevator_id, text, tag, pos=tk.END):
         self._elevator_spec_widgets[elevator_id, 'LOG'].config(state=tk.NORMAL)
         self._elevator_spec_widgets[elevator_id, 'LOG'].insert(pos, text, tag)
@@ -246,7 +242,35 @@ class MetaControllerGUI(MetaController):
                 self.__set_entry(elevator_id, param_name, getattr(self.params[elevator_id], param_name))
 
     def _dispatch(self):
-        print ''
+        bundle = [
+            self._request.get(),        # --> index=0
+            self._direction.get(),      # --> index=1
+            int(self._floor.get().split(' ')[-1]),     # --> index=2
+            int(self._passengers.get()),# --> index=3
+            self._priority.get()        # --> index=4
+        ]
+
+        if self._high_level_strategy.get() == Sectors():
+            LOG(msg='Selected Strategy-1:%s' % self._high_level_strategy.get())
+            relevant_elevators = [elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()]
+            # LOG(msg='Intersected Floors=%r' % intersected_floors)
+
+            if len(relevant_elevators) > 1:
+                # This means the tasks have to be checked for which one of the elevators are most convenient w.r.to their current floor, and weight status.
+                LOG(msg='Nothing To DO!!!')
+            else:
+                self.__set_text(relevant_elevators[0], self.controllers[relevant_elevators[0]].publish_task(bundle, self.clock), 'request')
+
+        elif self._high_level_strategy.get() == NEwCC():
+            LOG(msg='Selected Strategy-2:%s' % self._high_level_strategy.get())
+        elif self._high_level_strategy.get() == NEwoutCC():
+            LOG(msg='Selected Strategy-3:%s' % self._high_level_strategy.get())
+
+    def _request_task(self):
+        LOG(msg='TODO')
+
+    def _continue(self):
+        LOG(msg='TODO')
 
 if __name__ == '__main__':
     MetaControllerGUI(2, 8)

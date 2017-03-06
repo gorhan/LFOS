@@ -165,7 +165,7 @@ class ElevatorController:
     def publish_task(self, params, current_tm):
         task_t = params[0]
         direction = params[1]
-        target_floor = int(params[2].split(' ')[-1])
+        target_floor = params[2]
         n_passengers = params[3]
         passenger_priority = params[4]
         return self.generate_task(task_t, direction, target_floor, n_passengers, passenger_priority, current_tm)
