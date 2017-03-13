@@ -90,8 +90,8 @@ class SolverAdapter(object):
         self.__End = {job: VarArray(self.__sched_window_duration+1, 0, 1) for job in self.__jobs}
         self.__AuxWorking = {job: VarArray(self.__sched_window_duration, 0, 100) for job in self.__jobs}
         # self.__End = {job: VarArray(self.__latest_deadline, 0, 1) for job in self.__jobs}
-        self.__AuxS = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
-        self.__AuxE = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        # self.__AuxS = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
+        # self.__AuxE = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
 
         self.__TokenPool = dict()
         self.__OrDependencyT = {(job, token): VarArray(self.__sched_window_duration, 0, 1) for job in self.__jobs for token in self.__token_pool.keys()}
@@ -114,7 +114,7 @@ class SolverAdapter(object):
             self.__model += (Sum(self.__End[job]) == 1)  # only 1 number of End
             self.__model += (Sum(self.__Start[job][release_time:deadline]) == 1)  # only 1 number of Start between release and deadline
             self.__model += (Sum(self.__End[job][release_time:deadline+1]) == 1)  # only 1 number of End between release and deadline
-            self.__model += (Sum(self.__End[job][t] * t for t in range(release_time, deadline+1)) > Sum(self.__Start[job][t] * t for t in range(release_time, deadline)))
+            self.__model += (Sum(self.__End[job][t+1] * (t+1) for t in range(release_time, deadline)) - Sum(self.__Start[job][t] * t for t in range(release_time, deadline)) > 0)
 
             for requirement_item in active_resource_requirements:
                 resource_type, el_resources_dict, req_capacity = requirement_item.resource_type, requirement_item.eligible_resources, requirement_item.required_capacity
@@ -254,6 +254,8 @@ class SolverAdapter(object):
             self.__solver.startNewSearch()
             while self.__solver.getNextSolution() == SAT:
                 self.__create_schedule()
+                self.__optimized = True
+                LOG(msg='LAST SCHEDULE=%r' % (self.get_last_schedule()))
                 schedules.append(self.get_last_schedule())
 
         else:
@@ -264,6 +266,7 @@ class SolverAdapter(object):
                 schedules = [self.get_last_schedule()]
 
         if not schedules:
+            self.__optimized = False
             LOG(msg='SCHEDULING FAILED!!! Unable to obtain optimal solution with given scheduling parameters.', log=Logs.ERROR)
 
         return schedules

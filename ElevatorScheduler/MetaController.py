@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 import Tkinter as tk
 from PIL import Image, ImageTk
+import tkFileDialog
 from functools import reduce
 
 from ElevatorParameters import *
@@ -144,14 +145,13 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_priority[2].pack(anchor=tk.CENTER)
         self._label_frame_priority.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
 
-        self._button_add = tk.Button(frame, text='Add', command=self._dispatch)
-        self._button_add.pack(fill=tk.X)
-
         self._label_frame_action = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
-        self._button_request = tk.Button(self._label_frame_action, text='Request', command=self._request_task)
+        self._button_add = tk.Button(self._label_frame_action, text='Add', command=self._dispatch)
         self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue)
-        self._button_request.pack(fill=tk.BOTH)
+        self._button_save = tk.Button(self._label_frame_action, text='Save', command=self._save_file)
+        self._button_add.pack(fill=tk.X)
         self._button_continue.pack(fill=tk.BOTH)
+        self._button_save.pack(fill=tk.BOTH)
         self._label_frame_action.pack(anchor=tk.CENTER, fill=tk.BOTH)
 
     def __create_elevator_widgets(self, elevator_id, params, frame, row, col):
@@ -243,11 +243,11 @@ class MetaControllerGUI(MetaController):
 
     def _dispatch(self):
         bundle = [
-            self._request.get(),        # --> index=0
-            self._direction.get(),      # --> index=1
-            int(self._floor.get().split(' ')[-1]),     # --> index=2
-            int(self._passengers.get()),# --> index=3
-            self._priority.get()        # --> index=4
+            self._request.get(),                                # --> index=0
+            UP() if self._direction.get() == UP() else DOWN(),  # --> index=1
+            int(self._floor.get().split(' ')[-1]),              # --> index=2
+            int(self._passengers.get()),                        # --> index=3
+            self._priority.get()                                # --> index=4
         ]
 
         if self._high_level_strategy.get() == Sectors():
@@ -270,7 +270,25 @@ class MetaControllerGUI(MetaController):
         LOG(msg='TODO')
 
     def _continue(self):
-        LOG(msg='TODO')
+        map(lambda elevator: self.__set_text(elevator, self.controllers[elevator].monitor(self.clock, self.clock + 1), 'continue'), range(self.num_cars))
+        self.__update_elevator_parameters()
+        self.clock += 1
+
+    def _save_file(self):
+        save_filename = tkFileDialog.asksaveasfilename()
+        if save_filename is None:
+            return False
+
+        for elevator_id in range(self.num_cars):
+            save_file = open('%s_Elevator_%02d' % (save_filename, elevator_id), 'w')
+            if save_file is None:
+                LOG(msg='Unexpected event has occured while opening log file.', log=Logs.ERROR)
+                return False
+
+            save_file.write(str(self._elevator_spec_widgets[elevator_id, 'LOG'].get('1.0', tk.END)))
+            save_file.close()
+        LOG(msg='Log files have been successfully generated.')
+        return True
 
 if __name__ == '__main__':
     MetaControllerGUI(2, 8)

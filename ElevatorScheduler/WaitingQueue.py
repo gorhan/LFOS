@@ -13,11 +13,11 @@ class WaitingQueue:
         self.__first_dir = UP()
 
     def add(self, _task, _direction):
-        if not self.__q[not _direction] and self.__first_dir != _direction:
+        if not self.__q[-_direction] and self.__first_dir != _direction:
             self.__first_dir = _direction
             LOG(msg='First Come Direction has been updated. Direction=%s' % (_direction))
 
-        if _task in self.__q[_direction] or _task in self.__q[not _direction]:
+        if _task in self.__q[_direction] or _task in self.__q[-_direction]:
             LOG(msg='The task has already been in the waiting list.')
             return False
 
@@ -30,7 +30,7 @@ class WaitingQueue:
         if direction:
             self.__q[direction].pop(index)
             if self.empty(direction):
-                self.__first_dir = not direction
+                self.__first_dir = -direction
             return True
 
         return False
@@ -47,13 +47,13 @@ class WaitingQueue:
     def fetch(self):
         ready_list = self.__q[self.__first_dir]
         self.__q[self.__first_dir] = []
-        self.__first_dir = not self.__first_dir
+        self.__first_dir = -self.__first_dir
         return ready_list
 
     def fetch_tasks_wrt_direction(self, _direction):
         task_list = self.__q[_direction]
         self.__q[_direction] = []
-        self.__first_dir = not _direction
+        self.__first_dir = -_direction
         return task_list
 
     def search(self, _task):
@@ -68,7 +68,7 @@ class WaitingQueue:
     def iter(self):
         for task in self.__q[self.__first_dir]:
             yield task
-        for task in self.__q[not self.__first_dir]:
+        for task in self.__q[-self.__first_dir]:
             yield task
 
     def __str__(self):

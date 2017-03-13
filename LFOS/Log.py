@@ -26,12 +26,16 @@ def LOG(**kwargs):
         caller_class = 'GLOBAL'
     caller_func = stck.f_code.co_name
 
-    if not kwargs.has_key('log'):
+    if 'log' not in kwargs:
         kwargs['log'] = Logs.INFO
 
-    log = '%s From %50s %5s: %s' % (
+    if 'tag' not in kwargs:
+        kwargs['tag'] = 'NO_TAG'
+
+    log = '%s From %50s[%s] %5s: %s' % (
         strftime('[%d-%m-%Y - %H:%M:%S]', localtime()),
         caller_class + '.' + caller_func,
+        kwargs['tag'],
         kwargs['log'],
         kwargs['msg']
     )

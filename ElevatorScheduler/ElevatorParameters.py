@@ -5,7 +5,16 @@ from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Characteristic.Time import Time
 
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args)
+        return cls._instances[cls]
+
+
 class Task:
+    __metaclass__ = Singleton
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
     def __hash__(self):
@@ -19,6 +28,7 @@ class HallCall(Task):
 
 
 class Direction:
+    __metaclass__ = Singleton
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
     def __hash__(self):
@@ -36,6 +46,7 @@ class DOWN(Direction):
 
 
 class PassengerPriority:
+    __metaclass__ = Singleton
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
     def __hash__(self):
@@ -52,6 +63,7 @@ class URGENT(PassengerPriority):
 
 
 class HLDS:
+    __metaclass__ = Singleton
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
     def __hash__(self):
@@ -106,7 +118,7 @@ parameters_table = {
     'verbose': {
         'Explanation': 'The level of information printed during solver execution.',
         'Type'       : int,
-        'Default'    : 0
+        'Default'    : 1
     },
     'time_cutoff': {
         'Explanation': 'Time bound for a solver to find an optimal solution.',
