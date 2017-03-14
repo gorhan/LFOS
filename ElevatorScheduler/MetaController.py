@@ -97,7 +97,7 @@ class MetaControllerGUI(MetaController):
 
     def __create_task_spec_widgets(self, frame):
         self._label_frame_task = tk.LabelFrame(frame, text='Task', padx=5, labelanchor='n')
-        self._label_frame_task.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_task.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
         self._request = tk.Variable()
         self._request.set(HallCall())
         self._radio_bt_tasks = [None, None]
@@ -106,32 +106,13 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_tasks[1] = tk.Radiobutton(self._label_frame_task, text='Car Call', variable=self._request, value=CarCall(), command=self._deactivate_widgets)
         self._radio_bt_tasks[1].pack(anchor=tk.CENTER)
 
-        self._label_frame_dir = tk.LabelFrame(frame, text='Direction', padx=5, pady=5, labelanchor='n')
-        self._label_frame_dir.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
-        self._direction = tk.Variable()
-        self._direction.set(UP())
-        self._radio_bt_directions = [None] * 2
-        self._radio_bt_directions[0] = tk.Radiobutton(self._label_frame_dir, text='Up', variable=self._direction, value=UP())
-        self._radio_bt_directions[0].pack(anchor=tk.CENTER)
-        self._radio_bt_directions[1] = tk.Radiobutton(self._label_frame_dir, text='Down', variable=self._direction, value=DOWN())
-        self._radio_bt_directions[1].pack(anchor=tk.CENTER)
-
         self._label_frame_floor = tk.LabelFrame(frame, text='Floor', padx=5, pady=5, labelanchor='n')
-        self._label_frame_floor.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_floor.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
         floors = ['Floor %02d' % floor for floor in range(self.num_floors)]
         self._floor = tk.StringVar()
         self._floor.set(floors[0])
         self._option_floor = tk.OptionMenu(self._label_frame_floor, self._floor, *floors)
         self._option_floor.pack()
-
-        self._label_frame_passengers = tk.LabelFrame(frame, text='Number of Passengers', padx=5, pady=5, labelanchor='n')
-        self._label_frame_passengers.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
-        passengers = [passenger for passenger in range(11)]
-        self._passengers = tk.IntVar()
-        self._passengers.set(passengers[0])
-        self._option_passengers = tk.OptionMenu(self._label_frame_passengers, self._passengers, *passengers)
-        self._option_passengers.pack()
-        self._option_passengers.config(state=tk.DISABLED)
 
         self._label_frame_priority = tk.LabelFrame(frame, text='Priority', padx=5, pady=5, labelanchor='n')
         self._priority = tk.StringVar()
@@ -143,7 +124,44 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_priority[0].pack(anchor=tk.CENTER)
         self._radio_bt_priority[1].pack(anchor=tk.CENTER)
         self._radio_bt_priority[2].pack(anchor=tk.CENTER)
-        self._label_frame_priority.pack(padx=10, pady=5, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_priority.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+
+        self._label_frame_attrs = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
+        self._label_frame_hall_call = tk.LabelFrame(self._label_frame_attrs, text='HallCall Attributes', padx=5, labelanchor='n', width=100)
+        self._label_frame_dir = tk.LabelFrame(self._label_frame_hall_call, text='Direction', padx=5, pady=5, labelanchor='n')
+        self._label_frame_dir.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._direction = tk.Variable()
+        self._direction.set(UP())
+        self._radio_bt_directions = [None] * 2
+        self._radio_bt_directions[0] = tk.Radiobutton(self._label_frame_dir, text='Up', variable=self._direction, value=UP())
+        self._radio_bt_directions[0].pack(anchor=tk.CENTER)
+        self._radio_bt_directions[1] = tk.Radiobutton(self._label_frame_dir, text='Down', variable=self._direction, value=DOWN())
+        self._radio_bt_directions[1].pack(anchor=tk.CENTER)
+        self._label_frame_attrs.grid_columnconfigure(0, weight=1)
+        self._label_frame_hall_call.grid(row=0, column=0, sticky=tk.N + tk.W + tk.S + tk.E)
+
+        self._label_frame_car_call = tk.LabelFrame(self._label_frame_attrs, text='CarCall Attributes', padx=5, labelanchor='n', width=100)
+        self._label_frame_passengers = tk.LabelFrame(self._label_frame_car_call, text='Number of Passengers', padx=5, pady=5, labelanchor='n')
+        self._label_frame_passengers.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        passengers = [passenger for passenger in range(11)]
+        self._passengers = tk.IntVar()
+        self._passengers.set(passengers[0])
+        self._option_passengers = tk.OptionMenu(self._label_frame_passengers, self._passengers, *passengers)
+        self._option_passengers.pack()
+        self._option_passengers.config(state=tk.DISABLED)
+
+        self._label_frame_elevator = tk.LabelFrame(self._label_frame_car_call, text='From Elevator', padx=5, pady=5, labelanchor='n')
+        elevators = ['Elevator_%02d' % elevator_id for elevator_id in range(self.num_cars)]
+        self._requested_elevator = tk.StringVar()
+        self._requested_elevator.set(elevators[0])
+        self._option_elevator = tk.OptionMenu(self._label_frame_elevator, self._requested_elevator, *elevators)
+        self._option_elevator.config(state=tk.DISABLED)
+        self._option_elevator.pack(anchor=tk.CENTER)
+        self._label_frame_elevator.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+
+        self._label_frame_attrs.grid_columnconfigure(1, weight=1)
+        self._label_frame_car_call.grid(row=0, column=1, sticky=tk.N + tk.W + tk.S + tk.E)
+        self._label_frame_attrs.pack(anchor=tk.CENTER, fill=tk.BOTH, ipadx=10)
 
         self._label_frame_action = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
         self._button_add = tk.Button(self._label_frame_action, text='Add', command=self._dispatch)
@@ -217,12 +235,14 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_directions[0].config(state=tk.DISABLED)
         self._radio_bt_directions[1].config(state=tk.DISABLED)
         self._option_passengers.config(state=tk.NORMAL)
+        self._option_elevator.config(state=tk.NORMAL)
 
     def _activate_widgets(self):
         LOG(msg='==CarCall:%r, ==HallCall:%r' % (self._request.get() == CarCall(), self._request.get() == HallCall()))
         self._radio_bt_directions[0].config(state=tk.NORMAL)
         self._radio_bt_directions[1].config(state=tk.NORMAL)
         self._option_passengers.config(state=tk.DISABLED)
+        self._option_elevator.config(state=tk.DISABLED)
 
     def __set_text(self, elevator_id, text, tag, pos=tk.END):
         self._elevator_spec_widgets[elevator_id, 'LOG'].config(state=tk.NORMAL)
@@ -247,19 +267,24 @@ class MetaControllerGUI(MetaController):
             UP() if self._direction.get() == UP() else DOWN(),  # --> index=1
             int(self._floor.get().split(' ')[-1]),              # --> index=2
             int(self._passengers.get()),                        # --> index=3
-            self._priority.get()                                # --> index=4
+            self._priority.get(),                               # --> index=4
+            int(self._requested_elevator.get().split('_')[-1])  # --> index=5
         ]
 
         if self._high_level_strategy.get() == Sectors():
             LOG(msg='Selected Strategy-1:%s' % self._high_level_strategy.get())
-            relevant_elevators = [elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()]
-            # LOG(msg='Intersected Floors=%r' % intersected_floors)
+            if bundle[0] == HallCall():
+                relevant_elevators = [elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()]
+                # LOG(msg='Intersected Floors=%r' % intersected_floors)
 
-            if len(relevant_elevators) > 1:
-                # This means the tasks have to be checked for which one of the elevators are most convenient w.r.to their current floor, and weight status.
-                LOG(msg='Nothing To DO!!!')
-            else:
-                self.__set_text(relevant_elevators[0], self.controllers[relevant_elevators[0]].publish_task(bundle, self.clock), 'request')
+                if len(relevant_elevators) > 1:
+                    # This means the tasks have to be checked for which one of the elevators are most convenient w.r.to their current floor, and weight status.
+                    LOG(msg='Nothing To DO!!!')
+                else:
+                    self.__set_text(relevant_elevators[0], self.controllers[relevant_elevators[0]].publish_task(bundle, self.clock), 'request')
+            elif bundle[0] == CarCall():
+                requested_elevator_id = bundle[5]
+                self.__set_text(requested_elevator_id, self.controllers[requested_elevator_id].publish_task(bundle, self.clock), 'request')
 
         elif self._high_level_strategy.get() == NEwCC():
             LOG(msg='Selected Strategy-2:%s' % self._high_level_strategy.get())
