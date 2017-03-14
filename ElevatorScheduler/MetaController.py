@@ -262,6 +262,8 @@ class MetaControllerGUI(MetaController):
                 self.__set_entry(elevator_id, param_name, getattr(self.params[elevator_id], param_name))
 
     def _dispatch(self):
+        import numpy, random
+
         bundle = [
             self._request.get(),                                # --> index=0
             UP() if self._direction.get() == UP() else DOWN(),  # --> index=1
@@ -270,6 +272,7 @@ class MetaControllerGUI(MetaController):
             self._priority.get(),                               # --> index=4
             int(self._requested_elevator.get().split('_')[-1])  # --> index=5
         ]
+        ch_elevator_id = None
 
         if bundle[0] == HallCall():
             if self._high_level_strategy.get() == Sectors():
@@ -281,12 +284,24 @@ class MetaControllerGUI(MetaController):
                     # This means the tasks have to be checked for which one of the elevators are most convenient w.r.to their current floor, and weight status.
                     LOG(msg='Nothing To DO!!!')
                 else:
-                    self.__set_text(relevant_elevators[0], self.controllers[relevant_elevators[0]].publish_task(bundle, self.clock), 'request')
+                    ch_elevator_id = relevant_elevators[0]
+            else:
+                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in numpy.arange(self.num_cars) if self.controllers[elevator_id].direction == bundle[1]])
+                if not elevators_w_same_direction:
+                    elevators_w_same_direction = numpy.arange(self.num_cars)
 
-            elif self._high_level_strategy.get() == NEwCC():
-                LOG(msg='Selected Strategy-2:%s' % self._high_level_strategy.get())
-            elif self._high_level_strategy.get() == NEwoutCC():
-                LOG(msg='Selected Strategy-3:%s' % self._high_level_strategy.get())
+                distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_w_same_direction])
+                nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]].tolist()
+                ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators)-1)]
+                if self._high_level_strategy.get() == NEwCC():
+                    n_passengers = numpy.array([self.controllers[elevator_id].current_passengers for elevator_id in nearest_elevators])
+                    nearest_elevators = nearest_elevators[numpy.where(n_passengers == n_passengers.min())[0]].tolist()
+
+                # self._high_level_strategy.get() == NEwoutCC():
+                ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
+
+            self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
+
         elif bundle[0] == CarCall():
             requested_elevator_id = bundle[5]
             self.__set_text(requested_elevator_id, self.controllers[requested_elevator_id].publish_task(bundle, self.clock), 'request')
