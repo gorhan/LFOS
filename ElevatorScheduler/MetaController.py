@@ -271,9 +271,9 @@ class MetaControllerGUI(MetaController):
             int(self._requested_elevator.get().split('_')[-1])  # --> index=5
         ]
 
-        if self._high_level_strategy.get() == Sectors():
-            LOG(msg='Selected Strategy-1:%s' % self._high_level_strategy.get())
-            if bundle[0] == HallCall():
+        if bundle[0] == HallCall():
+            if self._high_level_strategy.get() == Sectors():
+                LOG(msg='Selected Strategy-1:%s' % self._high_level_strategy.get())
                 relevant_elevators = [elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()]
                 # LOG(msg='Intersected Floors=%r' % intersected_floors)
 
@@ -282,14 +282,14 @@ class MetaControllerGUI(MetaController):
                     LOG(msg='Nothing To DO!!!')
                 else:
                     self.__set_text(relevant_elevators[0], self.controllers[relevant_elevators[0]].publish_task(bundle, self.clock), 'request')
-            elif bundle[0] == CarCall():
-                requested_elevator_id = bundle[5]
-                self.__set_text(requested_elevator_id, self.controllers[requested_elevator_id].publish_task(bundle, self.clock), 'request')
 
-        elif self._high_level_strategy.get() == NEwCC():
-            LOG(msg='Selected Strategy-2:%s' % self._high_level_strategy.get())
-        elif self._high_level_strategy.get() == NEwoutCC():
-            LOG(msg='Selected Strategy-3:%s' % self._high_level_strategy.get())
+            elif self._high_level_strategy.get() == NEwCC():
+                LOG(msg='Selected Strategy-2:%s' % self._high_level_strategy.get())
+            elif self._high_level_strategy.get() == NEwoutCC():
+                LOG(msg='Selected Strategy-3:%s' % self._high_level_strategy.get())
+        elif bundle[0] == CarCall():
+            requested_elevator_id = bundle[5]
+            self.__set_text(requested_elevator_id, self.controllers[requested_elevator_id].publish_task(bundle, self.clock), 'request')
 
     def _request_task(self):
         LOG(msg='TODO')
