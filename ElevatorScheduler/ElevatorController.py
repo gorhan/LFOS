@@ -49,8 +49,8 @@ class ElevatorController:
     def _get_direction(self, _task):
         return _task.get_type()
 
-    def get_params(self):
-        return self._params
+    def get_parameter(self, param_name):
+        return self._params[param_name]
 
     def _do_schedule(self):
         self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF, self._scheduler.get_taskset())
@@ -229,6 +229,9 @@ class ElevatorController:
         log = '%12s[FLOOR:%02d ' % ('SCHEDULE =>', self._params.current_floor) + log + '\n'
 
         return log
+
+    def __getattr__(self, item):
+        return getattr(self._params, item)
 
 # if __name__ == '__main__':
 #     elevator_ctrl = ElevatorController()

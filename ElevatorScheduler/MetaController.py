@@ -78,12 +78,12 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_high_level_strategy[1] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(NEwCC()),
                                                                variable=self._high_level_strategy,
-                                                               value=NEwCC())
+                                                               value=NEwCC(), command=self._reset_disabled_floors)
         self._radio_bt_high_level_strategy[1].pack(anchor=tk.CENTER)
         self._radio_bt_high_level_strategy[2] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(NEwoutCC()),
                                                                variable=self._high_level_strategy,
-                                                               value=NEwoutCC())
+                                                               value=NEwoutCC(), command=self._reset_disabled_floors)
         self._radio_bt_high_level_strategy[2].pack(anchor=tk.CENTER)
         self._label_frame_high_level_dispatch_strategy.pack(fill=tk.X)
 
@@ -234,6 +234,12 @@ class MetaControllerGUI(MetaController):
         self.__update_elevator_parameters()
         master.destroy()
 
+    def _reset_disabled_floors(self):
+        for elevator_id in range(self.num_cars):
+            self.params[elevator_id].disabled_floors = []
+
+        self.__update_elevator_parameters()
+
     def _deactivate_widgets(self):
         LOG(msg='==CarCall:%r, ==HallCall:%r' % (self._request.get() == CarCall(), self._request.get() == HallCall()))
         self._radio_bt_directions[0].config(state=tk.DISABLED)
@@ -279,39 +285,37 @@ class MetaControllerGUI(MetaController):
         ch_elevator_id = None
 
         if bundle[0] == HallCall():
+            relevant_elevators = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
+            # if sector strategy is chosen and there exists more than one car which are eligible to move to the specified floor, one of them is supposed to be determined to
+            # respond the current request. If there exists only one, the request immediately sent to the corresponding elevator controller.
             if self._high_level_strategy.get() == Sectors():
-                LOG(msg='Selected Strategy-1:%s' % self._high_level_strategy.get())
-                relevant_elevators = [elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()]
-                # LOG(msg='Intersected Floors=%r' % intersected_floors)
-
-                if len(relevant_elevators) > 1:
-                    # This means the tasks have to be checked for which one of the elevators are most convenient w.r.to their current floor, and weight status.
-                    LOG(msg='Nothing To DO!!!')
-                else:
+                if len(relevant_elevators) == 1:
                     ch_elevator_id = relevant_elevators[0]
-            else:
-                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in numpy.arange(self.num_cars) if self.controllers[elevator_id].direction == bundle[1]])
-                if not elevators_w_same_direction:
-                    elevators_w_same_direction = numpy.arange(self.num_cars)
+                    self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
+                    return True
 
-                distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_w_same_direction])
-                nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]].tolist()
-                ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators)-1)]
-                if self._high_level_strategy.get() == NEwCC():
-                    n_passengers = numpy.array([self.controllers[elevator_id].current_passengers for elevator_id in nearest_elevators])
-                    nearest_elevators = nearest_elevators[numpy.where(n_passengers == n_passengers.min())[0]].tolist()
+            elevators_w_same_direction = numpy.array([elevator_id for elevator_id in relevant_elevators if self.controllers[elevator_id].direction == bundle[1]])
+            if not elevators_w_same_direction:
+                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
 
-                # self._high_level_strategy.get() == NEwoutCC():
+            distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_w_same_direction])
+            LOG(msg='DISTANCES=%r' % distances)
+            nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]].tolist()
+            LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
+            ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators)-1)]
+            if self._high_level_strategy.get() == NEwCC():
+                n_passengers = numpy.array([self.controllers[elevator_id].current_passengers for elevator_id in nearest_elevators])
+                LOG(msg='NUMBER OF PASSENGERS=%r' % n_passengers)
+                print  numpy.where(n_passengers == n_passengers.min())[0]
+                nearest_elevators = nearest_elevators[numpy.where(n_passengers == n_passengers.min())[0]]
+                LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
                 ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
-
-            self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
-
+            LOG(msg='ELEVATOR CHOICE=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
         elif bundle[0] == CarCall():
-            requested_elevator_id = bundle[5]
-            self.__set_text(requested_elevator_id, self.controllers[requested_elevator_id].publish_task(bundle, self.clock), 'request')
+            ch_elevator_id = bundle[5]
 
-    def _request_task(self):
-        LOG(msg='TODO')
+        self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
+        return True
 
     def _continue(self):
         map(lambda elevator: self.__set_text(elevator, self.controllers[elevator].monitor(self.clock, self.clock + 1), 'continue'), range(self.num_cars))
