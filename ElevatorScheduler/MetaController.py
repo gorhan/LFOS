@@ -50,7 +50,8 @@ class MetaControllerGUI(MetaController):
         self.frame.mainloop()
 
     def __create_widgets(self):
-        self._label_frame_logos = tk.LabelFrame(self.frame, relief=tk.FLAT)
+        self._label_frame_first_col = tk.LabelFrame(self.frame, relief=tk.FLAT)
+        self._label_frame_logos = tk.LabelFrame(self._label_frame_first_col, relief=tk.FLAT)
         self._fmt_logo = Image.open('GUI/images/fmt_logo.jpg')
         self._fmt_logo = self._fmt_logo.resize((200, 200), Image.ANTIALIAS)
         self._fmt_logo = ImageTk.PhotoImage(self._fmt_logo)
@@ -62,9 +63,9 @@ class MetaControllerGUI(MetaController):
         self._ut_logo = ImageTk.PhotoImage(self._ut_logo)
         self._ut_logo_label = tk.Label(self._label_frame_logos, image=self._ut_logo, height=100, width=200)
         self._ut_logo_label.grid(row=0, column=1, sticky=tk.N + tk.S)
-        self._label_frame_logos.grid(row=0, column=0, sticky=tk.N)
+        self._label_frame_logos.pack(fill=tk.X)
 
-        self._label_frame_high_level_dispatch_strategy = tk.LabelFrame(self.frame,
+        self._label_frame_high_level_dispatch_strategy = tk.LabelFrame(self._label_frame_first_col,
                                                                        text='Passenger-2-Car Assignment Strategy',
                                                                        pady=10, labelanchor='n')
         self._high_level_strategy = tk.Variable()
@@ -72,7 +73,7 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_high_level_strategy = [None] * 3
         self._radio_bt_high_level_strategy[0] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(Sectors()), variable=self._high_level_strategy,
-                                                               value=Sectors(), command=self._create_sector_frame)
+                                                               value=Sectors(), command=lambda :self._create_sector_frame(2))
         self._radio_bt_high_level_strategy[0].pack(anchor=tk.CENTER)
         self._radio_bt_high_level_strategy[1] = tk.Radiobutton(self._label_frame_high_level_dispatch_strategy,
                                                                text=str(NEwCC()),
@@ -84,20 +85,23 @@ class MetaControllerGUI(MetaController):
                                                                variable=self._high_level_strategy,
                                                                value=NEwoutCC())
         self._radio_bt_high_level_strategy[2].pack(anchor=tk.CENTER)
-        self._label_frame_high_level_dispatch_strategy.grid(row=1, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
+        self._label_frame_high_level_dispatch_strategy.pack(fill=tk.X)
 
-        self._label_frame_request = tk.LabelFrame(self.frame, text='Elevator Request Controller', pady=10, labelanchor='n')
+        self._label_frame_request = tk.LabelFrame(self._label_frame_first_col, text='Elevator Request Controller', pady=10, labelanchor='n')
         self.__create_task_spec_widgets(self._label_frame_request)
-        self._label_frame_request.grid(row=2, column=0, padx=10, pady=10, sticky=tk.S + tk.E + tk.W)
+        self._label_frame_request.pack(fill=tk.X)
+        self._label_frame_first_col.grid(row=0, column=0, sticky=tk.N+tk.E+tk.W)
 
-        self._label_frame_elevator_status = tk.LabelFrame(self.frame, text='Elevator Status Information', padx=10, pady=10, labelanchor='n')
+        self._label_frame_second_col = tk.LabelFrame(self.frame, relief=tk.FLAT)
+        self._label_frame_elevator_status = tk.LabelFrame(self._label_frame_second_col, text='Elevator Status Information', padx=10, pady=10, labelanchor='n')
         for elevator_id in range(self.num_cars):
             self.__create_elevator_widgets(elevator_id, self.params[elevator_id], self._label_frame_elevator_status, elevator_id, 0)
-        self._label_frame_elevator_status.grid(row=0, column=1, rowspan=3, padx=10, pady=10, sticky=tk.N)
+        self._label_frame_elevator_status.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N)
+        self._label_frame_second_col.grid(row=0, column=1, sticky=tk.N+tk.E+tk.W)
 
     def __create_task_spec_widgets(self, frame):
         self._label_frame_task = tk.LabelFrame(frame, text='Task', padx=5, labelanchor='n')
-        self._label_frame_task.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_task.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
         self._request = tk.Variable()
         self._request.set(HallCall())
         self._radio_bt_tasks = [None, None]
@@ -107,7 +111,7 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_tasks[1].pack(anchor=tk.CENTER)
 
         self._label_frame_floor = tk.LabelFrame(frame, text='Floor', padx=5, pady=5, labelanchor='n')
-        self._label_frame_floor.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_floor.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
         floors = ['Floor %02d' % floor for floor in range(self.num_floors)]
         self._floor = tk.StringVar()
         self._floor.set(floors[0])
@@ -124,12 +128,12 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_priority[0].pack(anchor=tk.CENTER)
         self._radio_bt_priority[1].pack(anchor=tk.CENTER)
         self._radio_bt_priority[2].pack(anchor=tk.CENTER)
-        self._label_frame_priority.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_priority.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
 
         self._label_frame_attrs = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
         self._label_frame_hall_call = tk.LabelFrame(self._label_frame_attrs, text='HallCall Attributes', padx=5, labelanchor='n', width=100)
         self._label_frame_dir = tk.LabelFrame(self._label_frame_hall_call, text='Direction', padx=5, pady=5, labelanchor='n')
-        self._label_frame_dir.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_dir.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
         self._direction = tk.Variable()
         self._direction.set(UP())
         self._radio_bt_directions = [None] * 2
@@ -138,11 +142,11 @@ class MetaControllerGUI(MetaController):
         self._radio_bt_directions[1] = tk.Radiobutton(self._label_frame_dir, text='Down', variable=self._direction, value=DOWN())
         self._radio_bt_directions[1].pack(anchor=tk.CENTER)
         self._label_frame_attrs.grid_columnconfigure(0, weight=1)
-        self._label_frame_hall_call.grid(row=0, column=0, sticky=tk.N + tk.W + tk.S + tk.E)
+        self._label_frame_hall_call.grid(row=0, column=0, sticky=tk.N + tk.W + tk.E)
 
         self._label_frame_car_call = tk.LabelFrame(self._label_frame_attrs, text='CarCall Attributes', padx=5, labelanchor='n', width=100)
         self._label_frame_passengers = tk.LabelFrame(self._label_frame_car_call, text='Number of Passengers', padx=5, pady=5, labelanchor='n')
-        self._label_frame_passengers.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_passengers.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
         passengers = [passenger for passenger in range(11)]
         self._passengers = tk.IntVar()
         self._passengers.set(passengers[0])
@@ -157,10 +161,10 @@ class MetaControllerGUI(MetaController):
         self._option_elevator = tk.OptionMenu(self._label_frame_elevator, self._requested_elevator, *elevators)
         self._option_elevator.config(state=tk.DISABLED)
         self._option_elevator.pack(anchor=tk.CENTER)
-        self._label_frame_elevator.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.BOTH)
+        self._label_frame_elevator.pack(padx=10, pady=5, ipadx=10, anchor=tk.CENTER, fill=tk.X)
 
         self._label_frame_attrs.grid_columnconfigure(1, weight=1)
-        self._label_frame_car_call.grid(row=0, column=1, sticky=tk.N + tk.W + tk.S + tk.E)
+        self._label_frame_car_call.grid(row=0, column=1, sticky=tk.N + tk.W + tk.E)
         self._label_frame_attrs.pack(anchor=tk.CENTER, fill=tk.BOTH, ipadx=10)
 
         self._label_frame_action = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
@@ -168,14 +172,13 @@ class MetaControllerGUI(MetaController):
         self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue)
         self._button_save = tk.Button(self._label_frame_action, text='Save', command=self._save_file)
         self._button_add.pack(fill=tk.X)
-        self._button_continue.pack(fill=tk.BOTH)
-        self._button_save.pack(fill=tk.BOTH)
-        self._label_frame_action.pack(anchor=tk.CENTER, fill=tk.BOTH)
+        self._button_continue.pack(fill=tk.X)
+        self._button_save.pack(fill=tk.X)
+        self._label_frame_action.pack(anchor=tk.CENTER, fill=tk.X)
 
     def __create_elevator_widgets(self, elevator_id, params, frame, row, col):
         label_frame_elevator_status = tk.LabelFrame(frame, text=params.car.get_resource_name(), padx=10, pady=10, labelanchor='n')
-        # label_frame_elevator_status.pack(padx=10, pady=10, ipadx=100, anchor=tk.CENTER, fill=tk.BOTH)
-        label_frame_elevator_status.grid(row=row, column=col, columnspan=2, padx=10, pady=10, sticky=tk.N + tk.W + tk.S + tk.E)
+
         assert isinstance(params, ElevatorParameters)
         for row_id, param_name in enumerate(parameters_table.keys()):
             value = getattr(params, param_name)
@@ -197,8 +200,9 @@ class MetaControllerGUI(MetaController):
 
         self._elevator_spec_widgets[elevator_id, 'LOG'].tag_configure('request', foreground='#13f128')
         self._elevator_spec_widgets[elevator_id, 'LOG'].tag_configure('continue', foreground='#d5f90b')
+        label_frame_elevator_status.grid(row=row, column=col, columnspan=3, padx=10, pady=10, sticky=tk.N + tk.W + tk.E)
 
-    def _create_sector_frame(self):
+    def _create_sector_frame(self, column_size=4):
         master = tk.Toplevel()
         frame = tk.Frame(master)
         master.title('Sectors')
@@ -206,18 +210,18 @@ class MetaControllerGUI(MetaController):
 
         self._listbox_sectors = []
         num_floors_height = self.num_floors
-        num_floors_height = num_floors_height if num_floors_height < 20 else 20
+        num_floors_height = num_floors_height if num_floors_height < 10 else 10
         for elevator_id in range(self.num_cars):
             floors = tuple(map(str, range(self.params[elevator_id].num_floors)))
             floors = tk.StringVar(value=floors)
 
-            tk.Label(frame, text='Elevator_%02d' % elevator_id).grid(row=0, column=elevator_id, sticky=tk.W)
+            tk.Label(frame, text='Elevator_%02d' % elevator_id).grid(row=int(elevator_id/column_size)*num_floors_height, column=elevator_id%column_size, sticky=tk.W + tk.E)
 
             self._listbox_sectors.append(tk.Listbox(frame, listvariable=floors, selectmode=tk.MULTIPLE, height=num_floors_height, exportselection=0))
             map(lambda floor: self._listbox_sectors[-1].selection_set(floor), self.params[elevator_id].get_available_floors())
-            self._listbox_sectors[-1].grid(row=1, column=elevator_id, sticky=tk.W)
+            self._listbox_sectors[-1].grid(row=int(elevator_id/column_size)*num_floors_height+1, column=elevator_id%column_size, sticky=tk.W + tk.E)
 
-        tk.Button(frame, text='SET', command=lambda :self.__listbox_cb(master)).grid(row=2, column=0, columnspan=num_floors_height, sticky=tk.W+tk.E)
+        tk.Button(frame, text='SET', command=lambda :self.__listbox_cb(master)).grid(row=int(self.num_cars/column_size)*num_floors_height+2, column=0, columnspan=column_size, sticky=tk.W+tk.E)
 
     def __listbox_cb(self, master):
         for elevator_id in range(self.num_cars):
@@ -331,4 +335,4 @@ class MetaControllerGUI(MetaController):
         return True
 
 if __name__ == '__main__':
-    MetaControllerGUI(2, 8)
+    MetaControllerGUI(2, 16)
