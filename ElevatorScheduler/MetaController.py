@@ -295,12 +295,13 @@ class MetaControllerGUI(MetaController):
                     return True
 
             elevators_w_same_direction = numpy.array([elevator_id for elevator_id in relevant_elevators if self.controllers[elevator_id].direction == bundle[1]])
-            if not elevators_w_same_direction:
+            LOG(msg='ELEVATORS WITH SAME DIRECTION=%r' % elevators_w_same_direction)
+            if elevators_w_same_direction.size == 0:
                 elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
 
             distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_w_same_direction])
             LOG(msg='DISTANCES=%r' % distances)
-            nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]].tolist()
+            nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]]
             LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
             ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators)-1)]
             if self._high_level_strategy.get() == NEwCC():
