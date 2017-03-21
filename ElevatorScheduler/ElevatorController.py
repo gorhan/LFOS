@@ -55,7 +55,7 @@ class ElevatorController:
     def _do_schedule(self):
         self._scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF, self._scheduler.get_taskset())
         self._schedules = self._scheduler.schedule_tasks()
-        self._schedule = self._schedules[0] if self._schedules else []
+        self._schedule = self._schedules[-1] if self._schedules else []
         self._scheduled_flag = True
         self._updated_taskset_flag = False
 
@@ -73,7 +73,7 @@ class ElevatorController:
         # the deadlines have to be determined after updating the execution time of the tasks.
         LOG(tag=self._params.car.get_resource_name(), msg='Worst-Case Execution Time Total: %d' % sum([t.get_max_wcet_time() for t in _tasks]))
         for task in _tasks:
-            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks])))
+            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks]) ))
             print task.info(True)
 
         self._scheduled_flag = False
@@ -130,6 +130,9 @@ class ElevatorController:
             map(lambda _task: self._waiting_q.remove(_task), eliminated_list)
             return True
         return False
+
+    def is_running(self):
+        return self._waited == Time(0)
 
     def generate_task(self, task_t, direction, target_floor, n_passengers, passenger_priority, _time):
         target_floor = int(target_floor)
@@ -213,7 +216,6 @@ class ElevatorController:
 
         LOG(tag=self._params.car.get_resource_name(), msg='SCHEDULE=%r' % (self._schedule))
         self._reservation_slot = self._schedule.get_partial_schedule(self._params.car, _begin, _end) if self._schedule else []
-
 
         log += '\t%15s --> %s' % (self._params.car.get_resource_name(), '' if self._reservation_slot else 'EMPTY')
         for reservation in self._reservation_slot:

@@ -36,6 +36,74 @@ class MetaController:
 
         System.pretty_print()
 
+    def _dispatch(self, bundle, high_level_strategy):
+        import numpy, random
+
+        ch_elevator_id = None
+
+        if bundle[0] == HallCall():
+            relevant_elevators = numpy.array([elevator_id for elevator_id in range(self.num_cars) if
+                                              bundle[2] in self.params[elevator_id].get_available_floors()])
+            # if sector strategy is chosen and there exists more than one car which are eligible to move to the specified floor, one of them is supposed to be determined to
+            # respond the current request. If there exists only one, the request immediately sent to the corresponding elevator controller.
+            if high_level_strategy == Sectors():
+                if len(relevant_elevators) == 1:
+                    ch_elevator_id = relevant_elevators[0]
+                    self.__set_text(ch_elevator_id,
+                                    self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
+                    return True
+
+            elevators_not_running = numpy.array([elevator_id for elevator_id in relevant_elevators if
+                                                 not self.controllers[elevator_id].is_running()])
+            elevators_w_same_direction = numpy.array([elevator_id for elevator_id in relevant_elevators if
+                                                      self.controllers[elevator_id].direction == bundle[1]])
+            LOG(msg='ELEVATORS WITH SAME DIRECTION=%r' % elevators_w_same_direction)
+            if elevators_w_same_direction.size == 0:
+                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if
+                                                          bundle[2] in self.params[
+                                                              elevator_id].get_available_floors()])
+
+            distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in
+                                     elevators_w_same_direction])
+            if elevators_not_running.size != 0:
+                distances_not_running = numpy.array(
+                    [abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in
+                     elevators_not_running])
+                LOG(msg='DISTANCES not running=%r' % distances_not_running)
+            LOG(msg='DISTANCES=%r' % distances)
+            nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]]
+
+            nearest_elevators_not_running = numpy.array([])
+            if elevators_not_running.size != 0:
+                nearest_elevators_not_running = elevators_not_running[
+                    numpy.where(distances_not_running == distances_not_running.min())[0]]
+                LOG(msg='NEAREST ELEVATORS not running=%r' % nearest_elevators_not_running)
+            LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
+            ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
+            if high_level_strategy == NEwCC():
+                n_passengers = numpy.array(
+                    [self.controllers[elevator_id].current_passengers for elevator_id in nearest_elevators])
+                LOG(msg='NUMBER OF PASSENGERS=%r' % n_passengers)
+                nearest_elevators = nearest_elevators[numpy.where(n_passengers == n_passengers.min())[0]]
+                LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
+                ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
+            LOG(msg='ELEVATOR CHOICE=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
+            if self.controllers[ch_elevator_id].is_running() and nearest_elevators_not_running.size != 0:
+                ch_elevator_id = nearest_elevators_not_running[
+                    random.randint(0, len(nearest_elevators_not_running) - 1)]
+                LOG(msg='ELEVATOR CHOICE not running=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
+        elif bundle[0] == CarCall():
+            ch_elevator_id = bundle[5]
+
+        # self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock),
+        #                 'request')
+        return ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock)
+
+    def _continue(self):
+        msgs = {elevator_id:self.controllers[elevator_id].monitor(self.clock, self.clock+Time(1)) for elevator_id in range(self.num_cars)}
+        self.clock += Time(1)
+        return msgs
+
 
 class MetaControllerGUI(MetaController):
     def __init__(self, num_cars, num_floors):
@@ -168,8 +236,8 @@ class MetaControllerGUI(MetaController):
         self._label_frame_attrs.pack(anchor=tk.CENTER, fill=tk.BOTH, ipadx=10)
 
         self._label_frame_action = tk.LabelFrame(frame, pady=10, relief=tk.FLAT)
-        self._button_add = tk.Button(self._label_frame_action, text='Add', command=self._dispatch)
-        self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue)
+        self._button_add = tk.Button(self._label_frame_action, text='Add', command=self._dispatch_self)
+        self._button_continue = tk.Button(self._label_frame_action, text='Continue', command=self._continue_self)
         self._button_save = tk.Button(self._label_frame_action, text='Save', command=self._save_file)
         self._button_add.pack(fill=tk.X)
         self._button_continue.pack(fill=tk.X)
@@ -231,14 +299,19 @@ class MetaControllerGUI(MetaController):
             # print selections, all_floors, disabled_floors
             self.params[elevator_id].disabled_floors = disabled_floors
 
-        self.__update_elevator_parameters()
+        self.__update_widget_parameters()
         master.destroy()
+
+    def __update_widget_parameters(self):
+        for elevator_id in range(self.num_cars):
+            for param_name in parameters_table.keys():
+                self.__set_entry(elevator_id, param_name, getattr(self.params[elevator_id], param_name))
 
     def _reset_disabled_floors(self):
         for elevator_id in range(self.num_cars):
             self.params[elevator_id].disabled_floors = []
 
-        self.__update_elevator_parameters()
+        self.__update_widget_parameters()
 
     def _deactivate_widgets(self):
         LOG(msg='==CarCall:%r, ==HallCall:%r' % (self._request.get() == CarCall(), self._request.get() == HallCall()))
@@ -266,62 +339,23 @@ class MetaControllerGUI(MetaController):
         self._elevator_spec_widgets[elevator_id, param_name].insert(0, str(text))
         self._elevator_spec_widgets[elevator_id, param_name].config(state=tk.DISABLED)
 
-    def __update_elevator_parameters(self):
-        for elevator_id in range(self.num_cars):
-            for param_name in parameters_table.keys():
-                self.__set_entry(elevator_id, param_name, getattr(self.params[elevator_id], param_name))
-
-    def _dispatch(self):
-        import numpy, random
-
+    def _dispatch_self(self):
         bundle = [
-            self._request.get(),                                # --> index=0
+            self._request.get(),  # --> index=0
             UP() if self._direction.get() == UP() else DOWN(),  # --> index=1
-            int(self._floor.get().split(' ')[-1]),              # --> index=2
-            int(self._passengers.get()),                        # --> index=3
-            self._priority.get(),                               # --> index=4
+            int(self._floor.get().split(' ')[-1]),  # --> index=2
+            int(self._passengers.get()),  # --> index=3
+            self._priority.get(),  # --> index=4
             int(self._requested_elevator.get().split('_')[-1])  # --> index=5
         ]
-        ch_elevator_id = None
+        elevator_id, msg = self._dispatch(bundle, self._high_level_strategy.get())
+        self.__set_text(elevator_id, msg, 'request')
 
-        if bundle[0] == HallCall():
-            relevant_elevators = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
-            # if sector strategy is chosen and there exists more than one car which are eligible to move to the specified floor, one of them is supposed to be determined to
-            # respond the current request. If there exists only one, the request immediately sent to the corresponding elevator controller.
-            if self._high_level_strategy.get() == Sectors():
-                if len(relevant_elevators) == 1:
-                    ch_elevator_id = relevant_elevators[0]
-                    self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
-                    return True
-
-            elevators_w_same_direction = numpy.array([elevator_id for elevator_id in relevant_elevators if self.controllers[elevator_id].direction == bundle[1]])
-            LOG(msg='ELEVATORS WITH SAME DIRECTION=%r' % elevators_w_same_direction)
-            if elevators_w_same_direction.size == 0:
-                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
-
-            distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_w_same_direction])
-            LOG(msg='DISTANCES=%r' % distances)
-            nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]]
-            LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
-            ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators)-1)]
-            if self._high_level_strategy.get() == NEwCC():
-                n_passengers = numpy.array([self.controllers[elevator_id].current_passengers for elevator_id in nearest_elevators])
-                LOG(msg='NUMBER OF PASSENGERS=%r' % n_passengers)
-                print  numpy.where(n_passengers == n_passengers.min())[0]
-                nearest_elevators = nearest_elevators[numpy.where(n_passengers == n_passengers.min())[0]]
-                LOG(msg='NEAREST ELEVATORS=%r' % nearest_elevators)
-                ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
-            LOG(msg='ELEVATOR CHOICE=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
-        elif bundle[0] == CarCall():
-            ch_elevator_id = bundle[5]
-
-        self.__set_text(ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
-        return True
-
-    def _continue(self):
-        map(lambda elevator: self.__set_text(elevator, self.controllers[elevator].monitor(self.clock, self.clock + 1), 'continue'), range(self.num_cars))
-        self.__update_elevator_parameters()
-        self.clock += 1
+    def _continue_self(self):
+        text_msgs = self._continue()
+        for elevator_id, msg in text_msgs.items():
+            self.__set_text(elevator_id, msg, 'continue')
+        self.__update_widget_parameters()
 
     def _save_file(self):
         save_filename = tkFileDialog.asksaveasfilename()
