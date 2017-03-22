@@ -25,6 +25,10 @@ class WaitingQueue:
         LOG(msg='The task has been appended to the waiting list. Direction=%s Content=%s' % (_direction, ', '.join(task.get_credential() for task in self.__q[_direction])))
         return True
 
+    def add_all(self, task_list_w_dir):
+        assert isinstance(task_list_w_dir, list)
+        map(lambda item: self.add(*item), task_list_w_dir)
+
     def remove(self, _task):
         direction, index = self.search(_task)
         if direction:

@@ -100,6 +100,11 @@ parameters_table = {
         'Type'       : Direction,
         'Default'    : UP()
     },
+    'target_direction': {
+        'Explanation': 'The target direction of the car with respect to the request of a passenger.',
+        'Type'       : Direction,
+        'Default'    : UP()
+    },
     'current_passengers': {
         'Explanation': 'The number of passengers inside the car',
         'Type'       : int,

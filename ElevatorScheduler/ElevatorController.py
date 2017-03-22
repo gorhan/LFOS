@@ -46,8 +46,21 @@ class ElevatorController:
     def _get_n_passengers(self, _task):
         return int(_task.get_name().split('_')[2])
 
-    def _get_direction(self, _task):
-        return _task.get_type()
+    def _get_directions(self, _task):
+        return _task.get_type(), (DOWN() if self._get_target_floor(_task) < self._params.current_floor else UP())
+
+    def _select_tasks(self, t_list, elevator_dir, target_dir):
+        assert isinstance(t_list, list)
+        dump_list = []
+        it = 0
+        while it < len(t_list):
+            target_dir_t, elevator_dir_t = self._get_directions(t_list[it])
+            if elevator_dir_t == elevator_dir and target_dir_t == target_dir:
+                it += 1
+            else:
+                dump_list.append((t_list.pop(it), target_dir_t))
+
+        return dump_list
 
     def get_parameter(self, param_name):
         return self._params[param_name]
@@ -139,23 +152,24 @@ class ElevatorController:
 
         new_task = self._create_task(task_t, direction, target_floor, n_passengers, passenger_priority, _time)
         taskset = self._scheduler.get_taskset()
-        new_task_dir = self._get_direction(new_task)
+        direction_wrt_target, direction_wrt_elevator = self._get_directions(new_task)
         new_n_passengers = self._get_n_passengers(new_task)
 
         LOG(tag=self._params.car.get_resource_name(), msg='ELEVATOR DIRECTION=%s' % self._params.direction)
         LOG(tag=self._params.car.get_resource_name(), msg='ELEVATOR WEIGHT=%d' % self._params.current_passengers)
-        log = '%12s[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % ('REQUEST =>', self._params.current_floor, Time(_time), new_task.get_name(), new_task_dir, target_floor)
+        log = '%12s[FLOOR:%02d TIME:%03d]\tTask=%18s, Direction=%15s, Target Floor=%02d\n' % ('REQUEST =>', self._params.current_floor, Time(_time), new_task.get_name(), direction_wrt_target, target_floor)
         if not self._params.current_floor == target_floor:
             self._stat.call(target_floor, _time)
-            LOG(tag=self._params.car.get_resource_name(), msg='Elevator:%s, Task:%s, Passengers:%d' % (self._params.direction, new_task_dir, new_n_passengers))
+            LOG(tag=self._params.car.get_resource_name(), msg='Elevator:%s, Task:T->%s;E->%s, Passengers:%d' % (self._params.direction, direction_wrt_target, direction_wrt_elevator, new_n_passengers))
 
             if self._params.current_passengers + new_n_passengers < self._params.max_passengers or isinstance(task_t, CarCall):
-                if (not taskset) or self._params.direction == new_task_dir:
+                if (not taskset) or (self._params.direction == direction_wrt_elevator and self._params.target_direction == direction_wrt_target):
                     self._scheduler.add_task(new_task)
-                    self._params.direction = new_task_dir
+                    self._params.direction = direction_wrt_elevator
+                    self._params.target_direction = direction_wrt_target
                     self._updated_taskset_flag = True
                 else:
-                    self._waiting_q.add(new_task, new_task_dir)
+                    self._waiting_q.add(new_task, direction_wrt_target)
 
                 self._params.current_passengers += new_n_passengers
             elif isinstance(task_t, HallCall):
@@ -188,7 +202,10 @@ class ElevatorController:
                 if self._updated_taskset_flag:
                     self._scheduler.set_scheduling_window_start_time(Time(_begin))
                     print '%r' % self._params.direction
-                    self._scheduler.add_task_in_bundle(*self._waiting_q.fetch_tasks_wrt_direction(self._params.direction))
+                    ready_list = self._waiting_q.fetch_tasks_wrt_direction(self._params.direction)
+                    waiting_list_w_dir = self._select_tasks(ready_list, self._params.direction, self._params.target_direction)
+                    self._waiting_q.add_all(waiting_list_w_dir)
+                    self._scheduler.add_task_in_bundle(*ready_list)
                     self._update_time_attrs(self._scheduler.get_taskset(), Time(_begin))
                     self._do_schedule()
             else:
@@ -196,7 +213,7 @@ class ElevatorController:
                     ready_list = self._waiting_q.fetch()
                     self._scheduler.add_task_in_bundle(*ready_list)
                     self._update_time_attrs(ready_list, _begin)
-                    self._params.direction = ready_list[0].get_type() # update elevator direction based on the tasks in the waiting list.
+                    self._params.target_direction, self._params.direction = self._get_directions(ready_list[0]) # update elevator direction based on the tasks in the waiting list.
                     LOG(tag=self._params.car.get_resource_name(), msg='The waiting list tasks has been added to the taskset. Tasks=%s' % ', '.join(task.get_name() for task in ready_list))
                     self._do_schedule()
 
@@ -210,7 +227,7 @@ class ElevatorController:
                 target_floor = self._stat.get_most_frequent_floor()[0]
                 _time = _end
 
-                self.generate_task(task_t, None, target_floor, 0, NORMAL, _time)
+                self.generate_task(task_t, None, target_floor, 0, NORMAL(), _time)
                 self._waited = Time(0)
                 self._do_schedule()
 

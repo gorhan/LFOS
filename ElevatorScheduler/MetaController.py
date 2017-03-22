@@ -49,9 +49,7 @@ class MetaController:
             if high_level_strategy == Sectors():
                 if len(relevant_elevators) == 1:
                     ch_elevator_id = relevant_elevators[0]
-                    self.__set_text(ch_elevator_id,
-                                    self.controllers[ch_elevator_id].publish_task(bundle, self.clock), 'request')
-                    return True
+                    return ch_elevator_id, self.controllers[ch_elevator_id].publish_task(bundle, self.clock)
 
             elevators_not_running = numpy.array([elevator_id for elevator_id in relevant_elevators if
                                                  not self.controllers[elevator_id].is_running()])
@@ -259,7 +257,7 @@ class MetaControllerGUI(MetaController):
 
         self._scroll_bar = tk.Scrollbar(label_frame_elevator_status)
         self._scroll_bar.grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E + tk.S)
-        self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=130, height=28,
+        self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=130, height=30,
                                  yscrollcommand=self._scroll_bar.set,
                                  font=('Courier', 12, 'bold'),
                                  bg='#1e263f')
