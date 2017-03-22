@@ -73,7 +73,7 @@ class ElevatorController:
         self._updated_taskset_flag = False
 
     def _update_resource_requirements(self, _task):
-        return {self._params.car:abs(self._params.current_floor-self._get_target_floor(_task))}
+        return {self._params.car: abs(self._params.current_floor-self._get_target_floor(_task))}
 
     def _update_time_attrs(self, _tasks, _time):
         for task in _tasks:
@@ -86,16 +86,17 @@ class ElevatorController:
         # the deadlines have to be determined after updating the execution time of the tasks.
         LOG(tag=self._params.car.get_resource_name(), msg='Worst-Case Execution Time Total: %d' % sum([t.get_max_wcet_time() for t in _tasks]))
         for task in _tasks:
-            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks]) ))
+            task.set_deadline(Time(_time + sum([t.get_max_wcet_time() for t in _tasks])))
             print task.info(True)
 
         self._scheduled_flag = False
         self._updated_taskset_flag = True
 
     def _create_task(self, task_t, direction, target_floor, n_passengers, passenger_priority, _time):
-        if isinstance(task_t, CarCall):
+        if task_t == CarCall():
+            print 'HELLOOO', target_floor, self._params.current_floor
             direction = UP() if target_floor > self._params.current_floor else DOWN()
-        elif isinstance(task_t, HallCall):
+        elif task_t == HallCall():
             n_passengers = 0 # hallcalls are requested otuside an elevator.
 
         new_task_name, new_task_type = self._identify_task(task_t, target_floor, direction, n_passengers, passenger_priority)
@@ -162,7 +163,7 @@ class ElevatorController:
             self._stat.call(target_floor, _time)
             LOG(tag=self._params.car.get_resource_name(), msg='Elevator:%s, Task:T->%s;E->%s, Passengers:%d' % (self._params.direction, direction_wrt_target, direction_wrt_elevator, new_n_passengers))
 
-            if self._params.current_passengers + new_n_passengers < self._params.max_passengers or isinstance(task_t, CarCall):
+            if self._params.current_passengers + new_n_passengers < self._params.max_passengers or task_t == CarCall():
                 if (not taskset) or (self._params.direction == direction_wrt_elevator and self._params.target_direction == direction_wrt_target):
                     self._scheduler.add_task(new_task)
                     self._params.direction = direction_wrt_elevator
@@ -172,7 +173,7 @@ class ElevatorController:
                     self._waiting_q.add(new_task, direction_wrt_target)
 
                 self._params.current_passengers += new_n_passengers
-            elif isinstance(task_t, HallCall):
+            elif task_t == HallCall():
                 # self._waiting_q.add(new_task, new_task_dir)
                 LOG(tag=self._params.car.get_resource_name(), msg='New HallCall requests have been ignored due to excessive weight of the elevator.', log=Logs.WARN)
 
@@ -204,16 +205,18 @@ class ElevatorController:
                     print '%r' % self._params.direction
                     ready_list = self._waiting_q.fetch_tasks_wrt_direction(self._params.direction)
                     waiting_list_w_dir = self._select_tasks(ready_list, self._params.direction, self._params.target_direction)
-                    self._waiting_q.add_all(waiting_list_w_dir)
                     self._scheduler.add_task_in_bundle(*ready_list)
+                    self._waiting_q.add_all(waiting_list_w_dir)
                     self._update_time_attrs(self._scheduler.get_taskset(), Time(_begin))
                     self._do_schedule()
             else:
                 if not self._waiting_q.empty():
                     ready_list = self._waiting_q.fetch()
-                    self._scheduler.add_task_in_bundle(*ready_list)
-                    self._update_time_attrs(ready_list, _begin)
                     self._params.target_direction, self._params.direction = self._get_directions(ready_list[0]) # update elevator direction based on the tasks in the waiting list.
+                    waiting_list_w_dir = self._select_tasks(ready_list, self._params.direction, self._params.target_direction)
+                    self._scheduler.add_task_in_bundle(*ready_list)
+                    self._waiting_q.add_all(waiting_list_w_dir)
+                    self._update_time_attrs(ready_list, _begin)
                     LOG(tag=self._params.car.get_resource_name(), msg='The waiting list tasks has been added to the taskset. Tasks=%s' % ', '.join(task.get_name() for task in ready_list))
                     self._do_schedule()
 
