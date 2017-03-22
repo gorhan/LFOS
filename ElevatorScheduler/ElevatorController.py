@@ -211,6 +211,7 @@ class ElevatorController:
                     self._do_schedule()
             else:
                 if not self._waiting_q.empty():
+                    self._scheduler.set_scheduling_window_start_time(Time(_begin))
                     ready_list = self._waiting_q.fetch()
                     self._params.target_direction, self._params.direction = self._get_directions(ready_list[0]) # update elevator direction based on the tasks in the waiting list.
                     waiting_list_w_dir = self._select_tasks(ready_list, self._params.direction, self._params.target_direction)

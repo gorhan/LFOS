@@ -283,7 +283,7 @@ class MetaControllerGUI(MetaController):
 
             tk.Label(frame, text='Elevator_%02d' % elevator_id).grid(row=int(elevator_id/column_size)*num_floors_height, column=elevator_id%column_size, sticky=tk.W + tk.E)
 
-            self._listbox_sectors.append(tk.Listbox(frame, listvariable=floors, selectmode=tk.MULTIPLE, height=num_floors_height, exportselection=0))
+            self._listbox_sectors.append(tk.Listbox(frame, listvariable=floors, selectmode=tk.EXTENDED, height=num_floors_height, exportselection=0))
             map(lambda floor: self._listbox_sectors[-1].selection_set(floor), self.params[elevator_id].get_available_floors())
             self._listbox_sectors[-1].grid(row=int(elevator_id/column_size)*num_floors_height+1, column=elevator_id%column_size, sticky=tk.W + tk.E)
 
