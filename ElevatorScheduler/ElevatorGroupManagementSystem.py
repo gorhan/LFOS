@@ -13,7 +13,7 @@ from LFOS.Resource.Resource import ResourceFactory, Type, ResourceTypeList, Syst
 from LFOS.Resource.Power import PowerFactory, PowerTypeList
 
 
-class MetaController:
+class ElevatorGroupManagementSystem:
     def __init__(self, num_cars, num_floors):
         self.num_cars = num_cars
         self.num_floors = num_floors
@@ -103,14 +103,14 @@ class MetaController:
         return msgs
 
 
-class MetaControllerGUI(MetaController):
+class ElevatorGroupManagementSystemGUI(ElevatorGroupManagementSystem):
     def __init__(self, num_cars, num_floors):
-        MetaController.__init__(self, num_cars, num_floors)
+        ElevatorGroupManagementSystem.__init__(self, num_cars, num_floors)
 
         self._elevator_spec_widgets = {}
         self.master = tk.Tk()
         self.frame =  tk.Frame(self.master, padx=10, pady=10)
-        self.master.title('META CONTROLLER INTERFACE')
+        self.master.title('Elevator Group Management System')
         self.frame.grid()
         self.__create_widgets()
         self.frame.mainloop()
@@ -372,4 +372,4 @@ class MetaControllerGUI(MetaController):
         return True
 
 if __name__ == '__main__':
-    MetaControllerGUI(2, 16)
+    ElevatorGroupManagementSystemGUI(2, 16)
