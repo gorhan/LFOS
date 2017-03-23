@@ -360,8 +360,9 @@ class ElevatorGroupManagementSystemGUI(ElevatorGroupManagementSystem):
         if save_filename is None:
             return False
 
+        save_filename = ''.join(save_filename.split('.')[:-1])
         for elevator_id in range(self.num_cars):
-            save_file = open('%s_Elevator_%02d' % (save_filename, elevator_id), 'w')
+            save_file = open('%s_Elevator_%02d.txt' % (save_filename, elevator_id), 'w')
             if save_file is None:
                 LOG(msg='Unexpected event has occured while opening log file.', log=Logs.ERROR)
                 return False
