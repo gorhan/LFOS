@@ -57,16 +57,12 @@ class ElevatorGroupManagementSystem:
                                                       self.controllers[elevator_id].direction == bundle[1]])
             LOG(msg='ELEVATORS WITH SAME DIRECTION=%r' % elevators_w_same_direction)
             if elevators_w_same_direction.size == 0:
-                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if
-                                                          bundle[2] in self.params[
-                                                              elevator_id].get_available_floors()])
+                elevators_w_same_direction = numpy.array([elevator_id for elevator_id in range(self.num_cars) if bundle[2] in self.params[elevator_id].get_available_floors()])
 
             distances = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in
                                      elevators_w_same_direction])
             if elevators_not_running.size != 0:
-                distances_not_running = numpy.array(
-                    [abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in
-                     elevators_not_running])
+                distances_not_running = numpy.array([abs(bundle[2] - self.controllers[elevator_id].current_floor) for elevator_id in elevators_not_running])
                 LOG(msg='DISTANCES not running=%r' % distances_not_running)
             LOG(msg='DISTANCES=%r' % distances)
             nearest_elevators = elevators_w_same_direction[numpy.where(distances == distances.min())[0]]
@@ -87,8 +83,7 @@ class ElevatorGroupManagementSystem:
                 ch_elevator_id = nearest_elevators[random.randint(0, len(nearest_elevators) - 1)]
             LOG(msg='ELEVATOR CHOICE=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
             if self.controllers[ch_elevator_id].is_running() and nearest_elevators_not_running.size != 0:
-                ch_elevator_id = nearest_elevators_not_running[
-                    random.randint(0, len(nearest_elevators_not_running) - 1)]
+                ch_elevator_id = nearest_elevators_not_running[random.randint(0, len(nearest_elevators_not_running) - 1)]
                 LOG(msg='ELEVATOR CHOICE not running=%r' % self.controllers[ch_elevator_id].car.get_resource_name())
         elif bundle[0] == CarCall():
             ch_elevator_id = bundle[5]
@@ -259,7 +254,7 @@ class ElevatorGroupManagementSystemGUI(ElevatorGroupManagementSystem):
         self._scroll_bar.grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E + tk.S)
         self._elevator_spec_widgets[elevator_id, 'LOG'] = tk.Text(label_frame_elevator_status, padx=5, state=tk.DISABLED, wrap=tk.NONE, width=130, height=30,
                                  yscrollcommand=self._scroll_bar.set,
-                                 font=('Courier', 12, 'bold'),
+                                 font=('Courier', 11),
                                  bg='#1e263f')
         self._elevator_spec_widgets[elevator_id, 'LOG'].grid(row=0, column=2, rowspan=len(parameters_table), sticky=tk.N + tk.W + tk.E)
         self._scroll_bar.config(command=self._elevator_spec_widgets[elevator_id, 'LOG'].yview)
@@ -360,7 +355,6 @@ class ElevatorGroupManagementSystemGUI(ElevatorGroupManagementSystem):
         if save_filename is None:
             return False
 
-        save_filename = ''.join(save_filename.split('.')[:-1])
         for elevator_id in range(self.num_cars):
             save_file = open('%s_Elevator_%02d.txt' % (save_filename, elevator_id), 'w')
             if save_file is None:
@@ -373,4 +367,9 @@ class ElevatorGroupManagementSystemGUI(ElevatorGroupManagementSystem):
         return True
 
 if __name__ == '__main__':
-    ElevatorGroupManagementSystemGUI(2, 16)
+    n_elevator, n_floor = 2, 16
+    if len(sys.argv) == 3:
+        n_elevator = int(sys.argv[1])
+        n_floor = int(sys.argv[2])
+
+    ElevatorGroupManagementSystemGUI(n_elevator, n_floor)

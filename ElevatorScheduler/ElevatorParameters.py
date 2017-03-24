@@ -118,7 +118,7 @@ parameters_table = {
     'solver': {
         'Explanation': 'The name of the solver.',
         'Type'       : str,
-        'Default'    : 'Mistral'
+        'Default'    : 'Mistral2'
     },
     'verbose': {
         'Explanation': 'The level of information printed during solver execution.',
