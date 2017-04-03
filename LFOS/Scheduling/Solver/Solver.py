@@ -2,6 +2,7 @@ from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Task.Task import TaskInterface
 from LFOS.Task.Priority import *
+from LFOS.Task.Dependency import AND, OR, XOR
 from LFOS.Resource.Resource import TerminalResource, PowerTypeList
 from LFOS.Resource.Type import Type, ResourceTypeList
 from LFOS.Resource.Mode import ModeTypeList
@@ -94,7 +95,7 @@ class SolverAdapter(object):
         # self.__AuxE = {job: VarArray(self.__sched_window_duration, 0, int(job.get_extended_deadline(job.get_deadline()))) for job in self.__jobs}
 
         self.__TokenPool = dict()
-        self.__OrDependencyT = {(job, token): VarArray(self.__sched_window_duration, 0, 1) for job in self.__jobs for token in self.__token_pool.keys()}
+        self.__AndOrDependencyTable = {(job, token): VarArray(self.__sched_window_duration, 0, 1) for job in self.__jobs for token in self.__token_pool.keys()}
 
         self.__init()
 
@@ -118,6 +119,7 @@ class SolverAdapter(object):
 
             for requirement_item in active_resource_requirements:
                 resource_type, el_resources_dict, req_capacity = requirement_item.resource_type, requirement_item.eligible_resources, requirement_item.required_capacity
+                excluded_resources = list(set(self.__resources).difference(el_resources_dict.keys()))
                 # resources = el_resources_dict.keys()
                 # exec_time = int(el_resources_dict[resources[0]])
 
@@ -145,7 +147,8 @@ class SolverAdapter(object):
                             expr.append((Sum(self.__Allocation[resource, job][release_time:deadline]) == 0) & (Sum([self.__Allocation[o_res, job][release_time:deadline] for o_res in o_resources]) != 0))
                             expr = Disjunction(expr)
                     else:
-                        expr = (Sum(self.__Allocation[resource, job]) == (exec_time * req_capacity))
+                        expr.append(Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
+                        expr.append(Sum(self.__Allocation[resource, job]) == (exec_time * req_capacity))
 
                     self.__model += expr
 
@@ -154,6 +157,9 @@ class SolverAdapter(object):
                         self.__model += ( (self.__Allocation[resource, job][t] == 0) )
                     for t in range(deadline, self.__sched_window_duration):
                         self.__model += ( (self.__Allocation[resource, job][t] == 0) )
+
+                for resource in excluded_resources:
+                    self.__model += (Sum(self.__Allocation[resource, job]) == 0)
 
                 for t in range(release_time, deadline):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for resource in el_resources_dict.keys()) == self.__AuxWorking[job][t])
@@ -187,25 +193,36 @@ class SolverAdapter(object):
                     self.__model += (((self.__AuxWorking[job][t] > 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == req_capacity)) |
                                      ((self.__AuxWorking[job][t] == 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == 0)))
 
+            print 'OUTPUT', job.info(False), ['%s=%d' % (token, job.get_token_number_wrt_token(token)) for token in self.__token_pool.keys()]
+            print 'INPUT', job.info(False), ['%s=%d' % (token, job.get_required_token_number(token)[1]) for token in self.__token_pool.keys()]
+
         for t in range(self.__sched_window_duration):
             # Token constraints
 
             for job in self.__jobs:
-                required_tokens = job.get_required_tokens()
+                relation, required_tokens = job.get_required_tokens()
+                exclusive_tokens = list(set(self.__token_pool.keys()).difference(set(required_tokens)))
                 if required_tokens:
-                    self.__model += (Sum(self.__OrDependencyT[job, token][t] for token in self.__token_pool.keys()) == 1)
+                    if relation == OR():
+                        self.__model += (Sum(self.__AndOrDependencyTable[job, token][t] for token in required_tokens) == 1)
+                    elif relation == AND():
+                        for req_token_item in required_tokens:
+                            self.__model += (self.__AndOrDependencyTable[job, req_token_item][t] == 1)
+
+                for exc_token in exclusive_tokens:
+                    self.__model += (self.__AndOrDependencyTable[job, exc_token][t] == 0)
 
             for token in self.__token_pool.keys():
                 self.__model += ((
                                       self.__TokenPool[token][t] +
                                       Sum(self.__End[job][t] * job.get_token_number_wrt_token(token) for job in self.__jobs) -
-                                      Sum(Min([self.__Start[job][t], self.__OrDependencyT[job, token][t]]) * job.get_required_token_number(token)[1] for job in self.__jobs) == self.__TokenPool[token][t+1]
+                                      Sum(Min([self.__Start[job][t], self.__AndOrDependencyTable[job, token][t]]) * job.get_required_token_number(token)[1] for job in self.__jobs) == self.__TokenPool[token][t+1]
                                 ))
 
                 for job in self.__jobs:
-                    required_tokens = job.get_required_tokens()
-                    if token not in required_tokens:
-                        self.__model += (self.__OrDependencyT[job, token][t] == 0)
+                    # required_tokens = job.get_required_tokens()
+                    # if token not in required_tokens:
+                    #     self.__model += (self.__AndOrDependencyTable[job, token][t] == 0)
 
                     sequence_dependent_setup_time, num_tokens = job.get_required_token_number(token)
                     # print num_tokens, sequence_dependent_setup_time
@@ -213,7 +230,7 @@ class SolverAdapter(object):
                         for t_seq in range(t-int(sequence_dependent_setup_time), t):
                             t_seq = max(t_seq, -1)
                             # print token, t, t_seq, sequence_dependent_setup_time, num_tokens
-                            self.__model += (self.__TokenPool[token][t_seq+1] >= num_tokens * Min([self.__Start[job][t], self.__OrDependencyT[job, token][t]]))
+                            self.__model += (self.__TokenPool[token][t_seq+1] >= num_tokens * Min([self.__Start[job][t], self.__AndOrDependencyTable[job, token][t]]))
 
                     # self.__model += (t * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxE[job][t] * req_capacity)
                     # self.__model += ((deadline - t) * Sum(self.__Allocation[resource, job][t] for resource in resources) == self.__AuxS[job][t] * req_capacity)
@@ -236,9 +253,7 @@ class SolverAdapter(object):
         for job in self.__jobs:
             print 'PRIORITY', job.get_credential(), job.get_priority()
         # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
-        self.__model += Minimize(Max(
-            [(self.__End[job][t + 1] * (t + 1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for
-             job in self.__jobs]))
+        self.__model += Minimize(Max([(self.__End[job][t + 1] * (t + 1)) * job.get_priority() for t in range(self.__sched_window_duration) for job in self.__jobs]))
         # self.__model += Maximize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
 
     def _optimize(self):
@@ -287,7 +302,7 @@ class SolverAdapter(object):
 
         # self.__last_optimized_schedule.plot_schedule()
         print '%s' % '\n'.join(['%8s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()])
-        print '%s' % '\n'.join(['[%s, %8s] == %r' % (job.get_credential(), token, [item.get_value() for item in self.__OrDependencyT[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
+        print '%s' % '\n'.join(['[%s, %8s] == %r' % (job.get_credential(), token, [item.get_value() for item in self.__AndOrDependencyTable[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
 
     def get_last_schedule(self):
         return self.__last_optimized_schedule if self.__optimized else None

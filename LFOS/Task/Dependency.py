@@ -2,6 +2,32 @@ from LFOS.Log import Logs, LOG
 from LFOS.Scheduling.Characteristic.Time import Time
 
 
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args)
+        return cls._instances[cls]
+
+
+class Logical:
+    __metaclass__ = Singleton
+    def __str__(self):
+        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
+class AND(Logical):
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+class OR(Logical):
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+class XOR(Logical):
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+
+
 class DependencyItem(object):
     def __init__(self, _token, _req, _time=Time(0)):
         self.__token = _token
@@ -39,11 +65,15 @@ class DependencyItem(object):
 class Dependency:
     def __init__(self):
         self.__list = list()
+        self.__logical_relation = OR()
 
     def __getattr__(self, item):
         getattr(self.__list, item)()
 
-    def add_dependency(self, *p_object):
+    def add_dependency(self, relation, *p_object):
+        assert isinstance(relation, Logical)
+        self.__logical_relation = relation
+        
         dep_item = None
         if len(p_object) == 2 or len(p_object) == 3:
             dep_item = DependencyItem(*p_object)
@@ -73,4 +103,4 @@ class Dependency:
             return Time(0), 0
 
     def get_required_tokens(self):
-        return [item.get_token_type() for item in self.__list]
+        return self.__logical_relation, [item.get_token_type() for item in self.__list]
