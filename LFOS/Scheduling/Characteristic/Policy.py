@@ -11,6 +11,9 @@ def compareEDF(task1, task2):
 def compareSJF(task1, task2):
     return task1.get_execution_time() - task2.get_execution_time()
 
+def compareLJF(task1, task2):
+    return -compareSJF(task1, task2)
+
 def compareRM(task1, task2):
     return task1.get_period() - task2.get_period()
 
@@ -22,6 +25,7 @@ class SchedulingPolicyRankingTypes:
     FIFO = 'Scheduling.Characteristic.Policy.Ranking.FIFO'
     EDF = 'Scheduling.Characteristic.Policy.Ranking.EDF'
     SJF = 'Scheduling.Characteristic.Policy.Ranking.SJF'
+    LJF = 'Scheduling.Characteristic.Policy.Ranking.LJF'
     RM = 'Scheduling.Characteristic.Policy.Ranking.RM'
     ERT = 'Scheduling.Characteristic.Policy.Ranking.ERT'
 
@@ -31,6 +35,7 @@ class SchedulingPolicy:
         SchedulingPolicyRankingTypes.FIFO: compareFIFO,
         SchedulingPolicyRankingTypes.EDF: compareEDF,
         SchedulingPolicyRankingTypes.SJF: compareSJF,
+        SchedulingPolicyRankingTypes.LJF: compareLJF,
         SchedulingPolicyRankingTypes.RM: compareRM,
         SchedulingPolicyRankingTypes.ERT: compareERT
     }

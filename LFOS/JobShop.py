@@ -10,16 +10,13 @@ from macros import *
 
 resource_t = Type(ResourceTypeList.ACTIVE, 'ResourceType')
 
-jobs = [ [5, 5, 3, 6, 3],
-         [4, 4, 2, 4, 4],
-         [4, 4, 3, 4, 1],
-         [3, 6, 3, 2, 5] ]
-jobs = [ [5, 5, 3, 6],
-         [4, 4, 2, 4],
-         [4, 4, 3, 4],
-         [3, 6, 3, 2] ]
+jobs = [
+    [(0, 3), (1, 2), (2, 2)],
+    [(0, 2), (2, 1), (1, 4)],
+    [(1, 4), (2, 3)]
+]
 
-num_resources = len(jobs)
+num_resources = 3
 resources = []
 for i in range(num_resources):
     resource = ResourceFactory.create_instance(resource_t, 'Resource_%02d' % i)
@@ -31,30 +28,27 @@ for i in range(num_resources):
 
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.set_scheduling_window_start_time(Time(0))
-scheduler.set_scheduling_window_duration(Time(30))
+scheduler.set_scheduling_window_duration(Time(20))
 
-for i, row in enumerate(jobs):
-    for j, wcet in enumerate(row):
-        task_name = 'Task_%02d_%02d' % (i, j)
-        token_name = 'Token_%02d_%02d' % (i, j)
-
-        required_tokens = []
-        if i > 0:
-            required_tokens.append('Token_%02d_%02d' % (i-1, j))
-        if j > 0:
-            required_tokens.append('Token_%02d_%02d' % (i, j-1))
+for j, prec in enumerate(jobs):
+    for o, (m, wcet) in enumerate(prec):
+        task_name = 'Task_%02d_%02d' % (j, o)
+        token_name = 'Token_%02d_%02d' % (j, o)
 
         job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type='T', phase=Time(0),
-                                          deadline=Time(30), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name], token_num=[2],
+                                          deadline=Time(20), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name],
                                           preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
 
-        job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[i]: Time(wcet)}, capacity=1)
-        for token in required_tokens:
-            job.add_dependency(AND(), token, 1)
+        job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[m]: Time(wcet)}, capacity=1)
+
+        if o > 0:
+            required_token = 'Token_%02d_%02d' % (j, o-1)
+            job.add_dependency(AND(), required_token, 1)
+
         print job.info(True)
         scheduler.add_task(job)
 
-scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF, scheduler.get_taskset())
+scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.LJF, scheduler.get_taskset())
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:
