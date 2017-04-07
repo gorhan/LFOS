@@ -14,10 +14,10 @@ jobs = [ [5, 5, 3, 6, 3],
          [4, 4, 2, 4, 4],
          [4, 4, 3, 4, 1],
          [3, 6, 3, 2, 5] ]
-jobs = [ [5, 5, 3, 6],
-         [4, 4, 2, 4],
-         [4, 4, 3, 4],
-         [3, 6, 3, 2] ]
+# jobs = [ [5, 5, 3, 6],
+#          [4, 4, 2, 4],
+#          [4, 4, 3, 4],
+#          [3, 6, 3, 2] ]
 
 num_resources = len(jobs)
 resources = []
@@ -31,7 +31,7 @@ for i in range(num_resources):
 
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.set_scheduling_window_start_time(Time(0))
-scheduler.set_scheduling_window_duration(Time(30))
+scheduler.set_scheduling_window_duration(Time(35))
 
 for i, row in enumerate(jobs):
     for j, wcet in enumerate(row):
@@ -45,7 +45,7 @@ for i, row in enumerate(jobs):
             required_tokens.append('Token_%02d_%02d' % (i, j-1))
 
         job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type='T', phase=Time(0),
-                                          deadline=Time(30), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name], token_num=[2],
+                                          deadline=Time(35), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name], token_num=[2],
                                           preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
 
         job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[i]: Time(wcet)}, capacity=1)
