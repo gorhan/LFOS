@@ -64,7 +64,8 @@ class DependencyItem(object):
 
 class Dependency:
     def __init__(self):
-        self.__list = list()
+        self.__list = []
+        self.__m_list = []
         self.__logical_relation = OR()
 
     def __getattr__(self, item):
@@ -90,8 +91,22 @@ class Dependency:
 
         return True
 
+    def add_m_exclusion(self, job):
+        if job in self.__m_list:
+            LOG(msg='Given job is already in the list of mutually exclusive jobs.')
+            return False
+
+        self.__m_list.append(job)
+
+    def add_m_exclusion_list(self, jobs):
+        for job in jobs:
+            self.add_m_exclusion(job)
+
     def get_dependency_list(self):
         return self.__list
+
+    def get_m_exclusion_list(self):
+        return self.__m_list
 
     def get_required_token_number(self, token):
         try:

@@ -196,6 +196,15 @@ class SolverAdapter(object):
             print 'OUTPUT', job.info(False), ['%s=%d' % (token, job.get_token_number_wrt_token(token)) for token in self.__token_pool.keys()]
             print 'INPUT', job.info(False), ['%s=%d' % (token, job.get_required_token_number(token)[1]) for token in self.__token_pool.keys()]
 
+            m_exclusive_jobs = job.get_m_exclusion_list()
+            for e_job in m_exclusive_jobs:
+                print '?' * 25, e_job.get_credential()
+                # self.__model += ((Sum(self.__Allocation[resource, job][t] for resource in self.__resources) < 1) |
+                #                  (Sum(self.__Allocation[resource, e_job][t] for resource in self.__resources) < 1))
+                self.__model += ( (Sum( (self.__Start[job][t] * t) - (self.__End[e_job][t] * t) for t in range(self.__sched_window_duration) ) >= 0) |
+                                  (Sum( (self.__Start[e_job][t] * t) - (self.__End[job][t] * t) for t in range(self.__sched_window_duration) ) >= 0))
+            print '-' * 25
+
         for t in range(self.__sched_window_duration):
             # Token constraints
 
@@ -211,6 +220,16 @@ class SolverAdapter(object):
 
                 for exc_token in exclusive_tokens:
                     self.__model += (self.__AndOrDependencyTable[job, exc_token][t] == 0)
+
+
+                # m_exclusive_jobs = job.get_m_exclusion_list()
+                # for e_job in m_exclusive_jobs:
+                #     print '?'*25, e_job.get_credential()
+                #     self.__model += ((Sum(self.__Allocation[resource, job][t] for resource in self.__resources) < 1) |
+                #                      (Sum(self.__Allocation[resource, e_job][t] for resource in self.__resources) < 1))
+                #     self.__model += ( (self.__Start[]) |
+                #                       ())
+                # print '-' * 25
 
             for token in self.__token_pool.keys():
                 self.__model += ((
