@@ -14,10 +14,10 @@ jobs = [ [5, 5, 3, 6, 3],
          [4, 4, 2, 4, 4],
          [4, 4, 3, 4, 1],
          [3, 6, 3, 2, 5] ]
-jobs = [ [5, 5, 3, 6],
-         [4, 4, 2, 4],
-         [4, 4, 3, 4],
-         [3, 6, 3, 2] ]
+# jobs = [ [5, 5, 3, 6],
+#          [4, 4, 2, 4],
+#          [4, 4, 3, 4],
+#          [3, 6, 3, 2] ]
 
 num_resources = len(jobs)
 resources = []
@@ -29,21 +29,21 @@ for i in range(num_resources):
     System.add(resource)
     resources.append(resource)
 
-scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
+scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=30000)
 scheduler.set_scheduling_window_start_time(Time(0))
 scheduler.set_scheduling_window_duration(Time(35))
 
 for i, row in enumerate(jobs):
-    task_name = 'Task_%02d' % i
+    task_name = 'Task_%02d' % (i+1)
     for j, wcet in enumerate(row):
-        job_name = 'Job_%02d' % j
-        token_name = 'Token_%02d_%02d' % (i, j)
+        job_name = 'Job_%02d' % (j+1)
+        token_name = 'Token_%02d_%02d' % (i+1, j+1)
 
         required_tokens = []
         if i > 0:
-            required_tokens.append('Token_%02d_%02d' % (i-1, j))
+            required_tokens.append('Token_%02d_%02d' % (i, j+1))
         if j > 0:
-            required_tokens.append('Token_%02d_%02d' % (i, j-1))
+            required_tokens.append('Token_%02d_%02d' % (i+1, j))
 
         job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=job_name, phase=Time(0),
                                           deadline=Time(35), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name], token_num=[2],

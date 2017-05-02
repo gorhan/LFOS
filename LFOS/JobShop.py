@@ -54,10 +54,10 @@ if __name__ == '__main__':
     scheduler.set_scheduling_window_duration(Time(30))
 
     for j, prec in enumerate(jobs):
-        job_name = 'Job_%02d' % j
+        job_name = 'Job_%02d' % (j+1)
         for o, (m, wcet) in enumerate(prec):
-            task_name = 'Task_%02d' % o
-            token_name = 'Token_%02d_%02d' % (j, o)
+            task_name = 'Task_%02d' % (o+1)
+            token_name = 'Token_%02d_%02d' % (j+1, o+1)
 
             job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=job_name, phase=Time(0),
                                               deadline=Time(30), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name],
@@ -66,7 +66,7 @@ if __name__ == '__main__':
             job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[m]: Time(wcet)}, capacity=1)
 
             if o > 0:
-                required_token = 'Token_%02d_%02d' % (j, o-1)
+                required_token = 'Token_%02d_%02d' % (j+1, o)
                 job.add_dependency(AND(), required_token, 1)
 
             print job.info(True)
