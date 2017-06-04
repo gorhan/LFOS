@@ -1,9 +1,11 @@
 import os
 import glob
 from sys import argv, stderr
-from subprocess import Popen, call
+from subprocess import call
 
 ENV_ALIAS = "LFOS_DIR"
+COPY_DIRECTORY = "/Users/orhanguner/Dropbox/GPCE17/figures"
+
 
 def get_fm_directories():
     base_dir = os.getenv(ENV_ALIAS)
@@ -12,10 +14,8 @@ def get_fm_directories():
         return []
 
     fm_directory = os.path.join(base_dir, 'FM_LFOS')
-    # print base_dir, fm_directory
     directories = [os.path.join(fm_directory, file) for file in os.listdir(fm_directory) if
                    os.path.isdir(os.path.join(fm_directory, file)) and file.isupper()]
-    # print 'Directories= %s' % '\n'.join(directories)
 
     return directories
 
@@ -23,18 +23,35 @@ def get_fm_directories():
 def get_files_by_ext(dir, ext='cfr'):
     return [os.path.join(dir, file) for file in os.listdir(dir) if file.endswith(".%s" % ext)]
 
-def _execute(dir, ext, execution_parameters, out=False):
-    _files = get_files_by_ext(dir, ext)
+
+def _execute(dir, ext_in, execution_parameters, ext_out=None, ext_dir=None):
+    _files = get_files_by_ext(dir, ext_in)
     current_env = dict(os.environ)
 
     for _file in _files:
-        call(execution_parameters + ([_file[:-(len(ext) + 1)]+'.%s'%out] if out else []) + [_file], env=current_env)
+        try:
+            index_out = execution_parameters.index('-o')
+        except ValueError:
+            index_out = len(execution_parameters)
+        execution_parameters.insert(index_out, _file)
+        if ext_out:
+            ext_file = os.path.join(ext_dir if ext_dir else dir, (_file[:-(len(ext_in) + 1)].split('/')[-1] + '.%s' % ext_out))
+            print ext_file, ext_dir, (_file[:-(len(ext_in) + 1)] + '.%s' % ext_out), 'SSSS'
+            execution_parameters.insert(index_out+2, ext_file)
+        print 'Execution Parameters=', ' '.join(execution_parameters)
+        call(execution_parameters, env=current_env)
         print '%s has been executed...' % execution_parameters[0].upper(), _file
 
     return True
 
+
 def convert_dot2pdf(dir):
     _execute(dir, 'dot', ['dot', '-Tpdf', '-o'], 'pdf')
+
+
+def copy_figures(src_dir, dest_dir):
+    _execute(src_dir, 'pdf', ['cp'], 'pdf', dest_dir)
+
 
 def compile_clafers(dir):
     clafer_files = get_files_by_ext(dir, 'cfr')
@@ -60,3 +77,4 @@ if __name__ == '__main__':
     file = '/Users/orhanguner/workspace/LFOS/FM_LFOS/RMS'
     # compile_clafers(file)
     convert_dot2pdf(file)
+    copy_figures(file, COPY_DIRECTORY)
