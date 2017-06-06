@@ -75,6 +75,6 @@ def compile_clafers(dir):
 if __name__ == '__main__':
     directories = get_fm_directories()
     file = '/Users/orhanguner/workspace/LFOS/FM_LFOS/RMS'
-    # compile_clafers(file)
+    compile_clafers(file)
     convert_dot2pdf(file)
     copy_figures(file, COPY_DIRECTORY)
