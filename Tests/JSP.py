@@ -6,7 +6,7 @@ from LFOS.Resource.Resource import *
 from LFOS.Task.Task import TaskFactory, TaskTypeList
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.Scheduler.Scheduler import Scheduler
-from macros import *
+from LFOS.macros import *
 
 
 def read_from_file(filename):
