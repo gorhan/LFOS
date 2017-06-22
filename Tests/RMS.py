@@ -57,7 +57,7 @@ for ind, task in enumerate(tasks):
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.add_task_in_bundle(*task_instances)
 
-scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.RM)
+scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.RM, scheduler.get_taskset())
 
 scheduler.set_scheduling_window_start_time(Time(0))
 scheduler.set_scheduling_window_duration(Time(40))

@@ -41,7 +41,7 @@ for i, row in enumerate(jobs):
 
         job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=job_name, phase=Time(r[i]),
                                           deadline=Time(d[i]), periodicity=PeriodicityTypeList.APERIODIC,
-                                          preemptability=PreemptionTypeList.FULLY_PREEMPTABLE)
+                                          preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
         job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[j]: Time(wcet)},
                                      capacity=1)
 

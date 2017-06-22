@@ -1,0 +1,976 @@
+[22-06-2017 - 10:20:12] From                      TerminalResource.set_capacity[NO_TAG]  INFO: New capacity is set. Capacity:1.00
+[22-06-2017 - 10:20:12] From             TerminalResource.set_power_consumption[NO_TAG]  INFO: Power consumption has been specified.
+[22-06-2017 - 10:20:12] From                              CompositeResource.add[NO_TAG]  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Resource_01 [Resource.Type.ACTIVE, ResourceType]
+[22-06-2017 - 10:20:12] From                      TerminalResource.set_capacity[NO_TAG]  INFO: New capacity is set. Capacity:1.00
+[22-06-2017 - 10:20:12] From             TerminalResource.set_power_consumption[NO_TAG]  INFO: Power consumption has been specified.
+[22-06-2017 - 10:20:12] From                              CompositeResource.add[NO_TAG]  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Resource_02 [Resource.Type.ACTIVE, ResourceType]
+[22-06-2017 - 10:20:12] From                      TerminalResource.set_capacity[NO_TAG]  INFO: New capacity is set. Capacity:1.00
+[22-06-2017 - 10:20:12] From             TerminalResource.set_power_consumption[NO_TAG]  INFO: Power consumption has been specified.
+[22-06-2017 - 10:20:12] From                              CompositeResource.add[NO_TAG]  INFO: [ADD]: SYSTEM [Resource.Type.COMPOSITE, ROOT] --> Resource_03 [Resource.Type.ACTIVE, ResourceType]
+MNAME: Numberjack.solvers._SCIP
+[22-06-2017 - 10:20:12] From                          Scheduler.set_solver_type[NO_TAG]  INFO: New solver type has been set. Solver Type=SCIP
+[22-06-2017 - 10:20:12] From         Scheduler.set_scheduling_window_start_time[NO_TAG]  INFO: New start time for the scheduling window is 0.000
+[22-06-2017 - 10:20:12] From           Scheduler.set_scheduling_window_duration[NO_TAG]  INFO: New duration for the scheduling window is 15.000
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_01::Job_01 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=11.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_01 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_01::Job_01 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_02::Job_01 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=11.00
+		WCET=3.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_02 [3])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_02::Job_01 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_03::Job_01 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=11.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_03 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_03::Job_01 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_01::Job_02 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=9.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_01 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_01::Job_02 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_02::Job_02 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=9.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_02 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_02::Job_02 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_03::Job_02 ####################
+	TIMING:
+		Release Time=1.00
+		Deadline=9.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_03 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_03::Job_02 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_01::Job_03 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=8.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_01 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_01::Job_03 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_02::Job_03 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=8.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_02 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_02::Job_03 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_03::Job_03 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=8.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_03 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_03::Job_03 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_01::Job_04 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=9.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_01 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_01::Job_04 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_02::Job_04 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=9.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_02 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_02::Job_04 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_03::Job_04 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=9.00
+		WCET=2.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_03 [2])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_03::Job_04 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_01::Job_05 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=11.00
+		WCET=3.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_01 [3])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_01::Job_05 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_02::Job_05 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=11.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_02 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_02::Job_05 ####################
+[22-06-2017 - 10:20:12] From              TerminalTask.add_resource_requirement[NO_TAG]  INFO: New ResourceRequirement has been added to the ResourceRequirementList.
+#################### Task_03::Job_05 ####################
+	TIMING:
+		Release Time=3.00
+		Deadline=11.00
+		WCET=1.00
+		Periodicty Type=PeriodicityTypeList.APERIODIC
+		Period=-1.00
+	PRIORITY:
+		Priority=1267650600228229401496703205376 [0 100]
+	DEPENDENCY:
+		[EMPTY]
+	PREEMPTABILITY:
+		Task.Preemptability.FP in every 0.00
+	REQUIREMENT:
+		Deadline Requirement Type=Task.Requirement.DeadReq.HARD
+		Penalty (per unit time)=0.00
+		Penalty Duration=0.00
+		Required Resources:
+			(Resource_03 [1])::[Resource.Type.ACTIVE, ResourceType] -- Required Capacity=1
+	GRANULARITY:Task.Terminal
+#########################################################
+[22-06-2017 - 10:20:12] From                                 Scheduler.add_task[NO_TAG]  INFO: New task is added to the taskset. Task=#################### Task_03::Job_05 ####################
+[22-06-2017 - 10:20:12] From                       Scheduler.set_ranking_policy[NO_TAG]  INFO: New Scheduling Ranking Policy has been set. Policy=Scheduling.Characteristic.Policy.Ranking.FIFO
+[22-06-2017 - 10:20:12] From                            Priority.set_class_vars[NO_TAG]  WARN: Given new maximum priority value is lower than the current one. New=15 - Current=100
+[22-06-2017 - 10:20:12] From                            Priority.set_class_vars[NO_TAG]  INFO: New ranking criteria = PriorityRanking.ASCENDING
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_03::Job_05'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=0
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_02::Job_05'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=1
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_01::Job_05'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=2
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_03::Job_04'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=3
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_02::Job_04'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=4
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_01::Job_04'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=5
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_03::Job_03'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=6
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_02::Job_03'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=7
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_01::Job_03'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=8
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_03::Job_02'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=9
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_02::Job_02'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=10
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_01::Job_02'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=11
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_03::Job_01'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=12
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_02::Job_01'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=13
+[22-06-2017 - 10:20:12] From                          GLOBAL.prioritize_taskset[NO_TAG]  INFO: Task='Task_01::Job_01'
+[22-06-2017 - 10:20:12] From                          TerminalTask.set_priority[NO_TAG]  INFO: New priority value has been assigned. Priority=14
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>, <LFOS.Task.Task.TerminalTask object at 0x104d58510>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>, <LFOS.Task.Task.TerminalTask object at 0x104d58510>, <LFOS.Task.Task.TerminalTask object at 0x104d58590>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>, <LFOS.Task.Task.TerminalTask object at 0x104d58510>, <LFOS.Task.Task.TerminalTask object at 0x104d58590>, <LFOS.Task.Task.TerminalTask object at 0x104d58610>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>, <LFOS.Task.Task.TerminalTask object at 0x104d58510>, <LFOS.Task.Task.TerminalTask object at 0x104d58590>, <LFOS.Task.Task.TerminalTask object at 0x104d58610>, <LFOS.Task.Task.TerminalTask object at 0x104d58690>]
+0 15
+[<LFOS.Task.Task.TerminalTask object at 0x104d4bb50>, <LFOS.Task.Task.TerminalTask object at 0x104d58090>, <LFOS.Task.Task.TerminalTask object at 0x104d58110>, <LFOS.Task.Task.TerminalTask object at 0x104d58190>, <LFOS.Task.Task.TerminalTask object at 0x104d58210>, <LFOS.Task.Task.TerminalTask object at 0x104d58290>, <LFOS.Task.Task.TerminalTask object at 0x104d58310>, <LFOS.Task.Task.TerminalTask object at 0x104d58390>, <LFOS.Task.Task.TerminalTask object at 0x104d58410>, <LFOS.Task.Task.TerminalTask object at 0x104d58490>, <LFOS.Task.Task.TerminalTask object at 0x104d58510>, <LFOS.Task.Task.TerminalTask object at 0x104d58590>, <LFOS.Task.Task.TerminalTask object at 0x104d58610>, <LFOS.Task.Task.TerminalTask object at 0x104d58690>, <LFOS.Task.Task.TerminalTask object at 0x104d58710>]
+OUTPUT #################### Task_01::Job_01 #################### []
+INPUT #################### Task_01::Job_01 #################### []
+-------------------------
+OUTPUT #################### Task_02::Job_01 #################### []
+INPUT #################### Task_02::Job_01 #################### []
+????????????????????????? Task_01::Job_01
+-------------------------
+OUTPUT #################### Task_03::Job_01 #################### []
+INPUT #################### Task_03::Job_01 #################### []
+????????????????????????? Task_01::Job_01
+????????????????????????? Task_02::Job_01
+-------------------------
+OUTPUT #################### Task_01::Job_02 #################### []
+INPUT #################### Task_01::Job_02 #################### []
+-------------------------
+OUTPUT #################### Task_02::Job_02 #################### []
+INPUT #################### Task_02::Job_02 #################### []
+????????????????????????? Task_01::Job_02
+-------------------------
+OUTPUT #################### Task_03::Job_02 #################### []
+INPUT #################### Task_03::Job_02 #################### []
+????????????????????????? Task_01::Job_02
+????????????????????????? Task_02::Job_02
+-------------------------
+OUTPUT #################### Task_01::Job_03 #################### []
+INPUT #################### Task_01::Job_03 #################### []
+-------------------------
+OUTPUT #################### Task_02::Job_03 #################### []
+INPUT #################### Task_02::Job_03 #################### []
+????????????????????????? Task_01::Job_03
+-------------------------
+OUTPUT #################### Task_03::Job_03 #################### []
+INPUT #################### Task_03::Job_03 #################### []
+????????????????????????? Task_01::Job_03
+????????????????????????? Task_02::Job_03
+-------------------------
+OUTPUT #################### Task_01::Job_04 #################### []
+INPUT #################### Task_01::Job_04 #################### []
+-------------------------
+OUTPUT #################### Task_02::Job_04 #################### []
+INPUT #################### Task_02::Job_04 #################### []
+????????????????????????? Task_01::Job_04
+-------------------------
+OUTPUT #################### Task_03::Job_04 #################### []
+INPUT #################### Task_03::Job_04 #################### []
+????????????????????????? Task_01::Job_04
+????????????????????????? Task_02::Job_04
+-------------------------
+OUTPUT #################### Task_01::Job_05 #################### []
+INPUT #################### Task_01::Job_05 #################### []
+-------------------------
+OUTPUT #################### Task_02::Job_05 #################### []
+INPUT #################### Task_02::Job_05 #################### []
+????????????????????????? Task_01::Job_05
+-------------------------
+OUTPUT #################### Task_03::Job_05 #################### []
+INPUT #################### Task_03::Job_05 #################### []
+????????????????????????? Task_01::Job_05
+????????????????????????? Task_02::Job_05
+-------------------------
+PRIORITY Task_01::Job_01 2
+PRIORITY Task_02::Job_01 4
+PRIORITY Task_03::Job_01 8
+PRIORITY Task_01::Job_02 16
+PRIORITY Task_02::Job_02 32
+PRIORITY Task_03::Job_02 64
+PRIORITY Task_01::Job_03 128
+PRIORITY Task_02::Job_03 256
+PRIORITY Task_03::Job_03 512
+PRIORITY Task_01::Job_04 1024
+PRIORITY Task_02::Job_04 2048
+PRIORITY Task_03::Job_04 4096
+PRIORITY Task_01::Job_05 8192
+PRIORITY Task_02::Job_05 16384
+PRIORITY Task_03::Job_05 32768
+presolving:
+(round 1, fast)       62175 del vars, 1225 del conss, 138 add conss, 61449 chg bounds, 267 chg sides, 30 chg coeffs, 0 upgd conss, 0 impls, 1641 clqs
+(round 2, fast)       109131 del vars, 1411 del conss, 189 add conss, 108375 chg bounds, 345 chg sides, 135 chg coeffs, 0 upgd conss, 0 impls, 1869 clqs
+(round 3, fast)       109131 del vars, 1411 del conss, 189 add conss, 108375 chg bounds, 447 chg sides, 264 chg coeffs, 0 upgd conss, 0 impls, 1869 clqs
+(round 4, exhaustive) 109131 del vars, 1705 del conss, 189 add conss, 108375 chg bounds, 531 chg sides, 264 chg coeffs, 0 upgd conss, 0 impls, 1869 clqs
+(round 5, fast)       109353 del vars, 2140 del conss, 189 add conss, 108375 chg bounds, 531 chg sides, 264 chg coeffs, 0 upgd conss, 0 impls, 1425 clqs
+(round 6, fast)       109353 del vars, 2149 del conss, 189 add conss, 108375 chg bounds, 531 chg sides, 264 chg coeffs, 0 upgd conss, 0 impls, 1425 clqs
+(round 7, exhaustive) 109353 del vars, 2149 del conss, 189 add conss, 108375 chg bounds, 531 chg sides, 264 chg coeffs, 1020 upgd conss, 0 impls, 1425 clqs
+(round 8, fast)       109368 del vars, 2149 del conss, 189 add conss, 108375 chg bounds, 531 chg sides, 264 chg coeffs, 1020 upgd conss, 0 impls, 1425 clqs
+(round 9, medium)     109590 del vars, 2149 del conss, 219 add conss, 108375 chg bounds, 813 chg sides, 576 chg coeffs, 1020 upgd conss, 0 impls, 1440 clqs
+(round 10, exhaustive) 109590 del vars, 2149 del conss, 219 add conss, 108375 chg bounds, 813 chg sides, 606 chg coeffs, 1020 upgd conss, 0 impls, 1440 clqs
+(round 11, exhaustive) 109773 del vars, 2179 del conss, 219 add conss, 108375 chg bounds, 813 chg sides, 606 chg coeffs, 1020 upgd conss, 0 impls, 1380 clqs
+(round 12, fast)       109773 del vars, 2209 del conss, 219 add conss, 108375 chg bounds, 813 chg sides, 606 chg coeffs, 1020 upgd conss, 0 impls, 1380 clqs
+(round 13, medium)     109773 del vars, 2209 del conss, 249 add conss, 108375 chg bounds, 873 chg sides, 696 chg coeffs, 1020 upgd conss, 0 impls, 1410 clqs
+(round 14, exhaustive) 109773 del vars, 2209 del conss, 249 add conss, 108375 chg bounds, 873 chg sides, 726 chg coeffs, 1020 upgd conss, 0 impls, 1410 clqs
+(round 15, exhaustive) 109799 del vars, 2209 del conss, 249 add conss, 108375 chg bounds, 873 chg sides, 726 chg coeffs, 1020 upgd conss, 0 impls, 1750 clqs
+(round 16, fast)       109799 del vars, 2241 del conss, 278 add conss, 108375 chg bounds, 873 chg sides, 726 chg coeffs, 1020 upgd conss, 0 impls, 1752 clqs
+(round 17, fast)       109799 del vars, 2241 del conss, 278 add conss, 108375 chg bounds, 921 chg sides, 794 chg coeffs, 1020 upgd conss, 0 impls, 1752 clqs
+(round 18, medium)     109799 del vars, 2241 del conss, 280 add conss, 108375 chg bounds, 925 chg sides, 800 chg coeffs, 1020 upgd conss, 0 impls, 1754 clqs
+(round 19, exhaustive) 109800 del vars, 2243 del conss, 280 add conss, 108375 chg bounds, 925 chg sides, 802 chg coeffs, 1020 upgd conss, 0 impls, 1748 clqs
+(round 20, exhaustive) 109800 del vars, 2250 del conss, 280 add conss, 108375 chg bounds, 938 chg sides, 802 chg coeffs, 1020 upgd conss, 0 impls, 1748 clqs
+(round 21, exhaustive) 109800 del vars, 2250 del conss, 280 add conss, 108375 chg bounds, 938 chg sides, 802 chg coeffs, 1039 upgd conss, 0 impls, 1748 clqs
+(round 22, fast)       109800 del vars, 2256 del conss, 280 add conss, 108375 chg bounds, 938 chg sides, 802 chg coeffs, 1039 upgd conss, 0 impls, 1748 clqs
+(round 23, exhaustive) 109800 del vars, 2258 del conss, 280 add conss, 108375 chg bounds, 938 chg sides, 802 chg coeffs, 1039 upgd conss, 0 impls, 1748 clqs
+(round 24, medium)     109802 del vars, 2258 del conss, 280 add conss, 108375 chg bounds, 940 chg sides, 804 chg coeffs, 1039 upgd conss, 0 impls, 1736 clqs
+(round 25, exhaustive) 109802 del vars, 2260 del conss, 280 add conss, 108375 chg bounds, 940 chg sides, 804 chg coeffs, 1039 upgd conss, 0 impls, 1736 clqs
+(round 26, exhaustive) 109833 del vars, 2260 del conss, 280 add conss, 108375 chg bounds, 940 chg sides, 806 chg coeffs, 1039 upgd conss, 0 impls, 1996 clqs
+(round 27, fast)       109833 del vars, 2278 del conss, 316 add conss, 108375 chg bounds, 941 chg sides, 807 chg coeffs, 1039 upgd conss, 0 impls, 1999 clqs
+(round 28, fast)       109833 del vars, 2278 del conss, 316 add conss, 108375 chg bounds, 1009 chg sides, 896 chg coeffs, 1039 upgd conss, 0 impls, 1999 clqs
+(round 29, medium)     109833 del vars, 2278 del conss, 318 add conss, 108375 chg bounds, 1013 chg sides, 902 chg coeffs, 1039 upgd conss, 0 impls, 2002 clqs
+(round 30, exhaustive) 109833 del vars, 2295 del conss, 318 add conss, 108375 chg bounds, 1037 chg sides, 904 chg coeffs, 1039 upgd conss, 0 impls, 2002 clqs
+(round 31, exhaustive) 109833 del vars, 2295 del conss, 318 add conss, 108375 chg bounds, 1037 chg sides, 904 chg coeffs, 1060 upgd conss, 0 impls, 2002 clqs
+(round 32, fast)       109833 del vars, 2304 del conss, 318 add conss, 108375 chg bounds, 1037 chg sides, 904 chg coeffs, 1060 upgd conss, 0 impls, 2002 clqs
+(round 33, exhaustive) 109862 del vars, 2304 del conss, 318 add conss, 108375 chg bounds, 1037 chg sides, 916 chg coeffs, 1060 upgd conss, 0 impls, 2268 clqs
+(round 34, fast)       109862 del vars, 2322 del conss, 366 add conss, 108375 chg bounds, 1039 chg sides, 919 chg coeffs, 1060 upgd conss, 0 impls, 2271 clqs
+(round 35, fast)       109862 del vars, 2322 del conss, 366 add conss, 108375 chg bounds, 1129 chg sides, 1030 chg coeffs, 1060 upgd conss, 0 impls, 2271 clqs
+(round 36, medium)     109862 del vars, 2322 del conss, 370 add conss, 108375 chg bounds, 1136 chg sides, 1041 chg coeffs, 1060 upgd conss, 0 impls, 2275 clqs
+(round 37, exhaustive) 109862 del vars, 2342 del conss, 370 add conss, 108375 chg bounds, 1167 chg sides, 1044 chg coeffs, 1060 upgd conss, 0 impls, 2275 clqs
+(round 38, exhaustive) 109862 del vars, 2342 del conss, 370 add conss, 108375 chg bounds, 1167 chg sides, 1044 chg coeffs, 1092 upgd conss, 0 impls, 2275 clqs
+(round 39, fast)       109862 del vars, 2357 del conss, 370 add conss, 108375 chg bounds, 1167 chg sides, 1044 chg coeffs, 1092 upgd conss, 0 impls, 2275 clqs
+(round 40, exhaustive) 109862 del vars, 2365 del conss, 370 add conss, 108375 chg bounds, 1167 chg sides, 1044 chg coeffs, 1092 upgd conss, 0 impls, 2275 clqs
+(round 41, exhaustive) 109895 del vars, 2365 del conss, 370 add conss, 108375 chg bounds, 1167 chg sides, 1056 chg coeffs, 1092 upgd conss, 0 impls, 2532 clqs
+(round 42, fast)       109895 del vars, 2384 del conss, 412 add conss, 108375 chg bounds, 1169 chg sides, 1058 chg coeffs, 1092 upgd conss, 0 impls, 2535 clqs
+(round 43, fast)       109895 del vars, 2384 del conss, 412 add conss, 108375 chg bounds, 1243 chg sides, 1154 chg coeffs, 1092 upgd conss, 0 impls, 2535 clqs
+(round 44, medium)     109895 del vars, 2384 del conss, 414 add conss, 108375 chg bounds, 1246 chg sides, 1159 chg coeffs, 1092 upgd conss, 0 impls, 2536 clqs
+(round 45, exhaustive) 109895 del vars, 2398 del conss, 414 add conss, 108375 chg bounds, 1268 chg sides, 1160 chg coeffs, 1092 upgd conss, 0 impls, 2536 clqs
+(round 46, exhaustive) 109895 del vars, 2398 del conss, 414 add conss, 108375 chg bounds, 1268 chg sides, 1160 chg coeffs, 1123 upgd conss, 0 impls, 2536 clqs
+(round 47, fast)       109895 del vars, 2406 del conss, 414 add conss, 108375 chg bounds, 1268 chg sides, 1160 chg coeffs, 1123 upgd conss, 0 impls, 2536 clqs
+(round 48, exhaustive) 109895 del vars, 2416 del conss, 414 add conss, 108375 chg bounds, 1268 chg sides, 1160 chg coeffs, 1123 upgd conss, 0 impls, 2536 clqs
+(round 49, exhaustive) 109922 del vars, 2416 del conss, 414 add conss, 108375 chg bounds, 1268 chg sides, 1177 chg coeffs, 1123 upgd conss, 0 impls, 2995 clqs
+(round 50, fast)       109922 del vars, 2447 del conss, 453 add conss, 108375 chg bounds, 1270 chg sides, 1178 chg coeffs, 1123 upgd conss, 0 impls, 2996 clqs
+(round 51, fast)       109922 del vars, 2447 del conss, 453 add conss, 108375 chg bounds, 1340 chg sides, 1268 chg coeffs, 1123 upgd conss, 0 impls, 2996 clqs
+(round 52, medium)     109922 del vars, 2447 del conss, 455 add conss, 108375 chg bounds, 1344 chg sides, 1274 chg coeffs, 1123 upgd conss, 0 impls, 3000 clqs
+(round 53, exhaustive) 109922 del vars, 2459 del conss, 455 add conss, 108375 chg bounds, 1364 chg sides, 1276 chg coeffs, 1123 upgd conss, 0 impls, 3000 clqs
+(round 54, exhaustive) 109922 del vars, 2460 del conss, 455 add conss, 108375 chg bounds, 1364 chg sides, 1276 chg coeffs, 1151 upgd conss, 0 impls, 3000 clqs
+(round 55, fast)       109922 del vars, 2468 del conss, 455 add conss, 108375 chg bounds, 1364 chg sides, 1276 chg coeffs, 1151 upgd conss, 0 impls, 3000 clqs
+(round 56, exhaustive) 109923 del vars, 2469 del conss, 455 add conss, 108375 chg bounds, 1365 chg sides, 1277 chg coeffs, 1151 upgd conss, 0 impls, 2993 clqs
+(round 57, exhaustive) 109923 del vars, 2484 del conss, 455 add conss, 108375 chg bounds, 1365 chg sides, 1277 chg coeffs, 1151 upgd conss, 0 impls, 2993 clqs
+(round 58, exhaustive) 109951 del vars, 2484 del conss, 455 add conss, 108375 chg bounds, 1365 chg sides, 1293 chg coeffs, 1151 upgd conss, 0 impls, 3503 clqs
+(round 59, fast)       109951 del vars, 2528 del conss, 511 add conss, 108375 chg bounds, 1365 chg sides, 1293 chg coeffs, 1151 upgd conss, 0 impls, 3503 clqs
+(round 60, fast)       109951 del vars, 2528 del conss, 511 add conss, 108375 chg bounds, 1463 chg sides, 1413 chg coeffs, 1151 upgd conss, 0 impls, 3503 clqs
+(round 61, medium)     109951 del vars, 2528 del conss, 512 add conss, 108375 chg bounds, 1464 chg sides, 1415 chg coeffs, 1151 upgd conss, 0 impls, 3504 clqs
+(round 62, fast)       109951 del vars, 2529 del conss, 513 add conss, 108375 chg bounds, 1464 chg sides, 1415 chg coeffs, 1151 upgd conss, 0 impls, 3504 clqs
+(round 63, exhaustive) 109951 del vars, 2544 del conss, 513 add conss, 108375 chg bounds, 1492 chg sides, 1415 chg coeffs, 1151 upgd conss, 0 impls, 3504 clqs
+(round 64, exhaustive) 109952 del vars, 2547 del conss, 513 add conss, 108375 chg bounds, 1492 chg sides, 1415 chg coeffs, 1151 upgd conss, 0 impls, 3495 clqs
+(round 65, medium)     109954 del vars, 2547 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1417 chg coeffs, 1151 upgd conss, 0 impls, 3478 clqs
+(round 66, exhaustive) 109954 del vars, 2549 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1417 chg coeffs, 1151 upgd conss, 0 impls, 3478 clqs
+(round 67, exhaustive) 109954 del vars, 2549 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1417 chg coeffs, 1191 upgd conss, 0 impls, 3478 clqs
+(round 68, fast)       109954 del vars, 2563 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1417 chg coeffs, 1191 upgd conss, 0 impls, 3478 clqs
+(round 69, exhaustive) 109954 del vars, 2587 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1417 chg coeffs, 1191 upgd conss, 0 impls, 3478 clqs
+(round 70, exhaustive) 109980 del vars, 2587 del conss, 513 add conss, 108375 chg bounds, 1494 chg sides, 1429 chg coeffs, 1191 upgd conss, 0 impls, 3929 clqs
+(round 71, fast)       109980 del vars, 2626 del conss, 567 add conss, 108375 chg bounds, 1495 chg sides, 1431 chg coeffs, 1191 upgd conss, 0 impls, 3929 clqs
+(round 72, fast)       109980 del vars, 2626 del conss, 567 add conss, 108375 chg bounds, 1591 chg sides, 1549 chg coeffs, 1191 upgd conss, 0 impls, 3929 clqs
+(round 73, medium)     109980 del vars, 2626 del conss, 568 add conss, 108375 chg bounds, 1592 chg sides, 1551 chg coeffs, 1191 upgd conss, 0 impls, 3930 clqs
+(round 74, fast)       109980 del vars, 2627 del conss, 569 add conss, 108375 chg bounds, 1592 chg sides, 1551 chg coeffs, 1191 upgd conss, 0 impls, 3930 clqs
+(round 75, exhaustive) 109980 del vars, 2630 del conss, 569 add conss, 108375 chg bounds, 1592 chg sides, 1551 chg coeffs, 1191 upgd conss, 0 impls, 3930 clqs
+(round 76, medium)     109982 del vars, 2630 del conss, 569 add conss, 108375 chg bounds, 1594 chg sides, 1553 chg coeffs, 1191 upgd conss, 0 impls, 3913 clqs
+(round 77, exhaustive) 109982 del vars, 2632 del conss, 569 add conss, 108375 chg bounds, 1594 chg sides, 1553 chg coeffs, 1191 upgd conss, 0 impls, 3913 clqs
+(round 78, exhaustive) 109982 del vars, 2649 del conss, 569 add conss, 108375 chg bounds, 1620 chg sides, 1553 chg coeffs, 1191 upgd conss, 0 impls, 3913 clqs
+(round 79, exhaustive) 109982 del vars, 2649 del conss, 569 add conss, 108375 chg bounds, 1620 chg sides, 1553 chg coeffs, 1226 upgd conss, 0 impls, 3913 clqs
+(round 80, fast)       109982 del vars, 2660 del conss, 569 add conss, 108375 chg bounds, 1620 chg sides, 1553 chg coeffs, 1226 upgd conss, 0 impls, 3913 clqs
+(round 81, exhaustive) 109982 del vars, 2683 del conss, 569 add conss, 108375 chg bounds, 1620 chg sides, 1553 chg coeffs, 1226 upgd conss, 0 impls, 3913 clqs
+(round 82, exhaustive) 110008 del vars, 2683 del conss, 569 add conss, 108375 chg bounds, 1620 chg sides, 1563 chg coeffs, 1226 upgd conss, 0 impls, 4302 clqs
+(round 83, fast)       110008 del vars, 2722 del conss, 610 add conss, 108375 chg bounds, 1621 chg sides, 1565 chg coeffs, 1226 upgd conss, 0 impls, 4302 clqs
+(round 84, fast)       110008 del vars, 2722 del conss, 610 add conss, 108375 chg bounds, 1697 chg sides, 1658 chg coeffs, 1226 upgd conss, 0 impls, 4302 clqs
+(round 85, medium)     110008 del vars, 2722 del conss, 611 add conss, 108375 chg bounds, 1698 chg sides, 1660 chg coeffs, 1226 upgd conss, 0 impls, 4303 clqs
+(round 86, fast)       110008 del vars, 2723 del conss, 612 add conss, 108375 chg bounds, 1698 chg sides, 1660 chg coeffs, 1226 upgd conss, 0 impls, 4303 clqs
+(round 87, exhaustive) 110008 del vars, 2735 del conss, 612 add conss, 108375 chg bounds, 1714 chg sides, 1660 chg coeffs, 1226 upgd conss, 0 impls, 4303 clqs
+(round 88, exhaustive) 110008 del vars, 2737 del conss, 612 add conss, 108375 chg bounds, 1714 chg sides, 1660 chg coeffs, 1226 upgd conss, 0 impls, 4303 clqs
+(round 89, medium)     110010 del vars, 2737 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1662 chg coeffs, 1226 upgd conss, 0 impls, 4286 clqs
+(round 90, exhaustive) 110010 del vars, 2739 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1662 chg coeffs, 1226 upgd conss, 0 impls, 4286 clqs
+(round 91, exhaustive) 110010 del vars, 2739 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1662 chg coeffs, 1254 upgd conss, 0 impls, 4286 clqs
+(round 92, fast)       110010 del vars, 2747 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1662 chg coeffs, 1254 upgd conss, 0 impls, 4286 clqs
+(round 93, exhaustive) 110010 del vars, 2764 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1662 chg coeffs, 1254 upgd conss, 0 impls, 4286 clqs
+(round 94, exhaustive) 110036 del vars, 2764 del conss, 612 add conss, 108375 chg bounds, 1716 chg sides, 1672 chg coeffs, 1254 upgd conss, 0 impls, 4979 clqs
+(round 95, fast)       110036 del vars, 2803 del conss, 653 add conss, 108375 chg bounds, 1716 chg sides, 1672 chg coeffs, 1254 upgd conss, 0 impls, 4979 clqs
+(round 96, fast)       110036 del vars, 2803 del conss, 653 add conss, 108375 chg bounds, 1788 chg sides, 1769 chg coeffs, 1254 upgd conss, 0 impls, 4979 clqs
+(round 97, exhaustive) 110036 del vars, 2806 del conss, 653 add conss, 108375 chg bounds, 1788 chg sides, 1769 chg coeffs, 1254 upgd conss, 0 impls, 4980 clqs
+(round 98, medium)     110038 del vars, 2806 del conss, 653 add conss, 108375 chg bounds, 1790 chg sides, 1771 chg coeffs, 1254 upgd conss, 0 impls, 4963 clqs
+(round 99, exhaustive) 110038 del vars, 2808 del conss, 653 add conss, 108375 chg bounds, 1790 chg sides, 1771 chg coeffs, 1254 upgd conss, 0 impls, 4963 clqs
+(round 100, exhaustive) 110038 del vars, 2820 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1771 chg coeffs, 1254 upgd conss, 0 impls, 4963 clqs
+(round 101, exhaustive) 110038 del vars, 2820 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1771 chg coeffs, 1277 upgd conss, 0 impls, 4963 clqs
+(round 102, fast)       110038 del vars, 2826 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1771 chg coeffs, 1277 upgd conss, 0 impls, 4963 clqs
+(round 103, exhaustive) 110038 del vars, 2840 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1771 chg coeffs, 1277 upgd conss, 0 impls, 4963 clqs
+(round 104, exhaustive) 110038 del vars, 2840 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1789 chg coeffs, 1277 upgd conss, 0 impls, 4963 clqs
+(round 105, exhaustive) 110067 del vars, 2840 del conss, 653 add conss, 108375 chg bounds, 1809 chg sides, 1789 chg coeffs, 1277 upgd conss, 0 impls, 5119 clqs
+(round 106, fast)       110067 del vars, 2864 del conss, 694 add conss, 108375 chg bounds, 1809 chg sides, 1790 chg coeffs, 1277 upgd conss, 0 impls, 5119 clqs
+(round 107, fast)       110067 del vars, 2864 del conss, 694 add conss, 108375 chg bounds, 1865 chg sides, 1869 chg coeffs, 1277 upgd conss, 0 impls, 5119 clqs
+(round 108, medium)     110067 del vars, 2864 del conss, 696 add conss, 108375 chg bounds, 1867 chg sides, 1873 chg coeffs, 1277 upgd conss, 0 impls, 5119 clqs
+(round 109, exhaustive) 110068 del vars, 2868 del conss, 696 add conss, 108375 chg bounds, 1867 chg sides, 1873 chg coeffs, 1277 upgd conss, 0 impls, 5108 clqs
+(round 110, exhaustive) 110069 del vars, 2869 del conss, 696 add conss, 108375 chg bounds, 1868 chg sides, 1874 chg coeffs, 1277 upgd conss, 0 impls, 5097 clqs
+(round 111, exhaustive) 110069 del vars, 2891 del conss, 696 add conss, 108375 chg bounds, 1888 chg sides, 1874 chg coeffs, 1277 upgd conss, 0 impls, 5097 clqs
+(round 112, exhaustive) 110069 del vars, 2891 del conss, 696 add conss, 108375 chg bounds, 1888 chg sides, 1874 chg coeffs, 1298 upgd conss, 0 impls, 5097 clqs
+(round 113, fast)       110069 del vars, 2896 del conss, 696 add conss, 108375 chg bounds, 1888 chg sides, 1874 chg coeffs, 1298 upgd conss, 0 impls, 5097 clqs
+(round 114, exhaustive) 110069 del vars, 2910 del conss, 696 add conss, 108375 chg bounds, 1888 chg sides, 1874 chg coeffs, 1298 upgd conss, 0 impls, 5097 clqs
+(round 115, exhaustive) 110097 del vars, 2910 del conss, 696 add conss, 108375 chg bounds, 1888 chg sides, 1887 chg coeffs, 1298 upgd conss, 0 impls, 4884 clqs
+(round 116, fast)       110097 del vars, 2917 del conss, 701 add conss, 108375 chg bounds, 1888 chg sides, 1887 chg coeffs, 1298 upgd conss, 0 impls, 4888 clqs
+(round 117, fast)       110097 del vars, 2917 del conss, 701 add conss, 108375 chg bounds, 1894 chg sides, 1895 chg coeffs, 1298 upgd conss, 0 impls, 4888 clqs
+(round 118, exhaustive) 110097 del vars, 2918 del conss, 701 add conss, 108375 chg bounds, 1895 chg sides, 1895 chg coeffs, 1298 upgd conss, 0 impls, 4888 clqs
+(round 119, exhaustive) 110097 del vars, 2918 del conss, 701 add conss, 108375 chg bounds, 1895 chg sides, 1895 chg coeffs, 1305 upgd conss, 0 impls, 4888 clqs
+(round 120, exhaustive) 110097 del vars, 2922 del conss, 701 add conss, 108375 chg bounds, 1895 chg sides, 1895 chg coeffs, 1305 upgd conss, 0 impls, 4888 clqs
+(round 121, medium)     110101 del vars, 2923 del conss, 701 add conss, 108375 chg bounds, 1899 chg sides, 1907 chg coeffs, 1305 upgd conss, 0 impls, 4753 clqs
+(round 122, exhaustive) 110101 del vars, 2927 del conss, 701 add conss, 108375 chg bounds, 1899 chg sides, 1907 chg coeffs, 1305 upgd conss, 0 impls, 4753 clqs
+(round 123, exhaustive) 110101 del vars, 2930 del conss, 701 add conss, 108375 chg bounds, 1899 chg sides, 1907 chg coeffs, 1305 upgd conss, 0 impls, 4753 clqs
+(round 124, exhaustive) 110127 del vars, 2930 del conss, 701 add conss, 108375 chg bounds, 1899 chg sides, 1907 chg coeffs, 1305 upgd conss, 0 impls, 4506 clqs
+(round 125, fast)       110127 del vars, 2941 del conss, 705 add conss, 108375 chg bounds, 1900 chg sides, 1907 chg coeffs, 1305 upgd conss, 0 impls, 4514 clqs
+(round 126, fast)       110127 del vars, 2941 del conss, 705 add conss, 108375 chg bounds, 1906 chg sides, 1916 chg coeffs, 1305 upgd conss, 0 impls, 4514 clqs
+(round 127, exhaustive) 110127 del vars, 2947 del conss, 705 add conss, 108375 chg bounds, 1909 chg sides, 1916 chg coeffs, 1305 upgd conss, 0 impls, 4514 clqs
+(round 128, exhaustive) 110127 del vars, 2947 del conss, 705 add conss, 108375 chg bounds, 1909 chg sides, 1916 chg coeffs, 1314 upgd conss, 0 impls, 4514 clqs
+(round 129, exhaustive) 110127 del vars, 2956 del conss, 705 add conss, 108375 chg bounds, 1909 chg sides, 1916 chg coeffs, 1314 upgd conss, 0 impls, 4514 clqs
+(round 130, medium)     110135 del vars, 2959 del conss, 708 add conss, 108375 chg bounds, 1917 chg sides, 1924 chg coeffs, 1314 upgd conss, 0 impls, 4405 clqs
+(round 131, fast)       110135 del vars, 2962 del conss, 708 add conss, 108375 chg bounds, 1917 chg sides, 1924 chg coeffs, 1314 upgd conss, 0 impls, 4405 clqs
+(round 132, exhaustive) 110135 del vars, 2970 del conss, 708 add conss, 108375 chg bounds, 1917 chg sides, 1924 chg coeffs, 1314 upgd conss, 0 impls, 4405 clqs
+(round 133, exhaustive) 110173 del vars, 2970 del conss, 708 add conss, 108375 chg bounds, 1917 chg sides, 1924 chg coeffs, 1314 upgd conss, 0 impls, 4119 clqs
+(round 134, fast)       110173 del vars, 2979 del conss, 714 add conss, 108375 chg bounds, 1921 chg sides, 1924 chg coeffs, 1314 upgd conss, 0 impls, 4124 clqs
+(round 135, exhaustive) 110173 del vars, 2983 del conss, 714 add conss, 108375 chg bounds, 1921 chg sides, 1930 chg coeffs, 1314 upgd conss, 0 impls, 4124 clqs
+(round 136, exhaustive) 110173 del vars, 2983 del conss, 714 add conss, 108375 chg bounds, 1921 chg sides, 1930 chg coeffs, 1325 upgd conss, 0 impls, 4124 clqs
+(round 137, exhaustive) 110173 del vars, 2988 del conss, 714 add conss, 108375 chg bounds, 1921 chg sides, 1930 chg coeffs, 1325 upgd conss, 0 impls, 4124 clqs
+(round 138, medium)     110178 del vars, 2990 del conss, 714 add conss, 108375 chg bounds, 1926 chg sides, 1947 chg coeffs, 1325 upgd conss, 0 impls, 4023 clqs
+(round 139, exhaustive) 110178 del vars, 2995 del conss, 714 add conss, 108375 chg bounds, 1926 chg sides, 1947 chg coeffs, 1325 upgd conss, 0 impls, 4023 clqs
+(round 140, exhaustive) 110178 del vars, 3001 del conss, 714 add conss, 108375 chg bounds, 1926 chg sides, 1947 chg coeffs, 1325 upgd conss, 0 impls, 4023 clqs
+(round 141, exhaustive) 110207 del vars, 3001 del conss, 714 add conss, 108375 chg bounds, 1926 chg sides, 1947 chg coeffs, 1325 upgd conss, 0 impls, 3820 clqs
+(round 142, fast)       110207 del vars, 3008 del conss, 718 add conss, 108375 chg bounds, 1927 chg sides, 1947 chg coeffs, 1325 upgd conss, 0 impls, 3825 clqs
+(round 143, exhaustive) 110207 del vars, 3009 del conss, 718 add conss, 108375 chg bounds, 1927 chg sides, 1951 chg coeffs, 1334 upgd conss, 0 impls, 3825 clqs
+(round 144, exhaustive) 110207 del vars, 3014 del conss, 718 add conss, 108375 chg bounds, 1927 chg sides, 1951 chg coeffs, 1334 upgd conss, 0 impls, 3825 clqs
+(round 145, medium)     110212 del vars, 3017 del conss, 718 add conss, 108375 chg bounds, 1932 chg sides, 1974 chg coeffs, 1334 upgd conss, 0 impls, 3723 clqs
+(round 146, exhaustive) 110212 del vars, 3022 del conss, 718 add conss, 108375 chg bounds, 1932 chg sides, 1974 chg coeffs, 1334 upgd conss, 0 impls, 3723 clqs
+(round 147, exhaustive) 110212 del vars, 3026 del conss, 718 add conss, 108375 chg bounds, 1932 chg sides, 1974 chg coeffs, 1334 upgd conss, 0 impls, 3723 clqs
+(round 148, exhaustive) 110239 del vars, 3026 del conss, 718 add conss, 108375 chg bounds, 1932 chg sides, 1974 chg coeffs, 1334 upgd conss, 0 impls, 3537 clqs
+(round 149, fast)       110239 del vars, 3033 del conss, 722 add conss, 108375 chg bounds, 1933 chg sides, 1974 chg coeffs, 1334 upgd conss, 0 impls, 3542 clqs
+(round 150, exhaustive) 110239 del vars, 3034 del conss, 722 add conss, 108375 chg bounds, 1933 chg sides, 1978 chg coeffs, 1343 upgd conss, 0 impls, 3542 clqs
+(round 151, exhaustive) 110239 del vars, 3039 del conss, 722 add conss, 108375 chg bounds, 1933 chg sides, 1978 chg coeffs, 1343 upgd conss, 0 impls, 3542 clqs
+(round 152, medium)     110244 del vars, 3042 del conss, 722 add conss, 108375 chg bounds, 1938 chg sides, 2001 chg coeffs, 1343 upgd conss, 0 impls, 3444 clqs
+(round 153, exhaustive) 110244 del vars, 3047 del conss, 722 add conss, 108375 chg bounds, 1938 chg sides, 2001 chg coeffs, 1343 upgd conss, 0 impls, 3444 clqs
+(round 154, exhaustive) 110244 del vars, 3051 del conss, 722 add conss, 108375 chg bounds, 1938 chg sides, 2001 chg coeffs, 1343 upgd conss, 0 impls, 3444 clqs
+(round 155, exhaustive) 110269 del vars, 3051 del conss, 722 add conss, 108375 chg bounds, 1938 chg sides, 2001 chg coeffs, 1343 upgd conss, 0 impls, 3346 clqs
+(round 156, fast)       110269 del vars, 3065 del conss, 730 add conss, 108375 chg bounds, 1938 chg sides, 2001 chg coeffs, 1343 upgd conss, 0 impls, 3360 clqs
+(round 157, exhaustive) 110269 del vars, 3065 del conss, 730 add conss, 108375 chg bounds, 1938 chg sides, 2009 chg coeffs, 1365 upgd conss, 0 impls, 3360 clqs
+(round 158, exhaustive) 110269 del vars, 3079 del conss, 730 add conss, 108375 chg bounds, 1938 chg sides, 2009 chg coeffs, 1365 upgd conss, 0 impls, 3360 clqs
+(round 159, medium)     110283 del vars, 3079 del conss, 730 add conss, 108375 chg bounds, 1952 chg sides, 2023 chg coeffs, 1365 upgd conss, 0 impls, 3148 clqs
+(round 160, exhaustive) 110283 del vars, 3093 del conss, 730 add conss, 108375 chg bounds, 1952 chg sides, 2023 chg coeffs, 1365 upgd conss, 0 impls, 3148 clqs
+(round 161, exhaustive) 110283 del vars, 3101 del conss, 730 add conss, 108375 chg bounds, 1952 chg sides, 2023 chg coeffs, 1365 upgd conss, 0 impls, 3148 clqs
+(round 162, exhaustive) 110308 del vars, 3101 del conss, 730 add conss, 108375 chg bounds, 1952 chg sides, 2023 chg coeffs, 1365 upgd conss, 0 impls, 2986 clqs
+(round 163, fast)       110308 del vars, 3113 del conss, 761 add conss, 108375 chg bounds, 1952 chg sides, 2023 chg coeffs, 1365 upgd conss, 0 impls, 2991 clqs
+(round 164, fast)       110308 del vars, 3113 del conss, 761 add conss, 108375 chg bounds, 2014 chg sides, 2101 chg coeffs, 1365 upgd conss, 0 impls, 2991 clqs
+(round 165, medium)     110308 del vars, 3113 del conss, 765 add conss, 108375 chg bounds, 2018 chg sides, 2109 chg coeffs, 1365 upgd conss, 0 impls, 2991 clqs
+(round 166, exhaustive) 110308 del vars, 3118 del conss, 765 add conss, 108375 chg bounds, 2018 chg sides, 2109 chg coeffs, 1365 upgd conss, 0 impls, 2991 clqs
+(round 167, exhaustive) 110308 del vars, 3140 del conss, 765 add conss, 108375 chg bounds, 2041 chg sides, 2109 chg coeffs, 1365 upgd conss, 0 impls, 2991 clqs
+(round 168, exhaustive) 110308 del vars, 3140 del conss, 765 add conss, 108375 chg bounds, 2041 chg sides, 2109 chg coeffs, 1384 upgd conss, 0 impls, 2991 clqs
+(round 169, fast)       110308 del vars, 3150 del conss, 765 add conss, 108375 chg bounds, 2041 chg sides, 2109 chg coeffs, 1384 upgd conss, 0 impls, 2991 clqs
+(round 170, exhaustive) 110308 del vars, 3155 del conss, 765 add conss, 108375 chg bounds, 2041 chg sides, 2109 chg coeffs, 1384 upgd conss, 0 impls, 2991 clqs
+(round 171, medium)     110313 del vars, 3155 del conss, 765 add conss, 108375 chg bounds, 2046 chg sides, 2114 chg coeffs, 1384 upgd conss, 0 impls, 2914 clqs
+(round 172, exhaustive) 110313 del vars, 3160 del conss, 765 add conss, 108375 chg bounds, 2046 chg sides, 2114 chg coeffs, 1384 upgd conss, 0 impls, 2914 clqs
+(round 173, exhaustive) 110313 del vars, 3164 del conss, 765 add conss, 108375 chg bounds, 2046 chg sides, 2114 chg coeffs, 1384 upgd conss, 0 impls, 2914 clqs
+(round 174, exhaustive) 110358 del vars, 3164 del conss, 765 add conss, 108375 chg bounds, 2046 chg sides, 2114 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 175, fast)       110378 del vars, 3187 del conss, 794 add conss, 108375 chg bounds, 2046 chg sides, 2114 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 176, fast)       110378 del vars, 3187 del conss, 794 add conss, 108375 chg bounds, 2112 chg sides, 2192 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 177, medium)     110378 del vars, 3187 del conss, 796 add conss, 108375 chg bounds, 2114 chg sides, 2196 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 178, exhaustive) 110378 del vars, 3192 del conss, 796 add conss, 108375 chg bounds, 2114 chg sides, 2196 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 179, exhaustive) 110378 del vars, 3218 del conss, 796 add conss, 108375 chg bounds, 2139 chg sides, 2196 chg coeffs, 1384 upgd conss, 0 impls, 2563 clqs
+(round 180, exhaustive) 110378 del vars, 3218 del conss, 796 add conss, 108375 chg bounds, 2139 chg sides, 2196 chg coeffs, 1399 upgd conss, 0 impls, 2563 clqs
+(round 181, fast)       110378 del vars, 3233 del conss, 796 add conss, 108375 chg bounds, 2139 chg sides, 2196 chg coeffs, 1399 upgd conss, 0 impls, 2563 clqs
+(round 182, exhaustive) 110430 del vars, 3233 del conss, 796 add conss, 108375 chg bounds, 2139 chg sides, 2196 chg coeffs, 1399 upgd conss, 0 impls, 7601 clqs
+(round 183, fast)       110457 del vars, 3298 del conss, 844 add conss, 108375 chg bounds, 2154 chg sides, 2196 chg coeffs, 1399 upgd conss, 0 impls, 7616 clqs
+(round 184, fast)       110457 del vars, 3298 del conss, 844 add conss, 108375 chg bounds, 2250 chg sides, 2316 chg coeffs, 1399 upgd conss, 0 impls, 7616 clqs
+(round 185, medium)     110457 del vars, 3298 del conss, 865 add conss, 108375 chg bounds, 2310 chg sides, 2403 chg coeffs, 1399 upgd conss, 0 impls, 7626 clqs
+(round 186, exhaustive) 110457 del vars, 3298 del conss, 865 add conss, 108375 chg bounds, 2310 chg sides, 2425 chg coeffs, 1399 upgd conss, 0 impls, 7626 clqs
+(round 187, exhaustive) 110457 del vars, 3300 del conss, 865 add conss, 108375 chg bounds, 2310 chg sides, 2425 chg coeffs, 1399 upgd conss, 0 impls, 7628 clqs
+(round 188, exhaustive) 110457 del vars, 3336 del conss, 865 add conss, 108375 chg bounds, 2350 chg sides, 2425 chg coeffs, 1399 upgd conss, 0 impls, 7628 clqs
+(round 189, exhaustive) 110457 del vars, 3336 del conss, 865 add conss, 108375 chg bounds, 2350 chg sides, 2425 chg coeffs, 1430 upgd conss, 0 impls, 7628 clqs
+(round 190, fast)       110457 del vars, 3352 del conss, 865 add conss, 108375 chg bounds, 2350 chg sides, 2425 chg coeffs, 1430 upgd conss, 0 impls, 7628 clqs
+(round 191, exhaustive) 110457 del vars, 3352 del conss, 865 add conss, 108375 chg bounds, 2350 chg sides, 2435 chg coeffs, 1430 upgd conss, 0 impls, 7628 clqs
+(round 192, exhaustive) 110483 del vars, 3352 del conss, 865 add conss, 108375 chg bounds, 2350 chg sides, 2435 chg coeffs, 1430 upgd conss, 0 impls, 9252 clqs
+(round 193, fast)       110483 del vars, 3369 del conss, 913 add conss, 108375 chg bounds, 2350 chg sides, 2435 chg coeffs, 1430 upgd conss, 0 impls, 9252 clqs
+(round 194, fast)       110483 del vars, 3369 del conss, 913 add conss, 108375 chg bounds, 2446 chg sides, 2555 chg coeffs, 1430 upgd conss, 0 impls, 9252 clqs
+(round 195, medium)     110483 del vars, 3369 del conss, 914 add conss, 108375 chg bounds, 2449 chg sides, 2559 chg coeffs, 1430 upgd conss, 0 impls, 9253 clqs
+(round 196, exhaustive) 110483 del vars, 3403 del conss, 914 add conss, 108375 chg bounds, 2489 chg sides, 2566 chg coeffs, 1430 upgd conss, 0 impls, 9253 clqs
+(round 197, exhaustive) 110483 del vars, 3403 del conss, 914 add conss, 108375 chg bounds, 2489 chg sides, 2566 chg coeffs, 1444 upgd conss, 0 impls, 9253 clqs
+(round 198, fast)       110483 del vars, 3413 del conss, 914 add conss, 108375 chg bounds, 2489 chg sides, 2566 chg coeffs, 1444 upgd conss, 0 impls, 9253 clqs
+(round 199, exhaustive) 110483 del vars, 3417 del conss, 914 add conss, 108375 chg bounds, 2489 chg sides, 2566 chg coeffs, 1444 upgd conss, 0 impls, 9253 clqs
+(round 200, exhaustive) 110516 del vars, 3417 del conss, 914 add conss, 108375 chg bounds, 2489 chg sides, 2566 chg coeffs, 1444 upgd conss, 0 impls, 9843 clqs
+(round 201, fast)       110524 del vars, 3451 del conss, 962 add conss, 108375 chg bounds, 2498 chg sides, 2567 chg coeffs, 1444 upgd conss, 0 impls, 9849 clqs
+(round 202, fast)       110524 del vars, 3451 del conss, 962 add conss, 108375 chg bounds, 2590 chg sides, 2682 chg coeffs, 1444 upgd conss, 0 impls, 9849 clqs
+(round 203, medium)     110524 del vars, 3453 del conss, 970 add conss, 108375 chg bounds, 2610 chg sides, 2714 chg coeffs, 1444 upgd conss, 0 impls, 9851 clqs
+(round 204, exhaustive) 110524 del vars, 3455 del conss, 970 add conss, 108375 chg bounds, 2610 chg sides, 2719 chg coeffs, 1444 upgd conss, 0 impls, 9851 clqs
+(round 205, exhaustive) 110524 del vars, 3488 del conss, 970 add conss, 108375 chg bounds, 2649 chg sides, 2719 chg coeffs, 1444 upgd conss, 0 impls, 9851 clqs
+(round 206, exhaustive) 110524 del vars, 3488 del conss, 970 add conss, 108375 chg bounds, 2649 chg sides, 2719 chg coeffs, 1468 upgd conss, 0 impls, 9851 clqs
+(round 207, fast)       110524 del vars, 3497 del conss, 970 add conss, 108375 chg bounds, 2649 chg sides, 2719 chg coeffs, 1468 upgd conss, 0 impls, 9851 clqs
+(round 208, exhaustive) 110524 del vars, 3501 del conss, 970 add conss, 108375 chg bounds, 2649 chg sides, 2719 chg coeffs, 1468 upgd conss, 0 impls, 9851 clqs
+(round 209, exhaustive) 110549 del vars, 3501 del conss, 970 add conss, 108375 chg bounds, 2649 chg sides, 2724 chg coeffs, 1468 upgd conss, 0 impls, 9385 clqs
+(round 210, fast)       110549 del vars, 3507 del conss, 1018 add conss, 108375 chg bounds, 2651 chg sides, 2725 chg coeffs, 1468 upgd conss, 0 impls, 9385 clqs
+(round 211, fast)       110549 del vars, 3507 del conss, 1018 add conss, 108375 chg bounds, 2733 chg sides, 2832 chg coeffs, 1468 upgd conss, 0 impls, 9385 clqs
+(round 212, exhaustive) 110549 del vars, 3539 del conss, 1018 add conss, 108375 chg bounds, 2772 chg sides, 2835 chg coeffs, 1468 upgd conss, 0 impls, 9385 clqs
+(round 213, exhaustive) 110549 del vars, 3539 del conss, 1018 add conss, 108375 chg bounds, 2772 chg sides, 2835 chg coeffs, 1486 upgd conss, 0 impls, 9385 clqs
+(round 214, fast)       110549 del vars, 3549 del conss, 1018 add conss, 108375 chg bounds, 2772 chg sides, 2835 chg coeffs, 1486 upgd conss, 0 impls, 9385 clqs
+(round 215, exhaustive) 110549 del vars, 3555 del conss, 1018 add conss, 108375 chg bounds, 2772 chg sides, 2835 chg coeffs, 1486 upgd conss, 0 impls, 9385 clqs
+(round 216, exhaustive) 110574 del vars, 3555 del conss, 1018 add conss, 108375 chg bounds, 2772 chg sides, 2836 chg coeffs, 1486 upgd conss, 0 impls, 8344 clqs
+(round 217, fast)       110574 del vars, 3562 del conss, 1058 add conss, 108375 chg bounds, 2774 chg sides, 2837 chg coeffs, 1486 upgd conss, 0 impls, 8344 clqs
+(round 218, fast)       110574 del vars, 3562 del conss, 1058 add conss, 108375 chg bounds, 2832 chg sides, 2920 chg coeffs, 1486 upgd conss, 0 impls, 8344 clqs
+(round 219, exhaustive) 110574 del vars, 3589 del conss, 1058 add conss, 108375 chg bounds, 2863 chg sides, 2922 chg coeffs, 1486 upgd conss, 0 impls, 8344 clqs
+(round 220, medium)     110574 del vars, 3589 del conss, 1060 add conss, 108375 chg bounds, 2869 chg sides, 2930 chg coeffs, 1486 upgd conss, 0 impls, 8344 clqs
+(round 221, exhaustive) 110574 del vars, 3589 del conss, 1060 add conss, 108375 chg bounds, 2869 chg sides, 2930 chg coeffs, 1501 upgd conss, 0 impls, 8344 clqs
+(round 222, fast)       110574 del vars, 3595 del conss, 1060 add conss, 108375 chg bounds, 2869 chg sides, 2930 chg coeffs, 1501 upgd conss, 0 impls, 8344 clqs
+(round 223, exhaustive) 110574 del vars, 3600 del conss, 1060 add conss, 108375 chg bounds, 2869 chg sides, 2930 chg coeffs, 1501 upgd conss, 0 impls, 8344 clqs
+(round 224, exhaustive) 110599 del vars, 3600 del conss, 1060 add conss, 108375 chg bounds, 2869 chg sides, 2931 chg coeffs, 1501 upgd conss, 0 impls, 7349 clqs
+(round 225, fast)       110599 del vars, 3605 del conss, 1108 add conss, 108375 chg bounds, 2871 chg sides, 2932 chg coeffs, 1501 upgd conss, 0 impls, 7349 clqs
+(round 226, fast)       110599 del vars, 3605 del conss, 1108 add conss, 108375 chg bounds, 2933 chg sides, 3025 chg coeffs, 1501 upgd conss, 0 impls, 7349 clqs
+(round 227, exhaustive) 110599 del vars, 3636 del conss, 1108 add conss, 108375 chg bounds, 2969 chg sides, 3025 chg coeffs, 1501 upgd conss, 0 impls, 7349 clqs
+(round 228, exhaustive) 110599 del vars, 3636 del conss, 1108 add conss, 108375 chg bounds, 2969 chg sides, 3025 chg coeffs, 1520 upgd conss, 0 impls, 7349 clqs
+(round 229, fast)       110599 del vars, 3643 del conss, 1108 add conss, 108375 chg bounds, 2969 chg sides, 3025 chg coeffs, 1520 upgd conss, 0 impls, 7349 clqs
+(round 230, exhaustive) 110599 del vars, 3651 del conss, 1108 add conss, 108375 chg bounds, 2969 chg sides, 3025 chg coeffs, 1520 upgd conss, 0 impls, 7349 clqs
+   (1.6s) probing: 1000/1518 (65.9%) - 438 fixings, 229 aggregations, 18885 implications, 0 bound changes
+   (1.6s) probing cycle finished: starting next cycle
+   (1.6s) probing: 95/735 (12.9%) - 438 fixings, 231 aggregations, 18897 implications, 0 bound changes
+   (1.6s) probing aborted: 50/50 successive totally useless probings
+(round 231, exhaustive) 110616 del vars, 3651 del conss, 1108 add conss, 108375 chg bounds, 2969 chg sides, 3028 chg coeffs, 1520 upgd conss, 0 impls, 7741 clqs
+(round 232, fast)       110616 del vars, 3655 del conss, 1156 add conss, 108375 chg bounds, 2970 chg sides, 3029 chg coeffs, 1520 upgd conss, 0 impls, 7741 clqs
+(round 233, fast)       110616 del vars, 3655 del conss, 1156 add conss, 108375 chg bounds, 3030 chg sides, 3119 chg coeffs, 1520 upgd conss, 0 impls, 7741 clqs
+(round 234, medium)     110616 del vars, 3655 del conss, 1157 add conss, 108375 chg bounds, 3033 chg sides, 3123 chg coeffs, 1520 upgd conss, 0 impls, 7742 clqs
+(round 235, exhaustive) 110616 del vars, 3655 del conss, 1157 add conss, 108375 chg bounds, 3033 chg sides, 3134 chg coeffs, 1520 upgd conss, 0 impls, 7742 clqs
+(round 236, medium)     110616 del vars, 3655 del conss, 1160 add conss, 108375 chg bounds, 3037 chg sides, 3144 chg coeffs, 1520 upgd conss, 0 impls, 7744 clqs
+(round 237, exhaustive) 110616 del vars, 3658 del conss, 1160 add conss, 108375 chg bounds, 3037 chg sides, 3146 chg coeffs, 1520 upgd conss, 0 impls, 7744 clqs
+(round 238, exhaustive) 110616 del vars, 3689 del conss, 1160 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1520 upgd conss, 0 impls, 7744 clqs
+(round 239, exhaustive) 110616 del vars, 3689 del conss, 1160 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1538 upgd conss, 0 impls, 7744 clqs
+(round 240, fast)       110616 del vars, 3695 del conss, 1160 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1538 upgd conss, 0 impls, 7744 clqs
+(round 241, exhaustive) 110616 del vars, 3706 del conss, 1160 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1538 upgd conss, 0 impls, 7744 clqs
+(round 242, exhaustive) 110641 del vars, 3706 del conss, 1160 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1538 upgd conss, 0 impls, 6591 clqs
+(round 243, fast)       110641 del vars, 3731 del conss, 1208 add conss, 108375 chg bounds, 3075 chg sides, 3146 chg coeffs, 1538 upgd conss, 0 impls, 6592 clqs
+(round 244, fast)       110641 del vars, 3731 del conss, 1208 add conss, 108375 chg bounds, 3135 chg sides, 3236 chg coeffs, 1538 upgd conss, 0 impls, 6592 clqs
+(round 245, medium)     110641 del vars, 3731 del conss, 1216 add conss, 108375 chg bounds, 3151 chg sides, 3267 chg coeffs, 1538 upgd conss, 0 impls, 6598 clqs
+(round 246, exhaustive) 110641 del vars, 3737 del conss, 1216 add conss, 108375 chg bounds, 3151 chg sides, 3270 chg coeffs, 1538 upgd conss, 0 impls, 6598 clqs
+(round 247, medium)     110641 del vars, 3738 del conss, 1220 add conss, 108375 chg bounds, 3159 chg sides, 3286 chg coeffs, 1538 upgd conss, 0 impls, 6600 clqs
+(round 248, exhaustive) 110641 del vars, 3740 del conss, 1220 add conss, 108375 chg bounds, 3159 chg sides, 3286 chg coeffs, 1538 upgd conss, 0 impls, 6600 clqs
+(round 249, exhaustive) 110641 del vars, 3770 del conss, 1220 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1538 upgd conss, 0 impls, 6600 clqs
+(round 250, exhaustive) 110641 del vars, 3770 del conss, 1220 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1556 upgd conss, 0 impls, 6600 clqs
+(round 251, fast)       110641 del vars, 3777 del conss, 1220 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1556 upgd conss, 0 impls, 6600 clqs
+(round 252, exhaustive) 110641 del vars, 3788 del conss, 1220 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1556 upgd conss, 0 impls, 6600 clqs
+(round 253, exhaustive) 110666 del vars, 3788 del conss, 1220 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1556 upgd conss, 0 impls, 5497 clqs
+(round 254, fast)       110666 del vars, 3813 del conss, 1268 add conss, 108375 chg bounds, 3197 chg sides, 3286 chg coeffs, 1556 upgd conss, 0 impls, 5498 clqs
+(round 255, fast)       110666 del vars, 3813 del conss, 1268 add conss, 108375 chg bounds, 3257 chg sides, 3376 chg coeffs, 1556 upgd conss, 0 impls, 5498 clqs
+(round 256, exhaustive) 110666 del vars, 3843 del conss, 1268 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1556 upgd conss, 0 impls, 5499 clqs
+(round 257, exhaustive) 110666 del vars, 3843 del conss, 1268 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1574 upgd conss, 0 impls, 5499 clqs
+(round 258, fast)       110666 del vars, 3850 del conss, 1268 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1574 upgd conss, 0 impls, 5499 clqs
+(round 259, exhaustive) 110666 del vars, 3861 del conss, 1268 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1574 upgd conss, 0 impls, 5499 clqs
+(round 260, exhaustive) 110691 del vars, 3861 del conss, 1268 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1574 upgd conss, 0 impls, 4815 clqs
+(round 261, fast)       110691 del vars, 3886 del conss, 1316 add conss, 108375 chg bounds, 3295 chg sides, 3376 chg coeffs, 1574 upgd conss, 0 impls, 4815 clqs
+(round 262, fast)       110691 del vars, 3886 del conss, 1316 add conss, 108375 chg bounds, 3355 chg sides, 3466 chg coeffs, 1574 upgd conss, 0 impls, 4815 clqs
+(round 263, exhaustive) 110691 del vars, 3916 del conss, 1316 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1574 upgd conss, 0 impls, 4816 clqs
+(round 264, exhaustive) 110691 del vars, 3916 del conss, 1316 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1592 upgd conss, 0 impls, 4816 clqs
+(round 265, fast)       110691 del vars, 3923 del conss, 1316 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1592 upgd conss, 0 impls, 4816 clqs
+(round 266, exhaustive) 110691 del vars, 3934 del conss, 1316 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1592 upgd conss, 0 impls, 4816 clqs
+   (1.7s) probing: 368/735 (50.1%) - 438 fixings, 307 aggregations, 19298 implications, 0 bound changes
+   (1.7s) probing aborted: 50/50 successive totally useless probings
+(round 267, exhaustive) 110692 del vars, 3934 del conss, 1316 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1592 upgd conss, 0 impls, 4804 clqs
+(round 268, fast)       110692 del vars, 3935 del conss, 1363 add conss, 108375 chg bounds, 3393 chg sides, 3466 chg coeffs, 1592 upgd conss, 0 impls, 4804 clqs
+(round 269, fast)       110692 del vars, 3935 del conss, 1363 add conss, 108375 chg bounds, 3453 chg sides, 3555 chg coeffs, 1592 upgd conss, 0 impls, 4804 clqs
+(round 270, exhaustive) 110692 del vars, 3964 del conss, 1363 add conss, 108375 chg bounds, 3490 chg sides, 3555 chg coeffs, 1592 upgd conss, 0 impls, 4804 clqs
+(round 271, exhaustive) 110692 del vars, 3964 del conss, 1363 add conss, 108375 chg bounds, 3490 chg sides, 3555 chg coeffs, 1610 upgd conss, 0 impls, 4804 clqs
+(round 272, fast)       110692 del vars, 3971 del conss, 1363 add conss, 108375 chg bounds, 3490 chg sides, 3555 chg coeffs, 1610 upgd conss, 0 impls, 4804 clqs
+(round 273, exhaustive) 110692 del vars, 3982 del conss, 1363 add conss, 108375 chg bounds, 3490 chg sides, 3555 chg coeffs, 1610 upgd conss, 0 impls, 4804 clqs
+   (1.7s) probing: 373/735 (50.7%) - 438 fixings, 307 aggregations, 19298 implications, 0 bound changes
+   (1.7s) probing aborted: 50/50 successive totally useless probings
+presolving (274 rounds: 274 fast, 186 medium, 153 exhaustive):
+ 110692 deleted vars, 3982 deleted constraints, 1363 added constraints, 108375 tightened bounds, 0 added holes, 3490 changed sides, 3555 changed coefficients
+ 0 implications, 4804 cliques
+presolved problem has 657 variables (657 bin, 0 int, 0 impl, 0 cont) and 754 constraints
+     69 constraints of type <knapsack>
+    446 constraints of type <setppc>
+    206 constraints of type <linear>
+     33 constraints of type <logicor>
+transformed objective value is always integral (scale: 4)
+Presolving Time: 1.59
+
+ time | node  | left  |LP iter|LP it/n| mem |mdpt |frac |vars |cons |cols |rows |cuts |confs|strbr|  dualbound   | primalbound  |  gap   
+  1.8s|     1 |     0 |   455 |     - | 220M|   0 | 243 | 657 | 790 | 657 | 788 |   0 |   2 |   0 |-7.125303e+04 |      --      |    Inf 
+  1.9s|     1 |     0 |  1826 |     - | 225M|   0 | 292 | 657 | 790 | 657 |1066 | 278 |   2 |   0 |-8.270051e+04 |      --      |    Inf 
+  1.9s|     1 |     0 |  1998 |     - | 227M|   0 | 310 | 657 | 791 | 657 |1211 | 423 |   3 |   0 |-8.321293e+04 |      --      |    Inf 
+  2.0s|     1 |     0 |  2159 |     - | 229M|   0 | 294 | 657 | 793 | 657 |1277 | 489 |   5 |   0 |-8.555080e+04 |      --      |    Inf 
+  2.1s|     1 |     0 |  2458 |     - | 230M|   0 | 274 | 657 | 793 | 657 |1332 | 544 |   5 |   0 |-8.629067e+04 |      --      |    Inf 
+  2.2s|     1 |     0 |  2674 |     - | 232M|   0 | 292 | 657 | 795 | 657 |1376 | 588 |   7 |   0 |-8.934448e+04 |      --      |    Inf 
+  2.3s|     1 |     0 |  2936 |     - | 233M|   0 | 313 | 657 | 800 | 657 |1417 | 629 |  12 |   0 |-8.940733e+04 |      --      |    Inf 
+  2.5s|     1 |     0 |  3512 |     - | 235M|   0 | 286 | 657 | 801 | 657 |1443 | 655 |  13 |   0 |-8.949133e+04 |      --      |    Inf 
+  2.6s|     1 |     0 |  3823 |     - | 237M|   0 | 286 | 657 | 802 | 657 |1497 | 709 |  14 |   0 |-8.949311e+04 |      --      |    Inf 
+  2.8s|     1 |     0 |  4076 |     - | 239M|   0 | 270 | 657 | 805 | 657 |1522 | 734 |  17 |   0 |-8.949400e+04 |      --      |    Inf 
+  2.9s|     1 |     0 |  4235 |     - | 241M|   0 | 277 | 657 | 811 | 657 |1538 | 750 |  23 |   0 |-8.949400e+04 |      --      |    Inf 
+  3.0s|     1 |     0 |  4495 |     - | 243M|   0 | 274 | 657 | 813 | 657 |1554 | 766 |  25 |   0 |-8.949400e+04 |      --      |    Inf 
+  3.1s|     1 |     0 |  4754 |     - | 246M|   0 | 254 | 657 | 819 | 657 |1574 | 786 |  31 |   0 |-8.949400e+04 |      --      |    Inf 
+  4.9s|     1 |     0 |  4837 |     - | 246M|   0 | 244 | 657 | 846 | 657 |1602 | 786 |  34 |  37 |-8.949424e+04 |      --      |    Inf 
+  5.0s|     1 |     0 |  5257 |     - | 248M|   0 | 276 | 657 | 847 | 657 |1632 | 816 |  35 |  37 |-8.949439e+04 |      --      |    Inf 
+ time | node  | left  |LP iter|LP it/n| mem |mdpt |frac |vars |cons |cols |rows |cuts |confs|strbr|  dualbound   | primalbound  |  gap   
+  5.0s|     1 |     0 |  5275 |     - | 248M|   0 | 282 | 657 | 848 | 657 |1196 | 822 |  36 |  37 |-8.949439e+04 |      --      |    Inf 
+  5.8s|     1 |     0 |  5280 |     - | 248M|   0 | 281 | 657 | 862 | 657 |1207 | 822 |  40 |  63 |-8.949467e+04 |      --      |    Inf 
+  6.0s|     1 |     0 |  5647 |     - | 249M|   0 | 248 | 657 | 865 | 657 |1240 | 855 |  43 |  63 |-8.949667e+04 |      --      |    Inf 
+  6.0s|     1 |     0 |  6138 |     - | 249M|   0 | 265 | 657 | 869 | 657 |1242 | 857 |  47 |  63 |-8.949720e+04 |      --      |    Inf 
+  6.7s|     1 |     2 |  6138 |     - | 249M|   0 | 265 | 657 | 871 | 657 |1242 | 857 |  49 |  86 |-8.949800e+04 |      --      |    Inf 
+*10.8s|     9 |     4 |  7475 | 178.1 | 250M|   6 |   - | 657 | 943 | 657 | 899 | 857 | 154 | 428 |-8.949800e+04 |-1.059180e+05 |  18.35%
+z11.7s|    16 |     4 |  8767 | 181.1 | 252M|   6 |   - | 657 | 970 | 657 | 899 | 857 | 192 | 529 |-8.949800e+04 |-8.957400e+04 |   0.08%
+*13.8s|    57 |     4 | 11399 |  95.5 | 253M|  18 |   - | 657 | 986 | 657 | 899 | 857 | 226 | 756 |-8.950200e+04 |-8.951000e+04 |   0.01%
+ 14.1s|   100 |     5 | 13672 |  77.0 | 253M|  18 | 135 | 657 | 913 | 657 | 899 | 857 | 228 | 764 |-8.950200e+04 |-8.951000e+04 |   0.01%
+z14.2s|   126 |     0 | 14542 |  67.9 | 255M|  18 |   - | 657 | 913 | 657 | 899 | 857 | 228 | 764 |-8.950200e+04 |-8.950200e+04 |   0.00%
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 14.16
+Solving Nodes      : 126
+Primal Bound       : -8.95020000000000e+04 (4 solutions)
+Dual Bound         : -8.95020000000000e+04
+Gap                : 0.00 %
+[Start]Task_01::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+  [End]Task_01::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+  [AuxWorking]Task_01::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+[Allocation] Task_01 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d4bb50> 10 11 1
+[Start]Task_02::Job_01 --> [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_02::Job_01 --> [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_02::Job_01 --> [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_02 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_02 --> '0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58090> 1 2 1
+[Start]Task_03::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+  [End]Task_03::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_03::Job_01 --> [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
+[Allocation] Task_03 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58110> 8 9 1
+[Start]Task_01::Job_02 --> [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_01::Job_02 --> [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_01::Job_02 --> [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_01 on Resource_01 --> '0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58190> 1 2 1
+[Start]Task_02::Job_02 --> [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_02::Job_02 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_02::Job_02 --> [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_02 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_02 --> '0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58210> 4 5 1
+[Start]Task_03::Job_02 --> [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_03::Job_02 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_03::Job_02 --> [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_03 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_03 --> '0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58290> 6 7 1
+[Start]Task_01::Job_03 --> [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_01::Job_03 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_01::Job_03 --> [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_01 on Resource_01 --> '0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58310> 3 4 1
+[Start]Task_02::Job_03 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_02::Job_03 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_02::Job_03 --> [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_02 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_02 --> '0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58390> 5 6 1
+[Start]Task_03::Job_03 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_03::Job_03 --> [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_03::Job_03 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_03 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58410> 7 8 1
+[Start]Task_01::Job_04 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_01::Job_04 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_01::Job_04 --> [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_01 on Resource_01 --> '0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58490> 5 6 1
+[Start]Task_02::Job_04 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_02::Job_04 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_02::Job_04 --> [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_02 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58510> 7 8 1
+[Start]Task_03::Job_04 --> [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_03::Job_04 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_03::Job_04 --> [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_03 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_03 --> '0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58590> 3 4 1
+[Start]Task_01::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_01::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_01::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0]
+[Allocation] Task_01 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_01 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_01 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58610> 7 8 1
+[Start]Task_02::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+  [End]Task_02::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+  [AuxWorking]Task_02::Job_05 --> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+[Allocation] Task_02 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_03 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_02 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_02 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58690> 10 11 1
+[Start]Task_03::Job_05 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [End]Task_03::Job_05 --> [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [AuxWorking]Task_03::Job_05 --> [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+[Allocation] Task_03 on Resource_01 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_02 --> '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_03 --> '0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0'
+[Allocation] Task_03 on Resource_01 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_02 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+[Allocation] Task_03 on Resource_03 --> "'x0', 'x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'x8', 'x9', 'x10', 'x11', 'x12', 'x13', 'x14'"
+<LFOS.Task.Task.TerminalTask object at 0x104d58710> 5 6 1
+
+
+[22-06-2017 - 10:20:28] From                             Schedule.plot_schedule[NO_TAG]  INFO: DPI=80

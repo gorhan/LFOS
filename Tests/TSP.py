@@ -40,30 +40,31 @@ Cs = list()
 
 start_city = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='City_S', type='TSP', phase=Time(0), deadline=Time(40), periodicity=PeriodicityTypeList.APERIODIC, token_name=['__City_A__'])
 start_city.add_resource_requirement(resource_type=city_t, eligible_resources={city_r: Time(1)}, capacity=1)
-start_city.add_dependency('__Init__', 1)
+start_city.add_dependency(AND(), '__Init__', 1)
 print start_city.info(True)
 Cs.append(start_city)
 
 scheduler.add_task(start_city)
 
 for i1, city1 in enumerate(cities):
-    Cs.append(TaskFactory.create_instance(TaskTypeList.TERMINAL, name='City_%s' % city1, type='TSP', phase=Time(0), deadline=Time(40), periodicity=PeriodicityTypeList.APERIODIC))
+    Cs.append(TaskFactory.create_instance(TaskTypeList.TERMINAL, name='City_%s' % city1, type='TSP', phase=Time(0), deadline=Time(40), periodicity=PeriodicityTypeList.APERIODIC, token_name=['__City_%s__' % city1]))
     Cs[-1].add_resource_requirement(resource_type=city_t, eligible_resources={city_r: Time(1)}, capacity=1)
 
     for i2, city2 in enumerate(cities):
         if i1 == i2:
             continue
-        Cs[-1].add_dependency('__City_%s__' % city2, 1, Time(Distances[i1][i2]))
+        Cs[-1].add_dependency(OR(), '__City_%s__' % city2, 1, Time(Distances[i1][i2]))
 
     print Cs[-1].info(True)
     scheduler.add_task(Cs[-1])
 
 finish_city = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='City_F', type='TSP', phase=Time(0), deadline=Time(40), periodicity=PeriodicityTypeList.APERIODIC, token_name=['__City_F__'])
 finish_city.add_resource_requirement(resource_type=city_t, eligible_resources={city_r: Time(1)}, capacity=1)
-finish_city.add_dependency('__City_A__', 1)
+finish_city.add_dependency(AND(), '__City_A__', 1)
 
 scheduler.add_task(finish_city)
 
+scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:
     schedule.plot_schedule()

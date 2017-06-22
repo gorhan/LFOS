@@ -119,7 +119,7 @@ class SolverAdapter(object):
 
             for requirement_item in active_resource_requirements:
                 resource_type, el_resources_dict, req_capacity = requirement_item.resource_type, requirement_item.eligible_resources, requirement_item.required_capacity
-                excluded_resources = list(set(self.__resources).difference(el_resources_dict.keys()))
+                excluded_resources = list(set([resource for resource in self.__resources if resource.get_type().get_abstraction() == ResourceTypeList.ACTIVE]).difference(el_resources_dict.keys()))
                 # resources = el_resources_dict.keys()
                 # exec_time = int(el_resources_dict[resources[0]])
 
@@ -188,6 +188,7 @@ class SolverAdapter(object):
             # TODO: The constraints for passive resource requirements have to be implemented.
             for requirement_item in passive_resource_requirements:
                 resource_type, el_resources_lst, req_capacity = requirement_item.resource_type, requirement_item.eligible_resources, requirement_item.required_capacity
+                print 'AAGASGA', resource_type, map(lambda x: x.get_resource_name(), el_resources_lst), req_capacity
 
                 for t in range(release_time, deadline):
                     self.__model += (((self.__AuxWorking[job][t] > 0) & (Sum(self.__Allocation[resource, job][t] for resource in el_resources_lst) == req_capacity)) |
@@ -271,9 +272,9 @@ class SolverAdapter(object):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
         for job in self.__jobs:
             print 'PRIORITY', job.get_credential(), job.get_priority()
-        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
+        # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
         # self.__model += Minimize(Max([(self.__End[job][t + 1] * (t + 1)) * job.get_priority() for t in range(self.__sched_window_duration) for job in self.__jobs]))
-        # self.__model += Maximize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
+        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
 
     def _optimize(self):
 
