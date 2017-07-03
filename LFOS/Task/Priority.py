@@ -41,7 +41,7 @@ class Priority:
         :return: int
         """
         priority_value = (self.__priority if Priority.IMPORTANCE_RANKING == PriorityRanking.DESCENDING else Priority.MAX_PRIORITY-self.__priority)
-        return 2 ** priority_value
+        return 4 ** priority_value
 
     @classmethod
     def set_class_vars(cls, min_prio=None, max_prio=None, ranking=None):

@@ -31,7 +31,7 @@ class ElevatorGroupManagementSystem:
             elevator_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 100)
             elevator.set_power_consumption(elevator_power_consumption)
             System.add(elevator) # Not Necessary
-            self.params[elevator_id] = ElevatorParameters(elevator, num_floors=self.num_floors)
+            self.params[elevator_id] = ElevatorParameters(elevator, num_floors=self.num_floors, verbose=10)
             self.controllers[elevator_id] = ElevatorController(self.params[elevator_id])
 
         System.pretty_print()

@@ -274,7 +274,7 @@ class SolverAdapter(object):
             print 'PRIORITY', job.get_credential(), job.get_priority()
         # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
         # self.__model += Minimize(Max([(self.__End[job][t + 1] * (t + 1)) * job.get_priority() for t in range(self.__sched_window_duration) for job in self.__jobs]))
-        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_begin, self.__sched_window_end) for job in self.__jobs]))
+        self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
 
     def _optimize(self):
 
