@@ -1,0 +1,231 @@
+\begin{figure}[H]
+	\centering
+	\resizebox{1.\textwidth}{!}{
+		\begin{tikzpicture}[ampersand replacement=\&]
+			\node[feature] (sub-scheduler) {Resource ($\mathcal{R}_1$)};
+			
+			\matrix (resource)[matrix of nodes,
+					  below=2cm of sub-scheduler,
+					  column sep=25mm, row sep=0mm, nodes=feature]{
+				\begin{tabular}{c} Capacity \\ $\mathcal{R}_{cap}$ \end{tabular} \& %resource-1-1
+				\begin{tabular}{c} Type \\ $\mathcal{R}_{type}$ \end{tabular}  \& %resource-1-2
+				\begin{tabular}{c} Mode \\ $\mathcal{R}_{mode}$ \end{tabular}  \& %resource-1-3
+				\begin{tabular}{c} Power \\ Consumption $\mathcal{R}_{pow}$ \end{tabular}  \\ %resource-1-4
+%				\begin{tabular}{c} Objective \\ $\mathcal{R}_{obj}$ \end{tabular} \\ %task-1-5
+			};
+			
+			% Resource type sub feature diagram is drawn.
+			\matrix (type)[matrix of nodes,
+					below=of resource-1-2,
+					column sep=5mm, row sep=0mm, nodes=feature]{
+				\begin{tabular}{c} Abstraction \\ $\mu$ \end{tabular}  \& %type-1-1
+				\begin{tabular}{c} Identifier \\ $\psi$ \end{tabular} \\ %type-1-2
+			};
+			
+			\matrix (abstraction)[matrix of nodes,
+					below=of type-1-1,
+					column sep=5mm, row sep=0mm, nodes=feature]{
+				 ACTIVE \\ %abstraction-1-1
+%				 PASSIVE \& %abstraction-1-2
+%				 COMPOSITE \\ %abstraction-1-3
+			};
+			
+			\draw (sub-scheduler.south) -- (resource-1-1.north);\draw[man] (resource-1-1.north) circle (.9mm);
+			\draw (sub-scheduler.south) -- (resource-1-2.north);\draw[man] (resource-1-2.north) circle (.9mm);
+			\draw (sub-scheduler.south) -- (resource-1-3.north);\draw[man] (resource-1-3.north) circle (.9mm);
+			\draw (sub-scheduler.south) -- (resource-1-4.north);\draw[man] (resource-1-4.north) circle (.9mm);
+%			\draw (sub-scheduler.south) -- (resource-1-5.north);\draw[opt] (resource-1-5.north) circle (.9mm);
+			
+			\draw (resource-1-2.south) -- (type-1-1.north);\draw[man] (type-1-1.north) circle (.9mm);
+			\draw (resource-1-2.south) -- (type-1-2.north);\draw[man] (type-1-2.north) circle (.9mm);
+			
+			\draw (type-1-1.south) -- (abstraction-1-1.north);\draw[man] (abstraction-1-1.north) circle (.9mm);
+%			\draw (type-1-1.south) -- (abstraction-1-2.north);\draw[opt] (abstraction-1-2.north) circle (.9mm);
+%			\draw (type-1-1.south) -- (abstraction-1-3.north);\draw[opt] (abstraction-1-3.north) circle (.9mm);
+%			\begin{scope}
+%				\path[clip] (type-1-1.south) -- (abstraction-1-1.north) -- (abstraction-1-3.north);
+%				\draw (type-1-1.south) circle (.5cm);
+%			\end{scope}
+			
+			% Mode sub-feature diagram is drawn.
+			\matrix (mode)[matrix of nodes,
+					below=of resource-1-3,
+					column sep=5mm, row sep=0mm, nodes=feature]{
+%				Shared  \& %mode-1-1
+				Exclusive \\ %mode-1-2
+			};
+			
+			\draw (resource-1-3.south) -- (mode-1-1.north);\draw[man] (mode-1-1.north) circle (.9mm);
+%			\draw (resource-1-3.south) -- (mode-1-2.north);\draw[opt] (mode-1-2.north) circle (.9mm);
+%			\begin{scope}
+%				\path[clip] (resource-1-3.south) -- (mode-1-1.north) -- (mode-1-2.north);
+%				\draw (resource-1-3.south) circle (.5cm);
+%			\end{scope}
+			
+			\matrix (exclusive)[matrix of nodes,
+					below= 2cm of mode-1-1,
+					column sep=1mm, row sep=0mm, nodes=feature]{
+				Capacity-Based \\ %exclusive-1-1
+%				Semantic-Based \\ %exclusive-1-2
+			};
+%			\connectfeaturesiii{or}{mode-1-2}{exclusive-1-1}{exclusive-1-2};
+			\connectfeaturesii{man}{mode-1-1}{exclusive-1-1}
+			
+			% Power Consumption sub feature model is drawn.
+			\matrix (powcons)[matrix of nodes,
+					below=of resource-1-4,
+					column sep=5mm, row sep=0mm, nodes=feature]{
+				Scalable \\ %powcons-1-1
+			};
+			
+			\matrix (scalable)[matrix of nodes,
+					below=of powcons-1-1,
+					column sep=1mm, row sep=0mm, nodes=feature]{
+				Fixed-State  \\ %scalable-1-1
+%				Continuous-State \\ %scalable-1-2
+			};
+		
+			\connectfeaturesii{man}{resource-1-4}{powcons-1-1};
+			\connectfeaturesii{man}{powcons-1-1}{scalable-1-1};
+			
+%			\draw (resource-1-4.south) -- (powcons-1-1.north);\draw[opt] (powcons-1-1.north) circle (.9mm);
+%			
+%			\draw (powcons-1-1.south) -- (scalable-1-1.north);\draw[opt] (scalable-1-1.north) circle (.9mm);
+%			\draw (powcons-1-1.south) -- (scalable-1-2.north);\draw[opt] (scalable-1-2.north) circle (.9mm);
+%			\begin{scope}
+%				\path[clip] (powcons-1-1.south) -- (scalable-1-1.north) -- (scalable-1-2.north);
+%				\draw (powcons-1-1.south) circle (.5cm);
+%			\end{scope}
+			
+			% Objective sub-feature diagram is drawn
+%			\matrix (objective-resource)[matrix of nodes,
+%					below=of resource-1-5,
+%					column sep=5mm, row sep=0mm, nodes=feature]{
+%				Maximize \& %objective-resource-1-1
+%				Minimize \& %objective-resource-1-2
+%				Criteria \\ %objective-resource-1-3
+%			};
+%			
+%			\connectfeaturesiii{xor}{resource-1-5}{objective-resource-1-1}{objective-resource-1-2};
+%			\connectfeaturesii{man}{resource-1-5}{objective-resource-1-3};
+			
+		\end{tikzpicture}
+	}
+	\caption{A configured \emph{Resource} ($\mathcal{R}_1$) sub-feature model for MRSP.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\resizebox{1.\textwidth}{!}{
+		\begin{tikzpicture}[ampersand replacement=\&]
+		\node[feature] (sub-scheduler) {Resource ($\mathcal{R}_2$)};
+		
+		\matrix (resource)[matrix of nodes,
+		below=2cm of sub-scheduler,
+		column sep=25mm, row sep=0mm, nodes=feature]{
+			\begin{tabular}{c} Capacity \\ $\mathcal{R}_{cap}$ \end{tabular} \& %resource-1-1
+			\begin{tabular}{c} Type \\ $\mathcal{R}_{type}$ \end{tabular}  \& %resource-1-2
+			\begin{tabular}{c} Mode \\ $\mathcal{R}_{mode}$ \end{tabular}  \& %resource-1-3
+			\begin{tabular}{c} Power \\ Consumption $\mathcal{R}_{pow}$ \end{tabular}  \\ %resource-1-4
+			%				\begin{tabular}{c} Objective \\ $\mathcal{R}_{obj}$ \end{tabular} \\ %task-1-5
+		};
+		
+		% Resource type sub feature diagram is drawn.
+		\matrix (type)[matrix of nodes,
+		below=of resource-1-2,
+		column sep=5mm, row sep=0mm, nodes=feature]{
+			\begin{tabular}{c} Abstraction \\ $\mu$ \end{tabular}  \& %type-1-1
+			\begin{tabular}{c} Identifier \\ $\psi$ \end{tabular} \\ %type-1-2
+		};
+		
+		\matrix (abstraction)[matrix of nodes,
+		below=of type-1-1,
+		column sep=5mm, row sep=0mm, nodes=feature]{
+			PASSIVE \\ %abstraction-1-1
+			%				 PASSIVE \& %abstraction-1-2
+			%				 COMPOSITE \\ %abstraction-1-3
+		};
+		
+		\draw (sub-scheduler.south) -- (resource-1-1.north);\draw[man] (resource-1-1.north) circle (.9mm);
+		\draw (sub-scheduler.south) -- (resource-1-2.north);\draw[man] (resource-1-2.north) circle (.9mm);
+		\draw (sub-scheduler.south) -- (resource-1-3.north);\draw[man] (resource-1-3.north) circle (.9mm);
+		\draw (sub-scheduler.south) -- (resource-1-4.north);\draw[man] (resource-1-4.north) circle (.9mm);
+		%			\draw (sub-scheduler.south) -- (resource-1-5.north);\draw[opt] (resource-1-5.north) circle (.9mm);
+		
+		\draw (resource-1-2.south) -- (type-1-1.north);\draw[man] (type-1-1.north) circle (.9mm);
+		\draw (resource-1-2.south) -- (type-1-2.north);\draw[man] (type-1-2.north) circle (.9mm);
+		
+		\draw (type-1-1.south) -- (abstraction-1-1.north);\draw[man] (abstraction-1-1.north) circle (.9mm);
+		%			\draw (type-1-1.south) -- (abstraction-1-2.north);\draw[opt] (abstraction-1-2.north) circle (.9mm);
+		%			\draw (type-1-1.south) -- (abstraction-1-3.north);\draw[opt] (abstraction-1-3.north) circle (.9mm);
+		%			\begin{scope}
+		%				\path[clip] (type-1-1.south) -- (abstraction-1-1.north) -- (abstraction-1-3.north);
+		%				\draw (type-1-1.south) circle (.5cm);
+		%			\end{scope}
+		
+		% Mode sub-feature diagram is drawn.
+		\matrix (mode)[matrix of nodes,
+		below=of resource-1-3,
+		column sep=5mm, row sep=0mm, nodes=feature]{
+			%				Shared  \& %mode-1-1
+			Exclusive \\ %mode-1-2
+		};
+		
+		\draw (resource-1-3.south) -- (mode-1-1.north);\draw[man] (mode-1-1.north) circle (.9mm);
+		%			\draw (resource-1-3.south) -- (mode-1-2.north);\draw[opt] (mode-1-2.north) circle (.9mm);
+		%			\begin{scope}
+		%				\path[clip] (resource-1-3.south) -- (mode-1-1.north) -- (mode-1-2.north);
+		%				\draw (resource-1-3.south) circle (.5cm);
+		%			\end{scope}
+		
+		\matrix (exclusive)[matrix of nodes,
+		below= 2cm of mode-1-1,
+		column sep=1mm, row sep=0mm, nodes=feature]{
+			Capacity-Based \\ %exclusive-1-1
+			%				Semantic-Based \\ %exclusive-1-2
+		};
+		%			\connectfeaturesiii{or}{mode-1-2}{exclusive-1-1}{exclusive-1-2};
+		\connectfeaturesii{man}{mode-1-1}{exclusive-1-1}
+		
+		% Power Consumption sub feature model is drawn.
+%		\matrix (powcons)[matrix of nodes,
+%		below=of resource-1-4,
+%		column sep=5mm, row sep=0mm, nodes=feature]{
+%			Scalable \\ %powcons-1-1
+%		};
+%		
+%		\matrix (scalable)[matrix of nodes,
+%		below=of powcons-1-1,
+%		column sep=1mm, row sep=0mm, nodes=feature]{
+%			Fixed-State  \\ %scalable-1-1
+%			%				Continuous-State \\ %scalable-1-2
+%		};
+%		
+%		\connectfeaturesii{man}{resource-1-4}{powcons-1-1};
+%		\connectfeaturesii{man}{powcons-1-1}{scalable-1-1};
+		
+		%			\draw (resource-1-4.south) -- (powcons-1-1.north);\draw[opt] (powcons-1-1.north) circle (.9mm);
+		%			
+		%			\draw (powcons-1-1.south) -- (scalable-1-1.north);\draw[opt] (scalable-1-1.north) circle (.9mm);
+		%			\draw (powcons-1-1.south) -- (scalable-1-2.north);\draw[opt] (scalable-1-2.north) circle (.9mm);
+		%			\begin{scope}
+		%				\path[clip] (powcons-1-1.south) -- (scalable-1-1.north) -- (scalable-1-2.north);
+		%				\draw (powcons-1-1.south) circle (.5cm);
+		%			\end{scope}
+		
+		% Objective sub-feature diagram is drawn
+		%			\matrix (objective-resource)[matrix of nodes,
+		%					below=of resource-1-5,
+		%					column sep=5mm, row sep=0mm, nodes=feature]{
+		%				Maximize \& %objective-resource-1-1
+		%				Minimize \& %objective-resource-1-2
+		%				Criteria \\ %objective-resource-1-3
+		%			};
+		%			
+		%			\connectfeaturesiii{xor}{resource-1-5}{objective-resource-1-1}{objective-resource-1-2};
+		%			\connectfeaturesii{man}{resource-1-5}{objective-resource-1-3};
+		
+		\end{tikzpicture}
+	}
+	\caption{A configured \emph{Resource} ($\mathcal{R}_2$) sub-feature model for MRSP.}
+\end{figure}
