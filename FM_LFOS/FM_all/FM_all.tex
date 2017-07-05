@@ -1,0 +1,65 @@
+\documentclass[]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{fancyvrb}
+\usepackage{array}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{xparse}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{ifthen}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{rotating}
+
+\def\UrlBreaks{\do\/\do-}
+
+\newcommand{\cL}{{\cal L}}
+\usetikzlibrary{matrix,arrows,positioning,shadows,automata,positioning}
+\tikzset{
+	feature/.style={draw, inner sep=1.0mm, font=\normalfont\sffamily, fill=white, drop shadow, align=center, auto},
+	opt/.style={fill=white},
+	man/.style={fill=black}
+}
+
+\newcommand{\connectfeaturesii}[3]{
+	\draw (#2.south) -- (#3.north);
+	\draw[#1] (#3.north) circle (.9mm);
+}
+
+\newcommand{\connectfeaturesiii}[4]{
+	\ifthenelse{\equal{#1}{xor}}
+	{
+		\connectfeaturesii{opt}{#2}{#3};
+		\connectfeaturesii{opt}{#2}{#4};
+		\begin{scope}
+			\path[clip] (#2.south) -- (#3.north) -- (#4.north);
+			\draw (#2.south) circle (.5cm);
+		\end{scope}
+	}{
+		\connectfeaturesii{man}{#2}{#3};
+		\connectfeaturesii{man}{#2}{#4};
+		\begin{scope}
+			\path[clip] (#2.south) -- (#3.north) -- (#4.north);
+			\fill[draw] (#2.south) circle (.5cm);
+		\end{scope}
+	}
+}
+
+\begin{document}
+
+\input{scheduler.tex}
+\input{task.tex}
+\input{resource.tex}
+\input{scheduling_characteristic.tex}
+\input{scheduling_strategy.tex}
+
+
+\end{document}

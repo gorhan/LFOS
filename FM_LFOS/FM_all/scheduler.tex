@@ -1,0 +1,25 @@
+\begin{figure}[H]
+	\hspace{-1.cm}
+	\resizebox{1.2\textwidth}{!}{
+		\begin{tikzpicture}[ampersand replacement=\&]
+			\node[feature] (scheduler) {Scheduler $Sch$};
+			
+			\matrix (sub-scheduler)[matrix of nodes,
+					  below=1cm of scheduler,
+					  column sep=5mm, row sep=0mm, nodes=feature]{
+				\begin{tabular}{c} Task \\ $\mathcal{T}$ \end{tabular} \& %sub-scheduler-1-1
+				\begin{tabular}{c} Resource \\ $\mathcal{R}$ \end{tabular}  \& %sub-scheduler-1-2
+				\begin{tabular}{c} Scheduling \\ Characteristics \\ $\mathcal{C}$ \end{tabular} \& %sub-scheduler-1-3
+				\begin{tabular}{c} Scheduling \\ Strategy \\ $\mathcal{S}$ \end{tabular} \\ %sub-scheduler-1-4
+			};
+			
+			\draw (scheduler.south) -- (sub-scheduler-1-1.north) ; \draw[man] (sub-scheduler-1-1.north) circle (.9mm);
+			\draw (scheduler.south) -- (sub-scheduler-1-2.north) ;\draw[man] (sub-scheduler-1-2.north) circle (.9mm);
+			\draw (scheduler.south) -- (sub-scheduler-1-3.north) ;\draw[man] (sub-scheduler-1-3.north) circle (.9mm);
+			\draw (scheduler.south) -- (sub-scheduler-1-4.north) ;\draw[man] (sub-scheduler-1-4.north) circle (.9mm);
+			
+		\end{tikzpicture}
+	}
+	\caption{A feature model representation for schedulers.}
+	\label{fig:scheduler_fm}
+\end{figure}
