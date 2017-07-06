@@ -1,0 +1,62 @@
+\begin{figure}[H]
+	\centering
+	\resizebox{0.6\textwidth}{!}{
+		\begin{tikzpicture}[ampersand replacement=\&]
+			\node[feature] (sub-sched-strategy) {\begin{tabular}{c} Scheduling \\ Strategy \end{tabular} ($\mathcal{S}$)};
+			
+			\matrix (sched)[matrix of nodes,
+					  below=1cm of sub-sched-strategy,
+					  column sep=10mm, row sep=0mm, nodes=feature]{
+				\begin{tabular}{c} Input \\ $\mathcal{S}_{in}$ \end{tabular}  \& %sched-1-1
+				\begin{tabular}{c} Solver \\ $\mathcal{S}_{solver}$ \end{tabular} \& %sched-1-2
+				\begin{tabular}{c} Output \\ $\mathcal{S}_{out}$ \end{tabular}  \\ %sched-1-3
+			};
+			
+			\connectfeaturesii{man}{sub-sched-strategy}{sched-1-1};
+			\connectfeaturesii{man}{sub-sched-strategy}{sched-1-2};
+			\connectfeaturesii{man}{sub-sched-strategy}{sched-1-3};
+			
+			\matrix (solver)[matrix of nodes,
+					 below=of sched-1-2,
+					 column sep=5mm, row sep=0mm, nodes=feature]{
+				SCIP \\ %solver-1-1
+%				MiniSat \& %solver-1-2
+%				MipWrapper \& %solver-1-3
+%				Mistral \& %solver-1-4
+%				Mistral2 \& %solver-1-5
+%				SatWrapper \& %solver-1-6
+%				Toulbar2 \& %solver-1-7
+%				Walksat \& %solver-1-8
+%				Other \\ %solver-1-9
+			};
+			
+%			\connectfeaturesiii{or}{sched-1-2}{solver-1-1}{solver-1-9};
+			\connectfeaturesii{man}{sched-1-2}{solver-1-1};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-3};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-4};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-5};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-6};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-7};
+%			\connectfeaturesii{man}{sched-1-2}{solver-1-8};
+		
+%			\matrix (input)[matrix of nodes,
+%					below=of sched-1-3,
+%					column sep=5mm, row sep=0mm, nodes=feature]{
+%				DSLB \& %input-1-1
+%				DSB \\ %input-1-2
+%			};
+%			\connectfeaturesiii{or}{sched-1-3}{input-1-1}{input-1-2};
+		
+%			\matrix (output)[matrix of nodes,
+%					below=of sched-1-4,
+%					column sep=5mm, row sep=0mm, nodes=feature]{
+%				DSLB \& %input-1-1
+%				DSB \\ %input-1-2
+%			};
+%			\connectfeaturesiii{or}{sched-1-4}{output-1-1}{output-1-2};
+		
+		
+		\end{tikzpicture}
+	}
+		\caption{A configured \emph{Scheduling Strategy} sub-feature model for TSP.}
+\end{figure}

@@ -6,7 +6,7 @@
 			
 			\matrix (task)[matrix of nodes,
 					  below=2cm of sub-scheduler,
-					  column sep=15mm, row sep=0mm, nodes=feature]{
+					  column sep=20mm, row sep=0mm, nodes=feature]{
 				\begin{tabular}{c} Timing \\ $\mathcal{T}_{time}$ \end{tabular} \& %task-1-1
 				\begin{tabular}{c} Priority \\ $\mathcal{T}_{prio}$ \end{tabular}  \& %task-1-2
 %				\begin{tabular}{c} Dependency \\ $\mathcal{T}_{dep}$ \end{tabular}  \& %task-1-3
@@ -68,23 +68,23 @@
 					below=2.5cm of task-1-4,
 					column sep=5mm, row sep=0mm, nodes=feature]{
 				\begin{tabular}{c} Resource \\ Requirement $\Gamma$ \end{tabular} \& %requirement-1-1
-%				\begin{tabular}{c} Mutex \\ Requirement $\mathcal{B}$ \end{tabular} \& %requirement-1-2
+				\begin{tabular}{c} Mutex \\ Requirement $\mathcal{B}$ \end{tabular} \& %requirement-1-2
 				\begin{tabular}{c} Deadline \\ Requirement $\mathcal{D}$ \end{tabular} \\ %requirement-1-3
 			};
 			
 			\matrix (deadline-requirement)[matrix of nodes,
-								below=of requirement-1-2,
+								below=of requirement-1-3,
 								column sep=5mm, row sep=0mm, nodes=feature]{
 %				\begin{tabular}{c} Hard \\ Deadline \end{tabular} \& %deadline-requirement-1-1
 %				\begin{tabular}{c} Firm \\ Deadline \end{tabular} \& %deadline-requirement-1-2
-				\begin{tabular}{c} Hard \\ Deadline \end{tabular} \\ %deadline-requirement-1-3
+				\begin{tabular}{c} Soft \\ Deadline \end{tabular} \\ %deadline-requirement-1-3
 			};
 			
 			\connectfeaturesii{man}{task-1-4}{requirement-1-1};
-%			\connectfeaturesii{opt}{task-1-4}{requirement-1-2};
 			\connectfeaturesii{man}{task-1-4}{requirement-1-2};
+			\connectfeaturesii{man}{task-1-4}{requirement-1-3};
 			
-			\connectfeaturesii{man}{requirement-1-2}{deadline-requirement-1-1};
+			\connectfeaturesii{man}{requirement-1-3}{deadline-requirement-1-1};
 			
 %			\connectfeaturesiii{xor}{requirement-1-3}{deadline-requirement-1-1}{deadline-requirement-1-3};
 			
@@ -112,5 +112,5 @@
 			
 		\end{tikzpicture}
 	}
-	\caption{A configured \emph{Task} sub-feature model for RMS.}
+	\caption{A configured \emph{Task} sub-feature model for OSP-PMTN.}
 \end{figure}
