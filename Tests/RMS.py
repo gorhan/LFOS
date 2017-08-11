@@ -54,6 +54,7 @@ for ind, task in enumerate(tasks):
 
     task_instances.append(task_ins)
 
+
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.add_task_in_bundle(*task_instances)
 
@@ -61,6 +62,20 @@ scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.RM, scheduler.get_task
 
 scheduler.set_scheduling_window_start_time(Time(0))
 scheduler.set_scheduling_window_duration(Time(40))
+
+schedules = scheduler.schedule_tasks()
+for schedule in schedules:
+    schedule.plot_schedule()
+
+new_cpu = ResourceFactory.create_instance(cpu_t, 'N_CPU')
+new_cpu.set_mode(ModeTypeList.CB_EXCLUSIVE)
+new_cpu.set_power_consumption(pow_cons)
+new_cpu.set_capacity(1)
+
+System.add(new_cpu)
+
+for task in task_instances:
+    task.add_resource_requirement(resource_type=cpu_t, eligible_resources={new_cpu:task.get_execution_time()})
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

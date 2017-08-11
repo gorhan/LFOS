@@ -1,5 +1,5 @@
 
-from LFOS.Task.Credential import Credential
+from LFOS.Credential import Credential
 from LFOS.Task.Timing import Timing
 from LFOS.Task.Priority import Priority
 from LFOS.Task.Dependency import Dependency
@@ -7,7 +7,7 @@ from LFOS.Task.Preemptability import PreemptionTypeList, Preemption
 from LFOS.Task.Requirement import DeadlineRequirementTypeList, DeadlineRequirement
 from LFOS.Task.Periodicity import PeriodicityTypeList
 
-from LFOS.Objective.Objective import *
+from LFOS.Objective.Factory import *
 
 from LFOS.Log import LOG, Logs
 from copy import copy
@@ -69,7 +69,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         }}
 
     def __init__(self, **kwargs):
-        Credential.__init__(self, kwargs['name'], kwargs['type'])
+        Credential.__init__(self, name=kwargs['name'], type=kwargs['type'])
         Timing.__init__(self, kwargs['phase'], kwargs['deadline'])
         Priority.__init__(self, kwargs['priority'] if 'priority' in kwargs else 0)
         Dependency.__init__(self)
@@ -82,10 +82,10 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else []
         self.num_firing_tokens = kwargs['token_num'] if 'token_num' in kwargs else [1] * len(self.firing_tokens)
 
-        self.objectives = ObjectiveFactory.create_instance(ObjectiveTypeList.TASK_RELATED)
+        self.__objective = None
 
     def __eq__(self, other):
-        return isinstance(other, TaskInterface) and self.get_type() == other.get_type() and self.get_name() == other.get_name()
+        return isinstance(other, TaskInterface) and self.get_attr('type') == other.get_attr('type') and self.get_attr('name') == other.get_attr('name')
 
     def get_output_tokens(self):
         return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]
@@ -103,7 +103,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         return output_tokens + dependency_tokens
 
     def info(self, detailed=False):
-        credential_detail = '%s %s::%s %s' % ('#' * 20, self.get_name(), self.get_type(), '#' * 20)
+        credential_detail = '%s %s::%s %s' % ('#' * 20, self.name, self.type, '#' * 20)
         header_length = len(credential_detail)
         if detailed:
             timing_detail = '\n\tTIMING:\n'

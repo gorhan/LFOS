@@ -41,8 +41,9 @@ if __name__ == '__main__':
 
     num_resources = 4
     resources = []
+    tasks = {}
     for i in range(num_resources):
-        resource = ResourceFactory.create_instance(resource_t, 'Resource_%02d' % i)
+        resource = ResourceFactory.create_instance(resource_t, 'Resource_%02d' % (i+1))
         resource.set_capacity(1)
         resource_pc = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 200)
         resource.set_power_consumption(resource_pc)
@@ -51,7 +52,7 @@ if __name__ == '__main__':
 
     scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
     scheduler.set_scheduling_window_start_time(Time(0))
-    scheduler.set_scheduling_window_duration(Time(30))
+    scheduler.set_scheduling_window_duration(Time(35))
 
     for j, prec in enumerate(jobs):
         job_name = 'Job_%02d' % (j+1)
@@ -60,7 +61,7 @@ if __name__ == '__main__':
             token_name = 'Token_%02d_%02d' % (j+1, o+1)
 
             job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=job_name, phase=Time(0),
-                                              deadline=Time(30), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name],
+                                              deadline=Time(35), periodicity=PeriodicityTypeList.APERIODIC, token_name=[token_name],
                                               preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
 
             job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[m]: Time(wcet)}, capacity=1)
@@ -71,8 +72,16 @@ if __name__ == '__main__':
 
             print job.info(True)
             scheduler.add_task(job)
+            tasks[o+1, j+1] = job
 
     scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.LJF, scheduler.get_taskset())
+
+    schedules = scheduler.schedule_tasks()
+    for schedule in schedules:
+        schedule.plot_schedule()
+
+    tasks[1,1].set_release_time(Time(2))
+    tasks[2,3].set_release_time(Time(21))
 
     schedules = scheduler.schedule_tasks()
     for schedule in schedules:

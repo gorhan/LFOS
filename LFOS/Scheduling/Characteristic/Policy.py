@@ -3,7 +3,7 @@ from LFOS.Task.Priority import Priority, PriorityRanking
 from copy import copy
 
 def compareFIFO(task1, task2):
-    return -1
+    return 1
 
 def compareEDF(task1, task2):
     return task1.get_deadline() - task2.get_deadline()
@@ -113,7 +113,7 @@ class SchedulingPolicy:
     def prioritize_taskset(taskset):
         Priority.set_class_vars(0, len(taskset), PriorityRanking.ASCENDING)
         for priority, task in enumerate(taskset):
-            LOG(msg='Task=%r' % task.get_credential())
+            LOG(msg='Task=%r' % task.introduce())
             task.set_priority(priority)
 
 

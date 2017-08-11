@@ -66,5 +66,5 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
 
         token_pool = self.get_tokens_as_dict()
 
-        self._define_variables(jobs, resources, token_pool, begin, end)
+        self._define_variables(jobs, self.__system, token_pool, self._overall_objective, begin, end)
         return self._optimize()

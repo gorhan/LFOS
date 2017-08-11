@@ -149,7 +149,7 @@ class Schedule:
         return [reservation for reservation in self.__schedule[on_resource] if (reservation[1] <= begin < reservation[2] or
                                                                                (reservation[1] < end <= reservation[2]) or
                                                                                (reservation[1] >= begin and reservation[2] <= end)) and
-                                                                               (job is None or job.get_credential() != reservation[0].get_credential())]
+                                                                               (job is None or job.introduce() != reservation[0].introduce())]
 
     def __append_slot(self, job, begin, end, on_resource, capacity):
         for reservation in self.__schedule[on_resource]:
@@ -169,7 +169,7 @@ class Schedule:
 
     def append_item(self, job, begin, end, reserved_resources_dict):
         for resource, capacity in reserved_resources_dict.items():
-            self.__jobs.add(job.get_credential())
+            self.__jobs.add('%s::%s' % (job.get_attr('name'), job.get_attr('type')))
             self.__append_slot(job, begin, end, resource, capacity)
 
     def get_partial_schedule(self, resource, begin, end):
@@ -222,7 +222,7 @@ class Schedule:
         #     LOG(msg='Color names have been extended to the larger set.')
         #     colors_ = colors.cnames.keys()
         #     shuffle(colors_)
-        shuffle(colors_)
+        # shuffle(colors_)
         job2colors = {job_cred: colors_[i] for i, job_cred in enumerate(self.__jobs)}
 
         y_resource = 10.0
@@ -245,7 +245,7 @@ class Schedule:
                     y_height = y_capacity * reservation[3]
 
                     ax.broken_barh([(t_begin, t_end - t_begin)],
-                                   (y_start, y_height), facecolor=job2colors[reservation[0].get_credential()])
+                                   (y_start, y_height), facecolor=job2colors['%s::%s' % (reservation[0].get_attr('name'), reservation[0].get_attr('type'))])
 
                     y_start += y_height
 
