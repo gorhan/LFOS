@@ -38,7 +38,7 @@ memory1.set_capacity(512)
 memory2.set_capacity(512)
 
 # Initialize power consumption
-proc_power_consumption = PowerFactory.create_instance(PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION, 0.5, 50, 1.0, 200)
+proc_power_consumption = PowerFactory.create_instance(PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION, 0.5, 50, 1.0, 250)
 mem_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 75)
 
 # Set power consumptions
@@ -83,21 +83,20 @@ scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
-scheduler.set_scheduling_objective(Mini(), ObjectivePowerConsumption())
+
 
 scheduler.set_scheduling_window_start_time(Time(0))
 scheduler.set_scheduling_window_duration(Time(18))
 
-schedules = scheduler.schedule_tasks()
-for schedule in schedules:
-    schedule.plot_schedule()
+purpose, objective = None, None
+if len(scheduler.get_taskset()) < 5:
+    LOG(msg='Objective: Power Consumption')
+    purpose, objective = Mini(), ObjectivePowerConsumption()
+else:
+    LOG(msg='Objective: Lateness')
+    purpose, objective = Mini(), ObjectiveLateness()
 
-
-proc_power_consumption = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 200)
-cpu1.set_power_consumption(proc_power_consumption)
-cpu2.set_power_consumption(proc_power_consumption)
-
-scheduler.set_scheduling_objective(Mini(), ObjectiveLateness())
+scheduler.set_scheduling_objective(purpose, objective)
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

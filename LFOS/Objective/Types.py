@@ -18,6 +18,8 @@ class ObjectiveCentering(Criteria):
     pass
 class ObjectiveMakespan(Criteria):
     pass
+class ObjectiveMaxLateness(Criteria):
+    pass
 
 
 class Purpose:

@@ -30,7 +30,9 @@ class TaskObjective(Objective):
                 ObjectiveTardiness(),
                 ObjectiveEarliness(),
                 ObjectiveMakespan(),
-                ObjectiveCentering()]
+                ObjectiveCentering(),
+                ObjectiveMaxLateness()
+                ]
 
     def __init__(self, purpose, criteria):
         if criteria not in self.__class__.OBJ_SETS:

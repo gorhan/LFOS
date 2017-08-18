@@ -22,7 +22,7 @@ jobs = [ [5, 5, 3, 6, 3],
 num_resources = len(jobs)
 resources = []
 for i in range(num_resources):
-    resource = ResourceFactory.create_instance(resource_t, 'Resource_%02d' % i)
+    resource = ResourceFactory.create_instance(resource_t, 'Resource_%02d' % (i+1))
     resource.set_capacity(1)
     resource_pc = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 200)
     resource.set_power_consumption(resource_pc)
@@ -56,6 +56,19 @@ for i, row in enumerate(jobs):
         scheduler.add_task(job)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF, scheduler.get_taskset())
+scheduler.set_scheduling_objective(Mini(), ObjectiveMakespan())
+
+schedules = scheduler.schedule_tasks()
+for schedule in schedules:
+    schedule.plot_schedule()
+
+for task in scheduler.get_taskset():
+    task.clear_dependency_list()
+    token = map(lambda x: x[0], task.get_output_tokens())[0]
+    i, j = map(lambda x: int(x), token.split('_')[-2:])
+
+    if j > 1:
+        task.add_dependency(AND(), 'Token_%02d_%02d' % (i, j-1), 1)
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

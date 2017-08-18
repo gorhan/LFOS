@@ -211,7 +211,7 @@ class SolverAdapter(object):
 
             m_exclusive_jobs = job.get_m_exclusion_list()
             for e_job in m_exclusive_jobs:
-                print '?' * 25, e_job.get_credential()
+                print '?' * 25, e_job.introduce()
                 # self.__model += ((Sum(self.__Allocation[resource, job][t] for resource in self.__resources) < 1) |
                 #                  (Sum(self.__Allocation[resource, e_job][t] for resource in self.__resources) < 1))
                 self.__model += ( (Sum( (self.__Start[job][t] * t) - (self.__End[e_job][t] * t) for t in range(self.__sched_window_duration) ) >= 0) |
@@ -290,7 +290,7 @@ class SolverAdapter(object):
         obj_purpose = self.__objective.get_purpose()
         obj_criteria = self.__objective.get_criteria()
         if obj_criteria == ObjectiveLateness():
-            obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority() ** 2) for t in range(self.__sched_window_duration) for job in self.__jobs])
+            obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveEarliness():
             obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (-job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveCentering():
@@ -299,7 +299,13 @@ class SolverAdapter(object):
             obj_expr = Sum([self.__Allocation[resource, job][t] * -resource.get_power_consumption().get_max_power_state()[1] for t in range(self.__sched_window_duration) for job in self.__jobs for resource in self.__resources])
             # obj_expr = - Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveMakespan():
-            obj_expr = Max([(self.__End[job][t+1] * (t+1)) * job.get_priority() for t in range(self.__sched_window_duration) for job in self.__jobs])
+            C_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'C_max')
+            self.__model += [(self.__End[job][t+1] * (t+1)) < C_max for t in range(self.__sched_window_duration) for job in self.__jobs]
+            obj_expr = C_max
+        elif obj_criteria == ObjectiveMaxLateness():
+            L_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'L_max')
+            self.__model += [(self.__End[job][t+1] * (t + 1 - deadline)) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
+            obj_expr = L_max
 
         if obj_purpose == Mini():
             obj_expr = Minimize(obj_expr)

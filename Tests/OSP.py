@@ -42,8 +42,7 @@ for i, row in enumerate(jobs):
         job = TaskFactory.create_instance(TaskTypeList.TERMINAL, name=task_name, type=job_name, phase=Time(r[i]),
                                           deadline=Time(d[i]), periodicity=PeriodicityTypeList.APERIODIC,
                                           preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
-        job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[j]: Time(wcet)},
-                                     capacity=1)
+        job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[j]: Time(wcet)})
 
         job.add_m_exclusion_list(operations)
         operations.append(job)
@@ -51,6 +50,16 @@ for i, row in enumerate(jobs):
         scheduler.add_task(job)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
+scheduler.set_scheduling_objective(Mini(), ObjectiveLateness())
+
+schedules = scheduler.schedule_tasks()
+for schedule in schedules:
+    schedule.plot_schedule()
+
+
+for task in scheduler.get_taskset():
+    task.set_preemption_type(PreemptionTypeList.FULLY_PREEMPTABLE)
+
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

@@ -91,6 +91,18 @@ class Dependency:
 
         return True
 
+    def remove_dependency(self, item):
+        try:
+            item_index = self.__list.index(item)
+            LOG(msg='Remove Dependency procedure is SUCCESSFUL. Removed Token: %s' % self.__list[item_index].get_token_type())
+            return self.__list.pop(item_index)
+        except ValueError:
+            LOG(msg='Remove Dependency procedure is FAILED. The dependency is not in the list.', log=Logs.ERROR)
+            return None
+
+    def clear_dependency_list(self):
+        self.__list = []
+
     def add_m_exclusion(self, job):
         if job in self.__m_list:
             LOG(msg='Given job is already in the list of mutually exclusive jobs.')

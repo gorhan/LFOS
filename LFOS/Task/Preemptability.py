@@ -1,10 +1,10 @@
 from LFOS.Log import LOG, Logs
 from exceptions import Exception
-from enum import Enum
 
 
 class PreemptionError(Exception):
     pass
+
 
 class PreemptionTypeList:
     NOT_PPREEMPTABLE = 'Task.Preemptability.NP'
@@ -29,6 +29,14 @@ class Preemption(object):
         return True if self.preemption_type == PreemptionTypeList.FULLY_PREEMPTABLE or \
                        (self.preemption_type == PreemptionTypeList.COOPERATIVELY_PREEMPTABLE and (current_time - init_time >= self.non_preemptable_execution_duration)) \
                        else False
+
+    def set_preemption_type(self, _type):
+        if _type not in Preemption.TYPES:
+            LOG(msg='Invalid Preemption Type. Available=%s' % ', '.join(Preemption.TYPES))
+            return False
+
+        self.preemption_type = _type
+        return True
 
     def get_preemption_type(self):
         return self.preemption_type

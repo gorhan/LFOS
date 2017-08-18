@@ -7,6 +7,7 @@ ALL = [
     ObjectiveEarliness(),
     ObjectiveMakespan(),
     ObjectiveCentering(),
+    ObjectiveMaxLateness(),
     ObjectivePowerConsumption()
 ]
 
