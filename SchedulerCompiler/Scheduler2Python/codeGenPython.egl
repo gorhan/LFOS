@@ -1,0 +1,124 @@
+[%
+	var system := aScheduler.System;
+	var task := aScheduler.taskset;
+%]
+from LFOS.Scheduler.Scheduler import Scheduler
+from LFOS.Resource.Resource import *
+from LFOS.Task.Task import *
+from LFOS.Scheduling.Characteristic.Time import Time
+from LFOS.macros import *
+
+[%  var allResources = Sequence{system} + system.getAllResources();
+	var allResourcesWithVarNames : Map(String, AbstractResource);
+	var resourceTypesM = system.initializeResourceTypes(allResources);
+%]
+[%	for(identifier in resourceTypesM.keySet()) {%]
+[%=identifier%] = Type([%=resourceTypesM.get(identifier)%], "[%=identifier%]")
+[%}%]
+
+[%	for(ind in Sequence{0..allResources.size()-1}) {
+		var resourceName = "resource_" + ind;
+		allResourcesWithVarNames.put(resourceName, allResources[ind]);%]
+[%=resourceName%] = ResourceFactory.create_instance([%=allResources[ind].identifier%], "[%=allResources[ind].name%]")
+[%=resourceName%].set_capacity([%=allResources[ind].capacity%])
+[%=resourceName%].set_mode(ModeTypeList.[%=allResources[ind].resourceMode.asString()%])
+[%=allResources[ind].generatePowerConsumptionCode(resourceName)%]
+
+[%	} allResourcesWithVarNames.println();
+	for(resource in allResources.select(r | r.hasProperty("exclusiveResources"))) {%]
+[%=resource.generateExclusiveResourcesCode(allResourcesWithVarNames)%]
+[%	}%]
+[%=system.generateResourceTreeCode(allResourcesWithVarNames)%]
+
+[%
+	operation AbstractResource generateResourceTreeCode(allResourcesWithVarNames : Map) : String {
+		var genCode : String = "";
+		var resources = allResourcesWithVarNames.values();
+		for(compositeResource in resources.select(r | r.abstraction == ResourceAbstraction#COMPOSITE)) {
+			for(childResource in compositeResource.subResources)
+				genCode += compositeResource.getResourceVariableName(allResourcesWithVarNames) + ".add(" + childResource.getResourceVariableName(allResourcesWithVarNames) + ")\n";
+		}
+		return genCode;
+	}
+
+	operation AbstractResource generateExclusiveResourcesCode(allResourcesWithVarNames : Map) : String {
+		if(not self.hasProperty("exclusiveResources"))
+			return "";
+			
+		var genCode : String = "";
+		for(exclusiveResource in self.exclusiveResources) {
+			genCode += self.getResourceVariableName(allResourcesWithVarNames) + ".add_exclusive_resource(" + exclusiveResource.getResourceVariableName(allResourcesWithVarNames) + ")\n";
+		}
+		return genCode;
+	}
+	
+	operation AbstractResource getResourceVariableName(allResourcesWithVarNames : Map) : String {
+		for(varName in allResourcesWithVarNames.keySet()) {
+			if(self == allResourcesWithVarNames.get(varName)) {
+				return varName;
+			}
+		}
+		return "ERR";
+	}
+
+	operation AbstractResource generatePowerConsumptionCode(resourceName : String) : String {
+		if(not self.hasProperty("power"))
+			return "";
+	
+		var power = self.power;
+		var codeGenerator : String = "pow_" + resourceName + " = PowerFactory.create_instance(PowerTypeList.";
+		if(power.isTypeOf(FixedStatePowerConsumption)) {
+			codeGenerator += "FIXED_STATE_POWER_CONSUMPTION, " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
+		}
+		if(power.isTypeOf(DiscreteStatePowerConsumption)) {
+			codeGenerator += "DISCRETE_STATE_POWER_CONSUMPTION, " + power.minState.scale + ", " + power.minState.powerConsumption + ", " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
+			for(state in power.runnableStates) {
+				codeGenerator += "pow_" + resourceName + ".add_state(" + state.scale + ", " + state.powerConsumption + ")\n";
+			}
+		}
+		else if(power.isTypeOf(ContinuousStatePowerConsumption)) {
+			codeGenerator += "CONTINUOUS_STATE_POWER_CONSUMPTION, " + power.minState.scale + ", " + power.minState.powerConsumption + ", " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
+		}
+		codeGenerator += resourceName + ".set_power_consumption(pow_" + resourceName + ")\n";
+		
+		return codeGenerator;
+	}
+
+	operation AbstractResource initializeResourceTypes(resources : Sequence(AbstractResource)) : Map {
+		var resourceTypes : Map(String, String) = Map{};
+		resources.println();
+		
+		for(resource in resources) {
+			if( (not resourceTypes.containsValue(resource.abstraction.asString())) and (not resourceTypes.containsKey(resource.identifier))) {
+				resourceTypes.put(resource.identifier, resource.abstraction.asString());
+			}
+		}
+		// resourceTypes.println();
+		return resourceTypes;
+	}
+
+	operation ResourceC getTerminalResources () : Sequence(ResourceT) {
+		var seqResources : Sequence(ResourceT);
+		for(resource in self.subResources) {
+			var abstraction = resource.abstraction;
+			if(abstraction == ResourceAbstraction#COMPOSITE) {
+				seqResources += resource.getTerminalResources();
+			}
+			else {
+				seqResources.add(resource);
+			}
+		}
+		return seqResources;
+	}
+	
+	operation AbstractResource getAllResources () : Sequence(AbstractResource) {
+		var seqResources : Sequence(AbstractResource) = Sequence{};
+		if (self.hasProperty("subResources")) {
+			for(resource in self.subResources) {
+				seqResources.add(resource);
+				seqResources += resource.getAllResources();
+			}
+		}
+		return seqResources;
+	}
+%]

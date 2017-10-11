@@ -1,0 +1,5 @@
+rule Scheduler2PythonCode
+	transform aScheduler : Scheduler {
+		template : 'codeGenPython.egl'
+		target : 'gen/scheduler_' + aScheduler.name + '.py'
+	}

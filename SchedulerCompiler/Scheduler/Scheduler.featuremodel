@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureModel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:FeatureModel="http://www.example.org/FeatureModel">
+  <root xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Scheduler">
+    <group lowerBound="4" upperBound="-1">
+      <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="-1" name="Task">
+        <group lowerBound="4" upperBound="7">
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Timing">
+            <group lowerBound="4" upperBound="4">
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="ReleaseTime"/>
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="ExecutionTime"/>
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Deadline"/>
+              <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Periodicity">
+                <group upperBound="1">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Periodic"/>
+                  <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Aperiodic">
+                    <group upperBound="1">
+                      <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Sporadic"/>
+                    </group>
+                  </childs>
+                </group>
+              </childs>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Priority"/>
+          <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Dependency"/>
+          <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Preemptable">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Cooperative"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Requirement">
+            <group lowerBound="2" upperBound="3">
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="ResourceRequirement"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="MutexRequirement"/>
+              <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="DeadlineRequirement">
+                <group upperBound="1">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Hard"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Firm"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Soft"/>
+                </group>
+              </childs>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Granularity">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Terminal"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Composite"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Objective">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Maximize"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Minimize"/>
+            </group>
+            <group lowerBound="1" upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Criteria"/>
+            </group>
+          </childs>
+        </group>
+      </childs>
+      <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="-1" name="Resource">
+        <group lowerBound="4" upperBound="5">
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Capacity"/>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Type">
+            <group lowerBound="2" upperBound="2">
+              <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Abstraction">
+                <group upperBound="1">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="ACTIVE"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="PASSIVE"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="COMPOSITE"/>
+                </group>
+              </childs>
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Identifier"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Mode">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Shared"/>
+              <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Exclusive">
+                <group lowerBound="1" upperBound="2">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="CapacityBased"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="SemanticBased"/>
+                </group>
+              </childs>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="PowerConsumption">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Scalable">
+                <group upperBound="1">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="FixedState"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="ContinuousState"/>
+                </group>
+              </childs>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Objective">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Maximize"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Minimize"/>
+            </group>
+            <group lowerBound="1" upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Criteria"/>
+            </group>
+          </childs>
+        </group>
+      </childs>
+      <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="SchedulingCharacteristics">
+        <group lowerBound="5" upperBound="8">
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Type">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Offline"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Online"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Preemptive"/>
+          <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Migration">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="TaskLevel"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="JobLevel"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="SchedulingPolicy">
+            <group lowerBound="1" upperBound="2">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Grouping"/>
+              <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Ranking">
+                <group upperBound="1">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Deafult"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="UserDefined"/>
+                </group>
+              </childs>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="TimeResolution"/>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="PriorityAssignment">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Fixed"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Dynamic"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="SchedulingWindow"/>
+          <childs xsi:type="FeatureModel:FeatureC" upperBound="1" name="Objective">
+            <group upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Maximize"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Minimize"/>
+            </group>
+            <group lowerBound="1" upperBound="1">
+              <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Criteria">
+                <group lowerBound="1" upperBound="3">
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="TimeRelated"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="ResourceRelated"/>
+                  <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Abstract"/>
+                </group>
+              </childs>
+            </group>
+          </childs>
+        </group>
+      </childs>
+      <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="SchedulingStrategy">
+        <group lowerBound="3" upperBound="3">
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Input"/>
+          <childs xsi:type="FeatureModel:FeatureC" lowerBound="1" upperBound="1" name="Solver">
+            <group lowerBound="1" upperBound="9">
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="SCIP"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="MiniSat"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="MipWrapper"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Mistral"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Mistral2"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="SatWrapper"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Toulbar2"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Walksat"/>
+              <childs xsi:type="FeatureModel:FeatureT" upperBound="1" name="Other"/>
+            </group>
+          </childs>
+          <childs xsi:type="FeatureModel:FeatureT" lowerBound="1" upperBound="1" name="Output"/>
+        </group>
+      </childs>
+    </group>
+  </root>
+</FeatureModel:FeatureModel>

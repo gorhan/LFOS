@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" name="RMS">
+  <System abstraction="COMPOSITE" identifier="COMP_t" name="System">
+    <subResources xsi:type="scheduler:ResourceT" identifier="CPU_t" exclusiveResources="//@System/@subResources.2/@subResources.1" resourceMode="CB_EXCLUSIVE" name="CPU_1" capacity="1">
+      <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@power/@maxState">
+        <maxState scale="1.0" powerConsumption="250.0"/>
+        <minState scale="0.5" powerConsumption="120.0"/>
+        <runnableStates scale="0.7" powerConsumption="175.0"/>
+        <runnableStates scale="0.8" powerConsumption="190.0"/>
+      </power>
+    </subResources>
+    <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="MEM_t" name="Memory_1" capacity="1024">
+      <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.1/@power/@maxState">
+        <maxState scale="1.0" powerConsumption="125.0"/>
+      </power>
+    </subResources>
+    <subResources xsi:type="scheduler:ResourceC" abstraction="COMPOSITE" identifier="COMP_t" name="Sensors">
+      <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="SENSOR_t" name="temperatureSensor" capacity="5">
+        <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.2/@subResources.0/@power/@maxState">
+          <maxState scale="1.0" powerConsumption="150.0"/>
+        </power>
+      </subResources>
+      <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="SENSOR_t" name="HumiditySensor" capacity="5">
+        <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.2/@subResources.1/@power/@maxState">
+          <maxState scale="1.0" powerConsumption="150.0"/>
+        </power>
+      </subResources>
+    </subResources>
+  </System>
+</scheduler:Scheduler>
