@@ -6,11 +6,13 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import scheduler.DependencyItem;
 import scheduler.SchedulerPackage;
+import scheduler.Token;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +23,8 @@ import scheduler.SchedulerPackage;
  * </p>
  * <ul>
  *   <li>{@link scheduler.impl.DependencyItemImpl#getNumTokens <em>Num Tokens</em>}</li>
- *   <li>{@link scheduler.impl.DependencyItemImpl#getToken <em>Token</em>}</li>
  *   <li>{@link scheduler.impl.DependencyItemImpl#getSetupTime <em>Setup Time</em>}</li>
+ *   <li>{@link scheduler.impl.DependencyItemImpl#getToken <em>Token</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,26 +51,6 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	protected int numTokens = NUM_TOKENS_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getToken() <em>Token</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getToken()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TOKEN_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getToken() <em>Token</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getToken()
-	 * @generated
-	 * @ordered
-	 */
-	protected String token = TOKEN_EDEFAULT;
-
-	/**
 	 * The default value of the '{@link #getSetupTime() <em>Setup Time</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -87,6 +69,16 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	 * @ordered
 	 */
 	protected int setupTime = SETUP_TIME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getToken() <em>Token</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getToken()
+	 * @generated
+	 * @ordered
+	 */
+	protected Token token;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,7 +125,15 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getToken() {
+	public Token getToken() {
+		if (token != null && token.eIsProxy()) {
+			InternalEObject oldToken = (InternalEObject)token;
+			token = (Token)eResolveProxy(oldToken);
+			if (token != oldToken) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SchedulerPackage.DEPENDENCY_ITEM__TOKEN, oldToken, token));
+			}
+		}
 		return token;
 	}
 
@@ -142,8 +142,17 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setToken(String newToken) {
-		String oldToken = token;
+	public Token basicGetToken() {
+		return token;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setToken(Token newToken) {
+		Token oldToken = token;
 		token = newToken;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.DEPENDENCY_ITEM__TOKEN, oldToken, token));
@@ -180,10 +189,11 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 		switch (featureID) {
 			case SchedulerPackage.DEPENDENCY_ITEM__NUM_TOKENS:
 				return getNumTokens();
-			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
-				return getToken();
 			case SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME:
 				return getSetupTime();
+			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
+				if (resolve) return getToken();
+				return basicGetToken();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -199,11 +209,11 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 			case SchedulerPackage.DEPENDENCY_ITEM__NUM_TOKENS:
 				setNumTokens((Integer)newValue);
 				return;
-			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
-				setToken((String)newValue);
-				return;
 			case SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME:
 				setSetupTime((Integer)newValue);
+				return;
+			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
+				setToken((Token)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -220,11 +230,11 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 			case SchedulerPackage.DEPENDENCY_ITEM__NUM_TOKENS:
 				setNumTokens(NUM_TOKENS_EDEFAULT);
 				return;
-			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
-				setToken(TOKEN_EDEFAULT);
-				return;
 			case SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME:
 				setSetupTime(SETUP_TIME_EDEFAULT);
+				return;
+			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
+				setToken((Token)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -240,10 +250,10 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 		switch (featureID) {
 			case SchedulerPackage.DEPENDENCY_ITEM__NUM_TOKENS:
 				return numTokens != NUM_TOKENS_EDEFAULT;
-			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
-				return TOKEN_EDEFAULT == null ? token != null : !TOKEN_EDEFAULT.equals(token);
 			case SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME:
 				return setupTime != SETUP_TIME_EDEFAULT;
+			case SchedulerPackage.DEPENDENCY_ITEM__TOKEN:
+				return token != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -260,8 +270,6 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (numTokens: ");
 		result.append(numTokens);
-		result.append(", token: ");
-		result.append(token);
 		result.append(", setupTime: ");
 		result.append(setupTime);
 		result.append(')');

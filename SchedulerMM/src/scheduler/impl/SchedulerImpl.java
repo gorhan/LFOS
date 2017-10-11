@@ -26,6 +26,7 @@ import scheduler.Scheduler;
 import scheduler.SchedulerPackage;
 import scheduler.SchedulingStrategy;
 import scheduler.SolverAdapter;
+import scheduler.Token;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,6 +41,7 @@ import scheduler.SolverAdapter;
  *   <li>{@link scheduler.impl.SchedulerImpl#getSystem <em>System</em>}</li>
  *   <li>{@link scheduler.impl.SchedulerImpl#getName <em>Name</em>}</li>
  *   <li>{@link scheduler.impl.SchedulerImpl#getResourceTypes <em>Resource Types</em>}</li>
+ *   <li>{@link scheduler.impl.SchedulerImpl#getTokenPool <em>Token Pool</em>}</li>
  * </ul>
  *
  * @generated
@@ -104,6 +106,16 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 * @ordered
 	 */
 	protected EList<ResourceType> resourceTypes;
+
+	/**
+	 * The cached value of the '{@link #getTokenPool() <em>Token Pool</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTokenPool()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Token> tokenPool;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -229,6 +241,18 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Token> getTokenPool() {
+		if (tokenPool == null) {
+			tokenPool = new EObjectContainmentEList<Token>(Token.class, this, SchedulerPackage.SCHEDULER__TOKEN_POOL);
+		}
+		return tokenPool;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -240,6 +264,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 				return basicSetSystem(null, msgs);
 			case SchedulerPackage.SCHEDULER__RESOURCE_TYPES:
 				return ((InternalEList<?>)getResourceTypes()).basicRemove(otherEnd, msgs);
+			case SchedulerPackage.SCHEDULER__TOKEN_POOL:
+				return ((InternalEList<?>)getTokenPool()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -262,6 +288,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 				return getName();
 			case SchedulerPackage.SCHEDULER__RESOURCE_TYPES:
 				return getResourceTypes();
+			case SchedulerPackage.SCHEDULER__TOKEN_POOL:
+				return getTokenPool();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -293,6 +321,10 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 				getResourceTypes().clear();
 				getResourceTypes().addAll((Collection<? extends ResourceType>)newValue);
 				return;
+			case SchedulerPackage.SCHEDULER__TOKEN_POOL:
+				getTokenPool().clear();
+				getTokenPool().addAll((Collection<? extends Token>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -320,6 +352,9 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 			case SchedulerPackage.SCHEDULER__RESOURCE_TYPES:
 				getResourceTypes().clear();
 				return;
+			case SchedulerPackage.SCHEDULER__TOKEN_POOL:
+				getTokenPool().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -342,6 +377,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case SchedulerPackage.SCHEDULER__RESOURCE_TYPES:
 				return resourceTypes != null && !resourceTypes.isEmpty();
+			case SchedulerPackage.SCHEDULER__TOKEN_POOL:
+				return tokenPool != null && !tokenPool.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

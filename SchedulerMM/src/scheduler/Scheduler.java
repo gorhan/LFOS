@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link scheduler.Scheduler#getSystem <em>System</em>}</li>
  *   <li>{@link scheduler.Scheduler#getName <em>Name</em>}</li>
  *   <li>{@link scheduler.Scheduler#getResourceTypes <em>Resource Types</em>}</li>
+ *   <li>{@link scheduler.Scheduler#getTokenPool <em>Token Pool</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getScheduler()
@@ -107,5 +108,21 @@ public interface Scheduler extends SchedulingCharacteristic, SchedulingStrategy 
 	 * @generated
 	 */
 	EList<ResourceType> getResourceTypes();
+
+	/**
+	 * Returns the value of the '<em><b>Token Pool</b></em>' containment reference list.
+	 * The list contents are of type {@link scheduler.Token}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Token Pool</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Token Pool</em>' containment reference list.
+	 * @see scheduler.SchedulerPackage#getScheduler_TokenPool()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Token> getTokenPool();
 
 } // Scheduler

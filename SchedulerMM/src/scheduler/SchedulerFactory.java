@@ -427,6 +427,15 @@ public interface SchedulerFactory extends EFactory {
 	PowerState createPowerState();
 
 	/**
+	 * Returns a new object of class '<em>Token</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Token</em>'.
+	 * @generated
+	 */
+	Token createToken();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

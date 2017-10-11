@@ -349,13 +349,22 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULER__RESOURCE_TYPES = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Token Pool</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCHEDULER__TOKEN_POOL = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Scheduler</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER_FEATURE_COUNT = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 5;
+	int SCHEDULER_FEATURE_COUNT = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of operations of the '<em>Scheduler</em>' class.
@@ -550,13 +559,13 @@ public interface SchedulerPackage extends EPackage {
 	int ABSTRACT_TASK__RANKING_TYPE = TIMING_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Priority Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_TASK__VALUE = TIMING_FEATURE_COUNT + 1;
+	int ABSTRACT_TASK__PRIORITY_VALUE = TIMING_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
@@ -640,13 +649,22 @@ public interface SchedulerPackage extends EPackage {
 	int ABSTRACT_TASK__TYPE = TIMING_FEATURE_COUNT + 10;
 
 	/**
+	 * The feature id for the '<em><b>Fires</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_TASK__FIRES = TIMING_FEATURE_COUNT + 11;
+
+	/**
 	 * The number of structural features of the '<em>Abstract Task</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_TASK_FEATURE_COUNT = TIMING_FEATURE_COUNT + 11;
+	int ABSTRACT_TASK_FEATURE_COUNT = TIMING_FEATURE_COUNT + 12;
 
 	/**
 	 * The number of operations of the '<em>Abstract Task</em>' class.
@@ -722,13 +740,13 @@ public interface SchedulerPackage extends EPackage {
 	int TASK_T__RANKING_TYPE = ABSTRACT_TASK__RANKING_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Priority Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TASK_T__VALUE = ABSTRACT_TASK__VALUE;
+	int TASK_T__PRIORITY_VALUE = ABSTRACT_TASK__PRIORITY_VALUE;
 
 	/**
 	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
@@ -810,6 +828,15 @@ public interface SchedulerPackage extends EPackage {
 	 * @ordered
 	 */
 	int TASK_T__TYPE = ABSTRACT_TASK__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Fires</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_T__FIRES = ABSTRACT_TASK__FIRES;
 
 	/**
 	 * The number of structural features of the '<em>Task T</em>' class.
@@ -894,13 +921,13 @@ public interface SchedulerPackage extends EPackage {
 	int TASK_C__RANKING_TYPE = ABSTRACT_TASK__RANKING_TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Priority Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TASK_C__VALUE = ABSTRACT_TASK__VALUE;
+	int TASK_C__PRIORITY_VALUE = ABSTRACT_TASK__PRIORITY_VALUE;
 
 	/**
 	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
@@ -984,6 +1011,15 @@ public interface SchedulerPackage extends EPackage {
 	int TASK_C__TYPE = ABSTRACT_TASK__TYPE;
 
 	/**
+	 * The feature id for the '<em><b>Fires</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TASK_C__FIRES = ABSTRACT_TASK__FIRES;
+
+	/**
 	 * The feature id for the '<em><b>Sub Tasks</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1030,13 +1066,13 @@ public interface SchedulerPackage extends EPackage {
 	int PRIORITY__RANKING_TYPE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Priority Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PRIORITY__VALUE = 1;
+	int PRIORITY__PRIORITY_VALUE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Priority</em>' class.
@@ -1131,22 +1167,22 @@ public interface SchedulerPackage extends EPackage {
 	int DEPENDENCY_ITEM__NUM_TOKENS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Token</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DEPENDENCY_ITEM__TOKEN = 1;
-
-	/**
 	 * The feature id for the '<em><b>Setup Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEPENDENCY_ITEM__SETUP_TIME = 2;
+	int DEPENDENCY_ITEM__SETUP_TIME = 1;
+
+	/**
+	 * The feature id for the '<em><b>Token</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPENDENCY_ITEM__TOKEN = 2;
 
 	/**
 	 * The number of structural features of the '<em>Dependency Item</em>' class.
@@ -2825,6 +2861,52 @@ public interface SchedulerPackage extends EPackage {
 	int POWER_STATE_OPERATION_COUNT = 0;
 
 	/**
+	 * The meta object id for the '{@link scheduler.impl.TokenImpl <em>Token</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see scheduler.impl.TokenImpl
+	 * @see scheduler.impl.SchedulerPackageImpl#getToken()
+	 * @generated
+	 */
+	int TOKEN = 49;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOKEN__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Amount</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOKEN__AMOUNT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Token</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOKEN_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Token</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOKEN_OPERATION_COUNT = 0;
+
+	/**
 	 * The meta object id for the '{@link scheduler.PeriodicityType <em>Periodicity Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2832,7 +2914,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPeriodicityType()
 	 * @generated
 	 */
-	int PERIODICITY_TYPE = 49;
+	int PERIODICITY_TYPE = 50;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PriorityRankingType <em>Priority Ranking Type</em>}' enum.
@@ -2842,7 +2924,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPriorityRankingType()
 	 * @generated
 	 */
-	int PRIORITY_RANKING_TYPE = 50;
+	int PRIORITY_RANKING_TYPE = 51;
 
 	/**
 	 * The meta object id for the '{@link scheduler.LogicalRelation <em>Logical Relation</em>}' enum.
@@ -2852,7 +2934,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getLogicalRelation()
 	 * @generated
 	 */
-	int LOGICAL_RELATION = 51;
+	int LOGICAL_RELATION = 52;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PreemptionType <em>Preemption Type</em>}' enum.
@@ -2862,7 +2944,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPreemptionType()
 	 * @generated
 	 */
-	int PREEMPTION_TYPE = 52;
+	int PREEMPTION_TYPE = 53;
 
 	/**
 	 * The meta object id for the '{@link scheduler.DeadlineType <em>Deadline Type</em>}' enum.
@@ -2872,7 +2954,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getDeadlineType()
 	 * @generated
 	 */
-	int DEADLINE_TYPE = 53;
+	int DEADLINE_TYPE = 54;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ResourceAbstraction <em>Resource Abstraction</em>}' enum.
@@ -2882,7 +2964,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getResourceAbstraction()
 	 * @generated
 	 */
-	int RESOURCE_ABSTRACTION = 54;
+	int RESOURCE_ABSTRACTION = 55;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ResourceMode <em>Resource Mode</em>}' enum.
@@ -2892,7 +2974,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getResourceMode()
 	 * @generated
 	 */
-	int RESOURCE_MODE = 55;
+	int RESOURCE_MODE = 56;
 
 	/**
 	 * The meta object id for the '{@link scheduler.SchedulingType <em>Scheduling Type</em>}' enum.
@@ -2902,7 +2984,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSchedulingType()
 	 * @generated
 	 */
-	int SCHEDULING_TYPE = 56;
+	int SCHEDULING_TYPE = 57;
 
 	/**
 	 * The meta object id for the '{@link scheduler.MigrationType <em>Migration Type</em>}' enum.
@@ -2912,7 +2994,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMigrationType()
 	 * @generated
 	 */
-	int MIGRATION_TYPE = 57;
+	int MIGRATION_TYPE = 58;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PriorityAssignmentType <em>Priority Assignment Type</em>}' enum.
@@ -2922,7 +3004,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPriorityAssignmentType()
 	 * @generated
 	 */
-	int PRIORITY_ASSIGNMENT_TYPE = 58;
+	int PRIORITY_ASSIGNMENT_TYPE = 59;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ObjectiveCriteria <em>Objective Criteria</em>}' enum.
@@ -2932,7 +3014,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getObjectiveCriteria()
 	 * @generated
 	 */
-	int OBJECTIVE_CRITERIA = 59;
+	int OBJECTIVE_CRITERIA = 60;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ObjectivePurpose <em>Objective Purpose</em>}' enum.
@@ -2942,7 +3024,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getObjectivePurpose()
 	 * @generated
 	 */
-	int OBJECTIVE_PURPOSE = 60;
+	int OBJECTIVE_PURPOSE = 61;
 
 	/**
 	 * The meta object id for the '{@link scheduler.SchedulingPolicyType <em>Scheduling Policy Type</em>}' enum.
@@ -2952,7 +3034,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSchedulingPolicyType()
 	 * @generated
 	 */
-	int SCHEDULING_POLICY_TYPE = 61;
+	int SCHEDULING_POLICY_TYPE = 62;
 
 
 	/**
@@ -3010,6 +3092,17 @@ public interface SchedulerPackage extends EPackage {
 	EReference getScheduler_ResourceTypes();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link scheduler.Scheduler#getTokenPool <em>Token Pool</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Token Pool</em>'.
+	 * @see scheduler.Scheduler#getTokenPool()
+	 * @see #getScheduler()
+	 * @generated
+	 */
+	EReference getScheduler_TokenPool();
+
+	/**
 	 * Returns the meta object for class '{@link scheduler.AbstractTask <em>Abstract Task</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3040,6 +3133,17 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAbstractTask_Type();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link scheduler.AbstractTask#getFires <em>Fires</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Fires</em>'.
+	 * @see scheduler.AbstractTask#getFires()
+	 * @see #getAbstractTask()
+	 * @generated
+	 */
+	EReference getAbstractTask_Fires();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.TaskT <em>Task T</em>}'.
@@ -3169,15 +3273,15 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getPriority_RankingType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.Priority#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.Priority#getPriorityValue <em>Priority Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see scheduler.Priority#getValue()
+	 * @return the meta object for the attribute '<em>Priority Value</em>'.
+	 * @see scheduler.Priority#getPriorityValue()
 	 * @see #getPriority()
 	 * @generated
 	 */
-	EAttribute getPriority_Value();
+	EAttribute getPriority_PriorityValue();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.Dependency <em>Dependency</em>}'.
@@ -3244,15 +3348,15 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getDependencyItem_NumTokens();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.DependencyItem#getToken <em>Token</em>}'.
+	 * Returns the meta object for the reference '{@link scheduler.DependencyItem#getToken <em>Token</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Token</em>'.
+	 * @return the meta object for the reference '<em>Token</em>'.
 	 * @see scheduler.DependencyItem#getToken()
 	 * @see #getDependencyItem()
 	 * @generated
 	 */
-	EAttribute getDependencyItem_Token();
+	EReference getDependencyItem_Token();
 
 	/**
 	 * Returns the meta object for the attribute '{@link scheduler.DependencyItem#getSetupTime <em>Setup Time</em>}'.
@@ -4106,6 +4210,38 @@ public interface SchedulerPackage extends EPackage {
 	EReference getScalable_RunnableStates();
 
 	/**
+	 * Returns the meta object for class '{@link scheduler.Token <em>Token</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Token</em>'.
+	 * @see scheduler.Token
+	 * @generated
+	 */
+	EClass getToken();
+
+	/**
+	 * Returns the meta object for the attribute '{@link scheduler.Token#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see scheduler.Token#getName()
+	 * @see #getToken()
+	 * @generated
+	 */
+	EAttribute getToken_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link scheduler.Token#getAmount <em>Amount</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Amount</em>'.
+	 * @see scheduler.Token#getAmount()
+	 * @see #getToken()
+	 * @generated
+	 */
+	EAttribute getToken_Amount();
+
+	/**
 	 * Returns the meta object for enum '{@link scheduler.PeriodicityType <em>Periodicity Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4301,6 +4437,14 @@ public interface SchedulerPackage extends EPackage {
 		EReference SCHEDULER__RESOURCE_TYPES = eINSTANCE.getScheduler_ResourceTypes();
 
 		/**
+		 * The meta object literal for the '<em><b>Token Pool</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SCHEDULER__TOKEN_POOL = eINSTANCE.getScheduler_TokenPool();
+
+		/**
 		 * The meta object literal for the '{@link scheduler.AbstractTask <em>Abstract Task</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4325,6 +4469,14 @@ public interface SchedulerPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ABSTRACT_TASK__TYPE = eINSTANCE.getAbstractTask_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Fires</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ABSTRACT_TASK__FIRES = eINSTANCE.getAbstractTask_Fires();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.TaskTImpl <em>Task T</em>}' class.
@@ -4433,12 +4585,12 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute PRIORITY__RANKING_TYPE = eINSTANCE.getPriority_RankingType();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Priority Value</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PRIORITY__VALUE = eINSTANCE.getPriority_Value();
+		EAttribute PRIORITY__PRIORITY_VALUE = eINSTANCE.getPriority_PriorityValue();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.DependencyImpl <em>Dependency</em>}' class.
@@ -4493,12 +4645,12 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute DEPENDENCY_ITEM__NUM_TOKENS = eINSTANCE.getDependencyItem_NumTokens();
 
 		/**
-		 * The meta object literal for the '<em><b>Token</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Token</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute DEPENDENCY_ITEM__TOKEN = eINSTANCE.getDependencyItem_Token();
+		EReference DEPENDENCY_ITEM__TOKEN = eINSTANCE.getDependencyItem_Token();
 
 		/**
 		 * The meta object literal for the '<em><b>Setup Time</b></em>' attribute feature.
@@ -5227,6 +5379,32 @@ public interface SchedulerPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SCALABLE__RUNNABLE_STATES = eINSTANCE.getScalable_RunnableStates();
+
+		/**
+		 * The meta object literal for the '{@link scheduler.impl.TokenImpl <em>Token</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see scheduler.impl.TokenImpl
+		 * @see scheduler.impl.SchedulerPackageImpl#getToken()
+		 * @generated
+		 */
+		EClass TOKEN = eINSTANCE.getToken();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOKEN__NAME = eINSTANCE.getToken_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Amount</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TOKEN__AMOUNT = eINSTANCE.getToken_Amount();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.PeriodicityType <em>Periodicity Type</em>}' enum.

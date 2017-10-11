@@ -102,6 +102,7 @@ public class SchedulerFactoryImpl extends EFactoryImpl implements SchedulerFacto
 			case SchedulerPackage.MAT_PLOT_LIB: return createMatPlotLib();
 			case SchedulerPackage.RESOURCE_TYPE: return createResourceType();
 			case SchedulerPackage.POWER_STATE: return createPowerState();
+			case SchedulerPackage.TOKEN: return createToken();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -633,6 +634,16 @@ public class SchedulerFactoryImpl extends EFactoryImpl implements SchedulerFacto
 	public PowerState createPowerState() {
 		PowerStateImpl powerState = new PowerStateImpl();
 		return powerState;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Token createToken() {
+		TokenImpl token = new TokenImpl();
+		return token;
 	}
 
 	/**

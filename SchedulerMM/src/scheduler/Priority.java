@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link scheduler.Priority#getRankingType <em>Ranking Type</em>}</li>
- *   <li>{@link scheduler.Priority#getValue <em>Value</em>}</li>
+ *   <li>{@link scheduler.Priority#getPriorityValue <em>Priority Value</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getPriority()
@@ -52,29 +52,29 @@ public interface Priority extends EObject {
 	void setRankingType(PriorityRankingType value);
 
 	/**
-	 * Returns the value of the '<em><b>Value</b></em>' attribute.
+	 * Returns the value of the '<em><b>Priority Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Value</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Priority Value</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Value</em>' attribute.
-	 * @see #setValue(int)
-	 * @see scheduler.SchedulerPackage#getPriority_Value()
+	 * @return the value of the '<em>Priority Value</em>' attribute.
+	 * @see #setPriorityValue(int)
+	 * @see scheduler.SchedulerPackage#getPriority_PriorityValue()
 	 * @model required="true"
 	 * @generated
 	 */
-	int getValue();
+	int getPriorityValue();
 
 	/**
-	 * Sets the value of the '{@link scheduler.Priority#getValue <em>Value</em>}' attribute.
+	 * Sets the value of the '{@link scheduler.Priority#getPriorityValue <em>Priority Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Value</em>' attribute.
-	 * @see #getValue()
+	 * @param value the new value of the '<em>Priority Value</em>' attribute.
+	 * @see #getPriorityValue()
 	 * @generated
 	 */
-	void setValue(int value);
+	void setPriorityValue(int value);
 
 } // Priority

@@ -82,10 +82,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/System"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Scheduler/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/resourceTypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/tokenPool"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//AbstractTask">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractTask/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractTask/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//AbstractTask/fires"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//TaskT"/>
     <genClasses ecoreClass="scheduler.ecore#//TaskC">
@@ -102,7 +104,7 @@
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//Priority">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/rankingType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/priorityValue"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//Dependency">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/dependencyItem"/>
@@ -111,8 +113,8 @@
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//DependencyItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/numTokens"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/token"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/setupTime"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//DependencyItem/token"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//Preemption">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Preemption/pmtnType"/>
@@ -213,6 +215,10 @@
     <genClasses ecoreClass="scheduler.ecore#//Scalable">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scalable/minState"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scalable/runnableStates"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Token">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Token/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Token/amount"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -73,6 +73,7 @@ import scheduler.TaskObjective;
 import scheduler.TaskT;
 import scheduler.Textual;
 import scheduler.Timing;
+import scheduler.Token;
 import scheduler.Toulbar2;
 import scheduler.Walksat;
 
@@ -431,6 +432,13 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass tokenEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum periodicityTypeEEnum = null;
 
 	/**
@@ -631,6 +639,15 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getScheduler_TokenPool() {
+		return (EReference)schedulerEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAbstractTask() {
 		return abstractTaskEClass;
 	}
@@ -651,6 +668,15 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 */
 	public EAttribute getAbstractTask_Type() {
 		return (EAttribute)abstractTaskEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAbstractTask_Fires() {
+		return (EReference)abstractTaskEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -766,7 +792,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPriority_Value() {
+	public EAttribute getPriority_PriorityValue() {
 		return (EAttribute)priorityEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -829,8 +855,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDependencyItem_Token() {
-		return (EAttribute)dependencyItemEClass.getEStructuralFeatures().get(1);
+	public EReference getDependencyItem_Token() {
+		return (EReference)dependencyItemEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -839,7 +865,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * @generated
 	 */
 	public EAttribute getDependencyItem_SetupTime() {
-		return (EAttribute)dependencyItemEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)dependencyItemEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1567,6 +1593,33 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getToken() {
+		return tokenEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getToken_Name() {
+		return (EAttribute)tokenEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getToken_Amount() {
+		return (EAttribute)tokenEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getPeriodicityType() {
 		return periodicityTypeEEnum;
 	}
@@ -1712,10 +1765,12 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		createEReference(schedulerEClass, SCHEDULER__SYSTEM);
 		createEAttribute(schedulerEClass, SCHEDULER__NAME);
 		createEReference(schedulerEClass, SCHEDULER__RESOURCE_TYPES);
+		createEReference(schedulerEClass, SCHEDULER__TOKEN_POOL);
 
 		abstractTaskEClass = createEClass(ABSTRACT_TASK);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__NAME);
 		createEAttribute(abstractTaskEClass, ABSTRACT_TASK__TYPE);
+		createEReference(abstractTaskEClass, ABSTRACT_TASK__FIRES);
 
 		taskTEClass = createEClass(TASK_T);
 
@@ -1733,7 +1788,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		priorityEClass = createEClass(PRIORITY);
 		createEAttribute(priorityEClass, PRIORITY__RANKING_TYPE);
-		createEAttribute(priorityEClass, PRIORITY__VALUE);
+		createEAttribute(priorityEClass, PRIORITY__PRIORITY_VALUE);
 
 		dependencyEClass = createEClass(DEPENDENCY);
 		createEReference(dependencyEClass, DEPENDENCY__DEPENDENCY_ITEM);
@@ -1742,8 +1797,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		dependencyItemEClass = createEClass(DEPENDENCY_ITEM);
 		createEAttribute(dependencyItemEClass, DEPENDENCY_ITEM__NUM_TOKENS);
-		createEAttribute(dependencyItemEClass, DEPENDENCY_ITEM__TOKEN);
 		createEAttribute(dependencyItemEClass, DEPENDENCY_ITEM__SETUP_TIME);
+		createEReference(dependencyItemEClass, DEPENDENCY_ITEM__TOKEN);
 
 		preemptionEClass = createEClass(PREEMPTION);
 		createEAttribute(preemptionEClass, PREEMPTION__PMTN_TYPE);
@@ -1865,6 +1920,10 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		createEReference(scalableEClass, SCALABLE__MIN_STATE);
 		createEReference(scalableEClass, SCALABLE__RUNNABLE_STATES);
 
+		tokenEClass = createEClass(TOKEN);
+		createEAttribute(tokenEClass, TOKEN__NAME);
+		createEAttribute(tokenEClass, TOKEN__AMOUNT);
+
 		// Create enums
 		periodicityTypeEEnum = createEEnum(PERIODICITY_TYPE);
 		priorityRankingTypeEEnum = createEEnum(PRIORITY_RANKING_TYPE);
@@ -1956,10 +2015,12 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		initEReference(getScheduler_System(), this.getResourceC(), null, "System", null, 1, 1, Scheduler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getScheduler_Name(), ecorePackage.getEString(), "name", null, 0, 1, Scheduler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScheduler_ResourceTypes(), this.getResourceType(), null, "resourceTypes", null, 1, -1, Scheduler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getScheduler_TokenPool(), this.getToken(), null, "tokenPool", null, 0, -1, Scheduler.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractTaskEClass, AbstractTask.class, "AbstractTask", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractTask_Name(), ecorePackage.getEString(), "name", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAbstractTask_Type(), ecorePackage.getEString(), "type", null, 0, 1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAbstractTask_Fires(), this.getToken(), null, "fires", null, 0, -1, AbstractTask.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(taskTEClass, TaskT.class, "TaskT", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1977,7 +2038,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		initEClass(priorityEClass, Priority.class, "Priority", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPriority_RankingType(), this.getPriorityRankingType(), "rankingType", null, 1, 1, Priority.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPriority_Value(), ecorePackage.getEInt(), "value", null, 1, 1, Priority.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPriority_PriorityValue(), ecorePackage.getEInt(), "priorityValue", null, 1, 1, Priority.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyEClass, Dependency.class, "Dependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDependency_DependencyItem(), this.getDependencyItem(), null, "dependencyItem", null, 0, -1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1986,8 +2047,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		initEClass(dependencyItemEClass, DependencyItem.class, "DependencyItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDependencyItem_NumTokens(), ecorePackage.getEInt(), "numTokens", null, 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDependencyItem_Token(), ecorePackage.getEString(), "token", null, 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDependencyItem_SetupTime(), ecorePackage.getEInt(), "setupTime", null, 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDependencyItem_Token(), this.getToken(), null, "token", null, 1, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(preemptionEClass, Preemption.class, "Preemption", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPreemption_PmtnType(), this.getPreemptionType(), "pmtnType", null, 1, 1, Preemption.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2108,6 +2169,10 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		initEClass(scalableEClass, Scalable.class, "Scalable", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getScalable_MinState(), this.getPowerState(), null, "minState", null, 1, 1, Scalable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getScalable_RunnableStates(), this.getPowerState(), null, "runnableStates", null, 1, -1, Scalable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(tokenEClass, Token.class, "Token", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getToken_Name(), ecorePackage.getEString(), "name", null, 1, 1, Token.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getToken_Amount(), ecorePackage.getEInt(), "amount", null, 1, 1, Token.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(periodicityTypeEEnum, PeriodicityType.class, "PeriodicityType");

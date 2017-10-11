@@ -22,7 +22,7 @@ import scheduler.SchedulerPackage;
  * </p>
  * <ul>
  *   <li>{@link scheduler.impl.PriorityImpl#getRankingType <em>Ranking Type</em>}</li>
- *   <li>{@link scheduler.impl.PriorityImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link scheduler.impl.PriorityImpl#getPriorityValue <em>Priority Value</em>}</li>
  * </ul>
  *
  * @generated
@@ -49,24 +49,24 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 	protected PriorityRankingType rankingType = RANKING_TYPE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The default value of the '{@link #getPriorityValue() <em>Priority Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getPriorityValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int VALUE_EDEFAULT = 0;
+	protected static final int PRIORITY_VALUE_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The cached value of the '{@link #getPriorityValue() <em>Priority Value</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getPriorityValue()
 	 * @generated
 	 * @ordered
 	 */
-	protected int value = VALUE_EDEFAULT;
+	protected int priorityValue = PRIORITY_VALUE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -113,8 +113,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getValue() {
-		return value;
+	public int getPriorityValue() {
+		return priorityValue;
 	}
 
 	/**
@@ -122,11 +122,11 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(int newValue) {
-		int oldValue = value;
-		value = newValue;
+	public void setPriorityValue(int newPriorityValue) {
+		int oldPriorityValue = priorityValue;
+		priorityValue = newPriorityValue;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.PRIORITY__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.PRIORITY__PRIORITY_VALUE, oldPriorityValue, priorityValue));
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 		switch (featureID) {
 			case SchedulerPackage.PRIORITY__RANKING_TYPE:
 				return getRankingType();
-			case SchedulerPackage.PRIORITY__VALUE:
-				return getValue();
+			case SchedulerPackage.PRIORITY__PRIORITY_VALUE:
+				return getPriorityValue();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,8 +156,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 			case SchedulerPackage.PRIORITY__RANKING_TYPE:
 				setRankingType((PriorityRankingType)newValue);
 				return;
-			case SchedulerPackage.PRIORITY__VALUE:
-				setValue((Integer)newValue);
+			case SchedulerPackage.PRIORITY__PRIORITY_VALUE:
+				setPriorityValue((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -174,8 +174,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 			case SchedulerPackage.PRIORITY__RANKING_TYPE:
 				setRankingType(RANKING_TYPE_EDEFAULT);
 				return;
-			case SchedulerPackage.PRIORITY__VALUE:
-				setValue(VALUE_EDEFAULT);
+			case SchedulerPackage.PRIORITY__PRIORITY_VALUE:
+				setPriorityValue(PRIORITY_VALUE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -191,8 +191,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 		switch (featureID) {
 			case SchedulerPackage.PRIORITY__RANKING_TYPE:
 				return rankingType != RANKING_TYPE_EDEFAULT;
-			case SchedulerPackage.PRIORITY__VALUE:
-				return value != VALUE_EDEFAULT;
+			case SchedulerPackage.PRIORITY__PRIORITY_VALUE:
+				return priorityValue != PRIORITY_VALUE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -209,8 +209,8 @@ public class PriorityImpl extends MinimalEObjectImpl.Container implements Priori
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (rankingType: ");
 		result.append(rankingType);
-		result.append(", value: ");
-		result.append(value);
+		result.append(", priorityValue: ");
+		result.append(priorityValue);
 		result.append(')');
 		return result.toString();
 	}

@@ -9,11 +9,15 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" lowerBound="1"
         upperBound="-1" eType="#//ResourceType" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tokenPool" upperBound="-1"
+        eType="#//Token" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true" interface="true"
       eSuperTypes="#//Timing #//Priority #//Dependency #//Preemption #//Requirement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fires" upperBound="-1"
+        eType="#//Token" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TaskT" eSuperTypes="#//AbstractTask"/>
   <eClassifiers xsi:type="ecore:EClass" name="TaskC" eSuperTypes="#//AbstractTask">
@@ -39,7 +43,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Priority">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rankingType" unique="false"
         lowerBound="1" eType="#//PriorityRankingType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priorityValue" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PriorityRankingType">
     <eLiterals name="ASCENDING"/>
@@ -59,8 +64,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DependencyItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="numTokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="setupTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="token" lowerBound="1" eType="#//Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PreemptionType">
     <eLiterals name="NOT_PPREEMPTABLE"/>
@@ -248,5 +253,10 @@
         eType="#//PowerState" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="runnableStates" lowerBound="1"
         upperBound="-1" eType="#//PowerState" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Token">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="amount" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
 </ecore:EPackage>

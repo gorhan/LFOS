@@ -7,6 +7,8 @@
     <resourceRequirementItems requiredCapacity="640">
       <eligibleResourceItem/>
     </resourceRequirementItems>
+    <fires name="__Task_1_a__" amount="1"/>
+    <fires name="__Task_1_b__" amount="2"/>
   </taskset>
   <System name="System" belongs="//@resourceTypes.2">
     <subResources xsi:type="scheduler:ResourceT" exclusiveResources="//@System/@subResources.2/@subResources.1" resourceMode="CB_EXCLUSIVE" name="CPU_1" capacity="1" belongs="//@resourceTypes.0">

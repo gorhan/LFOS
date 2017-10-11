@@ -2,6 +2,8 @@
  */
 package scheduler;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +16,7 @@ package scheduler;
  * <ul>
  *   <li>{@link scheduler.AbstractTask#getName <em>Name</em>}</li>
  *   <li>{@link scheduler.AbstractTask#getType <em>Type</em>}</li>
+ *   <li>{@link scheduler.AbstractTask#getFires <em>Fires</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getAbstractTask()
@@ -72,5 +75,21 @@ public interface AbstractTask extends Timing, Priority, Dependency, Preemption, 
 	 * @generated
 	 */
 	void setType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Fires</b></em>' containment reference list.
+	 * The list contents are of type {@link scheduler.Token}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Fires</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Fires</em>' containment reference list.
+	 * @see scheduler.SchedulerPackage#getAbstractTask_Fires()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Token> getFires();
 
 } // AbstractTask
