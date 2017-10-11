@@ -4,7 +4,6 @@ package scheduler;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Abstract Task</b></em>'.
@@ -81,7 +80,7 @@ public interface AbstractTask extends Timing, Priority, Dependency, Preemption, 
 	 * The list contents are of type {@link scheduler.Token}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Fires</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Fires</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

@@ -855,8 +855,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDependencyItem_Token() {
-		return (EReference)dependencyItemEClass.getEStructuralFeatures().get(2);
+	public EAttribute getDependencyItem_SetupTime() {
+		return (EAttribute)dependencyItemEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -864,8 +864,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getDependencyItem_SetupTime() {
-		return (EAttribute)dependencyItemEClass.getEStructuralFeatures().get(1);
+	public EReference getDependencyItem_Token() {
+		return (EReference)dependencyItemEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -963,7 +963,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getResourceRequirementItem_EligibleResourceItem() {
+	public EReference getResourceRequirementItem_EligibleResourceItems() {
 		return (EReference)resourceRequirementItemEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -999,7 +999,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEligibleResource_EligibleResourcePointer() {
+	public EReference getEligibleResource_EligibleResourcePtr() {
 		return (EReference)eligibleResourceEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1512,8 +1512,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getResourceType_Abstraction() {
-		return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(2);
+	public EReference getResourceType_Has() {
+		return (EReference)resourceTypeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1530,8 +1530,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getResourceType_Has() {
-		return (EReference)resourceTypeEClass.getEStructuralFeatures().get(0);
+	public EAttribute getResourceType_Abstraction() {
+		return (EAttribute)resourceTypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1814,12 +1814,12 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		resourceRequirementItemEClass = createEClass(RESOURCE_REQUIREMENT_ITEM);
 		createEAttribute(resourceRequirementItemEClass, RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY);
-		createEReference(resourceRequirementItemEClass, RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM);
+		createEReference(resourceRequirementItemEClass, RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS);
 		createEReference(resourceRequirementItemEClass, RESOURCE_REQUIREMENT_ITEM__REQUIRED_RESOURCE_TYPE);
 
 		eligibleResourceEClass = createEClass(ELIGIBLE_RESOURCE);
 		createEAttribute(eligibleResourceEClass, ELIGIBLE_RESOURCE__WCET_ON_RESOURCE);
-		createEReference(eligibleResourceEClass, ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_POINTER);
+		createEReference(eligibleResourceEClass, ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_PTR);
 
 		mutualExclusionEClass = createEClass(MUTUAL_EXCLUSION);
 		createEReference(mutualExclusionEClass, MUTUAL_EXCLUSION__MUTEX_TASK);
@@ -2064,12 +2064,12 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 
 		initEClass(resourceRequirementItemEClass, ResourceRequirementItem.class, "ResourceRequirementItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResourceRequirementItem_RequiredCapacity(), ecorePackage.getEInt(), "requiredCapacity", null, 0, 1, ResourceRequirementItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getResourceRequirementItem_EligibleResourceItem(), this.getEligibleResource(), null, "eligibleResourceItem", null, 1, -1, ResourceRequirementItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResourceRequirementItem_EligibleResourceItems(), this.getEligibleResource(), null, "eligibleResourceItems", null, 0, -1, ResourceRequirementItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getResourceRequirementItem_RequiredResourceType(), this.getResourceType(), null, "requiredResourceType", null, 1, 1, ResourceRequirementItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(eligibleResourceEClass, EligibleResource.class, "EligibleResource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getEligibleResource_WcetOnResource(), ecorePackage.getEInt(), "wcetOnResource", null, 0, 1, EligibleResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEligibleResource_EligibleResourcePointer(), this.getAbstractResource(), null, "eligibleResourcePointer", null, 1, 1, EligibleResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getEligibleResource_EligibleResourcePtr(), this.getAbstractResource(), null, "eligibleResourcePtr", null, 1, 1, EligibleResource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(mutualExclusionEClass, MutualExclusion.class, "MutualExclusion", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMutualExclusion_MutexTask(), this.getAbstractTask(), null, "mutexTask", null, 1, 1, MutualExclusion.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

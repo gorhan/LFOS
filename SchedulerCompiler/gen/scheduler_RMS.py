@@ -53,4 +53,6 @@ sensors_C.add(temperaturesensor_P)
 sensors_C.add(humiditysensor_P)
 
 Task_1_NA = TaskFactory.create_instance(name="Task_1", type"NA", phase=Time(0), phase=Time(6), periodicity=PeriodicityTypeList.PERIODIC, deadline_type=DeadlineRequirementTypeList.HARD, preemptability=PreemptionTypeList.NOT_PPREEMPTABLE, token_name=["__Task_1_b__", "__Task_1_a__"], token_number=[2, 1])
+Task_1_NA.add_resource_requirement(resource_type=CPU_t, capacity=1)
+Task_1_NA.add_resource_requirement(resource_type=MEM_t, capacity=640)
 

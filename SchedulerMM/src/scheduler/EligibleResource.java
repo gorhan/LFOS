@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link scheduler.EligibleResource#getWcetOnResource <em>Wcet On Resource</em>}</li>
- *   <li>{@link scheduler.EligibleResource#getEligibleResourcePointer <em>Eligible Resource Pointer</em>}</li>
+ *   <li>{@link scheduler.EligibleResource#getEligibleResourcePtr <em>Eligible Resource Ptr</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getEligibleResource()
@@ -49,29 +49,29 @@ public interface EligibleResource extends EObject {
 	void setWcetOnResource(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Eligible Resource Pointer</b></em>' reference.
+	 * Returns the value of the '<em><b>Eligible Resource Ptr</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Eligible Resource Pointer</em>' reference isn't clear,
+	 * If the meaning of the '<em>Eligible Resource Ptr</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Eligible Resource Pointer</em>' reference.
-	 * @see #setEligibleResourcePointer(AbstractResource)
-	 * @see scheduler.SchedulerPackage#getEligibleResource_EligibleResourcePointer()
+	 * @return the value of the '<em>Eligible Resource Ptr</em>' reference.
+	 * @see #setEligibleResourcePtr(AbstractResource)
+	 * @see scheduler.SchedulerPackage#getEligibleResource_EligibleResourcePtr()
 	 * @model required="true"
 	 * @generated
 	 */
-	AbstractResource getEligibleResourcePointer();
+	AbstractResource getEligibleResourcePtr();
 
 	/**
-	 * Sets the value of the '{@link scheduler.EligibleResource#getEligibleResourcePointer <em>Eligible Resource Pointer</em>}' reference.
+	 * Sets the value of the '{@link scheduler.EligibleResource#getEligibleResourcePtr <em>Eligible Resource Ptr</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Eligible Resource Pointer</em>' reference.
-	 * @see #getEligibleResourcePointer()
+	 * @param value the new value of the '<em>Eligible Resource Ptr</em>' reference.
+	 * @see #getEligibleResourcePtr()
 	 * @generated
 	 */
-	void setEligibleResourcePointer(AbstractResource value);
+	void setEligibleResourcePtr(AbstractResource value);
 
 } // EligibleResource

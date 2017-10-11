@@ -39,6 +39,7 @@ from LFOS.macros import *
 [%	var tasks = aScheduler.taskset;
 	for(task in aScheduler.taskset) {%]
 [%=task.getTaskVariableName()%] = TaskFactory.create_instance([%=task.generateTaskConstructionCode(aScheduler.begin, aScheduler.begin+aScheduler.duration)%])
+[%=task.generateResourceRequirementsCode()%]
 [%	}%]
 
 [%
@@ -76,6 +77,29 @@ from LFOS.macros import *
 		}
 		
 		return parameters.concat(", ");
+	}
+	
+	operation AbstractTask generateResourceRequirementsCode() : String {
+		var genCode : String = "";
+		
+		for(reqItem in self.resourceRequirementItems) {
+			var resourceTypeCode = "resource_type=" + reqItem.requiredResourceType.identifier;
+			var requiredCapacityCode = "capacity=" + reqItem.requiredCapacity;
+			
+			if(reqItem.hasProperty("eligibleResourceItems")) {
+				var eligibleResourcesCode : String = "";
+				var eligibleReosurcesList : Sequence(String) = Sequence{};
+				for(eligibleResourceItem in reqItem.eligibleResourceItems) {
+					eligibleReosurcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + "Time(" + eligibleResourceItem.wcetOnResource + ")");
+				}
+				eligibleResourcesCode = "eligible_resources={" + eligibleReosurcesList.concat(", ") + "}";
+				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + eligibleResourcesCode + ", " + requiredCapacityCode + ")\n";
+			}
+			else
+				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + requiredCapacityCode + ")\n";
+		}
+		
+		return genCode;
 	}
 
 	operation AbstractResource getResourceVariableName() : String {

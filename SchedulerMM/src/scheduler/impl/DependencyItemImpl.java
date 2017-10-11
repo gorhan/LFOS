@@ -5,8 +5,8 @@ package scheduler.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
@@ -125,6 +125,27 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getSetupTime() {
+		return setupTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSetupTime(int newSetupTime) {
+		int oldSetupTime = setupTime;
+		setupTime = newSetupTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME, oldSetupTime, setupTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Token getToken() {
 		if (token != null && token.eIsProxy()) {
 			InternalEObject oldToken = (InternalEObject)token;
@@ -156,27 +177,6 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 		token = newToken;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.DEPENDENCY_ITEM__TOKEN, oldToken, token));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public int getSetupTime() {
-		return setupTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSetupTime(int newSetupTime) {
-		int oldSetupTime = setupTime;
-		setupTime = newSetupTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.DEPENDENCY_ITEM__SETUP_TIME, oldSetupTime, setupTime));
 	}
 
 	/**

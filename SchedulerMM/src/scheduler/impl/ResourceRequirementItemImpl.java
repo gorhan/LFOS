@@ -32,7 +32,7 @@ import scheduler.SchedulerPackage;
  * </p>
  * <ul>
  *   <li>{@link scheduler.impl.ResourceRequirementItemImpl#getRequiredCapacity <em>Required Capacity</em>}</li>
- *   <li>{@link scheduler.impl.ResourceRequirementItemImpl#getEligibleResourceItem <em>Eligible Resource Item</em>}</li>
+ *   <li>{@link scheduler.impl.ResourceRequirementItemImpl#getEligibleResourceItems <em>Eligible Resource Items</em>}</li>
  *   <li>{@link scheduler.impl.ResourceRequirementItemImpl#getRequiredResourceType <em>Required Resource Type</em>}</li>
  * </ul>
  *
@@ -60,14 +60,14 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 	protected int requiredCapacity = REQUIRED_CAPACITY_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getEligibleResourceItem() <em>Eligible Resource Item</em>}' containment reference list.
+	 * The cached value of the '{@link #getEligibleResourceItems() <em>Eligible Resource Items</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEligibleResourceItem()
+	 * @see #getEligibleResourceItems()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<EligibleResource> eligibleResourceItem;
+	protected EList<EligibleResource> eligibleResourceItems;
 
 	/**
 	 * The cached value of the '{@link #getRequiredResourceType() <em>Required Resource Type</em>}' reference.
@@ -124,11 +124,11 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<EligibleResource> getEligibleResourceItem() {
-		if (eligibleResourceItem == null) {
-			eligibleResourceItem = new EObjectContainmentEList<EligibleResource>(EligibleResource.class, this, SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM);
+	public EList<EligibleResource> getEligibleResourceItems() {
+		if (eligibleResourceItems == null) {
+			eligibleResourceItems = new EObjectContainmentEList<EligibleResource>(EligibleResource.class, this, SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS);
 		}
-		return eligibleResourceItem;
+		return eligibleResourceItems;
 	}
 
 	/**
@@ -177,8 +177,8 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM:
-				return ((InternalEList<?>)getEligibleResourceItem()).basicRemove(otherEnd, msgs);
+			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS:
+				return ((InternalEList<?>)getEligibleResourceItems()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -193,8 +193,8 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 		switch (featureID) {
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY:
 				return getRequiredCapacity();
-			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM:
-				return getEligibleResourceItem();
+			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS:
+				return getEligibleResourceItems();
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_RESOURCE_TYPE:
 				if (resolve) return getRequiredResourceType();
 				return basicGetRequiredResourceType();
@@ -214,9 +214,9 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY:
 				setRequiredCapacity((Integer)newValue);
 				return;
-			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM:
-				getEligibleResourceItem().clear();
-				getEligibleResourceItem().addAll((Collection<? extends EligibleResource>)newValue);
+			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS:
+				getEligibleResourceItems().clear();
+				getEligibleResourceItems().addAll((Collection<? extends EligibleResource>)newValue);
 				return;
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_RESOURCE_TYPE:
 				setRequiredResourceType((ResourceType)newValue);
@@ -236,8 +236,8 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY:
 				setRequiredCapacity(REQUIRED_CAPACITY_EDEFAULT);
 				return;
-			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM:
-				getEligibleResourceItem().clear();
+			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS:
+				getEligibleResourceItems().clear();
 				return;
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_RESOURCE_TYPE:
 				setRequiredResourceType((ResourceType)null);
@@ -256,8 +256,8 @@ public class ResourceRequirementItemImpl extends MinimalEObjectImpl.Container im
 		switch (featureID) {
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY:
 				return requiredCapacity != REQUIRED_CAPACITY_EDEFAULT;
-			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM:
-				return eligibleResourceItem != null && !eligibleResourceItem.isEmpty();
+			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS:
+				return eligibleResourceItems != null && !eligibleResourceItems.isEmpty();
 			case SchedulerPackage.RESOURCE_REQUIREMENT_ITEM__REQUIRED_RESOURCE_TYPE:
 				return requiredResourceType != null;
 		}

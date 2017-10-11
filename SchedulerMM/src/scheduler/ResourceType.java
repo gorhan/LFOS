@@ -26,33 +26,22 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ResourceType extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Abstraction</b></em>' attribute.
-	 * The literals are from the enumeration {@link scheduler.ResourceAbstraction}.
+	 * Returns the value of the '<em><b>Has</b></em>' reference list.
+	 * The list contents are of type {@link scheduler.AbstractResource}.
+	 * It is bidirectional and its opposite is '{@link scheduler.AbstractResource#getBelongs <em>Belongs</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Abstraction</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Has</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Abstraction</em>' attribute.
-	 * @see scheduler.ResourceAbstraction
-	 * @see #setAbstraction(ResourceAbstraction)
-	 * @see scheduler.SchedulerPackage#getResourceType_Abstraction()
-	 * @model
+	 * @return the value of the '<em>Has</em>' reference list.
+	 * @see scheduler.SchedulerPackage#getResourceType_Has()
+	 * @see scheduler.AbstractResource#getBelongs
+	 * @model opposite="belongs" required="true"
 	 * @generated
 	 */
-	ResourceAbstraction getAbstraction();
-
-	/**
-	 * Sets the value of the '{@link scheduler.ResourceType#getAbstraction <em>Abstraction</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Abstraction</em>' attribute.
-	 * @see scheduler.ResourceAbstraction
-	 * @see #getAbstraction()
-	 * @generated
-	 */
-	void setAbstraction(ResourceAbstraction value);
+	EList<AbstractResource> getHas();
 
 	/**
 	 * Returns the value of the '<em><b>Identifier</b></em>' attribute.
@@ -81,21 +70,32 @@ public interface ResourceType extends EObject {
 	void setIdentifier(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Has</b></em>' reference list.
-	 * The list contents are of type {@link scheduler.AbstractResource}.
-	 * It is bidirectional and its opposite is '{@link scheduler.AbstractResource#getBelongs <em>Belongs</em>}'.
+	 * Returns the value of the '<em><b>Abstraction</b></em>' attribute.
+	 * The literals are from the enumeration {@link scheduler.ResourceAbstraction}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Has</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Abstraction</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Has</em>' reference list.
-	 * @see scheduler.SchedulerPackage#getResourceType_Has()
-	 * @see scheduler.AbstractResource#getBelongs
-	 * @model opposite="belongs" required="true"
+	 * @return the value of the '<em>Abstraction</em>' attribute.
+	 * @see scheduler.ResourceAbstraction
+	 * @see #setAbstraction(ResourceAbstraction)
+	 * @see scheduler.SchedulerPackage#getResourceType_Abstraction()
+	 * @model
 	 * @generated
 	 */
-	EList<AbstractResource> getHas();
+	ResourceAbstraction getAbstraction();
+
+	/**
+	 * Sets the value of the '{@link scheduler.ResourceType#getAbstraction <em>Abstraction</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstraction</em>' attribute.
+	 * @see scheduler.ResourceAbstraction
+	 * @see #getAbstraction()
+	 * @generated
+	 */
+	void setAbstraction(ResourceAbstraction value);
 
 } // ResourceType

@@ -2601,14 +2601,12 @@
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
       </ownedElements>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_pC4cMKnLEeeGGsQAoDJV6Q" name="[1..*] eligibleResourceItem" sourceNode="_3x9VMKnKEeeGGsQAoDJV6Q" targetNode="_FtNIEKnLEeeGGsQAoDJV6Q">
-      <target xmi:type="ecore:EReference" href="scheduler.ecore#//ResourceRequirementItem/eligibleResourceItem"/>
-      <semanticElements xmi:type="ecore:EReference" href="scheduler.ecore#//ResourceRequirementItem/eligibleResourceItem"/>
-      <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_r4PfwKnLEeeGGsQAoDJV6Q" description="_Ivvp0Km8EeeGGsQAoDJV6Q" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
-        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_r4PfwanLEeeGGsQAoDJV6Q" showIcon="false">
-          <labelFormat>bold</labelFormat>
-        </centerLabelStyle>
-        <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_r4PfwqnLEeeGGsQAoDJV6Q" labelSize="6" showIcon="false" labelColor="39,76,114"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_pC4cMKnLEeeGGsQAoDJV6Q" name="[0..*] eligibleResourceItems" sourceNode="_3x9VMKnKEeeGGsQAoDJV6Q" targetNode="_FtNIEKnLEeeGGsQAoDJV6Q">
+      <target xmi:type="ecore:EReference" href="scheduler.ecore#//ResourceRequirementItem/eligibleResourceItems"/>
+      <semanticElements xmi:type="ecore:EReference" href="scheduler.ecore#//ResourceRequirementItem/eligibleResourceItems"/>
+      <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_LO2xkK6TEeewieoFBsHRBQ" description="_vd8msKnBEeeGGsQAoDJV6Q" sourceArrow="FillDiamond" routingStyle="manhattan" strokeColor="0,0,0">
+        <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_LO2xka6TEeewieoFBsHRBQ" showIcon="false"/>
+        <endLabelStyle xmi:type="diagram:EndLabelStyle" xmi:id="_LO2xkq6TEeewieoFBsHRBQ" labelSize="6" showIcon="false" labelColor="39,76,114"/>
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
     </ownedDiagramElements>
@@ -2742,9 +2740,9 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_sH-oEKnPEeefho-C4rk1JA" name="[1..1] eligibleResourcePointer" sourceNode="_FtNIEKnLEeeGGsQAoDJV6Q" targetNode="_YSJGEKnPEeefho-C4rk1JA">
-      <target xmi:type="ecore:EReference" href="scheduler.ecore#//EligibleResource/eligibleResourcePointer"/>
-      <semanticElements xmi:type="ecore:EReference" href="scheduler.ecore#//EligibleResource/eligibleResourcePointer"/>
+    <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_sH-oEKnPEeefho-C4rk1JA" name="[1..1] eligibleResourcePtr" sourceNode="_FtNIEKnLEeeGGsQAoDJV6Q" targetNode="_YSJGEKnPEeefho-C4rk1JA">
+      <target xmi:type="ecore:EReference" href="scheduler.ecore#//EligibleResource/eligibleResourcePtr"/>
+      <semanticElements xmi:type="ecore:EReference" href="scheduler.ecore#//EligibleResource/eligibleResourcePtr"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_3hL8A6nPEeefho-C4rk1JA" description="_3hL8AKnPEeefho-C4rk1JA" routingStyle="manhattan" strokeColor="0,0,0">
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_3hL8BKnPEeefho-C4rk1JA" showIcon="false">
           <labelFormat>bold</labelFormat>

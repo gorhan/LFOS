@@ -50,32 +50,6 @@ public interface DependencyItem extends EObject {
 	void setNumTokens(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Token</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Token</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Token</em>' reference.
-	 * @see #setToken(Token)
-	 * @see scheduler.SchedulerPackage#getDependencyItem_Token()
-	 * @model required="true"
-	 * @generated
-	 */
-	Token getToken();
-
-	/**
-	 * Sets the value of the '{@link scheduler.DependencyItem#getToken <em>Token</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Token</em>' reference.
-	 * @see #getToken()
-	 * @generated
-	 */
-	void setToken(Token value);
-
-	/**
 	 * Returns the value of the '<em><b>Setup Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -100,5 +74,31 @@ public interface DependencyItem extends EObject {
 	 * @generated
 	 */
 	void setSetupTime(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Token</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Token</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Token</em>' reference.
+	 * @see #setToken(Token)
+	 * @see scheduler.SchedulerPackage#getDependencyItem_Token()
+	 * @model required="true"
+	 * @generated
+	 */
+	Token getToken();
+
+	/**
+	 * Sets the value of the '{@link scheduler.DependencyItem#getToken <em>Token</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Token</em>' reference.
+	 * @see #getToken()
+	 * @generated
+	 */
+	void setToken(Token value);
 
 } // DependencyItem

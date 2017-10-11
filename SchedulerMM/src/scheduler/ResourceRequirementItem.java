@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link scheduler.ResourceRequirementItem#getRequiredCapacity <em>Required Capacity</em>}</li>
- *   <li>{@link scheduler.ResourceRequirementItem#getEligibleResourceItem <em>Eligible Resource Item</em>}</li>
+ *   <li>{@link scheduler.ResourceRequirementItem#getEligibleResourceItems <em>Eligible Resource Items</em>}</li>
  *   <li>{@link scheduler.ResourceRequirementItem#getRequiredResourceType <em>Required Resource Type</em>}</li>
  * </ul>
  *
@@ -52,20 +52,20 @@ public interface ResourceRequirementItem extends EObject {
 	void setRequiredCapacity(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Eligible Resource Item</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Eligible Resource Items</b></em>' containment reference list.
 	 * The list contents are of type {@link scheduler.EligibleResource}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Eligible Resource Item</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Eligible Resource Items</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Eligible Resource Item</em>' containment reference list.
-	 * @see scheduler.SchedulerPackage#getResourceRequirementItem_EligibleResourceItem()
-	 * @model containment="true" required="true"
+	 * @return the value of the '<em>Eligible Resource Items</em>' containment reference list.
+	 * @see scheduler.SchedulerPackage#getResourceRequirementItem_EligibleResourceItems()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<EligibleResource> getEligibleResourceItem();
+	EList<EligibleResource> getEligibleResourceItems();
 
 	/**
 	 * Returns the value of the '<em><b>Required Resource Type</b></em>' reference.

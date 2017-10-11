@@ -1388,13 +1388,13 @@ public interface SchedulerPackage extends EPackage {
 	int RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Eligible Resource Item</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Eligible Resource Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM = 1;
+	int RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS = 1;
 
 	/**
 	 * The feature id for the '<em><b>Required Resource Type</b></em>' reference.
@@ -1443,13 +1443,13 @@ public interface SchedulerPackage extends EPackage {
 	int ELIGIBLE_RESOURCE__WCET_ON_RESOURCE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Eligible Resource Pointer</b></em>' reference.
+	 * The feature id for the '<em><b>Eligible Resource Ptr</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_POINTER = 1;
+	int ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_PTR = 1;
 
 	/**
 	 * The number of structural features of the '<em>Eligible Resource</em>' class.
@@ -3348,17 +3348,6 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getDependencyItem_NumTokens();
 
 	/**
-	 * Returns the meta object for the reference '{@link scheduler.DependencyItem#getToken <em>Token</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Token</em>'.
-	 * @see scheduler.DependencyItem#getToken()
-	 * @see #getDependencyItem()
-	 * @generated
-	 */
-	EReference getDependencyItem_Token();
-
-	/**
 	 * Returns the meta object for the attribute '{@link scheduler.DependencyItem#getSetupTime <em>Setup Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3368,6 +3357,17 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDependencyItem_SetupTime();
+
+	/**
+	 * Returns the meta object for the reference '{@link scheduler.DependencyItem#getToken <em>Token</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Token</em>'.
+	 * @see scheduler.DependencyItem#getToken()
+	 * @see #getDependencyItem()
+	 * @generated
+	 */
+	EReference getDependencyItem_Token();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.Preemption <em>Preemption</em>}'.
@@ -3475,15 +3475,15 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getResourceRequirementItem_RequiredCapacity();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link scheduler.ResourceRequirementItem#getEligibleResourceItem <em>Eligible Resource Item</em>}'.
+	 * Returns the meta object for the containment reference list '{@link scheduler.ResourceRequirementItem#getEligibleResourceItems <em>Eligible Resource Items</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Eligible Resource Item</em>'.
-	 * @see scheduler.ResourceRequirementItem#getEligibleResourceItem()
+	 * @return the meta object for the containment reference list '<em>Eligible Resource Items</em>'.
+	 * @see scheduler.ResourceRequirementItem#getEligibleResourceItems()
 	 * @see #getResourceRequirementItem()
 	 * @generated
 	 */
-	EReference getResourceRequirementItem_EligibleResourceItem();
+	EReference getResourceRequirementItem_EligibleResourceItems();
 
 	/**
 	 * Returns the meta object for the reference '{@link scheduler.ResourceRequirementItem#getRequiredResourceType <em>Required Resource Type</em>}'.
@@ -3518,15 +3518,15 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getEligibleResource_WcetOnResource();
 
 	/**
-	 * Returns the meta object for the reference '{@link scheduler.EligibleResource#getEligibleResourcePointer <em>Eligible Resource Pointer</em>}'.
+	 * Returns the meta object for the reference '{@link scheduler.EligibleResource#getEligibleResourcePtr <em>Eligible Resource Ptr</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Eligible Resource Pointer</em>'.
-	 * @see scheduler.EligibleResource#getEligibleResourcePointer()
+	 * @return the meta object for the reference '<em>Eligible Resource Ptr</em>'.
+	 * @see scheduler.EligibleResource#getEligibleResourcePtr()
 	 * @see #getEligibleResource()
 	 * @generated
 	 */
-	EReference getEligibleResource_EligibleResourcePointer();
+	EReference getEligibleResource_EligibleResourcePtr();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.MutualExclusion <em>Mutual Exclusion</em>}'.
@@ -4113,15 +4113,15 @@ public interface SchedulerPackage extends EPackage {
 	EClass getResourceType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.ResourceType#getAbstraction <em>Abstraction</em>}'.
+	 * Returns the meta object for the reference list '{@link scheduler.ResourceType#getHas <em>Has</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Abstraction</em>'.
-	 * @see scheduler.ResourceType#getAbstraction()
+	 * @return the meta object for the reference list '<em>Has</em>'.
+	 * @see scheduler.ResourceType#getHas()
 	 * @see #getResourceType()
 	 * @generated
 	 */
-	EAttribute getResourceType_Abstraction();
+	EReference getResourceType_Has();
 
 	/**
 	 * Returns the meta object for the attribute '{@link scheduler.ResourceType#getIdentifier <em>Identifier</em>}'.
@@ -4135,15 +4135,15 @@ public interface SchedulerPackage extends EPackage {
 	EAttribute getResourceType_Identifier();
 
 	/**
-	 * Returns the meta object for the reference list '{@link scheduler.ResourceType#getHas <em>Has</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.ResourceType#getAbstraction <em>Abstraction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Has</em>'.
-	 * @see scheduler.ResourceType#getHas()
+	 * @return the meta object for the attribute '<em>Abstraction</em>'.
+	 * @see scheduler.ResourceType#getAbstraction()
 	 * @see #getResourceType()
 	 * @generated
 	 */
-	EReference getResourceType_Has();
+	EAttribute getResourceType_Abstraction();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.PowerState <em>Power State</em>}'.
@@ -4645,20 +4645,20 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute DEPENDENCY_ITEM__NUM_TOKENS = eINSTANCE.getDependencyItem_NumTokens();
 
 		/**
-		 * The meta object literal for the '<em><b>Token</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference DEPENDENCY_ITEM__TOKEN = eINSTANCE.getDependencyItem_Token();
-
-		/**
 		 * The meta object literal for the '<em><b>Setup Time</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute DEPENDENCY_ITEM__SETUP_TIME = eINSTANCE.getDependencyItem_SetupTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Token</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEPENDENCY_ITEM__TOKEN = eINSTANCE.getDependencyItem_Token();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.PreemptionImpl <em>Preemption</em>}' class.
@@ -4751,12 +4751,12 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute RESOURCE_REQUIREMENT_ITEM__REQUIRED_CAPACITY = eINSTANCE.getResourceRequirementItem_RequiredCapacity();
 
 		/**
-		 * The meta object literal for the '<em><b>Eligible Resource Item</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Eligible Resource Items</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEM = eINSTANCE.getResourceRequirementItem_EligibleResourceItem();
+		EReference RESOURCE_REQUIREMENT_ITEM__ELIGIBLE_RESOURCE_ITEMS = eINSTANCE.getResourceRequirementItem_EligibleResourceItems();
 
 		/**
 		 * The meta object literal for the '<em><b>Required Resource Type</b></em>' reference feature.
@@ -4785,12 +4785,12 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute ELIGIBLE_RESOURCE__WCET_ON_RESOURCE = eINSTANCE.getEligibleResource_WcetOnResource();
 
 		/**
-		 * The meta object literal for the '<em><b>Eligible Resource Pointer</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Eligible Resource Ptr</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_POINTER = eINSTANCE.getEligibleResource_EligibleResourcePointer();
+		EReference ELIGIBLE_RESOURCE__ELIGIBLE_RESOURCE_PTR = eINSTANCE.getEligibleResource_EligibleResourcePtr();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.MutualExclusionImpl <em>Mutual Exclusion</em>}' class.
@@ -5305,12 +5305,12 @@ public interface SchedulerPackage extends EPackage {
 		EClass RESOURCE_TYPE = eINSTANCE.getResourceType();
 
 		/**
-		 * The meta object literal for the '<em><b>Abstraction</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Has</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RESOURCE_TYPE__ABSTRACTION = eINSTANCE.getResourceType_Abstraction();
+		EReference RESOURCE_TYPE__HAS = eINSTANCE.getResourceType_Has();
 
 		/**
 		 * The meta object literal for the '<em><b>Identifier</b></em>' attribute feature.
@@ -5321,12 +5321,12 @@ public interface SchedulerPackage extends EPackage {
 		EAttribute RESOURCE_TYPE__IDENTIFIER = eINSTANCE.getResourceType_Identifier();
 
 		/**
-		 * The meta object literal for the '<em><b>Has</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Abstraction</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RESOURCE_TYPE__HAS = eINSTANCE.getResourceType_Has();
+		EAttribute RESOURCE_TYPE__ABSTRACTION = eINSTANCE.getResourceType_Abstraction();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.PowerStateImpl <em>Power State</em>}' class.

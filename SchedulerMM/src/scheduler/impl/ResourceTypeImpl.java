@@ -113,20 +113,11 @@ public class ResourceTypeImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ResourceAbstraction getAbstraction() {
-		return abstraction;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAbstraction(ResourceAbstraction newAbstraction) {
-		ResourceAbstraction oldAbstraction = abstraction;
-		abstraction = newAbstraction == null ? ABSTRACTION_EDEFAULT : newAbstraction;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.RESOURCE_TYPE__ABSTRACTION, oldAbstraction, abstraction));
+	public EList<AbstractResource> getHas() {
+		if (has == null) {
+			has = new EObjectWithInverseResolvingEList<AbstractResource>(AbstractResource.class, this, SchedulerPackage.RESOURCE_TYPE__HAS, SchedulerPackage.ABSTRACT_RESOURCE__BELONGS);
+		}
+		return has;
 	}
 
 	/**
@@ -155,11 +146,20 @@ public class ResourceTypeImpl extends MinimalEObjectImpl.Container implements Re
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AbstractResource> getHas() {
-		if (has == null) {
-			has = new EObjectWithInverseResolvingEList<AbstractResource>(AbstractResource.class, this, SchedulerPackage.RESOURCE_TYPE__HAS, SchedulerPackage.ABSTRACT_RESOURCE__BELONGS);
-		}
-		return has;
+	public ResourceAbstraction getAbstraction() {
+		return abstraction;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAbstraction(ResourceAbstraction newAbstraction) {
+		ResourceAbstraction oldAbstraction = abstraction;
+		abstraction = newAbstraction == null ? ABSTRACTION_EDEFAULT : newAbstraction;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.RESOURCE_TYPE__ABSTRACTION, oldAbstraction, abstraction));
 	}
 
 	/**

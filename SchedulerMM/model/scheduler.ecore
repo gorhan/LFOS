@@ -98,15 +98,15 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceRequirementItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiredCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourceItem" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourceItems"
         upperBound="-1" eType="#//EligibleResource" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="requiredResourceType" lowerBound="1"
         eType="#//ResourceType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EligibleResource">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="wcetOnResource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourcePointer"
-        lowerBound="1" eType="#//AbstractResource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourcePtr" lowerBound="1"
+        eType="#//AbstractResource"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MutualExclusion">
     <eStructuralFeatures xsi:type="ecore:EReference" name="mutexTask" lowerBound="1"

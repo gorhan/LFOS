@@ -129,12 +129,12 @@
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//ResourceRequirementItem">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//ResourceRequirementItem/requiredCapacity"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirementItem/eligibleResourceItem"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirementItem/eligibleResourceItems"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirementItem/requiredResourceType"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//EligibleResource">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//EligibleResource/wcetOnResource"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//EligibleResource/eligibleResourcePointer"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//EligibleResource/eligibleResourcePtr"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//MutualExclusion">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//MutualExclusion/mutexTask"/>
