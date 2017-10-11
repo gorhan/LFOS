@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="scheduler" nsURI="http://www.example.org/scheduler" nsPrefix="scheduler">
+  <eClassifiers xsi:type="ecore:EClass" name="Scheduler" eSuperTypes="#//SchedulingCharacteristic #//SchedulingStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="taskset" lowerBound="1"
+        upperBound="-1" eType="#//AbstractTask" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="System" lowerBound="1"
+        eType="#//ResourceC" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" lowerBound="1"
+        upperBound="-1" eType="#//ResourceType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractTask" abstract="true" interface="true"
+      eSuperTypes="#//Timing #//Priority #//Dependency #//Preemption #//Requirement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskT" eSuperTypes="#//AbstractTask"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskC" eSuperTypes="#//AbstractTask">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subTasks" lowerBound="1"
+        upperBound="-1" eType="#//AbstractTask" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Timing" eSuperTypes="#//Periodicity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="releaseTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="executionTime" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadline" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Periodicity">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="periodType" lowerBound="1"
+        eType="#//PeriodicityType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PeriodicityType">
+    <eLiterals name="PERIODIC"/>
+    <eLiterals name="APERIODIC" value="1" literal="APERIODIC"/>
+    <eLiterals name="SPORADIC" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Priority">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rankingType" unique="false"
+        lowerBound="1" eType="#//PriorityRankingType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PriorityRankingType">
+    <eLiterals name="ASCENDING"/>
+    <eLiterals name="DESCENDING" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="LogicalRelation">
+    <eLiterals name="OR"/>
+    <eLiterals name="AND" value="1"/>
+    <eLiterals name="XOR" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyItem" upperBound="-1"
+        eType="#//DependencyItem" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="relation" eType="#//LogicalRelation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mutexItems" upperBound="-1"
+        eType="#//MutualExclusion" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DependencyItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numTokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="token" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="setupTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PreemptionType">
+    <eLiterals name="NOT_PPREEMPTABLE"/>
+    <eLiterals name="FULLY_PREEMPTABLE" value="1"/>
+    <eLiterals name="COOPERATIVELY_PREEMPTABLE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Preemption">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pmtnType" lowerBound="1"
+        eType="#//PreemptionType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nInterruptableDuration"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//DeadlineRequirement #//ResourceRequirement"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DeadlineType">
+    <eLiterals name="HARD"/>
+    <eLiterals name="FIRM" value="1"/>
+    <eLiterals name="SOFT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeadlineRequirement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadlineType" eType="#//DeadlineType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceAbstraction">
+    <eLiterals name="ACTIVE"/>
+    <eLiterals name="PASSIVE" value="1"/>
+    <eLiterals name="COMPOSITE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceRequirement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceRequirementItems"
+        lowerBound="1" upperBound="-1" eType="#//ResourceRequirementItem" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceRequirementItem">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiredCapacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourceItem" lowerBound="1"
+        upperBound="-1" eType="#//EligibleResource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="requiredResourceType" lowerBound="1"
+        eType="#//ResourceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EligibleResource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wcetOnResource" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="eligibleResourcePointer"
+        lowerBound="1" eType="#//AbstractResource"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MutualExclusion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mutexTask" lowerBound="1"
+        eType="#//AbstractTask"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractResource" abstract="true" interface="true"
+      eSuperTypes="#//Mode">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="renewable" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs" lowerBound="1"
+        eType="#//ResourceType" eOpposite="#//ResourceType/has"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceT" eSuperTypes="#//AbstractResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="power" lowerBound="1" eType="#//Power"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceC" eSuperTypes="#//AbstractResource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subResources" lowerBound="1"
+        upperBound="-1" eType="#//AbstractResource" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mode">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exclusiveResources" upperBound="-1"
+        eType="#//AbstractResource"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceMode" eType="#//ResourceMode"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceMode">
+    <eLiterals name="SHARED"/>
+    <eLiterals name="CB_EXCLUSIVE" value="1"/>
+    <eLiterals name="SB_EXCLUSIVE" value="2"/>
+    <eLiterals name="CB_AND_SB_EXCLUSIVE" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Power" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="maxState" lowerBound="1"
+        eType="#//PowerState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="currPowerState" lowerBound="1"
+        eType="#//PowerState"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FixedStatePowerConsumption" eSuperTypes="#//Power"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DiscreteStatePowerConsumption" eSuperTypes="#//Scalable"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ContinuousStatePowerConsumption" eSuperTypes="#//Scalable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scalePrecision" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0.1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulingCharacteristic" eSuperTypes="#//SchedulingWindow #//SchedulingPolicy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedType" lowerBound="1"
+        eType="#//SchedulingType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="preemptive" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="migration" lowerBound="1"
+        eType="#//MigrationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="priorityAssignment" lowerBound="1"
+        eType="#//PriorityAssignmentType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectives" upperBound="-1"
+        eType="#//Objective" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SchedulingType">
+    <eLiterals name="OFFLINE"/>
+    <eLiterals name="ONLINE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="MigrationType">
+    <eLiterals name="JOB_LEVEL"/>
+    <eLiterals name="TASK_LEVEL" value="1"/>
+    <eLiterals name="NON_MIGRATION" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="PriorityAssignmentType">
+    <eLiterals name="FIXED"/>
+    <eLiterals name="DYNAMIC" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ObjectiveCriteria">
+    <eLiterals name="POWER_CONSUMPTION"/>
+    <eLiterals name="LATENESS" value="1"/>
+    <eLiterals name="EARLINESS" value="2"/>
+    <eLiterals name="TARDINESS" value="3"/>
+    <eLiterals name="CENTERING" value="4"/>
+    <eLiterals name="MAKESPAN" value="5"/>
+    <eLiterals name="MAX_LATENESS" value="6"/>
+    <eLiterals name="USER_DEFINED" value="7"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ObjectivePurpose">
+    <eLiterals name="MAXI"/>
+    <eLiterals name="MINI" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Objective">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="purpose" lowerBound="1"
+        eType="#//ObjectivePurpose"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="criteria" lowerBound="1"
+        eType="#//ObjectiveCriteria" defaultValueLiteral="LATENESS"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceObjective" eSuperTypes="#//Objective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskObjective" eSuperTypes="#//Objective"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulingWindow">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="begin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SchedulingPolicyType">
+    <eLiterals name="FIFO"/>
+    <eLiterals name="EDF" value="1"/>
+    <eLiterals name="SJF" value="2"/>
+    <eLiterals name="LJF" value="3"/>
+    <eLiterals name="RM" value="4"/>
+    <eLiterals name="ERT" value="5"/>
+    <eLiterals name="USER_DEFINED" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulingPolicy">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranking" lowerBound="1"
+        eType="#//SchedulingPolicyType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grouping" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulingStrategy" eSuperTypes="#//SolverAdapter #//Output"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SolverAdapter">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="solvers" lowerBound="1"
+        upperBound="-1" eType="#//NumberJack" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SCIP" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MiniSat" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MipWrapper" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mistral" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mistral2" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SatWrapper" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Toulbar2" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Walksat" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Output"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Textual" eSuperTypes="#//Output"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Plot" eSuperTypes="#//Output #//MatPlotLib"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MatPlotLib"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="has" lowerBound="1" upperBound="-1"
+        eType="#//AbstractResource" eOpposite="#//AbstractResource/belongs"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstraction" eType="#//ResourceAbstraction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerState">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="powerConsumption" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Scalable" abstract="true" interface="true"
+      eSuperTypes="#//Power">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="minState" lowerBound="1"
+        eType="#//PowerState" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="runnableStates" lowerBound="1"
+        upperBound="-1" eType="#//PowerState" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -4,9 +4,10 @@ from LFOS.Task.Task import *
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
-COMP_t = Type(COMPOSITE, "COMP_t")
-MEM_t = Type(PASSIVE, "MEM_t")
-CPU_t = Type(ACTIVE, "CPU_t")
+CPU_t = Type(ResourceTypeList.ACTIVE, "CPU_t")
+MEM_t = Type(ResourceTypeList.PASSIVE, "MEM_t")
+COM_t = Type(ResourceTypeList.COMPOSITE, "COM_t")
+SEN_t = Type(ResourceTypeList.PASSIVE, "SEN_t")
 
 resource_1 = ResourceFactory.create_instance(CPU_t, "CPU_1")
 resource_1.set_capacity(1)
@@ -22,18 +23,18 @@ resource_2.set_mode(ModeTypeList.SHARED)
 pow_resource_2 = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 125.0)
 resource_2.set_power_consumption(pow_resource_2)
 
-resource_3 = ResourceFactory.create_instance(COMP_t, "Sensors")
+resource_3 = ResourceFactory.create_instance(COM_t, "Sensors")
 resource_3.set_capacity(0)
 resource_3.set_mode(ModeTypeList.SHARED)
 
 
-resource_4 = ResourceFactory.create_instance(SENSOR_t, "temperatureSensor")
+resource_4 = ResourceFactory.create_instance(SEN_t, "temperatureSensor")
 resource_4.set_capacity(5)
 resource_4.set_mode(ModeTypeList.SHARED)
 pow_resource_4 = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 150.0)
 resource_4.set_power_consumption(pow_resource_4)
 
-resource_5 = ResourceFactory.create_instance(SENSOR_t, "HumiditySensor")
+resource_5 = ResourceFactory.create_instance(SEN_t, "HumiditySensor")
 resource_5.set_capacity(5)
 resource_5.set_mode(ModeTypeList.SHARED)
 pow_resource_5 = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 150.0)

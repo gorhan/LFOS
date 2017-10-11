@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="" modelDirectory="/Scheduler/src" modelPluginID="Scheduler"
+    modelName="Scheduler" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>scheduler.ecore</foreignModel>
+  <genPackages prefix="Scheduler" disposableProviderFactory="true" ecorePackage="scheduler.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//PeriodicityType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PeriodicityType/PERIODIC"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PeriodicityType/APERIODIC"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PeriodicityType/SPORADIC"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//PriorityRankingType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PriorityRankingType/ASCENDING"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PriorityRankingType/DESCENDING"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//LogicalRelation">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//LogicalRelation/OR"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//LogicalRelation/AND"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//LogicalRelation/XOR"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//PreemptionType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PreemptionType/NOT_PPREEMPTABLE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PreemptionType/FULLY_PREEMPTABLE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PreemptionType/COOPERATIVELY_PREEMPTABLE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//DeadlineType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//DeadlineType/HARD"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//DeadlineType/FIRM"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//DeadlineType/SOFT"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//ResourceAbstraction">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceAbstraction/ACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceAbstraction/PASSIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceAbstraction/COMPOSITE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//ResourceMode">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceMode/SHARED"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceMode/CB_EXCLUSIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceMode/SB_EXCLUSIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ResourceMode/CB_AND_SB_EXCLUSIVE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//SchedulingType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingType/OFFLINE"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingType/ONLINE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//MigrationType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/JOB_LEVEL"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/TASK_LEVEL"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/NON_MIGRATION"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//PriorityAssignmentType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PriorityAssignmentType/FIXED"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//PriorityAssignmentType/DYNAMIC"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//ObjectiveCriteria">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/POWER_CONSUMPTION"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/LATENESS"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/EARLINESS"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/TARDINESS"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/CENTERING"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/MAKESPAN"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/MAX_LATENESS"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectiveCriteria/USER_DEFINED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//ObjectivePurpose">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectivePurpose/MAXI"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//ObjectivePurpose/MINI"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//SchedulingPolicyType">
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/FIFO"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/EDF"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/SJF"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/LJF"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/RM"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/ERT"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingPolicyType/USER_DEFINED"/>
+    </genEnums>
+    <genClasses ecoreClass="scheduler.ecore#//Scheduler">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/taskset"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/System"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Scheduler/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scheduler/resourceTypes"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//AbstractTask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractTask/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractTask/type"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//TaskT"/>
+    <genClasses ecoreClass="scheduler.ecore#//TaskC">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//TaskC/subTasks"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Timing">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Timing/releaseTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Timing/executionTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Timing/deadline"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Periodicity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Periodicity/periodType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Periodicity/period"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Priority">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/rankingType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/value"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Dependency">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/dependencyItem"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Dependency/relation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/mutexItems"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//DependencyItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/numTokens"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/token"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DependencyItem/setupTime"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Preemption">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Preemption/pmtnType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Preemption/nInterruptableDuration"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Requirement"/>
+    <genClasses ecoreClass="scheduler.ecore#//DeadlineRequirement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//DeadlineRequirement/deadlineType"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceRequirement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirement/resourceRequirementItems"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceRequirementItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//ResourceRequirementItem/requiredCapacity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirementItem/eligibleResourceItem"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceRequirementItem/requiredResourceType"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//EligibleResource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//EligibleResource/wcetOnResource"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//EligibleResource/eligibleResourcePointer"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//MutualExclusion">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//MutualExclusion/mutexTask"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//AbstractResource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractResource/renewable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractResource/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//AbstractResource/capacity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//AbstractResource/belongs"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceT">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceT/power"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceC">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceC/subResources"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Mode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//Mode/exclusiveResources"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Mode/resourceMode"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Power">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Power/maxState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//Power/currPowerState"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//FixedStatePowerConsumption"/>
+    <genClasses ecoreClass="scheduler.ecore#//DiscreteStatePowerConsumption"/>
+    <genClasses ecoreClass="scheduler.ecore#//ContinuousStatePowerConsumption">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//ContinuousStatePowerConsumption/scalePrecision"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//SchedulingCharacteristic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingCharacteristic/schedType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingCharacteristic/preemptive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingCharacteristic/migration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingCharacteristic/priorityAssignment"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//SchedulingCharacteristic/objectives"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Objective">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Objective/purpose"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Objective/criteria"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceObjective"/>
+    <genClasses ecoreClass="scheduler.ecore#//TaskObjective"/>
+    <genClasses ecoreClass="scheduler.ecore#//SchedulingWindow">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/begin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/duration"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//SchedulingPolicy">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/ranking"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/grouping"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//SchedulingStrategy"/>
+    <genClasses ecoreClass="scheduler.ecore#//SolverAdapter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//SolverAdapter/solvers"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//NumberJack"/>
+    <genClasses ecoreClass="scheduler.ecore#//SCIP"/>
+    <genClasses ecoreClass="scheduler.ecore#//MiniSat"/>
+    <genClasses ecoreClass="scheduler.ecore#//MipWrapper"/>
+    <genClasses ecoreClass="scheduler.ecore#//Mistral"/>
+    <genClasses ecoreClass="scheduler.ecore#//Mistral2"/>
+    <genClasses ecoreClass="scheduler.ecore#//SatWrapper"/>
+    <genClasses ecoreClass="scheduler.ecore#//Toulbar2"/>
+    <genClasses ecoreClass="scheduler.ecore#//Walksat"/>
+    <genClasses ecoreClass="scheduler.ecore#//Other"/>
+    <genClasses ecoreClass="scheduler.ecore#//Output"/>
+    <genClasses ecoreClass="scheduler.ecore#//Textual"/>
+    <genClasses ecoreClass="scheduler.ecore#//Plot"/>
+    <genClasses ecoreClass="scheduler.ecore#//MatPlotLib"/>
+    <genClasses ecoreClass="scheduler.ecore#//ResourceType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference scheduler.ecore#//ResourceType/has"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//ResourceType/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//ResourceType/abstraction"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//PowerState">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//PowerState/scale"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//PowerState/powerConsumption"/>
+    </genClasses>
+    <genClasses ecoreClass="scheduler.ecore#//Scalable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scalable/minState"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Scalable/runnableStates"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

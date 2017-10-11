@@ -10,17 +10,18 @@ from LFOS.macros import *
 
 [%  var allResources = Sequence{system} + system.getAllResources();
 	var allResourcesWithVarNames : Map(String, AbstractResource);
+	var allResourceTypes = aScheduler.resourceTypes;
 	allResourcesWithVarNames.put("System", system);
-	var resourceTypesM = system.initializeResourceTypes(allResources);
+	// var resourceTypesM = system.initializeResourceTypes(allResources);
 %]
-[%	for(identifier in resourceTypesM.keySet()) {%]
-[%=identifier%] = Type([%=resourceTypesM.get(identifier)%], "[%=identifier%]")
+[%	for(resourceType in allResourceTypes) {%]
+[%=resourceType.identifier%] = Type(ResourceTypeList.[%=resourceType.abstraction.asString()%], "[%=resourceType.identifier%]")
 [%}%]
 
 [%	for(ind in Sequence{1..allResources.size()-1}) { // excluding System.
 		var resourceName = "resource_" + ind;
 		allResourcesWithVarNames.put(resourceName, allResources[ind]);%]
-[%=resourceName%] = ResourceFactory.create_instance([%=allResources[ind].identifier%], "[%=allResources[ind].name%]")
+[%=resourceName%] = ResourceFactory.create_instance([%=allResources[ind].belongs.identifier%], "[%=allResources[ind].name%]")
 [%=resourceName%].set_capacity([%=allResources[ind].capacity%])
 [%=resourceName%].set_mode(ModeTypeList.[%=allResources[ind].resourceMode.asString()%])
 [%=allResources[ind].generatePowerConsumptionCode(resourceName)%]
@@ -35,7 +36,7 @@ from LFOS.macros import *
 	operation AbstractResource generateResourceTreeCode(allResourcesWithVarNames : Map) : String {
 		var genCode : String = "";
 		var resources = allResourcesWithVarNames.values();
-		for(compositeResource in resources.select(r | r.abstraction == ResourceAbstraction#COMPOSITE)) {
+		for(compositeResource in resources.select(r | r.belongs.abstraction == ResourceAbstraction#COMPOSITE)) {
 			for(childResource in compositeResource.subResources)
 				genCode += compositeResource.getResourceVariableName(allResourcesWithVarNames) + ".add(" + childResource.getResourceVariableName(allResourcesWithVarNames) + ")\n";
 		}

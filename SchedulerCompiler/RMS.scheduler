@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" name="RMS">
-  <System abstraction="COMPOSITE" identifier="COMP_t" name="System">
-    <subResources xsi:type="scheduler:ResourceT" identifier="CPU_t" exclusiveResources="//@System/@subResources.2/@subResources.1" resourceMode="CB_EXCLUSIVE" name="CPU_1" capacity="1">
+  <taskset xsi:type="scheduler:TaskT" period="6" deadline="6" name="Task_1" type="NA">
+    <resourceRequirementItems requiredCapacity="1">
+      <eligibleResourceItem wcetOnResource="3" eligibleResourcePointer="//@System/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="640">
+      <eligibleResourceItem/>
+    </resourceRequirementItems>
+  </taskset>
+  <System name="System" belongs="//@resourceTypes.2">
+    <subResources xsi:type="scheduler:ResourceT" exclusiveResources="//@System/@subResources.2/@subResources.1" resourceMode="CB_EXCLUSIVE" name="CPU_1" capacity="1" belongs="//@resourceTypes.0">
       <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@power/@maxState">
         <maxState scale="1.0" powerConsumption="250.0"/>
         <minState scale="0.5" powerConsumption="120.0"/>
@@ -9,22 +17,26 @@
         <runnableStates scale="0.8" powerConsumption="190.0"/>
       </power>
     </subResources>
-    <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="MEM_t" name="Memory_1" capacity="1024">
+    <subResources xsi:type="scheduler:ResourceT" name="Memory_1" capacity="1024" belongs="//@resourceTypes.1">
       <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.1/@power/@maxState">
         <maxState scale="1.0" powerConsumption="125.0"/>
       </power>
     </subResources>
-    <subResources xsi:type="scheduler:ResourceC" abstraction="COMPOSITE" identifier="COMP_t" name="Sensors">
-      <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="SENSOR_t" name="temperatureSensor" capacity="5">
+    <subResources xsi:type="scheduler:ResourceC" name="Sensors" belongs="//@resourceTypes.2">
+      <subResources xsi:type="scheduler:ResourceT" name="temperatureSensor" capacity="5" belongs="//@resourceTypes.3">
         <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.2/@subResources.0/@power/@maxState">
           <maxState scale="1.0" powerConsumption="150.0"/>
         </power>
       </subResources>
-      <subResources xsi:type="scheduler:ResourceT" abstraction="PASSIVE" identifier="SENSOR_t" name="HumiditySensor" capacity="5">
+      <subResources xsi:type="scheduler:ResourceT" name="HumiditySensor" capacity="5" belongs="//@resourceTypes.3">
         <power xsi:type="scheduler:FixedStatePowerConsumption" currPowerState="//@System/@subResources.2/@subResources.1/@power/@maxState">
           <maxState scale="1.0" powerConsumption="150.0"/>
         </power>
       </subResources>
     </subResources>
   </System>
+  <resourceTypes has="//@System/@subResources.0" identifier="CPU_t"/>
+  <resourceTypes has="//@System/@subResources.1" identifier="MEM_t" abstraction="PASSIVE"/>
+  <resourceTypes has="//@System //@System/@subResources.2" identifier="COM_t" abstraction="COMPOSITE"/>
+  <resourceTypes has="//@System/@subResources.2/@subResources.0 //@System/@subResources.2/@subResources.1" identifier="SEN_t" abstraction="PASSIVE"/>
 </scheduler:Scheduler>
