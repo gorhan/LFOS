@@ -4,9 +4,7 @@
     <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.0">
       <eligibleResourceItems wcetOnResource="4" eligibleResourcePtr="//@System/@subResources.0"/>
     </resourceRequirementItems>
-    <resourceRequirementItems requiredCapacity="640" requiredResourceType="//@resourceTypes.1">
-      <eligibleResourceItems/>
-    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="640" requiredResourceType="//@resourceTypes.1"/>
     <fires name="__Task_1_a__" amount="1"/>
     <fires name="__Task_1_b__" amount="2"/>
   </taskset>

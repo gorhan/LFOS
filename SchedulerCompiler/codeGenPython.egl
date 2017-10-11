@@ -43,6 +43,16 @@ from LFOS.macros import *
 [%	}%]
 
 [%
+	operation AbstractResource getResourceVariableName() : String {
+		if (self.name == "System")
+			return self.name.firstToUpperCase();
+		return self.name.toLowerCase() + "_" + self.belongs.abstraction.asString().characterAt(0);
+	}
+	
+	operation AbstractTask getTaskVariableName() : String {
+		return self.name + "_" + self.type;
+	}
+
 	operation AbstractTask generateTaskConstructionCode(begin : Integer, end : Integer) : String {
 		var parameters : Sequence(String) = Sequence{};
 		
@@ -86,13 +96,13 @@ from LFOS.macros import *
 			var resourceTypeCode = "resource_type=" + reqItem.requiredResourceType.identifier;
 			var requiredCapacityCode = "capacity=" + reqItem.requiredCapacity;
 			
-			if(reqItem.hasProperty("eligibleResourceItems")) {
+			if(reqItem.hasProperty("eligibleResourceItems") and not reqItem.eligibleResourceItems.isEmpty()) {
 				var eligibleResourcesCode : String = "";
-				var eligibleReosurcesList : Sequence(String) = Sequence{};
+				var eligibleResourcesList : Sequence(String) = Sequence{};
 				for(eligibleResourceItem in reqItem.eligibleResourceItems) {
-					eligibleReosurcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + "Time(" + eligibleResourceItem.wcetOnResource + ")");
+					eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + ":Time(" + eligibleResourceItem.wcetOnResource + ")");
 				}
-				eligibleResourcesCode = "eligible_resources={" + eligibleReosurcesList.concat(", ") + "}";
+				eligibleResourcesCode = "eligible_resources={" + eligibleResourcesList.concat(", ") + "}";
 				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + eligibleResourcesCode + ", " + requiredCapacityCode + ")\n";
 			}
 			else
@@ -100,16 +110,6 @@ from LFOS.macros import *
 		}
 		
 		return genCode;
-	}
-
-	operation AbstractResource getResourceVariableName() : String {
-		if (self.name == "System")
-			return self.name.firstToUpperCase();
-		return self.name.toLowerCase() + "_" + self.belongs.abstraction.asString().characterAt(0);
-	}
-	
-	operation AbstractTask getTaskVariableName() : String {
-		return self.name + "_" + self.type;
 	}
 
 	operation Sequence(AbstractResource) generateResourceTreeCode() : String {
