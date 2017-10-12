@@ -304,7 +304,7 @@ class SolverAdapter(object):
             obj_expr = C_max
         elif obj_criteria == ObjectiveMaxLateness():
             L_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'L_max')
-            self.__model += [(self.__End[job][t+1] * (t + 1 - deadline)) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
+            self.__model += [(self.__End[job][t+1] * (t + 1 - job.get_extended_deadline())) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
             obj_expr = L_max
 
         if obj_purpose == Mini():

@@ -99,10 +99,18 @@ from LFOS.macros import *
 			if(reqItem.hasProperty("eligibleResourceItems") and not reqItem.eligibleResourceItems.isEmpty()) {
 				var eligibleResourcesCode : String = "";
 				var eligibleResourcesList : Sequence(String) = Sequence{};
-				for(eligibleResourceItem in reqItem.eligibleResourceItems) {
-					eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + ":Time(" + eligibleResourceItem.wcetOnResource + ")");
+				if(reqItem.requiredResourceType.abstraction == ResourceAbstraction#ACTIVE) {
+					for(eligibleResourceItem in reqItem.eligibleResourceItems) {
+						eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + ":Time(" + eligibleResourceItem.wcetOnResource + ")");
+					}
+					eligibleResourcesCode = "eligible_resources={" + eligibleResourcesList.concat(", ") + "}";
 				}
-				eligibleResourcesCode = "eligible_resources={" + eligibleResourcesList.concat(", ") + "}";
+				else if(reqItem.requiredResourceType.abstraction == ResourceAbstraction#PASSIVE) {
+					for(eligibleResourceItem in reqItem.eligibleResourceItems) {
+						eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName());
+					}
+					eligibleResourcesCode = "eligible_resources=[" + eligibleResourcesList.concat(", ") + "]";
+				}
 				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + eligibleResourcesCode + ", " + requiredCapacityCode + ")\n";
 			}
 			else
