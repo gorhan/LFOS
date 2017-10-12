@@ -34,8 +34,8 @@ import scheduler.SchedulingType;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#getRanking <em>Ranking</em>}</li>
- *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#isGrouping <em>Grouping</em>}</li>
+ *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#getPolicyRanking <em>Policy Ranking</em>}</li>
+ *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#isPolicyGrouping <em>Policy Grouping</em>}</li>
  *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#getSchedType <em>Sched Type</em>}</li>
  *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#isPreemptive <em>Preemptive</em>}</li>
  *   <li>{@link scheduler.impl.SchedulingCharacteristicImpl#getMigration <em>Migration</em>}</li>
@@ -47,44 +47,44 @@ import scheduler.SchedulingType;
  */
 public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implements SchedulingCharacteristic {
 	/**
-	 * The default value of the '{@link #getRanking() <em>Ranking</em>}' attribute.
+	 * The default value of the '{@link #getPolicyRanking() <em>Policy Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRanking()
+	 * @see #getPolicyRanking()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final SchedulingPolicyType RANKING_EDEFAULT = SchedulingPolicyType.FIFO;
+	protected static final SchedulingPolicyType POLICY_RANKING_EDEFAULT = SchedulingPolicyType.FIFO;
 
 	/**
-	 * The cached value of the '{@link #getRanking() <em>Ranking</em>}' attribute.
+	 * The cached value of the '{@link #getPolicyRanking() <em>Policy Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRanking()
+	 * @see #getPolicyRanking()
 	 * @generated
 	 * @ordered
 	 */
-	protected SchedulingPolicyType ranking = RANKING_EDEFAULT;
+	protected SchedulingPolicyType policyRanking = POLICY_RANKING_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isGrouping() <em>Grouping</em>}' attribute.
+	 * The default value of the '{@link #isPolicyGrouping() <em>Policy Grouping</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isGrouping()
+	 * @see #isPolicyGrouping()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean GROUPING_EDEFAULT = false;
+	protected static final boolean POLICY_GROUPING_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isGrouping() <em>Grouping</em>}' attribute.
+	 * The cached value of the '{@link #isPolicyGrouping() <em>Policy Grouping</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isGrouping()
+	 * @see #isPolicyGrouping()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean grouping = GROUPING_EDEFAULT;
+	protected boolean policyGrouping = POLICY_GROUPING_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getSchedType() <em>Sched Type</em>}' attribute.
@@ -200,8 +200,8 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SchedulingPolicyType getRanking() {
-		return ranking;
+	public SchedulingPolicyType getPolicyRanking() {
+		return policyRanking;
 	}
 
 	/**
@@ -209,11 +209,11 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRanking(SchedulingPolicyType newRanking) {
-		SchedulingPolicyType oldRanking = ranking;
-		ranking = newRanking == null ? RANKING_EDEFAULT : newRanking;
+	public void setPolicyRanking(SchedulingPolicyType newPolicyRanking) {
+		SchedulingPolicyType oldPolicyRanking = policyRanking;
+		policyRanking = newPolicyRanking == null ? POLICY_RANKING_EDEFAULT : newPolicyRanking;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING, oldRanking, ranking));
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING, oldPolicyRanking, policyRanking));
 	}
 
 	/**
@@ -221,8 +221,8 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isGrouping() {
-		return grouping;
+	public boolean isPolicyGrouping() {
+		return policyGrouping;
 	}
 
 	/**
@@ -230,11 +230,11 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setGrouping(boolean newGrouping) {
-		boolean oldGrouping = grouping;
-		grouping = newGrouping;
+	public void setPolicyGrouping(boolean newPolicyGrouping) {
+		boolean oldPolicyGrouping = policyGrouping;
+		policyGrouping = newPolicyGrouping;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING, oldGrouping, grouping));
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING, oldPolicyGrouping, policyGrouping));
 	}
 
 	/**
@@ -355,10 +355,10 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING:
-				return getRanking();
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING:
-				return isGrouping();
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING:
+				return getPolicyRanking();
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING:
+				return isPolicyGrouping();
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__SCHED_TYPE:
 				return getSchedType();
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__PREEMPTIVE:
@@ -382,11 +382,11 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING:
-				setRanking((SchedulingPolicyType)newValue);
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING:
+				setPolicyRanking((SchedulingPolicyType)newValue);
 				return;
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING:
-				setGrouping((Boolean)newValue);
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING:
+				setPolicyGrouping((Boolean)newValue);
 				return;
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__SCHED_TYPE:
 				setSchedType((SchedulingType)newValue);
@@ -416,11 +416,11 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING:
-				setRanking(RANKING_EDEFAULT);
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING:
+				setPolicyRanking(POLICY_RANKING_EDEFAULT);
 				return;
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING:
-				setGrouping(GROUPING_EDEFAULT);
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING:
+				setPolicyGrouping(POLICY_GROUPING_EDEFAULT);
 				return;
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__SCHED_TYPE:
 				setSchedType(SCHED_TYPE_EDEFAULT);
@@ -449,10 +449,10 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING:
-				return ranking != RANKING_EDEFAULT;
-			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING:
-				return grouping != GROUPING_EDEFAULT;
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING:
+				return policyRanking != POLICY_RANKING_EDEFAULT;
+			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING:
+				return policyGrouping != POLICY_GROUPING_EDEFAULT;
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__SCHED_TYPE:
 				return schedType != SCHED_TYPE_EDEFAULT;
 			case SchedulerPackage.SCHEDULING_CHARACTERISTIC__PREEMPTIVE:
@@ -476,8 +476,8 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == SchedulingPolicy.class) {
 			switch (derivedFeatureID) {
-				case SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING: return SchedulerPackage.SCHEDULING_POLICY__RANKING;
-				case SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING: return SchedulerPackage.SCHEDULING_POLICY__GROUPING;
+				case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING: return SchedulerPackage.SCHEDULING_POLICY__POLICY_RANKING;
+				case SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING: return SchedulerPackage.SCHEDULING_POLICY__POLICY_GROUPING;
 				default: return -1;
 			}
 		}
@@ -493,8 +493,8 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == SchedulingPolicy.class) {
 			switch (baseFeatureID) {
-				case SchedulerPackage.SCHEDULING_POLICY__RANKING: return SchedulerPackage.SCHEDULING_CHARACTERISTIC__RANKING;
-				case SchedulerPackage.SCHEDULING_POLICY__GROUPING: return SchedulerPackage.SCHEDULING_CHARACTERISTIC__GROUPING;
+				case SchedulerPackage.SCHEDULING_POLICY__POLICY_RANKING: return SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_RANKING;
+				case SchedulerPackage.SCHEDULING_POLICY__POLICY_GROUPING: return SchedulerPackage.SCHEDULING_CHARACTERISTIC__POLICY_GROUPING;
 				default: return -1;
 			}
 		}
@@ -511,10 +511,10 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (ranking: ");
-		result.append(ranking);
-		result.append(", grouping: ");
-		result.append(grouping);
+		result.append(" (policyRanking: ");
+		result.append(policyRanking);
+		result.append(", policyGrouping: ");
+		result.append(policyGrouping);
 		result.append(", schedType: ");
 		result.append(schedType);
 		result.append(", preemptive: ");

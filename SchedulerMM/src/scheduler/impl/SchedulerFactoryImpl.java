@@ -85,8 +85,6 @@ public class SchedulerFactoryImpl extends EFactoryImpl implements SchedulerFacto
 			case SchedulerPackage.SCHEDULING_WINDOW: return createSchedulingWindow();
 			case SchedulerPackage.SCHEDULING_POLICY: return createSchedulingPolicy();
 			case SchedulerPackage.SCHEDULING_STRATEGY: return createSchedulingStrategy();
-			case SchedulerPackage.SOLVER_ADAPTER: return createSolverAdapter();
-			case SchedulerPackage.NUMBER_JACK: return createNumberJack();
 			case SchedulerPackage.SCIP: return createSCIP();
 			case SchedulerPackage.MINI_SAT: return createMiniSat();
 			case SchedulerPackage.MIP_WRAPPER: return createMipWrapper();
@@ -464,26 +462,6 @@ public class SchedulerFactoryImpl extends EFactoryImpl implements SchedulerFacto
 	public SchedulingStrategy createSchedulingStrategy() {
 		SchedulingStrategyImpl schedulingStrategy = new SchedulingStrategyImpl();
 		return schedulingStrategy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SolverAdapter createSolverAdapter() {
-		SolverAdapterImpl solverAdapter = new SolverAdapterImpl();
-		return solverAdapter;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NumberJack createNumberJack() {
-		NumberJackImpl numberJack = new NumberJackImpl();
-		return numberJack;
 	}
 
 	/**

@@ -20,52 +20,52 @@ import scheduler.SchedulingWindow;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link scheduler.impl.SchedulingWindowImpl#getBegin <em>Begin</em>}</li>
- *   <li>{@link scheduler.impl.SchedulingWindowImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link scheduler.impl.SchedulingWindowImpl#getSchedBegin <em>Sched Begin</em>}</li>
+ *   <li>{@link scheduler.impl.SchedulingWindowImpl#getSchedDuration <em>Sched Duration</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implements SchedulingWindow {
 	/**
-	 * The default value of the '{@link #getBegin() <em>Begin</em>}' attribute.
+	 * The default value of the '{@link #getSchedBegin() <em>Sched Begin</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBegin()
+	 * @see #getSchedBegin()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int BEGIN_EDEFAULT = 0;
+	protected static final int SCHED_BEGIN_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getBegin() <em>Begin</em>}' attribute.
+	 * The cached value of the '{@link #getSchedBegin() <em>Sched Begin</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBegin()
+	 * @see #getSchedBegin()
 	 * @generated
 	 * @ordered
 	 */
-	protected int begin = BEGIN_EDEFAULT;
+	protected int schedBegin = SCHED_BEGIN_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * The default value of the '{@link #getSchedDuration() <em>Sched Duration</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDuration()
+	 * @see #getSchedDuration()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int DURATION_EDEFAULT = 0;
+	protected static final int SCHED_DURATION_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getDuration() <em>Duration</em>}' attribute.
+	 * The cached value of the '{@link #getSchedDuration() <em>Sched Duration</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDuration()
+	 * @see #getSchedDuration()
 	 * @generated
 	 * @ordered
 	 */
-	protected int duration = DURATION_EDEFAULT;
+	protected int schedDuration = SCHED_DURATION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -91,8 +91,8 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getBegin() {
-		return begin;
+	public int getSchedBegin() {
+		return schedBegin;
 	}
 
 	/**
@@ -100,11 +100,11 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setBegin(int newBegin) {
-		int oldBegin = begin;
-		begin = newBegin;
+	public void setSchedBegin(int newSchedBegin) {
+		int oldSchedBegin = schedBegin;
+		schedBegin = newSchedBegin;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_WINDOW__BEGIN, oldBegin, begin));
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_WINDOW__SCHED_BEGIN, oldSchedBegin, schedBegin));
 	}
 
 	/**
@@ -112,8 +112,8 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getDuration() {
-		return duration;
+	public int getSchedDuration() {
+		return schedDuration;
 	}
 
 	/**
@@ -121,11 +121,11 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setDuration(int newDuration) {
-		int oldDuration = duration;
-		duration = newDuration;
+	public void setSchedDuration(int newSchedDuration) {
+		int oldSchedDuration = schedDuration;
+		schedDuration = newSchedDuration;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_WINDOW__DURATION, oldDuration, duration));
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULING_WINDOW__SCHED_DURATION, oldSchedDuration, schedDuration));
 	}
 
 	/**
@@ -136,10 +136,10 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_WINDOW__BEGIN:
-				return getBegin();
-			case SchedulerPackage.SCHEDULING_WINDOW__DURATION:
-				return getDuration();
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_BEGIN:
+				return getSchedBegin();
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_DURATION:
+				return getSchedDuration();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -152,11 +152,11 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_WINDOW__BEGIN:
-				setBegin((Integer)newValue);
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_BEGIN:
+				setSchedBegin((Integer)newValue);
 				return;
-			case SchedulerPackage.SCHEDULING_WINDOW__DURATION:
-				setDuration((Integer)newValue);
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_DURATION:
+				setSchedDuration((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -170,11 +170,11 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_WINDOW__BEGIN:
-				setBegin(BEGIN_EDEFAULT);
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_BEGIN:
+				setSchedBegin(SCHED_BEGIN_EDEFAULT);
 				return;
-			case SchedulerPackage.SCHEDULING_WINDOW__DURATION:
-				setDuration(DURATION_EDEFAULT);
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_DURATION:
+				setSchedDuration(SCHED_DURATION_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -188,10 +188,10 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.SCHEDULING_WINDOW__BEGIN:
-				return begin != BEGIN_EDEFAULT;
-			case SchedulerPackage.SCHEDULING_WINDOW__DURATION:
-				return duration != DURATION_EDEFAULT;
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_BEGIN:
+				return schedBegin != SCHED_BEGIN_EDEFAULT;
+			case SchedulerPackage.SCHEDULING_WINDOW__SCHED_DURATION:
+				return schedDuration != SCHED_DURATION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -206,10 +206,10 @@ public class SchedulingWindowImpl extends MinimalEObjectImpl.Container implement
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (begin: ");
-		result.append(begin);
-		result.append(", duration: ");
-		result.append(duration);
+		result.append(" (schedBegin: ");
+		result.append(schedBegin);
+		result.append(", schedDuration: ");
+		result.append(schedDuration);
 		result.append(')');
 		return result.toString();
 	}

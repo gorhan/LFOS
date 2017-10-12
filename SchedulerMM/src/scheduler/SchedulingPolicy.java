@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link scheduler.SchedulingPolicy#getRanking <em>Ranking</em>}</li>
- *   <li>{@link scheduler.SchedulingPolicy#isGrouping <em>Grouping</em>}</li>
+ *   <li>{@link scheduler.SchedulingPolicy#getPolicyRanking <em>Policy Ranking</em>}</li>
+ *   <li>{@link scheduler.SchedulingPolicy#isPolicyGrouping <em>Policy Grouping</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getSchedulingPolicy()
@@ -23,58 +23,58 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SchedulingPolicy extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Ranking</b></em>' attribute.
+	 * Returns the value of the '<em><b>Policy Ranking</b></em>' attribute.
 	 * The literals are from the enumeration {@link scheduler.SchedulingPolicyType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ranking</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Policy Ranking</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ranking</em>' attribute.
+	 * @return the value of the '<em>Policy Ranking</em>' attribute.
 	 * @see scheduler.SchedulingPolicyType
-	 * @see #setRanking(SchedulingPolicyType)
-	 * @see scheduler.SchedulerPackage#getSchedulingPolicy_Ranking()
+	 * @see #setPolicyRanking(SchedulingPolicyType)
+	 * @see scheduler.SchedulerPackage#getSchedulingPolicy_PolicyRanking()
 	 * @model required="true"
 	 * @generated
 	 */
-	SchedulingPolicyType getRanking();
+	SchedulingPolicyType getPolicyRanking();
 
 	/**
-	 * Sets the value of the '{@link scheduler.SchedulingPolicy#getRanking <em>Ranking</em>}' attribute.
+	 * Sets the value of the '{@link scheduler.SchedulingPolicy#getPolicyRanking <em>Policy Ranking</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ranking</em>' attribute.
+	 * @param value the new value of the '<em>Policy Ranking</em>' attribute.
 	 * @see scheduler.SchedulingPolicyType
-	 * @see #getRanking()
+	 * @see #getPolicyRanking()
 	 * @generated
 	 */
-	void setRanking(SchedulingPolicyType value);
+	void setPolicyRanking(SchedulingPolicyType value);
 
 	/**
-	 * Returns the value of the '<em><b>Grouping</b></em>' attribute.
+	 * Returns the value of the '<em><b>Policy Grouping</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Grouping</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Policy Grouping</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Grouping</em>' attribute.
-	 * @see #setGrouping(boolean)
-	 * @see scheduler.SchedulerPackage#getSchedulingPolicy_Grouping()
+	 * @return the value of the '<em>Policy Grouping</em>' attribute.
+	 * @see #setPolicyGrouping(boolean)
+	 * @see scheduler.SchedulerPackage#getSchedulingPolicy_PolicyGrouping()
 	 * @model required="true"
 	 * @generated
 	 */
-	boolean isGrouping();
+	boolean isPolicyGrouping();
 
 	/**
-	 * Sets the value of the '{@link scheduler.SchedulingPolicy#isGrouping <em>Grouping</em>}' attribute.
+	 * Sets the value of the '{@link scheduler.SchedulingPolicy#isPolicyGrouping <em>Policy Grouping</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Grouping</em>' attribute.
-	 * @see #isGrouping()
+	 * @param value the new value of the '<em>Policy Grouping</em>' attribute.
+	 * @see #isPolicyGrouping()
 	 * @generated
 	 */
-	void setGrouping(boolean value);
+	void setPolicyGrouping(boolean value);
 
 } // SchedulingPolicy

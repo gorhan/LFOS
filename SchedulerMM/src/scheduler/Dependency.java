@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link scheduler.Dependency#getDependencyItem <em>Dependency Item</em>}</li>
+ *   <li>{@link scheduler.Dependency#getDependencyItems <em>Dependency Items</em>}</li>
  *   <li>{@link scheduler.Dependency#getRelation <em>Relation</em>}</li>
  *   <li>{@link scheduler.Dependency#getMutexItems <em>Mutex Items</em>}</li>
  * </ul>
@@ -26,20 +26,20 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Dependency extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Dependency Item</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Dependency Items</b></em>' containment reference list.
 	 * The list contents are of type {@link scheduler.DependencyItem}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Dependency Item</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Dependency Items</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Dependency Item</em>' containment reference list.
-	 * @see scheduler.SchedulerPackage#getDependency_DependencyItem()
+	 * @return the value of the '<em>Dependency Items</em>' containment reference list.
+	 * @see scheduler.SchedulerPackage#getDependency_DependencyItems()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<DependencyItem> getDependencyItem();
+	EList<DependencyItem> getDependencyItems();
 
 	/**
 	 * Returns the value of the '<em><b>Relation</b></em>' attribute.

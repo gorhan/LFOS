@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" name="RMS">
+  <objectives/>
+  <solvers xsi:type="scheduler:SCIP"/>
+  <solvers xsi:type="scheduler:Mistral2" verboseLevel="1"/>
   <taskset xsi:type="scheduler:TaskT" period="6" deadline="6" name="Task_1" type="NA">
     <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.0">
       <eligibleResourceItems wcetOnResource="4" eligibleResourcePtr="//@System/@subResources.0"/>
@@ -9,6 +12,12 @@
     </resourceRequirementItems>
     <fires name="__Task_1_a__" amount="1"/>
     <fires name="__Task_1_b__" amount="2"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" releaseTime="2" deadline="8" name="Task_2" type="NA">
+    <dependencyItems token="//@taskset.0/@fires.1"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.0">
+      <eligibleResourceItems wcetOnResource="3" eligibleResourcePtr="//@System/@subResources.0"/>
+    </resourceRequirementItems>
   </taskset>
   <System name="System" belongs="//@resourceTypes.2">
     <subResources xsi:type="scheduler:ResourceT" exclusiveResources="//@System/@subResources.2/@subResources.1" resourceMode="CB_EXCLUSIVE" name="CPU_1" capacity="1" belongs="//@resourceTypes.0">
@@ -41,4 +50,5 @@
   <resourceTypes has="//@System/@subResources.1" identifier="MEM_t" abstraction="PASSIVE"/>
   <resourceTypes has="//@System //@System/@subResources.2" identifier="COM_t" abstraction="COMPOSITE"/>
   <resourceTypes has="//@System/@subResources.2/@subResources.0 //@System/@subResources.2/@subResources.1" identifier="SEN_t" abstraction="PASSIVE"/>
+  <tokenPool name="__Init__" amount="3"/>
 </scheduler:Scheduler>

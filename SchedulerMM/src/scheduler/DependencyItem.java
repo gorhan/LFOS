@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface DependencyItem extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Num Tokens</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Num Tokens</em>' attribute isn't clear,
@@ -34,7 +35,7 @@ public interface DependencyItem extends EObject {
 	 * @return the value of the '<em>Num Tokens</em>' attribute.
 	 * @see #setNumTokens(int)
 	 * @see scheduler.SchedulerPackage#getDependencyItem_NumTokens()
-	 * @model
+	 * @model default="1"
 	 * @generated
 	 */
 	int getNumTokens();
@@ -51,6 +52,7 @@ public interface DependencyItem extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Setup Time</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Setup Time</em>' attribute isn't clear,
@@ -60,7 +62,7 @@ public interface DependencyItem extends EObject {
 	 * @return the value of the '<em>Setup Time</em>' attribute.
 	 * @see #setSetupTime(int)
 	 * @see scheduler.SchedulerPackage#getDependencyItem_SetupTime()
-	 * @model
+	 * @model default="0"
 	 * @generated
 	 */
 	int getSetupTime();

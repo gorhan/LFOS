@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface Walksat extends NumberJack {
+public interface Walksat extends Solver {
 } // Walksat

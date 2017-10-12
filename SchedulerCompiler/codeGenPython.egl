@@ -20,9 +20,9 @@ from LFOS.macros import *
 [%}%]
 
 [%	for(resource in allResources.excluding(system)) {%]
-[%=resource.getResourceVariableName()%] = ResourceFactory.create_instance([%=resource.belongs.identifier%], "[%=resource.name%]")
-[%=resource.getResourceVariableName()%].set_capacity([%=resource.capacity%])
-[%=resource.getResourceVariableName()%].set_mode(ModeTypeList.[%=resource.resourceMode.asString()%])
+[%=resource.getVariableName()%] = ResourceFactory.create_instance([%=resource.belongs.identifier%], "[%=resource.name%]")
+[%=resource.getVariableName()%].set_capacity([%=resource.capacity%])
+[%=resource.getVariableName()%].set_mode(ModeTypeList.[%=resource.resourceMode.asString()%])
 [%		if(resource.hasProperty("power")) {%]
 [%=resource.generatePowerConsumptionCode()%]
 [%		}%]
@@ -38,19 +38,88 @@ from LFOS.macros import *
 */%]
 [%	var tasks = aScheduler.taskset;
 	for(task in aScheduler.taskset) {%]
-[%=task.getTaskVariableName()%] = TaskFactory.create_instance([%=task.generateTaskConstructionCode(aScheduler.begin, aScheduler.begin+aScheduler.duration)%])
+[%=task.getVariableName()%] = TaskFactory.create_instance([%=task.generateTaskConstructionCode(aScheduler.schedBegin, aScheduler.schedBegin+aScheduler.schedDuration)%])
 [%=task.generateResourceRequirementsCode()%]
+[%		if(task.hasProperty("dependencyItems")) {%]
+[%=task.generateDependencyCode()%]
+[%}%]
+[%	}%]
+
+[%/*
+	Scheduler-related concerns are handled and the corresponding code is generated.
+*/%]
+[%	var output = aScheduler.output;
+	var solvers = aScheduler.solvers;
+	for(solver in solvers) {%]
+[%=solver.initializeScheduler()%]
+[%=solver.determineSchedWindow(aScheduler.schedBegin, aScheduler.schedDuration)%]
+[%=solver.addTasks2Scheduler(tasks)%]
+[%=solver.setSchedulingPolicy(aScheduler.policyRanking.asString(), aScheduler.policyGrouping)%]
+[%=solver.setSchedulingObjective(aScheduler.objectives)%]
+
 [%	}%]
 
 [%
-	operation AbstractResource getResourceVariableName() : String {
+	operation AbstractResource getVariableName() : String {
 		if (self.name == "System")
 			return self.name.firstToUpperCase();
 		return self.name.toLowerCase() + "_" + self.belongs.abstraction.asString().characterAt(0);
 	}
 	
-	operation AbstractTask getTaskVariableName() : String {
+	operation AbstractTask getVariableName() : String {
 		return self.name + "_" + self.type;
+	}
+	
+	operation Solver getVariableName() : String {
+		return "scheduler_" + self.type.name;
+	}
+	
+	operation Solver initializeScheduler() : String {
+		return self.getVariableName() + " = Scheduler(" + "solver=" + self.type.name + ", verbose=" + self.verboseLevel + ", time_cutoff=" + self.timeCutoff + ")\n";
+	}
+	
+	operation Solver determineSchedWindow(begin : Integer, duration : Integer) : String {
+		return self.getVariableName() + ".set_scheduling_window_start_time(Time(" + begin + "))\n" +
+			   self.getVariableName() + ".set_scheduling_window_start_duration(Time(" + duration + "))\n";
+	}
+	
+	operation Solver addTasks2Scheduler(taskset : OrderedSet(AbstractTask)) : String {
+		return self.getVariableName() + ".add_task_in_bundle(" + taskset.collect(task:AbstractTask | task.getVariableName()).concat(", ") + ")\n";
+	}
+	
+	operation Solver setSchedulingPolicy(policy : String, grouping : Boolean) : String {
+		var genCode : String = self.getVariableName() + ".set_ranking_policy(SchedulingPolicyRankingTypes." + policy + ", " + self.getVariableName() + ".get_taskset())\n";
+		if(grouping) {
+			genCode += self.getVariableName() + ".activate_grouping()\n";
+		}
+		return genCode;
+	}
+	
+	operation Solver setSchedulingObjective(objectives : OrderedSet(Objective)) : String {
+		var genCode : String = "";
+		
+		var purpose : String;
+		var criteria : String;
+		
+		for(objective in objectives) {
+			if(objective.purpose == ObjectivePurpose#MAXI)
+				purpose = "Maxi()";
+			else
+				purpose = "Mini()";
+			
+			switch(objective.criteria) {
+				case ObjectiveCriteria#POWER_CONSUMPTION : criteria = "ObjectivePowerConsumption()";
+				case ObjectiveCriteria#LATENESS 		 : criteria = "ObjectiveLateness()";
+				case ObjectiveCriteria#EARLINESS		 : criteria = "ObjectiveEarliness()";
+				case ObjectiveCriteria#TARDINESS		 : criteria = "ObjectiveTardiness()";
+				case ObjectiveCriteria#CENTERING		 : criteria = "ObjectiveCentering()";
+				case ObjectiveCriteria#MAX_LATENESS		 : criteria = "ObjectiveMaxLateness()";
+				default									 : criteria = "ObjectiveUserDefined()";
+			}
+			
+			genCode += self.getVariableName() + ".set_objective(" + purpose + ", " + criteria + ")\n";
+		}
+		return genCode;
 	}
 
 	operation AbstractTask generateTaskConstructionCode(begin : Integer, end : Integer) : String {
@@ -100,21 +169,33 @@ from LFOS.macros import *
 				var eligibleResourcesCode : String = "";
 				var eligibleResourcesList : Sequence(String) = Sequence{};
 				if(reqItem.requiredResourceType.abstraction == ResourceAbstraction#ACTIVE) {
-					for(eligibleResourceItem in reqItem.eligibleResourceItems) {
-						eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName() + ":Time(" + eligibleResourceItem.wcetOnResource + ")");
-					}
-					eligibleResourcesCode = "eligible_resources={" + eligibleResourcesList.concat(", ") + "}";
+					var elResourceItems = reqItem.eligibleResourceItems;
+					eligibleResourcesCode = "eligible_resources={" + elResourceItems.collect(elRes:EligibleResource | 
+														elRes.eligibleResourcePtr.getVariableName() + ":Time(" + elRes.wcetOnResource + ")").concat(", ") + "}";
 				}
 				else if(reqItem.requiredResourceType.abstraction == ResourceAbstraction#PASSIVE) {
-					for(eligibleResourceItem in reqItem.eligibleResourceItems) {
-						eligibleResourcesList.add(eligibleResourceItem.eligibleResourcePtr.getResourceVariableName());
-					}
-					eligibleResourcesCode = "eligible_resources=[" + eligibleResourcesList.concat(", ") + "]";
+					var elResourceItems = reqItem.eligibleResourceItems;
+					eligibleResourcesCode = "eligible_resources=[" + elResourceItems.collect(elRes:EligibleResource | 
+														elRes.eligibleResourcePtr.getVariableName()).concat(", ") + "]";
 				}
-				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + eligibleResourcesCode + ", " + requiredCapacityCode + ")\n";
+				genCode += self.getVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + eligibleResourcesCode + ", " + requiredCapacityCode + ")\n";
 			}
 			else
-				genCode += self.getTaskVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + requiredCapacityCode + ")\n";
+				genCode += self.getVariableName() + ".add_resource_requirement(" + resourceTypeCode + ", " + requiredCapacityCode + ")\n";
+		}
+		
+		return genCode;
+	}
+	
+	operation AbstractTask generateDependencyCode() : String {
+		var genCode : String = "";
+		var setupTime : Integer;
+		var amount : Integer;
+		
+		for(dependencyItem in self.dependencyItems) {
+			setupTime = dependencyItem.setupTime;
+			amount = dependencyItem.numTokens;
+			genCode += self.getVariableName() + ".add_depedency(" + self.relation.asString() + "(), \"" + dependencyItem.token.name + "\", " + amount + ", Time(" + setupTime + "))\n";
 		}
 		
 		return genCode;
@@ -124,7 +205,7 @@ from LFOS.macros import *
 		var genCode : String = "";
 		for(compositeResource in self) {
 			for(childResource in compositeResource.subResources)
-				genCode += compositeResource.getResourceVariableName() + ".add(" + childResource.getResourceVariableName() + ")\n";
+				genCode += compositeResource.getVariableName() + ".add(" + childResource.getVariableName() + ")\n";
 		}
 		return genCode;
 	}
@@ -132,27 +213,27 @@ from LFOS.macros import *
 	operation AbstractResource generateExclusiveResourcesCode() : String {
 		var genCode : String = "";
 		for(exclusiveResource in self.exclusiveResources) {
-			genCode += self.getResourceVariableName() + ".add_exclusive_resource(" + exclusiveResource.getResourceVariableName() + ")\n";
+			genCode += self.getVariableName() + ".add_exclusive_resource(" + exclusiveResource.getVariableName() + ")\n";
 		}
 		return genCode;
 	}
 
 	operation AbstractResource generatePowerConsumptionCode() : String {
 		var power = self.power;
-		var codeGenerator : String = "pow_" + self.getResourceVariableName() + " = PowerFactory.create_instance(PowerTypeList.";
+		var codeGenerator : String = self.getVariableName() + " = PowerFactory.create_instance(PowerTypeList.";
 		if(power.isTypeOf(FixedStatePowerConsumption)) {
 			codeGenerator += "FIXED_STATE_POWER_CONSUMPTION, " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
 		}
 		if(power.isTypeOf(DiscreteStatePowerConsumption)) {
 			codeGenerator += "DISCRETE_STATE_POWER_CONSUMPTION, " + power.minState.scale + ", " + power.minState.powerConsumption + ", " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
 			for(state in power.runnableStates) {
-				codeGenerator += "pow_" + self.getResourceVariableName() + ".add_state(" + state.scale + ", " + state.powerConsumption + ")\n";
+				codeGenerator += self.getVariableName() + ".add_state(" + state.scale + ", " + state.powerConsumption + ")\n";
 			}
 		}
 		else if(power.isTypeOf(ContinuousStatePowerConsumption)) {
 			codeGenerator += "CONTINUOUS_STATE_POWER_CONSUMPTION, " + power.minState.scale + ", " + power.minState.powerConsumption + ", " + power.maxState.scale + ", " + power.maxState.powerConsumption + ")\n";
 		}
-		codeGenerator += self.getResourceVariableName() + ".set_power_consumption(pow_" + self.getResourceVariableName() + ")\n";
+		codeGenerator += self.getVariableName() + ".set_power_consumption(" + self.getVariableName() + ")\n";
 		
 		return codeGenerator;
 	}

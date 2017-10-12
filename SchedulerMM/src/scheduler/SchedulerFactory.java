@@ -274,24 +274,6 @@ public interface SchedulerFactory extends EFactory {
 	SchedulingStrategy createSchedulingStrategy();
 
 	/**
-	 * Returns a new object of class '<em>Solver Adapter</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Solver Adapter</em>'.
-	 * @generated
-	 */
-	SolverAdapter createSolverAdapter();
-
-	/**
-	 * Returns a new object of class '<em>Number Jack</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Number Jack</em>'.
-	 * @generated
-	 */
-	NumberJack createNumberJack();
-
-	/**
 	 * Returns a new object of class '<em>SCIP</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -32,7 +32,7 @@ import scheduler.SchedulerPackage;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link scheduler.impl.DependencyImpl#getDependencyItem <em>Dependency Item</em>}</li>
+ *   <li>{@link scheduler.impl.DependencyImpl#getDependencyItems <em>Dependency Items</em>}</li>
  *   <li>{@link scheduler.impl.DependencyImpl#getRelation <em>Relation</em>}</li>
  *   <li>{@link scheduler.impl.DependencyImpl#getMutexItems <em>Mutex Items</em>}</li>
  * </ul>
@@ -41,14 +41,14 @@ import scheduler.SchedulerPackage;
  */
 public class DependencyImpl extends MinimalEObjectImpl.Container implements Dependency {
 	/**
-	 * The cached value of the '{@link #getDependencyItem() <em>Dependency Item</em>}' containment reference list.
+	 * The cached value of the '{@link #getDependencyItems() <em>Dependency Items</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDependencyItem()
+	 * @see #getDependencyItems()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<DependencyItem> dependencyItem;
+	protected EList<DependencyItem> dependencyItems;
 
 	/**
 	 * The default value of the '{@link #getRelation() <em>Relation</em>}' attribute.
@@ -104,11 +104,11 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<DependencyItem> getDependencyItem() {
-		if (dependencyItem == null) {
-			dependencyItem = new EObjectContainmentEList<DependencyItem>(DependencyItem.class, this, SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM);
+	public EList<DependencyItem> getDependencyItems() {
+		if (dependencyItems == null) {
+			dependencyItems = new EObjectContainmentEList<DependencyItem>(DependencyItem.class, this, SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS);
 		}
-		return dependencyItem;
+		return dependencyItems;
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM:
-				return ((InternalEList<?>)getDependencyItem()).basicRemove(otherEnd, msgs);
+			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS:
+				return ((InternalEList<?>)getDependencyItems()).basicRemove(otherEnd, msgs);
 			case SchedulerPackage.DEPENDENCY__MUTEX_ITEMS:
 				return ((InternalEList<?>)getMutexItems()).basicRemove(otherEnd, msgs);
 		}
@@ -168,8 +168,8 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM:
-				return getDependencyItem();
+			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS:
+				return getDependencyItems();
 			case SchedulerPackage.DEPENDENCY__RELATION:
 				return getRelation();
 			case SchedulerPackage.DEPENDENCY__MUTEX_ITEMS:
@@ -187,9 +187,9 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM:
-				getDependencyItem().clear();
-				getDependencyItem().addAll((Collection<? extends DependencyItem>)newValue);
+			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS:
+				getDependencyItems().clear();
+				getDependencyItems().addAll((Collection<? extends DependencyItem>)newValue);
 				return;
 			case SchedulerPackage.DEPENDENCY__RELATION:
 				setRelation((LogicalRelation)newValue);
@@ -210,8 +210,8 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM:
-				getDependencyItem().clear();
+			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS:
+				getDependencyItems().clear();
 				return;
 			case SchedulerPackage.DEPENDENCY__RELATION:
 				setRelation(RELATION_EDEFAULT);
@@ -231,8 +231,8 @@ public class DependencyImpl extends MinimalEObjectImpl.Container implements Depe
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM:
-				return dependencyItem != null && !dependencyItem.isEmpty();
+			case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS:
+				return dependencyItems != null && !dependencyItems.isEmpty();
 			case SchedulerPackage.DEPENDENCY__RELATION:
 				return relation != RELATION_EDEFAULT;
 			case SchedulerPackage.DEPENDENCY__MUTEX_ITEMS:

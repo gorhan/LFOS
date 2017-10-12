@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface SCIP extends NumberJack {
+public interface SCIP extends Solver {
 } // SCIP

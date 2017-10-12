@@ -31,7 +31,6 @@ import scheduler.Mistral;
 import scheduler.Mistral2;
 import scheduler.Mode;
 import scheduler.MutualExclusion;
-import scheduler.NumberJack;
 import scheduler.Objective;
 import scheduler.ObjectiveCriteria;
 import scheduler.ObjectivePurpose;
@@ -67,7 +66,7 @@ import scheduler.SchedulingPolicyType;
 import scheduler.SchedulingStrategy;
 import scheduler.SchedulingType;
 import scheduler.SchedulingWindow;
-import scheduler.SolverAdapter;
+import scheduler.Solver;
 import scheduler.TaskC;
 import scheduler.TaskObjective;
 import scheduler.TaskT;
@@ -306,14 +305,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass solverAdapterEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass numberJackEClass = null;
+	private EClass solverEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -810,7 +802,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDependency_DependencyItem() {
+	public EReference getDependency_DependencyItems() {
 		return (EReference)dependencyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1305,7 +1297,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSchedulingWindow_Begin() {
+	public EAttribute getSchedulingWindow_SchedBegin() {
 		return (EAttribute)schedulingWindowEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1314,7 +1306,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSchedulingWindow_Duration() {
+	public EAttribute getSchedulingWindow_SchedDuration() {
 		return (EAttribute)schedulingWindowEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1332,7 +1324,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSchedulingPolicy_Ranking() {
+	public EAttribute getSchedulingPolicy_PolicyRanking() {
 		return (EAttribute)schedulingPolicyEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -1341,7 +1333,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSchedulingPolicy_Grouping() {
+	public EAttribute getSchedulingPolicy_PolicyGrouping() {
 		return (EAttribute)schedulingPolicyEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -1359,8 +1351,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSolverAdapter() {
-		return solverAdapterEClass;
+	public EReference getSchedulingStrategy_Output() {
+		return (EReference)schedulingStrategyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1368,8 +1360,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSolverAdapter_Solvers() {
-		return (EReference)solverAdapterEClass.getEStructuralFeatures().get(0);
+	public EReference getSchedulingStrategy_Solvers() {
+		return (EReference)schedulingStrategyEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1377,8 +1369,26 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNumberJack() {
-		return numberJackEClass;
+	public EClass getSolver() {
+		return solverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolver_TimeCutoff() {
+		return (EAttribute)solverEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolver_VerboseLevel() {
+		return (EAttribute)solverEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1791,7 +1801,7 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		createEAttribute(priorityEClass, PRIORITY__PRIORITY_VALUE);
 
 		dependencyEClass = createEClass(DEPENDENCY);
-		createEReference(dependencyEClass, DEPENDENCY__DEPENDENCY_ITEM);
+		createEReference(dependencyEClass, DEPENDENCY__DEPENDENCY_ITEMS);
 		createEAttribute(dependencyEClass, DEPENDENCY__RELATION);
 		createEReference(dependencyEClass, DEPENDENCY__MUTEX_ITEMS);
 
@@ -1867,19 +1877,20 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		taskObjectiveEClass = createEClass(TASK_OBJECTIVE);
 
 		schedulingWindowEClass = createEClass(SCHEDULING_WINDOW);
-		createEAttribute(schedulingWindowEClass, SCHEDULING_WINDOW__BEGIN);
-		createEAttribute(schedulingWindowEClass, SCHEDULING_WINDOW__DURATION);
+		createEAttribute(schedulingWindowEClass, SCHEDULING_WINDOW__SCHED_BEGIN);
+		createEAttribute(schedulingWindowEClass, SCHEDULING_WINDOW__SCHED_DURATION);
 
 		schedulingPolicyEClass = createEClass(SCHEDULING_POLICY);
-		createEAttribute(schedulingPolicyEClass, SCHEDULING_POLICY__RANKING);
-		createEAttribute(schedulingPolicyEClass, SCHEDULING_POLICY__GROUPING);
+		createEAttribute(schedulingPolicyEClass, SCHEDULING_POLICY__POLICY_RANKING);
+		createEAttribute(schedulingPolicyEClass, SCHEDULING_POLICY__POLICY_GROUPING);
 
 		schedulingStrategyEClass = createEClass(SCHEDULING_STRATEGY);
+		createEReference(schedulingStrategyEClass, SCHEDULING_STRATEGY__OUTPUT);
+		createEReference(schedulingStrategyEClass, SCHEDULING_STRATEGY__SOLVERS);
 
-		solverAdapterEClass = createEClass(SOLVER_ADAPTER);
-		createEReference(solverAdapterEClass, SOLVER_ADAPTER__SOLVERS);
-
-		numberJackEClass = createEClass(NUMBER_JACK);
+		solverEClass = createEClass(SOLVER);
+		createEAttribute(solverEClass, SOLVER__TIME_CUTOFF);
+		createEAttribute(solverEClass, SOLVER__VERBOSE_LEVEL);
 
 		scipEClass = createEClass(SCIP);
 
@@ -1993,17 +2004,15 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		schedulingCharacteristicEClass.getESuperTypes().add(this.getSchedulingPolicy());
 		resourceObjectiveEClass.getESuperTypes().add(this.getObjective());
 		taskObjectiveEClass.getESuperTypes().add(this.getObjective());
-		schedulingStrategyEClass.getESuperTypes().add(this.getSolverAdapter());
-		schedulingStrategyEClass.getESuperTypes().add(this.getOutput());
-		scipEClass.getESuperTypes().add(this.getNumberJack());
-		miniSatEClass.getESuperTypes().add(this.getNumberJack());
-		mipWrapperEClass.getESuperTypes().add(this.getNumberJack());
-		mistralEClass.getESuperTypes().add(this.getNumberJack());
-		mistral2EClass.getESuperTypes().add(this.getNumberJack());
-		satWrapperEClass.getESuperTypes().add(this.getNumberJack());
-		toulbar2EClass.getESuperTypes().add(this.getNumberJack());
-		walksatEClass.getESuperTypes().add(this.getNumberJack());
-		otherEClass.getESuperTypes().add(this.getNumberJack());
+		scipEClass.getESuperTypes().add(this.getSolver());
+		miniSatEClass.getESuperTypes().add(this.getSolver());
+		mipWrapperEClass.getESuperTypes().add(this.getSolver());
+		mistralEClass.getESuperTypes().add(this.getSolver());
+		mistral2EClass.getESuperTypes().add(this.getSolver());
+		satWrapperEClass.getESuperTypes().add(this.getSolver());
+		toulbar2EClass.getESuperTypes().add(this.getSolver());
+		walksatEClass.getESuperTypes().add(this.getSolver());
+		otherEClass.getESuperTypes().add(this.getSolver());
 		textualEClass.getESuperTypes().add(this.getOutput());
 		plotEClass.getESuperTypes().add(this.getOutput());
 		plotEClass.getESuperTypes().add(this.getMatPlotLib());
@@ -2041,13 +2050,13 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		initEAttribute(getPriority_PriorityValue(), ecorePackage.getEInt(), "priorityValue", null, 1, 1, Priority.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyEClass, Dependency.class, "Dependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getDependency_DependencyItem(), this.getDependencyItem(), null, "dependencyItem", null, 0, -1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDependency_DependencyItems(), this.getDependencyItem(), null, "dependencyItems", null, 0, -1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDependency_Relation(), this.getLogicalRelation(), "relation", null, 0, 1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDependency_MutexItems(), this.getMutualExclusion(), null, "mutexItems", null, 0, -1, Dependency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyItemEClass, DependencyItem.class, "DependencyItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDependencyItem_NumTokens(), ecorePackage.getEInt(), "numTokens", null, 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getDependencyItem_SetupTime(), ecorePackage.getEInt(), "setupTime", null, 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDependencyItem_NumTokens(), ecorePackage.getEInt(), "numTokens", "1", 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDependencyItem_SetupTime(), ecorePackage.getEInt(), "setupTime", "0", 0, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDependencyItem_Token(), this.getToken(), null, "token", null, 1, 1, DependencyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(preemptionEClass, Preemption.class, "Preemption", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -2117,19 +2126,20 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		initEClass(taskObjectiveEClass, TaskObjective.class, "TaskObjective", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(schedulingWindowEClass, SchedulingWindow.class, "SchedulingWindow", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSchedulingWindow_Begin(), ecorePackage.getEInt(), "begin", null, 0, 1, SchedulingWindow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSchedulingWindow_Duration(), ecorePackage.getEInt(), "duration", null, 0, 1, SchedulingWindow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSchedulingWindow_SchedBegin(), ecorePackage.getEInt(), "schedBegin", null, 0, 1, SchedulingWindow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSchedulingWindow_SchedDuration(), ecorePackage.getEInt(), "schedDuration", null, 0, 1, SchedulingWindow.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(schedulingPolicyEClass, SchedulingPolicy.class, "SchedulingPolicy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSchedulingPolicy_Ranking(), this.getSchedulingPolicyType(), "ranking", null, 1, 1, SchedulingPolicy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSchedulingPolicy_Grouping(), ecorePackage.getEBoolean(), "grouping", null, 1, 1, SchedulingPolicy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSchedulingPolicy_PolicyRanking(), this.getSchedulingPolicyType(), "policyRanking", null, 1, 1, SchedulingPolicy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSchedulingPolicy_PolicyGrouping(), ecorePackage.getEBoolean(), "policyGrouping", null, 1, 1, SchedulingPolicy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(schedulingStrategyEClass, SchedulingStrategy.class, "SchedulingStrategy", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSchedulingStrategy_Output(), this.getOutput(), null, "output", null, 1, 1, SchedulingStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSchedulingStrategy_Solvers(), this.getSolver(), null, "solvers", null, 0, -1, SchedulingStrategy.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(solverAdapterEClass, SolverAdapter.class, "SolverAdapter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSolverAdapter_Solvers(), this.getNumberJack(), null, "solvers", null, 1, -1, SolverAdapter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(numberJackEClass, NumberJack.class, "NumberJack", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(solverEClass, Solver.class, "Solver", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSolver_TimeCutoff(), ecorePackage.getEInt(), "timeCutoff", "10", 0, 1, Solver.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolver_VerboseLevel(), ecorePackage.getEInt(), "verboseLevel", "10", 0, 1, Solver.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(scipEClass, scheduler.SCIP.class, "SCIP", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

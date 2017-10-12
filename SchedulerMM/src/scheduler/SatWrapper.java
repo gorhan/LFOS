@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface SatWrapper extends NumberJack {
+public interface SatWrapper extends Solver {
 } // SatWrapper

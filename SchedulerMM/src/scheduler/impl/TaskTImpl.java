@@ -44,7 +44,7 @@ import scheduler.Token;
  * <ul>
  *   <li>{@link scheduler.impl.TaskTImpl#getRankingType <em>Ranking Type</em>}</li>
  *   <li>{@link scheduler.impl.TaskTImpl#getPriorityValue <em>Priority Value</em>}</li>
- *   <li>{@link scheduler.impl.TaskTImpl#getDependencyItem <em>Dependency Item</em>}</li>
+ *   <li>{@link scheduler.impl.TaskTImpl#getDependencyItems <em>Dependency Items</em>}</li>
  *   <li>{@link scheduler.impl.TaskTImpl#getRelation <em>Relation</em>}</li>
  *   <li>{@link scheduler.impl.TaskTImpl#getMutexItems <em>Mutex Items</em>}</li>
  *   <li>{@link scheduler.impl.TaskTImpl#getPmtnType <em>Pmtn Type</em>}</li>
@@ -100,14 +100,14 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 	protected int priorityValue = PRIORITY_VALUE_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDependencyItem() <em>Dependency Item</em>}' containment reference list.
+	 * The cached value of the '{@link #getDependencyItems() <em>Dependency Items</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getDependencyItem()
+	 * @see #getDependencyItems()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<DependencyItem> dependencyItem;
+	protected EList<DependencyItem> dependencyItems;
 
 	/**
 	 * The default value of the '{@link #getRelation() <em>Relation</em>}' attribute.
@@ -325,11 +325,11 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<DependencyItem> getDependencyItem() {
-		if (dependencyItem == null) {
-			dependencyItem = new EObjectContainmentEList<DependencyItem>(DependencyItem.class, this, SchedulerPackage.TASK_T__DEPENDENCY_ITEM);
+	public EList<DependencyItem> getDependencyItems() {
+		if (dependencyItems == null) {
+			dependencyItems = new EObjectContainmentEList<DependencyItem>(DependencyItem.class, this, SchedulerPackage.TASK_T__DEPENDENCY_ITEMS);
 		}
-		return dependencyItem;
+		return dependencyItems;
 	}
 
 	/**
@@ -502,8 +502,8 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SchedulerPackage.TASK_T__DEPENDENCY_ITEM:
-				return ((InternalEList<?>)getDependencyItem()).basicRemove(otherEnd, msgs);
+			case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS:
+				return ((InternalEList<?>)getDependencyItems()).basicRemove(otherEnd, msgs);
 			case SchedulerPackage.TASK_T__MUTEX_ITEMS:
 				return ((InternalEList<?>)getMutexItems()).basicRemove(otherEnd, msgs);
 			case SchedulerPackage.TASK_T__RESOURCE_REQUIREMENT_ITEMS:
@@ -526,8 +526,8 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 				return getRankingType();
 			case SchedulerPackage.TASK_T__PRIORITY_VALUE:
 				return getPriorityValue();
-			case SchedulerPackage.TASK_T__DEPENDENCY_ITEM:
-				return getDependencyItem();
+			case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS:
+				return getDependencyItems();
 			case SchedulerPackage.TASK_T__RELATION:
 				return getRelation();
 			case SchedulerPackage.TASK_T__MUTEX_ITEMS:
@@ -565,9 +565,9 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 			case SchedulerPackage.TASK_T__PRIORITY_VALUE:
 				setPriorityValue((Integer)newValue);
 				return;
-			case SchedulerPackage.TASK_T__DEPENDENCY_ITEM:
-				getDependencyItem().clear();
-				getDependencyItem().addAll((Collection<? extends DependencyItem>)newValue);
+			case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS:
+				getDependencyItems().clear();
+				getDependencyItems().addAll((Collection<? extends DependencyItem>)newValue);
 				return;
 			case SchedulerPackage.TASK_T__RELATION:
 				setRelation((LogicalRelation)newValue);
@@ -617,8 +617,8 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 			case SchedulerPackage.TASK_T__PRIORITY_VALUE:
 				setPriorityValue(PRIORITY_VALUE_EDEFAULT);
 				return;
-			case SchedulerPackage.TASK_T__DEPENDENCY_ITEM:
-				getDependencyItem().clear();
+			case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS:
+				getDependencyItems().clear();
 				return;
 			case SchedulerPackage.TASK_T__RELATION:
 				setRelation(RELATION_EDEFAULT);
@@ -663,8 +663,8 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 				return rankingType != RANKING_TYPE_EDEFAULT;
 			case SchedulerPackage.TASK_T__PRIORITY_VALUE:
 				return priorityValue != PRIORITY_VALUE_EDEFAULT;
-			case SchedulerPackage.TASK_T__DEPENDENCY_ITEM:
-				return dependencyItem != null && !dependencyItem.isEmpty();
+			case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS:
+				return dependencyItems != null && !dependencyItems.isEmpty();
 			case SchedulerPackage.TASK_T__RELATION:
 				return relation != RELATION_EDEFAULT;
 			case SchedulerPackage.TASK_T__MUTEX_ITEMS:
@@ -703,7 +703,7 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 		}
 		if (baseClass == Dependency.class) {
 			switch (derivedFeatureID) {
-				case SchedulerPackage.TASK_T__DEPENDENCY_ITEM: return SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM;
+				case SchedulerPackage.TASK_T__DEPENDENCY_ITEMS: return SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS;
 				case SchedulerPackage.TASK_T__RELATION: return SchedulerPackage.DEPENDENCY__RELATION;
 				case SchedulerPackage.TASK_T__MUTEX_ITEMS: return SchedulerPackage.DEPENDENCY__MUTEX_ITEMS;
 				default: return -1;
@@ -752,7 +752,7 @@ public class TaskTImpl extends TimingImpl implements TaskT {
 		}
 		if (baseClass == Dependency.class) {
 			switch (baseFeatureID) {
-				case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEM: return SchedulerPackage.TASK_T__DEPENDENCY_ITEM;
+				case SchedulerPackage.DEPENDENCY__DEPENDENCY_ITEMS: return SchedulerPackage.TASK_T__DEPENDENCY_ITEMS;
 				case SchedulerPackage.DEPENDENCY__RELATION: return SchedulerPackage.TASK_T__RELATION;
 				case SchedulerPackage.DEPENDENCY__MUTEX_ITEMS: return SchedulerPackage.TASK_T__MUTEX_ITEMS;
 				default: return -1;

@@ -38,7 +38,7 @@ public class DependencyItemImpl extends MinimalEObjectImpl.Container implements 
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int NUM_TOKENS_EDEFAULT = 0;
+	protected static final int NUM_TOKENS_EDEFAULT = 1;
 
 	/**
 	 * The cached value of the '{@link #getNumTokens() <em>Num Tokens</em>}' attribute.

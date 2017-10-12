@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface Mistral2 extends NumberJack {
+public interface Mistral2 extends Solver {
 } // Mistral2

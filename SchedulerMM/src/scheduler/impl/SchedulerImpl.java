@@ -18,14 +18,13 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import scheduler.AbstractTask;
-import scheduler.NumberJack;
 import scheduler.Output;
 import scheduler.ResourceC;
 import scheduler.ResourceType;
 import scheduler.Scheduler;
 import scheduler.SchedulerPackage;
 import scheduler.SchedulingStrategy;
-import scheduler.SolverAdapter;
+import scheduler.Solver;
 import scheduler.Token;
 
 /**
@@ -36,6 +35,7 @@ import scheduler.Token;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link scheduler.impl.SchedulerImpl#getOutput <em>Output</em>}</li>
  *   <li>{@link scheduler.impl.SchedulerImpl#getSolvers <em>Solvers</em>}</li>
  *   <li>{@link scheduler.impl.SchedulerImpl#getTaskset <em>Taskset</em>}</li>
  *   <li>{@link scheduler.impl.SchedulerImpl#getSystem <em>System</em>}</li>
@@ -48,6 +48,16 @@ import scheduler.Token;
  */
 public class SchedulerImpl extends SchedulingCharacteristicImpl implements Scheduler {
 	/**
+	 * The cached value of the '{@link #getOutput() <em>Output</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOutput()
+	 * @generated
+	 * @ordered
+	 */
+	protected Output output;
+
+	/**
 	 * The cached value of the '{@link #getSolvers() <em>Solvers</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -55,7 +65,7 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<NumberJack> solvers;
+	protected EList<Solver> solvers;
 
 	/**
 	 * The cached value of the '{@link #getTaskset() <em>Taskset</em>}' containment reference list.
@@ -141,9 +151,52 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<NumberJack> getSolvers() {
+	public Output getOutput() {
+		return output;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetOutput(Output newOutput, NotificationChain msgs) {
+		Output oldOutput = output;
+		output = newOutput;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULER__OUTPUT, oldOutput, newOutput);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOutput(Output newOutput) {
+		if (newOutput != output) {
+			NotificationChain msgs = null;
+			if (output != null)
+				msgs = ((InternalEObject)output).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SchedulerPackage.SCHEDULER__OUTPUT, null, msgs);
+			if (newOutput != null)
+				msgs = ((InternalEObject)newOutput).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SchedulerPackage.SCHEDULER__OUTPUT, null, msgs);
+			msgs = basicSetOutput(newOutput, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SchedulerPackage.SCHEDULER__OUTPUT, newOutput, newOutput));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<Solver> getSolvers() {
 		if (solvers == null) {
-			solvers = new EObjectContainmentEList<NumberJack>(NumberJack.class, this, SchedulerPackage.SCHEDULER__SOLVERS);
+			solvers = new EObjectContainmentEList<Solver>(Solver.class, this, SchedulerPackage.SCHEDULER__SOLVERS);
 		}
 		return solvers;
 	}
@@ -256,6 +309,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case SchedulerPackage.SCHEDULER__OUTPUT:
+				return basicSetOutput(null, msgs);
 			case SchedulerPackage.SCHEDULER__SOLVERS:
 				return ((InternalEList<?>)getSolvers()).basicRemove(otherEnd, msgs);
 			case SchedulerPackage.SCHEDULER__TASKSET:
@@ -278,6 +333,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case SchedulerPackage.SCHEDULER__OUTPUT:
+				return getOutput();
 			case SchedulerPackage.SCHEDULER__SOLVERS:
 				return getSolvers();
 			case SchedulerPackage.SCHEDULER__TASKSET:
@@ -303,9 +360,12 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case SchedulerPackage.SCHEDULER__OUTPUT:
+				setOutput((Output)newValue);
+				return;
 			case SchedulerPackage.SCHEDULER__SOLVERS:
 				getSolvers().clear();
-				getSolvers().addAll((Collection<? extends NumberJack>)newValue);
+				getSolvers().addAll((Collection<? extends Solver>)newValue);
 				return;
 			case SchedulerPackage.SCHEDULER__TASKSET:
 				getTaskset().clear();
@@ -337,6 +397,9 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case SchedulerPackage.SCHEDULER__OUTPUT:
+				setOutput((Output)null);
+				return;
 			case SchedulerPackage.SCHEDULER__SOLVERS:
 				getSolvers().clear();
 				return;
@@ -367,6 +430,8 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case SchedulerPackage.SCHEDULER__OUTPUT:
+				return output != null;
 			case SchedulerPackage.SCHEDULER__SOLVERS:
 				return solvers != null && !solvers.isEmpty();
 			case SchedulerPackage.SCHEDULER__TASKSET:
@@ -390,19 +455,10 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 */
 	@Override
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == SolverAdapter.class) {
-			switch (derivedFeatureID) {
-				case SchedulerPackage.SCHEDULER__SOLVERS: return SchedulerPackage.SOLVER_ADAPTER__SOLVERS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Output.class) {
-			switch (derivedFeatureID) {
-				default: return -1;
-			}
-		}
 		if (baseClass == SchedulingStrategy.class) {
 			switch (derivedFeatureID) {
+				case SchedulerPackage.SCHEDULER__OUTPUT: return SchedulerPackage.SCHEDULING_STRATEGY__OUTPUT;
+				case SchedulerPackage.SCHEDULER__SOLVERS: return SchedulerPackage.SCHEDULING_STRATEGY__SOLVERS;
 				default: return -1;
 			}
 		}
@@ -416,19 +472,10 @@ public class SchedulerImpl extends SchedulingCharacteristicImpl implements Sched
 	 */
 	@Override
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == SolverAdapter.class) {
-			switch (baseFeatureID) {
-				case SchedulerPackage.SOLVER_ADAPTER__SOLVERS: return SchedulerPackage.SCHEDULER__SOLVERS;
-				default: return -1;
-			}
-		}
-		if (baseClass == Output.class) {
-			switch (baseFeatureID) {
-				default: return -1;
-			}
-		}
 		if (baseClass == SchedulingStrategy.class) {
 			switch (baseFeatureID) {
+				case SchedulerPackage.SCHEDULING_STRATEGY__OUTPUT: return SchedulerPackage.SCHEDULER__OUTPUT;
+				case SchedulerPackage.SCHEDULING_STRATEGY__SOLVERS: return SchedulerPackage.SCHEDULER__SOLVERS;
 				default: return -1;
 			}
 		}

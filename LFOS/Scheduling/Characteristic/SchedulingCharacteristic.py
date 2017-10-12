@@ -24,3 +24,17 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
 
     def get_scheduling_objective(self):
         return self._overall_objective
+
+    def set_migration(self, new_migration):
+        if new_migration == MigrationTypes.JOB_LEVEL_MIGRATION or new_migration == MigrationTypes.TASK_LEVEL_MIGRATION or new_migration == MigrationTypes.NO_MIGRATION:
+            self.__migration = new_migration
+
+    def get_migration(self):
+        return self.__migration
+
+    def set_preemptive(self, preemptive_flag):
+        assert isinstance(preemptive_flag, bool)
+        self.__preemptive = preemptive_flag
+
+    def is_preemptive(self):
+        return self.__preemptive

@@ -56,15 +56,17 @@
     <eLiterals name="XOR" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyItem" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencyItems" upperBound="-1"
         eType="#//DependencyItem" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="relation" eType="#//LogicalRelation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mutexItems" upperBound="-1"
         eType="#//MutualExclusion" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DependencyItem">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numTokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="setupTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="numTokens" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="setupTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="token" lowerBound="1" eType="#//Token"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PreemptionType">
@@ -200,8 +202,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="ResourceObjective" eSuperTypes="#//Objective"/>
   <eClassifiers xsi:type="ecore:EClass" name="TaskObjective" eSuperTypes="#//Objective"/>
   <eClassifiers xsi:type="ecore:EClass" name="SchedulingWindow">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="begin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedBegin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedDuration" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SchedulingPolicyType">
     <eLiterals name="FIFO"/>
@@ -213,26 +215,32 @@
     <eLiterals name="USER_DEFINED" value="6"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SchedulingPolicy">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranking" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="policyRanking" lowerBound="1"
         eType="#//SchedulingPolicyType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="grouping" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="policyGrouping" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SchedulingStrategy" eSuperTypes="#//SolverAdapter #//Output"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SolverAdapter">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="solvers" lowerBound="1"
-        upperBound="-1" eType="#//NumberJack" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SchedulingStrategy">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="output" lowerBound="1"
+        eType="#//Output" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="solvers" upperBound="-1"
+        eType="#//Solver" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SCIP" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MiniSat" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="MipWrapper" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Mistral" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Mistral2" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SatWrapper" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Toulbar2" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Walksat" eSuperTypes="#//NumberJack"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//NumberJack"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Solver" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeCutoff" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="10"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="verboseLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="10"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SCIP" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MiniSat" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="MipWrapper" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mistral" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Mistral2" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SatWrapper" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Toulbar2" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Walksat" eSuperTypes="#//Solver"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Other" eSuperTypes="#//Solver"/>
   <eClassifiers xsi:type="ecore:EClass" name="Output"/>
   <eClassifiers xsi:type="ecore:EClass" name="Textual" eSuperTypes="#//Output"/>
   <eClassifiers xsi:type="ecore:EClass" name="Plot" eSuperTypes="#//Output #//MatPlotLib"/>

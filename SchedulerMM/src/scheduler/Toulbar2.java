@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface Toulbar2 extends NumberJack {
+public interface Toulbar2 extends Solver {
 } // Toulbar2

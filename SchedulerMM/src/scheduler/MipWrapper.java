@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface MipWrapper extends NumberJack {
+public interface MipWrapper extends Solver {
 } // MipWrapper

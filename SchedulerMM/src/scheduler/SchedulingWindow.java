@@ -13,8 +13,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link scheduler.SchedulingWindow#getBegin <em>Begin</em>}</li>
- *   <li>{@link scheduler.SchedulingWindow#getDuration <em>Duration</em>}</li>
+ *   <li>{@link scheduler.SchedulingWindow#getSchedBegin <em>Sched Begin</em>}</li>
+ *   <li>{@link scheduler.SchedulingWindow#getSchedDuration <em>Sched Duration</em>}</li>
  * </ul>
  *
  * @see scheduler.SchedulerPackage#getSchedulingWindow()
@@ -23,55 +23,55 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface SchedulingWindow extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Begin</b></em>' attribute.
+	 * Returns the value of the '<em><b>Sched Begin</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Begin</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Sched Begin</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Begin</em>' attribute.
-	 * @see #setBegin(int)
-	 * @see scheduler.SchedulerPackage#getSchedulingWindow_Begin()
+	 * @return the value of the '<em>Sched Begin</em>' attribute.
+	 * @see #setSchedBegin(int)
+	 * @see scheduler.SchedulerPackage#getSchedulingWindow_SchedBegin()
 	 * @model
 	 * @generated
 	 */
-	int getBegin();
+	int getSchedBegin();
 
 	/**
-	 * Sets the value of the '{@link scheduler.SchedulingWindow#getBegin <em>Begin</em>}' attribute.
+	 * Sets the value of the '{@link scheduler.SchedulingWindow#getSchedBegin <em>Sched Begin</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Begin</em>' attribute.
-	 * @see #getBegin()
+	 * @param value the new value of the '<em>Sched Begin</em>' attribute.
+	 * @see #getSchedBegin()
 	 * @generated
 	 */
-	void setBegin(int value);
+	void setSchedBegin(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Duration</b></em>' attribute.
+	 * Returns the value of the '<em><b>Sched Duration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Duration</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Sched Duration</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Duration</em>' attribute.
-	 * @see #setDuration(int)
-	 * @see scheduler.SchedulerPackage#getSchedulingWindow_Duration()
+	 * @return the value of the '<em>Sched Duration</em>' attribute.
+	 * @see #setSchedDuration(int)
+	 * @see scheduler.SchedulerPackage#getSchedulingWindow_SchedDuration()
 	 * @model
 	 * @generated
 	 */
-	int getDuration();
+	int getSchedDuration();
 
 	/**
-	 * Sets the value of the '{@link scheduler.SchedulingWindow#getDuration <em>Duration</em>}' attribute.
+	 * Sets the value of the '{@link scheduler.SchedulingWindow#getSchedDuration <em>Sched Duration</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Duration</em>' attribute.
-	 * @see #getDuration()
+	 * @param value the new value of the '<em>Sched Duration</em>' attribute.
+	 * @see #getSchedDuration()
 	 * @generated
 	 */
-	void setDuration(int value);
+	void setSchedDuration(int value);
 
 } // SchedulingWindow

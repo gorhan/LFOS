@@ -68,22 +68,22 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULING_WINDOW = 28;
 
 	/**
-	 * The feature id for the '<em><b>Begin</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Begin</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_WINDOW__BEGIN = 0;
+	int SCHEDULING_WINDOW__SCHED_BEGIN = 0;
 
 	/**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Duration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_WINDOW__DURATION = 1;
+	int SCHEDULING_WINDOW__SCHED_DURATION = 1;
 
 	/**
 	 * The number of structural features of the '<em>Scheduling Window</em>' class.
@@ -114,40 +114,40 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULING_CHARACTERISTIC = 24;
 
 	/**
-	 * The feature id for the '<em><b>Begin</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Begin</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_CHARACTERISTIC__BEGIN = SCHEDULING_WINDOW__BEGIN;
+	int SCHEDULING_CHARACTERISTIC__SCHED_BEGIN = SCHEDULING_WINDOW__SCHED_BEGIN;
 
 	/**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Duration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_CHARACTERISTIC__DURATION = SCHEDULING_WINDOW__DURATION;
+	int SCHEDULING_CHARACTERISTIC__SCHED_DURATION = SCHEDULING_WINDOW__SCHED_DURATION;
 
 	/**
-	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Ranking</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_CHARACTERISTIC__RANKING = SCHEDULING_WINDOW_FEATURE_COUNT + 0;
+	int SCHEDULING_CHARACTERISTIC__POLICY_RANKING = SCHEDULING_WINDOW_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Grouping</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Grouping</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_CHARACTERISTIC__GROUPING = SCHEDULING_WINDOW_FEATURE_COUNT + 1;
+	int SCHEDULING_CHARACTERISTIC__POLICY_GROUPING = SCHEDULING_WINDOW_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Sched Type</b></em>' attribute.
@@ -223,40 +223,40 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULER = 0;
 
 	/**
-	 * The feature id for the '<em><b>Begin</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Begin</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__BEGIN = SCHEDULING_CHARACTERISTIC__BEGIN;
+	int SCHEDULER__SCHED_BEGIN = SCHEDULING_CHARACTERISTIC__SCHED_BEGIN;
 
 	/**
-	 * The feature id for the '<em><b>Duration</b></em>' attribute.
+	 * The feature id for the '<em><b>Sched Duration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__DURATION = SCHEDULING_CHARACTERISTIC__DURATION;
+	int SCHEDULER__SCHED_DURATION = SCHEDULING_CHARACTERISTIC__SCHED_DURATION;
 
 	/**
-	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Ranking</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__RANKING = SCHEDULING_CHARACTERISTIC__RANKING;
+	int SCHEDULER__POLICY_RANKING = SCHEDULING_CHARACTERISTIC__POLICY_RANKING;
 
 	/**
-	 * The feature id for the '<em><b>Grouping</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Grouping</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__GROUPING = SCHEDULING_CHARACTERISTIC__GROUPING;
+	int SCHEDULER__POLICY_GROUPING = SCHEDULING_CHARACTERISTIC__POLICY_GROUPING;
 
 	/**
 	 * The feature id for the '<em><b>Sched Type</b></em>' attribute.
@@ -304,13 +304,22 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULER__OBJECTIVES = SCHEDULING_CHARACTERISTIC__OBJECTIVES;
 
 	/**
+	 * The feature id for the '<em><b>Output</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCHEDULER__OUTPUT = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Solvers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__SOLVERS = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 0;
+	int SCHEDULER__SOLVERS = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Taskset</b></em>' containment reference list.
@@ -319,7 +328,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__TASKSET = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 1;
+	int SCHEDULER__TASKSET = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>System</b></em>' containment reference.
@@ -328,7 +337,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__SYSTEM = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 2;
+	int SCHEDULER__SYSTEM = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -337,7 +346,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__NAME = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 3;
+	int SCHEDULER__NAME = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Resource Types</b></em>' containment reference list.
@@ -346,7 +355,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__RESOURCE_TYPES = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 4;
+	int SCHEDULER__RESOURCE_TYPES = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Token Pool</b></em>' containment reference list.
@@ -355,7 +364,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER__TOKEN_POOL = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 5;
+	int SCHEDULER__TOKEN_POOL = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 6;
 
 	/**
 	 * The number of structural features of the '<em>Scheduler</em>' class.
@@ -364,7 +373,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULER_FEATURE_COUNT = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 6;
+	int SCHEDULER_FEATURE_COUNT = SCHEDULING_CHARACTERISTIC_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Scheduler</em>' class.
@@ -568,13 +577,13 @@ public interface SchedulerPackage extends EPackage {
 	int ABSTRACT_TASK__PRIORITY_VALUE = TIMING_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dependency Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ABSTRACT_TASK__DEPENDENCY_ITEM = TIMING_FEATURE_COUNT + 2;
+	int ABSTRACT_TASK__DEPENDENCY_ITEMS = TIMING_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Relation</b></em>' attribute.
@@ -749,13 +758,13 @@ public interface SchedulerPackage extends EPackage {
 	int TASK_T__PRIORITY_VALUE = ABSTRACT_TASK__PRIORITY_VALUE;
 
 	/**
-	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dependency Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TASK_T__DEPENDENCY_ITEM = ABSTRACT_TASK__DEPENDENCY_ITEM;
+	int TASK_T__DEPENDENCY_ITEMS = ABSTRACT_TASK__DEPENDENCY_ITEMS;
 
 	/**
 	 * The feature id for the '<em><b>Relation</b></em>' attribute.
@@ -930,13 +939,13 @@ public interface SchedulerPackage extends EPackage {
 	int TASK_C__PRIORITY_VALUE = ABSTRACT_TASK__PRIORITY_VALUE;
 
 	/**
-	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dependency Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TASK_C__DEPENDENCY_ITEM = ABSTRACT_TASK__DEPENDENCY_ITEM;
+	int TASK_C__DEPENDENCY_ITEMS = ABSTRACT_TASK__DEPENDENCY_ITEMS;
 
 	/**
 	 * The feature id for the '<em><b>Relation</b></em>' attribute.
@@ -1103,13 +1112,13 @@ public interface SchedulerPackage extends EPackage {
 	int DEPENDENCY = 7;
 
 	/**
-	 * The feature id for the '<em><b>Dependency Item</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Dependency Items</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEPENDENCY__DEPENDENCY_ITEM = 0;
+	int DEPENDENCY__DEPENDENCY_ITEMS = 0;
 
 	/**
 	 * The feature id for the '<em><b>Relation</b></em>' attribute.
@@ -1916,7 +1925,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getScalable()
 	 * @generated
 	 */
-	int SCALABLE = 48;
+	int SCALABLE = 47;
 
 	/**
 	 * The feature id for the '<em><b>Max State</b></em>' containment reference.
@@ -2258,22 +2267,22 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULING_POLICY = 29;
 
 	/**
-	 * The feature id for the '<em><b>Ranking</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Ranking</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_POLICY__RANKING = 0;
+	int SCHEDULING_POLICY__POLICY_RANKING = 0;
 
 	/**
-	 * The feature id for the '<em><b>Grouping</b></em>' attribute.
+	 * The feature id for the '<em><b>Policy Grouping</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_POLICY__GROUPING = 1;
+	int SCHEDULING_POLICY__POLICY_GROUPING = 1;
 
 	/**
 	 * The number of structural features of the '<em>Scheduling Policy</em>' class.
@@ -2294,43 +2303,6 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULING_POLICY_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link scheduler.impl.SolverAdapterImpl <em>Solver Adapter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see scheduler.impl.SolverAdapterImpl
-	 * @see scheduler.impl.SchedulerPackageImpl#getSolverAdapter()
-	 * @generated
-	 */
-	int SOLVER_ADAPTER = 31;
-
-	/**
-	 * The feature id for the '<em><b>Solvers</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOLVER_ADAPTER__SOLVERS = 0;
-
-	/**
-	 * The number of structural features of the '<em>Solver Adapter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOLVER_ADAPTER_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Solver Adapter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SOLVER_ADAPTER_OPERATION_COUNT = 0;
-
-	/**
 	 * The meta object id for the '{@link scheduler.impl.SchedulingStrategyImpl <em>Scheduling Strategy</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2341,13 +2313,22 @@ public interface SchedulerPackage extends EPackage {
 	int SCHEDULING_STRATEGY = 30;
 
 	/**
+	 * The feature id for the '<em><b>Output</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCHEDULING_STRATEGY__OUTPUT = 0;
+
+	/**
 	 * The feature id for the '<em><b>Solvers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_STRATEGY__SOLVERS = SOLVER_ADAPTER__SOLVERS;
+	int SCHEDULING_STRATEGY__SOLVERS = 1;
 
 	/**
 	 * The number of structural features of the '<em>Scheduling Strategy</em>' class.
@@ -2356,7 +2337,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_STRATEGY_FEATURE_COUNT = SOLVER_ADAPTER_FEATURE_COUNT + 0;
+	int SCHEDULING_STRATEGY_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Scheduling Strategy</em>' class.
@@ -2365,35 +2346,53 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCHEDULING_STRATEGY_OPERATION_COUNT = SOLVER_ADAPTER_OPERATION_COUNT + 0;
+	int SCHEDULING_STRATEGY_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link scheduler.impl.NumberJackImpl <em>Number Jack</em>}' class.
+	 * The meta object id for the '{@link scheduler.Solver <em>Solver</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see scheduler.impl.NumberJackImpl
-	 * @see scheduler.impl.SchedulerPackageImpl#getNumberJack()
+	 * @see scheduler.Solver
+	 * @see scheduler.impl.SchedulerPackageImpl#getSolver()
 	 * @generated
 	 */
-	int NUMBER_JACK = 32;
+	int SOLVER = 31;
 
 	/**
-	 * The number of structural features of the '<em>Number Jack</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NUMBER_JACK_FEATURE_COUNT = 0;
-
-	/**
-	 * The number of operations of the '<em>Number Jack</em>' class.
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NUMBER_JACK_OPERATION_COUNT = 0;
+	int SOLVER__TIME_CUTOFF = 0;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLVER__VERBOSE_LEVEL = 1;
+
+	/**
+	 * The number of structural features of the '<em>Solver</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLVER_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Solver</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLVER_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.SCIPImpl <em>SCIP</em>}' class.
@@ -2403,7 +2402,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSCIP()
 	 * @generated
 	 */
-	int SCIP = 33;
+	int SCIP = 32;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCIP__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SCIP__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>SCIP</em>' class.
@@ -2412,7 +2429,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCIP_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int SCIP_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>SCIP</em>' class.
@@ -2421,7 +2438,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SCIP_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int SCIP_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.MiniSatImpl <em>Mini Sat</em>}' class.
@@ -2431,7 +2448,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMiniSat()
 	 * @generated
 	 */
-	int MINI_SAT = 34;
+	int MINI_SAT = 33;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MINI_SAT__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MINI_SAT__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Mini Sat</em>' class.
@@ -2440,7 +2475,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MINI_SAT_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int MINI_SAT_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Mini Sat</em>' class.
@@ -2449,7 +2484,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MINI_SAT_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int MINI_SAT_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.MipWrapperImpl <em>Mip Wrapper</em>}' class.
@@ -2459,7 +2494,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMipWrapper()
 	 * @generated
 	 */
-	int MIP_WRAPPER = 35;
+	int MIP_WRAPPER = 34;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MIP_WRAPPER__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MIP_WRAPPER__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Mip Wrapper</em>' class.
@@ -2468,7 +2521,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MIP_WRAPPER_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int MIP_WRAPPER_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Mip Wrapper</em>' class.
@@ -2477,7 +2530,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MIP_WRAPPER_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int MIP_WRAPPER_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.MistralImpl <em>Mistral</em>}' class.
@@ -2487,7 +2540,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMistral()
 	 * @generated
 	 */
-	int MISTRAL = 36;
+	int MISTRAL = 35;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISTRAL__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISTRAL__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Mistral</em>' class.
@@ -2496,7 +2567,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MISTRAL_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int MISTRAL_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Mistral</em>' class.
@@ -2505,7 +2576,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MISTRAL_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int MISTRAL_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.Mistral2Impl <em>Mistral2</em>}' class.
@@ -2515,7 +2586,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMistral2()
 	 * @generated
 	 */
-	int MISTRAL2 = 37;
+	int MISTRAL2 = 36;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISTRAL2__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MISTRAL2__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Mistral2</em>' class.
@@ -2524,7 +2613,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MISTRAL2_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int MISTRAL2_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Mistral2</em>' class.
@@ -2533,7 +2622,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MISTRAL2_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int MISTRAL2_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.SatWrapperImpl <em>Sat Wrapper</em>}' class.
@@ -2543,7 +2632,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSatWrapper()
 	 * @generated
 	 */
-	int SAT_WRAPPER = 38;
+	int SAT_WRAPPER = 37;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAT_WRAPPER__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SAT_WRAPPER__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Sat Wrapper</em>' class.
@@ -2552,7 +2659,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAT_WRAPPER_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int SAT_WRAPPER_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Sat Wrapper</em>' class.
@@ -2561,7 +2668,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SAT_WRAPPER_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int SAT_WRAPPER_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.Toulbar2Impl <em>Toulbar2</em>}' class.
@@ -2571,7 +2678,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getToulbar2()
 	 * @generated
 	 */
-	int TOULBAR2 = 39;
+	int TOULBAR2 = 38;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOULBAR2__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOULBAR2__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Toulbar2</em>' class.
@@ -2580,7 +2705,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOULBAR2_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int TOULBAR2_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Toulbar2</em>' class.
@@ -2589,7 +2714,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOULBAR2_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int TOULBAR2_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.WalksatImpl <em>Walksat</em>}' class.
@@ -2599,7 +2724,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getWalksat()
 	 * @generated
 	 */
-	int WALKSAT = 40;
+	int WALKSAT = 39;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WALKSAT__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WALKSAT__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Walksat</em>' class.
@@ -2608,7 +2751,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WALKSAT_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int WALKSAT_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Walksat</em>' class.
@@ -2617,7 +2760,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int WALKSAT_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int WALKSAT_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.OtherImpl <em>Other</em>}' class.
@@ -2627,7 +2770,25 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getOther()
 	 * @generated
 	 */
-	int OTHER = 41;
+	int OTHER = 40;
+
+	/**
+	 * The feature id for the '<em><b>Time Cutoff</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER__TIME_CUTOFF = SOLVER__TIME_CUTOFF;
+
+	/**
+	 * The feature id for the '<em><b>Verbose Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OTHER__VERBOSE_LEVEL = SOLVER__VERBOSE_LEVEL;
 
 	/**
 	 * The number of structural features of the '<em>Other</em>' class.
@@ -2636,7 +2797,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OTHER_FEATURE_COUNT = NUMBER_JACK_FEATURE_COUNT + 0;
+	int OTHER_FEATURE_COUNT = SOLVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of operations of the '<em>Other</em>' class.
@@ -2645,7 +2806,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OTHER_OPERATION_COUNT = NUMBER_JACK_OPERATION_COUNT + 0;
+	int OTHER_OPERATION_COUNT = SOLVER_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link scheduler.impl.OutputImpl <em>Output</em>}' class.
@@ -2655,7 +2816,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getOutput()
 	 * @generated
 	 */
-	int OUTPUT = 42;
+	int OUTPUT = 41;
 
 	/**
 	 * The number of structural features of the '<em>Output</em>' class.
@@ -2683,7 +2844,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getTextual()
 	 * @generated
 	 */
-	int TEXTUAL = 43;
+	int TEXTUAL = 42;
 
 	/**
 	 * The number of structural features of the '<em>Textual</em>' class.
@@ -2711,7 +2872,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPlot()
 	 * @generated
 	 */
-	int PLOT = 44;
+	int PLOT = 43;
 
 	/**
 	 * The number of structural features of the '<em>Plot</em>' class.
@@ -2739,7 +2900,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMatPlotLib()
 	 * @generated
 	 */
-	int MAT_PLOT_LIB = 45;
+	int MAT_PLOT_LIB = 44;
 
 	/**
 	 * The number of structural features of the '<em>Mat Plot Lib</em>' class.
@@ -2767,7 +2928,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getResourceType()
 	 * @generated
 	 */
-	int RESOURCE_TYPE = 46;
+	int RESOURCE_TYPE = 45;
 
 	/**
 	 * The feature id for the '<em><b>Has</b></em>' reference list.
@@ -2822,7 +2983,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPowerState()
 	 * @generated
 	 */
-	int POWER_STATE = 47;
+	int POWER_STATE = 46;
 
 	/**
 	 * The feature id for the '<em><b>Scale</b></em>' attribute.
@@ -2868,7 +3029,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getToken()
 	 * @generated
 	 */
-	int TOKEN = 49;
+	int TOKEN = 48;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2914,7 +3075,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPeriodicityType()
 	 * @generated
 	 */
-	int PERIODICITY_TYPE = 50;
+	int PERIODICITY_TYPE = 49;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PriorityRankingType <em>Priority Ranking Type</em>}' enum.
@@ -2924,7 +3085,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPriorityRankingType()
 	 * @generated
 	 */
-	int PRIORITY_RANKING_TYPE = 51;
+	int PRIORITY_RANKING_TYPE = 50;
 
 	/**
 	 * The meta object id for the '{@link scheduler.LogicalRelation <em>Logical Relation</em>}' enum.
@@ -2934,7 +3095,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getLogicalRelation()
 	 * @generated
 	 */
-	int LOGICAL_RELATION = 52;
+	int LOGICAL_RELATION = 51;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PreemptionType <em>Preemption Type</em>}' enum.
@@ -2944,7 +3105,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPreemptionType()
 	 * @generated
 	 */
-	int PREEMPTION_TYPE = 53;
+	int PREEMPTION_TYPE = 52;
 
 	/**
 	 * The meta object id for the '{@link scheduler.DeadlineType <em>Deadline Type</em>}' enum.
@@ -2954,7 +3115,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getDeadlineType()
 	 * @generated
 	 */
-	int DEADLINE_TYPE = 54;
+	int DEADLINE_TYPE = 53;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ResourceAbstraction <em>Resource Abstraction</em>}' enum.
@@ -2964,7 +3125,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getResourceAbstraction()
 	 * @generated
 	 */
-	int RESOURCE_ABSTRACTION = 55;
+	int RESOURCE_ABSTRACTION = 54;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ResourceMode <em>Resource Mode</em>}' enum.
@@ -2974,7 +3135,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getResourceMode()
 	 * @generated
 	 */
-	int RESOURCE_MODE = 56;
+	int RESOURCE_MODE = 55;
 
 	/**
 	 * The meta object id for the '{@link scheduler.SchedulingType <em>Scheduling Type</em>}' enum.
@@ -2984,7 +3145,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSchedulingType()
 	 * @generated
 	 */
-	int SCHEDULING_TYPE = 57;
+	int SCHEDULING_TYPE = 56;
 
 	/**
 	 * The meta object id for the '{@link scheduler.MigrationType <em>Migration Type</em>}' enum.
@@ -2994,7 +3155,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getMigrationType()
 	 * @generated
 	 */
-	int MIGRATION_TYPE = 58;
+	int MIGRATION_TYPE = 57;
 
 	/**
 	 * The meta object id for the '{@link scheduler.PriorityAssignmentType <em>Priority Assignment Type</em>}' enum.
@@ -3004,7 +3165,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getPriorityAssignmentType()
 	 * @generated
 	 */
-	int PRIORITY_ASSIGNMENT_TYPE = 59;
+	int PRIORITY_ASSIGNMENT_TYPE = 58;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ObjectiveCriteria <em>Objective Criteria</em>}' enum.
@@ -3014,7 +3175,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getObjectiveCriteria()
 	 * @generated
 	 */
-	int OBJECTIVE_CRITERIA = 60;
+	int OBJECTIVE_CRITERIA = 59;
 
 	/**
 	 * The meta object id for the '{@link scheduler.ObjectivePurpose <em>Objective Purpose</em>}' enum.
@@ -3024,7 +3185,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getObjectivePurpose()
 	 * @generated
 	 */
-	int OBJECTIVE_PURPOSE = 61;
+	int OBJECTIVE_PURPOSE = 60;
 
 	/**
 	 * The meta object id for the '{@link scheduler.SchedulingPolicyType <em>Scheduling Policy Type</em>}' enum.
@@ -3034,7 +3195,7 @@ public interface SchedulerPackage extends EPackage {
 	 * @see scheduler.impl.SchedulerPackageImpl#getSchedulingPolicyType()
 	 * @generated
 	 */
-	int SCHEDULING_POLICY_TYPE = 62;
+	int SCHEDULING_POLICY_TYPE = 61;
 
 
 	/**
@@ -3294,15 +3455,15 @@ public interface SchedulerPackage extends EPackage {
 	EClass getDependency();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link scheduler.Dependency#getDependencyItem <em>Dependency Item</em>}'.
+	 * Returns the meta object for the containment reference list '{@link scheduler.Dependency#getDependencyItems <em>Dependency Items</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Dependency Item</em>'.
-	 * @see scheduler.Dependency#getDependencyItem()
+	 * @return the meta object for the containment reference list '<em>Dependency Items</em>'.
+	 * @see scheduler.Dependency#getDependencyItems()
 	 * @see #getDependency()
 	 * @generated
 	 */
-	EReference getDependency_DependencyItem();
+	EReference getDependency_DependencyItems();
 
 	/**
 	 * Returns the meta object for the attribute '{@link scheduler.Dependency#getRelation <em>Relation</em>}'.
@@ -3878,26 +4039,26 @@ public interface SchedulerPackage extends EPackage {
 	EClass getSchedulingWindow();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.SchedulingWindow#getBegin <em>Begin</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.SchedulingWindow#getSchedBegin <em>Sched Begin</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Begin</em>'.
-	 * @see scheduler.SchedulingWindow#getBegin()
+	 * @return the meta object for the attribute '<em>Sched Begin</em>'.
+	 * @see scheduler.SchedulingWindow#getSchedBegin()
 	 * @see #getSchedulingWindow()
 	 * @generated
 	 */
-	EAttribute getSchedulingWindow_Begin();
+	EAttribute getSchedulingWindow_SchedBegin();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.SchedulingWindow#getDuration <em>Duration</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.SchedulingWindow#getSchedDuration <em>Sched Duration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Duration</em>'.
-	 * @see scheduler.SchedulingWindow#getDuration()
+	 * @return the meta object for the attribute '<em>Sched Duration</em>'.
+	 * @see scheduler.SchedulingWindow#getSchedDuration()
 	 * @see #getSchedulingWindow()
 	 * @generated
 	 */
-	EAttribute getSchedulingWindow_Duration();
+	EAttribute getSchedulingWindow_SchedDuration();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.SchedulingPolicy <em>Scheduling Policy</em>}'.
@@ -3910,26 +4071,26 @@ public interface SchedulerPackage extends EPackage {
 	EClass getSchedulingPolicy();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.SchedulingPolicy#getRanking <em>Ranking</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.SchedulingPolicy#getPolicyRanking <em>Policy Ranking</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ranking</em>'.
-	 * @see scheduler.SchedulingPolicy#getRanking()
+	 * @return the meta object for the attribute '<em>Policy Ranking</em>'.
+	 * @see scheduler.SchedulingPolicy#getPolicyRanking()
 	 * @see #getSchedulingPolicy()
 	 * @generated
 	 */
-	EAttribute getSchedulingPolicy_Ranking();
+	EAttribute getSchedulingPolicy_PolicyRanking();
 
 	/**
-	 * Returns the meta object for the attribute '{@link scheduler.SchedulingPolicy#isGrouping <em>Grouping</em>}'.
+	 * Returns the meta object for the attribute '{@link scheduler.SchedulingPolicy#isPolicyGrouping <em>Policy Grouping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Grouping</em>'.
-	 * @see scheduler.SchedulingPolicy#isGrouping()
+	 * @return the meta object for the attribute '<em>Policy Grouping</em>'.
+	 * @see scheduler.SchedulingPolicy#isPolicyGrouping()
 	 * @see #getSchedulingPolicy()
 	 * @generated
 	 */
-	EAttribute getSchedulingPolicy_Grouping();
+	EAttribute getSchedulingPolicy_PolicyGrouping();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.SchedulingStrategy <em>Scheduling Strategy</em>}'.
@@ -3942,35 +4103,58 @@ public interface SchedulerPackage extends EPackage {
 	EClass getSchedulingStrategy();
 
 	/**
-	 * Returns the meta object for class '{@link scheduler.SolverAdapter <em>Solver Adapter</em>}'.
+	 * Returns the meta object for the containment reference '{@link scheduler.SchedulingStrategy#getOutput <em>Output</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Solver Adapter</em>'.
-	 * @see scheduler.SolverAdapter
+	 * @return the meta object for the containment reference '<em>Output</em>'.
+	 * @see scheduler.SchedulingStrategy#getOutput()
+	 * @see #getSchedulingStrategy()
 	 * @generated
 	 */
-	EClass getSolverAdapter();
+	EReference getSchedulingStrategy_Output();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link scheduler.SolverAdapter#getSolvers <em>Solvers</em>}'.
+	 * Returns the meta object for the containment reference list '{@link scheduler.SchedulingStrategy#getSolvers <em>Solvers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Solvers</em>'.
-	 * @see scheduler.SolverAdapter#getSolvers()
-	 * @see #getSolverAdapter()
+	 * @see scheduler.SchedulingStrategy#getSolvers()
+	 * @see #getSchedulingStrategy()
 	 * @generated
 	 */
-	EReference getSolverAdapter_Solvers();
+	EReference getSchedulingStrategy_Solvers();
 
 	/**
-	 * Returns the meta object for class '{@link scheduler.NumberJack <em>Number Jack</em>}'.
+	 * Returns the meta object for class '{@link scheduler.Solver <em>Solver</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Number Jack</em>'.
-	 * @see scheduler.NumberJack
+	 * @return the meta object for class '<em>Solver</em>'.
+	 * @see scheduler.Solver
 	 * @generated
 	 */
-	EClass getNumberJack();
+	EClass getSolver();
+
+	/**
+	 * Returns the meta object for the attribute '{@link scheduler.Solver#getTimeCutoff <em>Time Cutoff</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time Cutoff</em>'.
+	 * @see scheduler.Solver#getTimeCutoff()
+	 * @see #getSolver()
+	 * @generated
+	 */
+	EAttribute getSolver_TimeCutoff();
+
+	/**
+	 * Returns the meta object for the attribute '{@link scheduler.Solver#getVerboseLevel <em>Verbose Level</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Verbose Level</em>'.
+	 * @see scheduler.Solver#getVerboseLevel()
+	 * @see #getSolver()
+	 * @generated
+	 */
+	EAttribute getSolver_VerboseLevel();
 
 	/**
 	 * Returns the meta object for class '{@link scheduler.SCIP <em>SCIP</em>}'.
@@ -4603,12 +4787,12 @@ public interface SchedulerPackage extends EPackage {
 		EClass DEPENDENCY = eINSTANCE.getDependency();
 
 		/**
-		 * The meta object literal for the '<em><b>Dependency Item</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Dependency Items</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference DEPENDENCY__DEPENDENCY_ITEM = eINSTANCE.getDependency_DependencyItem();
+		EReference DEPENDENCY__DEPENDENCY_ITEMS = eINSTANCE.getDependency_DependencyItems();
 
 		/**
 		 * The meta object literal for the '<em><b>Relation</b></em>' attribute feature.
@@ -5085,20 +5269,20 @@ public interface SchedulerPackage extends EPackage {
 		EClass SCHEDULING_WINDOW = eINSTANCE.getSchedulingWindow();
 
 		/**
-		 * The meta object literal for the '<em><b>Begin</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Sched Begin</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SCHEDULING_WINDOW__BEGIN = eINSTANCE.getSchedulingWindow_Begin();
+		EAttribute SCHEDULING_WINDOW__SCHED_BEGIN = eINSTANCE.getSchedulingWindow_SchedBegin();
 
 		/**
-		 * The meta object literal for the '<em><b>Duration</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Sched Duration</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SCHEDULING_WINDOW__DURATION = eINSTANCE.getSchedulingWindow_Duration();
+		EAttribute SCHEDULING_WINDOW__SCHED_DURATION = eINSTANCE.getSchedulingWindow_SchedDuration();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.SchedulingPolicyImpl <em>Scheduling Policy</em>}' class.
@@ -5111,20 +5295,20 @@ public interface SchedulerPackage extends EPackage {
 		EClass SCHEDULING_POLICY = eINSTANCE.getSchedulingPolicy();
 
 		/**
-		 * The meta object literal for the '<em><b>Ranking</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Policy Ranking</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SCHEDULING_POLICY__RANKING = eINSTANCE.getSchedulingPolicy_Ranking();
+		EAttribute SCHEDULING_POLICY__POLICY_RANKING = eINSTANCE.getSchedulingPolicy_PolicyRanking();
 
 		/**
-		 * The meta object literal for the '<em><b>Grouping</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Policy Grouping</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute SCHEDULING_POLICY__GROUPING = eINSTANCE.getSchedulingPolicy_Grouping();
+		EAttribute SCHEDULING_POLICY__POLICY_GROUPING = eINSTANCE.getSchedulingPolicy_PolicyGrouping();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.SchedulingStrategyImpl <em>Scheduling Strategy</em>}' class.
@@ -5137,14 +5321,12 @@ public interface SchedulerPackage extends EPackage {
 		EClass SCHEDULING_STRATEGY = eINSTANCE.getSchedulingStrategy();
 
 		/**
-		 * The meta object literal for the '{@link scheduler.impl.SolverAdapterImpl <em>Solver Adapter</em>}' class.
+		 * The meta object literal for the '<em><b>Output</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see scheduler.impl.SolverAdapterImpl
-		 * @see scheduler.impl.SchedulerPackageImpl#getSolverAdapter()
 		 * @generated
 		 */
-		EClass SOLVER_ADAPTER = eINSTANCE.getSolverAdapter();
+		EReference SCHEDULING_STRATEGY__OUTPUT = eINSTANCE.getSchedulingStrategy_Output();
 
 		/**
 		 * The meta object literal for the '<em><b>Solvers</b></em>' containment reference list feature.
@@ -5152,17 +5334,33 @@ public interface SchedulerPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SOLVER_ADAPTER__SOLVERS = eINSTANCE.getSolverAdapter_Solvers();
+		EReference SCHEDULING_STRATEGY__SOLVERS = eINSTANCE.getSchedulingStrategy_Solvers();
 
 		/**
-		 * The meta object literal for the '{@link scheduler.impl.NumberJackImpl <em>Number Jack</em>}' class.
+		 * The meta object literal for the '{@link scheduler.Solver <em>Solver</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see scheduler.impl.NumberJackImpl
-		 * @see scheduler.impl.SchedulerPackageImpl#getNumberJack()
+		 * @see scheduler.Solver
+		 * @see scheduler.impl.SchedulerPackageImpl#getSolver()
 		 * @generated
 		 */
-		EClass NUMBER_JACK = eINSTANCE.getNumberJack();
+		EClass SOLVER = eINSTANCE.getSolver();
+
+		/**
+		 * The meta object literal for the '<em><b>Time Cutoff</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SOLVER__TIME_CUTOFF = eINSTANCE.getSolver_TimeCutoff();
+
+		/**
+		 * The meta object literal for the '<em><b>Verbose Level</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SOLVER__VERBOSE_LEVEL = eINSTANCE.getSolver_VerboseLevel();
 
 		/**
 		 * The meta object literal for the '{@link scheduler.impl.SCIPImpl <em>SCIP</em>}' class.

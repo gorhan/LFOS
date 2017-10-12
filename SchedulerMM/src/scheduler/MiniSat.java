@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface MiniSat extends NumberJack {
+public interface MiniSat extends Solver {
 } // MiniSat

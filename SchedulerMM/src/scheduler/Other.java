@@ -13,5 +13,5 @@ package scheduler;
  * @model
  * @generated
  */
-public interface Other extends NumberJack {
+public interface Other extends Solver {
 } // Other

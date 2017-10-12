@@ -73,8 +73,6 @@ public class SchedulerSwitch<T> extends Switch<T> {
 				if (result == null) result = caseSchedulingStrategy(scheduler);
 				if (result == null) result = caseSchedulingWindow(scheduler);
 				if (result == null) result = caseSchedulingPolicy(scheduler);
-				if (result == null) result = caseSolverAdapter(scheduler);
-				if (result == null) result = caseOutput(scheduler);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -298,83 +296,75 @@ public class SchedulerSwitch<T> extends Switch<T> {
 			case SchedulerPackage.SCHEDULING_STRATEGY: {
 				SchedulingStrategy schedulingStrategy = (SchedulingStrategy)theEObject;
 				T result = caseSchedulingStrategy(schedulingStrategy);
-				if (result == null) result = caseSolverAdapter(schedulingStrategy);
-				if (result == null) result = caseOutput(schedulingStrategy);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SchedulerPackage.SOLVER_ADAPTER: {
-				SolverAdapter solverAdapter = (SolverAdapter)theEObject;
-				T result = caseSolverAdapter(solverAdapter);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case SchedulerPackage.NUMBER_JACK: {
-				NumberJack numberJack = (NumberJack)theEObject;
-				T result = caseNumberJack(numberJack);
+			case SchedulerPackage.SOLVER: {
+				Solver solver = (Solver)theEObject;
+				T result = caseSolver(solver);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.SCIP: {
 				SCIP scip = (SCIP)theEObject;
 				T result = caseSCIP(scip);
-				if (result == null) result = caseNumberJack(scip);
+				if (result == null) result = caseSolver(scip);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.MINI_SAT: {
 				MiniSat miniSat = (MiniSat)theEObject;
 				T result = caseMiniSat(miniSat);
-				if (result == null) result = caseNumberJack(miniSat);
+				if (result == null) result = caseSolver(miniSat);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.MIP_WRAPPER: {
 				MipWrapper mipWrapper = (MipWrapper)theEObject;
 				T result = caseMipWrapper(mipWrapper);
-				if (result == null) result = caseNumberJack(mipWrapper);
+				if (result == null) result = caseSolver(mipWrapper);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.MISTRAL: {
 				Mistral mistral = (Mistral)theEObject;
 				T result = caseMistral(mistral);
-				if (result == null) result = caseNumberJack(mistral);
+				if (result == null) result = caseSolver(mistral);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.MISTRAL2: {
 				Mistral2 mistral2 = (Mistral2)theEObject;
 				T result = caseMistral2(mistral2);
-				if (result == null) result = caseNumberJack(mistral2);
+				if (result == null) result = caseSolver(mistral2);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.SAT_WRAPPER: {
 				SatWrapper satWrapper = (SatWrapper)theEObject;
 				T result = caseSatWrapper(satWrapper);
-				if (result == null) result = caseNumberJack(satWrapper);
+				if (result == null) result = caseSolver(satWrapper);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.TOULBAR2: {
 				Toulbar2 toulbar2 = (Toulbar2)theEObject;
 				T result = caseToulbar2(toulbar2);
-				if (result == null) result = caseNumberJack(toulbar2);
+				if (result == null) result = caseSolver(toulbar2);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.WALKSAT: {
 				Walksat walksat = (Walksat)theEObject;
 				T result = caseWalksat(walksat);
-				if (result == null) result = caseNumberJack(walksat);
+				if (result == null) result = caseSolver(walksat);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case SchedulerPackage.OTHER: {
 				Other other = (Other)theEObject;
 				T result = caseOther(other);
-				if (result == null) result = caseNumberJack(other);
+				if (result == null) result = caseSolver(other);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -900,32 +890,17 @@ public class SchedulerSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Solver Adapter</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Solver</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Solver Adapter</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Solver</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseSolverAdapter(SolverAdapter object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Number Jack</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Number Jack</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseNumberJack(NumberJack object) {
+	public T caseSolver(Solver object) {
 		return null;
 	}
 

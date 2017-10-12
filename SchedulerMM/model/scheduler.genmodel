@@ -107,7 +107,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Priority/priorityValue"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//Dependency">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/dependencyItem"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/dependencyItems"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Dependency/relation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//Dependency/mutexItems"/>
     </genClasses>
@@ -178,18 +178,21 @@
     <genClasses ecoreClass="scheduler.ecore#//ResourceObjective"/>
     <genClasses ecoreClass="scheduler.ecore#//TaskObjective"/>
     <genClasses ecoreClass="scheduler.ecore#//SchedulingWindow">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/begin"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/schedBegin"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingWindow/schedDuration"/>
     </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//SchedulingPolicy">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/ranking"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/grouping"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/policyRanking"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//SchedulingPolicy/policyGrouping"/>
     </genClasses>
-    <genClasses ecoreClass="scheduler.ecore#//SchedulingStrategy"/>
-    <genClasses ecoreClass="scheduler.ecore#//SolverAdapter">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//SolverAdapter/solvers"/>
+    <genClasses ecoreClass="scheduler.ecore#//SchedulingStrategy">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//SchedulingStrategy/output"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference scheduler.ecore#//SchedulingStrategy/solvers"/>
     </genClasses>
-    <genClasses ecoreClass="scheduler.ecore#//NumberJack"/>
+    <genClasses ecoreClass="scheduler.ecore#//Solver">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Solver/timeCutoff"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute scheduler.ecore#//Solver/verboseLevel"/>
+    </genClasses>
     <genClasses ecoreClass="scheduler.ecore#//SCIP"/>
     <genClasses ecoreClass="scheduler.ecore#//MiniSat"/>
     <genClasses ecoreClass="scheduler.ecore#//MipWrapper"/>
