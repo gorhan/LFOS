@@ -38,3 +38,7 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
 
     def is_preemptive(self):
         return self.__preemptive
+
+    def set_priority_assignment(self, p_assign):
+        if p_assign == PriorityAssignmentTypes.FIXED or p_assign == PriorityAssignmentTypes.DYNAMIC:
+            self.__priority_assignment = p_assign

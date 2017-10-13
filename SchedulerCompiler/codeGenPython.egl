@@ -54,8 +54,19 @@ from LFOS.macros import *
 [%=solver.initializeScheduler()%]
 [%=solver.determineSchedWindow(aScheduler.schedBegin, aScheduler.schedDuration)%]
 [%=solver.addTasks2Scheduler(tasks)%]
+[%=solver.setAttribute("set_migration", aScheduler.migration.asString(), true, "")%]
+[%=solver.setAttribute("set_preemptive", "True", aScheduler.preemptive, "False")%]
+[%=solver.setAttribute("set_priority_assignment", aScheduler.priorityAssignment.asString(), true, "")%]
 [%=solver.setSchedulingPolicy(aScheduler.policyRanking.asString(), aScheduler.policyGrouping)%]
 [%=solver.setSchedulingObjective(aScheduler.objectives)%]
+
+schdules = [%=solver.getVariableName()%].schedule_tasks()
+for schedule in schedules:
+[%		if(aScheduler.output.isKindOf(Plot)) {%]
+	schedule.plot_schedule()
+[%		} else {%]
+	print schedule
+[%		}%]
 
 [%	}%]
 
@@ -120,6 +131,12 @@ from LFOS.macros import *
 			genCode += self.getVariableName() + ".set_objective(" + purpose + ", " + criteria + ")\n";
 		}
 		return genCode;
+	}
+	
+	operation Any setAttribute(ins_func : String, true_stmt : String, cond : Boolean, false_stmt : String) : String {
+		if(not cond)
+			true_stmt = false_stmt;
+		return self.getVariableName() + "." + ins_func + "(" + true_stmt + ")";
 	}
 
 	operation AbstractTask generateTaskConstructionCode(begin : Integer, end : Integer) : String {

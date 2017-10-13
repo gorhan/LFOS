@@ -134,7 +134,7 @@ public class SchedulingCharacteristicImpl extends SchedulingWindowImpl implement
 	 * @generated
 	 * @ordered
 	 */
-	protected static final MigrationType MIGRATION_EDEFAULT = MigrationType.JOB_LEVEL;
+	protected static final MigrationType MIGRATION_EDEFAULT = MigrationType.JOB_LEVEL_MIGRATION;
 
 	/**
 	 * The cached value of the '{@link #getMigration() <em>Migration</em>}' attribute.

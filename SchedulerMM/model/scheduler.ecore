@@ -171,8 +171,8 @@
     <eLiterals name="ONLINE" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="MigrationType">
-    <eLiterals name="JOB_LEVEL"/>
-    <eLiterals name="TASK_LEVEL" value="1"/>
+    <eLiterals name="JOB_LEVEL_MIGRATION"/>
+    <eLiterals name="TASK_LEVEL_MIGRATION" value="1"/>
     <eLiterals name="NON_MIGRATION" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PriorityAssignmentType">

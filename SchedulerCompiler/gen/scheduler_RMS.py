@@ -64,14 +64,28 @@ scheduler_SCIP = Scheduler(solver=SCIP, verbose=10, time_cutoff=10)
 scheduler_SCIP.set_scheduling_window_start_time(Time(0))
 scheduler_SCIP.set_scheduling_window_start_duration(Time(0))
 scheduler_SCIP.add_task_in_bundle(Task_1_NA, Task_2_NA)
+scheduler_SCIP.set_migration(JOB_LEVEL_MIGRATION)
+scheduler_SCIP.set_preemptive(True)
+scheduler_SCIP.set_priority_assignment(FIXED)
 scheduler_SCIP.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler_SCIP.get_taskset())
 scheduler_SCIP.set_objective(Maxi(), ObjectiveLateness())
+
+schdules = scheduler_SCIP.schedule_tasks()
+for schedule in schedules:
+	schedule.plot_schedule()
 
 scheduler_Mistral2 = Scheduler(solver=Mistral2, verbose=1, time_cutoff=10)
 scheduler_Mistral2.set_scheduling_window_start_time(Time(0))
 scheduler_Mistral2.set_scheduling_window_start_duration(Time(0))
 scheduler_Mistral2.add_task_in_bundle(Task_1_NA, Task_2_NA)
+scheduler_Mistral2.set_migration(JOB_LEVEL_MIGRATION)
+scheduler_Mistral2.set_preemptive(True)
+scheduler_Mistral2.set_priority_assignment(FIXED)
 scheduler_Mistral2.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler_Mistral2.get_taskset())
 scheduler_Mistral2.set_objective(Maxi(), ObjectiveLateness())
+
+schdules = scheduler_Mistral2.schedule_tasks()
+for schedule in schedules:
+	schedule.plot_schedule()
 
 

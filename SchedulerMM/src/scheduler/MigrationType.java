@@ -19,26 +19,22 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum MigrationType implements Enumerator {
 	/**
-	 * The '<em><b>JOB LEVEL</b></em>' literal object.
+	 * The '<em><b>JOB LEVEL MIGRATION</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #JOB_LEVEL_VALUE
+	 * @see #JOB_LEVEL_MIGRATION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	JOB_LEVEL(0, "JOB_LEVEL", "JOB_LEVEL"),
-
-	/**
-	 * The '<em><b>TASK LEVEL</b></em>' literal object.
+	JOB_LEVEL_MIGRATION(0, "JOB_LEVEL_MIGRATION", "JOB_LEVEL_MIGRATION"), /**
+	 * The '<em><b>TASK LEVEL MIGRATION</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #TASK_LEVEL_VALUE
+	 * @see #TASK_LEVEL_MIGRATION_VALUE
 	 * @generated
 	 * @ordered
 	 */
-	TASK_LEVEL(1, "TASK_LEVEL", "TASK_LEVEL"),
-
-	/**
+	TASK_LEVEL_MIGRATION(1, "TASK_LEVEL_MIGRATION", "TASK_LEVEL_MIGRATION"), /**
 	 * The '<em><b>NON MIGRATION</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -49,34 +45,34 @@ public enum MigrationType implements Enumerator {
 	NON_MIGRATION(2, "NON_MIGRATION", "NON_MIGRATION");
 
 	/**
-	 * The '<em><b>JOB LEVEL</b></em>' literal value.
+	 * The '<em><b>JOB LEVEL MIGRATION</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>JOB LEVEL</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>JOB LEVEL MIGRATION</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #JOB_LEVEL
+	 * @see #JOB_LEVEL_MIGRATION
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int JOB_LEVEL_VALUE = 0;
+	public static final int JOB_LEVEL_MIGRATION_VALUE = 0;
 
 	/**
-	 * The '<em><b>TASK LEVEL</b></em>' literal value.
+	 * The '<em><b>TASK LEVEL MIGRATION</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>TASK LEVEL</b></em>' literal object isn't clear,
+	 * If the meaning of '<em><b>TASK LEVEL MIGRATION</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @see #TASK_LEVEL
+	 * @see #TASK_LEVEL_MIGRATION
 	 * @model
 	 * @generated
 	 * @ordered
 	 */
-	public static final int TASK_LEVEL_VALUE = 1;
+	public static final int TASK_LEVEL_MIGRATION_VALUE = 1;
 
 	/**
 	 * The '<em><b>NON MIGRATION</b></em>' literal value.
@@ -101,8 +97,8 @@ public enum MigrationType implements Enumerator {
 	 */
 	private static final MigrationType[] VALUES_ARRAY =
 		new MigrationType[] {
-			JOB_LEVEL,
-			TASK_LEVEL,
+			JOB_LEVEL_MIGRATION,
+			TASK_LEVEL_MIGRATION,
 			NON_MIGRATION,
 		};
 
@@ -160,8 +156,8 @@ public enum MigrationType implements Enumerator {
 	 */
 	public static MigrationType get(int value) {
 		switch (value) {
-			case JOB_LEVEL_VALUE: return JOB_LEVEL;
-			case TASK_LEVEL_VALUE: return TASK_LEVEL;
+			case JOB_LEVEL_MIGRATION_VALUE: return JOB_LEVEL_MIGRATION;
+			case TASK_LEVEL_MIGRATION_VALUE: return TASK_LEVEL_MIGRATION;
 			case NON_MIGRATION_VALUE: return NON_MIGRATION;
 		}
 		return null;

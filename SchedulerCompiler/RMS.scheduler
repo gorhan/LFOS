@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" name="RMS">
   <objectives/>
+  <output xsi:type="scheduler:Plot"/>
   <solvers xsi:type="scheduler:SCIP"/>
   <solvers xsi:type="scheduler:Mistral2" verboseLevel="1"/>
   <taskset xsi:type="scheduler:TaskT" period="6" deadline="6" name="Task_1" type="NA">

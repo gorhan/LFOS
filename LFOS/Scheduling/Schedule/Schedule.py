@@ -184,20 +184,27 @@ class Schedule:
 
     def __str__(self):
         prnt_str = ''
-        reserved = '#'
-        n_reserved = ' '
+        n_reserved = '#'
         seperator = '|'
 
         tm_res = Time.get_time_resolution()
         l_time_slots = np.arange(self.__begin, self.__end + tm_res, tm_res)
+        task_table = {job:i for i, job in enumerate(self.__jobs)}
 
-        prnt_str += ' ' * 15
-        prnt_str += ' '.join(['%10s' % tm for tm in l_time_slots]) + '\n'
+        prnt_str += '%16s' % ('Reosurce Name')
+        prnt_str += ' '.join([str(tm).center(6) for tm in l_time_slots]) + '\n'
 
-        for resource, reservations in self.__schedule.items():
+        for resource, reservations in sorted(self.__schedule.items(), key=lambda r: r[0].get_resource_name(), reverse=True):
             prnt_str += '%15s: ' % resource.get_resource_name()
-            for reservation in reservations:
-                print 'TODO'
+            for t in l_time_slots:
+                reserved = self.search_overlapping_jobs(resource, t, t+1)
+                if reserved:
+                    prnt_str += ('%s' % task_table['%s::%s' % (reserved[0].get_attr('name'), reserved[0].get_attr('type'))]).center(5) + seperator
+                else:
+                    prnt_str += n_reserved.center(5) + seperator
+            prnt_str += '\n'
+
+        return prnt_str
 
     def __reset_schedule_plot(self):
         for reservations in self.__schedule.values():

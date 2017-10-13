@@ -46,8 +46,8 @@
       <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//SchedulingType/ONLINE"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//MigrationType">
-      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/JOB_LEVEL"/>
-      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/TASK_LEVEL"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/JOB_LEVEL_MIGRATION"/>
+      <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/TASK_LEVEL_MIGRATION"/>
       <genEnumLiterals ecoreEnumLiteral="scheduler.ecore#//MigrationType/NON_MIGRATION"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="scheduler.ecore#//PriorityAssignmentType">

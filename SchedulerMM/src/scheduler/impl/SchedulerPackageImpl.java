@@ -2225,8 +2225,8 @@ public class SchedulerPackageImpl extends EPackageImpl implements SchedulerPacka
 		addEEnumLiteral(schedulingTypeEEnum, SchedulingType.ONLINE);
 
 		initEEnum(migrationTypeEEnum, MigrationType.class, "MigrationType");
-		addEEnumLiteral(migrationTypeEEnum, MigrationType.JOB_LEVEL);
-		addEEnumLiteral(migrationTypeEEnum, MigrationType.TASK_LEVEL);
+		addEEnumLiteral(migrationTypeEEnum, MigrationType.JOB_LEVEL_MIGRATION);
+		addEEnumLiteral(migrationTypeEEnum, MigrationType.TASK_LEVEL_MIGRATION);
 		addEEnumLiteral(migrationTypeEEnum, MigrationType.NON_MIGRATION);
 
 		initEEnum(priorityAssignmentTypeEEnum, PriorityAssignmentType.class, "PriorityAssignmentType");
