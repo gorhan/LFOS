@@ -30,8 +30,8 @@ if __name__ == '__main__':
     jobs = None
     if len(sys.argv) == 2:
         jobs = read_from_file(sys.argv[1])
-        print jobs
-        raw_input('Wait')
+        # print jobs
+        # raw_input('Wait')
     else:
         jobs = [
             [(0, 3), (1, 2), (2, 2)],
@@ -68,7 +68,8 @@ if __name__ == '__main__':
 
             if o > 0:
                 required_token = 'Token_%02d_%02d' % (j+1, o)
-                job.add_dependency(AND(), required_token, 1)
+                job.set_logical_relation(AND())
+                job.add_dependency(required_token, 1)
 
             print job.info(True)
             scheduler.add_task(job)

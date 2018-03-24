@@ -17,7 +17,7 @@ def generate_timing_attributes(n_tasks):
         exec_time = randint(3, 8)
         deadline = randint(release_time+exec_time+5, 40)
         period = randint(exec_time+5, 20)
-        print 'Release_time=%d, Execution_time=%d, Deadline=%d, Period=%d' % (release_time, exec_time, deadline, period)
+        # print 'Release_time=%d, Execution_time=%d, Deadline=%d, Period=%d' % (release_time, exec_time, deadline, period)
         timing_attrs.append([release_time, exec_time, deadline, period])
 
     return timing_attrs
@@ -50,13 +50,13 @@ for ind, task in enumerate(tasks):
     task_ins.set_period(Time(task[3]))
     task_ins.add_resource_requirement(resource_type=cpu_t, eligible_resources={cpu:Time(task[1])}, capacity=1)
 
-    print task_ins.info(True)
+    # print task_ins.info(True)
 
     task_instances.append(task_ins)
 
 
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
-scheduler.add_task_in_bundle(*task_instances)
+scheduler.add_tasks_in_bundle(*task_instances)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.RM, scheduler.get_taskset())
 

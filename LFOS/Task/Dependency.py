@@ -64,10 +64,16 @@ class Dependency:
     def __getattr__(self, item):
         getattr(self.__list, item)()
 
-    def add_dependency(self, relation, *p_object):
-        assert isinstance(relation, Logical)
-        self.__logical_relation = relation
-        
+    def set_logical_relation(self, relation):
+        try:
+            assert isinstance(relation, Logical)
+            self.__logical_relation = relation
+        except AssertionError:
+            LOG(msg='Given relation is not instance of the type Logical..', log=Logs.ERROR)
+            return False
+        return True
+
+    def add_dependency(self, *p_object):
         dep_item = None
         if len(p_object) == 2 or len(p_object) == 3:
             dep_item = DependencyItem(*p_object)

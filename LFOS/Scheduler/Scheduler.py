@@ -30,7 +30,7 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
         LOG(msg='Given parameter is not a task or already in the taskset.', log=Logs.ERROR)
         return False
 
-    def add_task_in_bundle(self, *task_list):
+    def add_tasks_in_bundle(self, *task_list):
         for task in task_list:
             self.add_task(task)
         self.update_taskset(self.__taskset)

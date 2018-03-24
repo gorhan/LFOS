@@ -69,18 +69,20 @@ task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_1', typ
 task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(2), cpu2: Time(2)}, capacity=1)
 task_3.add_resource_requirement(resource_type=memory_t, capacity=140)
 # task_3.add_dependency('__Task_1__', 1, Time(2))
-task_3.add_dependency(OR(), '__Task_1_1__', 1, Time(3))
-task_3.add_dependency(OR(), '__Task_1_2__', 1, Time(2))
+task_3.set_logical_relation(OR())
+task_3.add_dependency('__Task_1_1__', 1, Time(3))
+task_3.add_dependency('__Task_1_2__', 1, Time(2))
 print task_3.info(True)
 task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_2', type='Default', phase=Time(8), deadline=Time(11), periodicity=PeriodicityTypeList.APERIODIC)
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
-task_4.add_dependency(OR(), '__Task_1_1__', 1, Time(1))
-task_4.add_dependency(OR(), '__Task_1_2__', 1, Time(2))
+task_4.set_logical_relation(OR())
+task_4.add_dependency('__Task_1_1__', 1, Time(1))
+task_4.add_dependency('__Task_1_2__', 1, Time(2))
 print task_4.info(True)
 
 scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 
-scheduler.add_task_in_bundle(task_1, task_2, task_3, task_4)
+scheduler.add_tasks_in_bundle(task_1, task_2, task_3, task_4)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
 
@@ -89,7 +91,7 @@ scheduler.set_scheduling_window_start_time(Time(0))
 scheduler.set_scheduling_window_duration(Time(18))
 
 purpose, objective = None, None
-if len(scheduler.get_taskset()) < 5:
+if len(scheduler.get_taskset()) < 2:
     LOG(msg='Objective: Power Consumption')
     purpose, objective = Mini(), ObjectivePowerConsumption()
 else:

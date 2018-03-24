@@ -42,3 +42,10 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
     def set_priority_assignment(self, p_assign):
         if p_assign == PriorityAssignmentTypes.FIXED or p_assign == PriorityAssignmentTypes.DYNAMIC:
             self.__priority_assignment = p_assign
+
+    def set_scheduling_type(self, _type):
+        if not SchedulingTypes.is_class_var(_type):
+            return False
+
+        self.__type = _type
+        return True

@@ -51,8 +51,9 @@ for i, row in enumerate(jobs):
 
         job.add_resource_requirement(resource_type=resource_t, eligible_resources={resources[i]: Time(wcet)}, capacity=1)
         for token in required_tokens:
-            job.add_dependency(AND(), token, 1)
-        print job.info(True)
+            job.set_logical_relation(AND())
+            job.add_dependency(token, 1)
+        # print job.info(True)
         scheduler.add_task(job)
 
 scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.SJF, scheduler.get_taskset())
@@ -68,7 +69,8 @@ for task in scheduler.get_taskset():
     i, j = map(lambda x: int(x), token.split('_')[-2:])
 
     if j > 1:
-        task.add_dependency(AND(), 'Token_%02d_%02d' % (i, j-1), 1)
+        task.set_logical_relation(AND())
+        task.add_dependency('Token_%02d_%02d' % (i, j-1), 1)
 
 schedules = scheduler.schedule_tasks()
 for schedule in schedules:

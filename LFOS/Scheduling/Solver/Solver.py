@@ -64,12 +64,27 @@ class SolverAdapter(object):
     def get_solver_type(self):
         return self.__solver_type
 
+    def set_solver_parameter(self, **kwargs):
+        if "solver" in kwargs:
+            self.set_solver_type(kwargs["solver"])
+        elif "verbose" in kwargs:
+            self.__verbose = kwargs["verbose"]
+        elif "time_cutoff" in kwargs:
+            self.__time_cutoff = kwargs["time_cutoff"]
+        else:
+            return False
+
+        return True
+
     @classmethod
     def get_solver_types(cls):
         return available_solvers()
 
     def _define_variables(self, jobs, resources, token_pool, objective, sched_begin, sched_end):
         # assert isinstance(token_pool, TokenPool)
+        import time
+        LOG(msg='TIME BEFORE SPECIFYING CONSTRAINTS: %.5f' % time.time(), log=Logs.ERROR)
+
         self.__optimized = False
         self.__jobs = jobs
         self.__resources = resources.for_each_sub_terminal_resource()
@@ -186,7 +201,7 @@ class SolverAdapter(object):
                     #                      And([self.__AuxWorking[job][t] == 0, self.__End[job][t+1] == 0])
                     #                      ])]))
                 if not job.is_preemptable():
-                    print 'NOT PREEMPTABLE'
+                    # print 'NOT PREEMPTABLE'
                     self.__model += (Sum(req_capacity * (self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) for t in range(release_time, deadline)) == Sum(self.__AuxWorking[job][release_time:deadline]))
 
             # TODO: The constraints for passive resource requirements have to be implemented.
@@ -206,17 +221,17 @@ class SolverAdapter(object):
                 for t in range(release_time, deadline):
                     self.__model += (Sum(self.__Allocation[resource, job][t] for resource in excluded_passive_resources) == 0)
 
-            print 'OUTPUT', job.info(False), ['%s=%d' % (token, job.get_token_number_wrt_token(token)) for token in self.__token_pool.keys()]
-            print 'INPUT', job.info(False), ['%s=%d' % (token, job.get_required_token_number(token)[1]) for token in self.__token_pool.keys()]
+            # print 'OUTPUT', job.info(False), ['%s=%d' % (token, job.get_token_number_wrt_token(token)) for token in self.__token_pool.keys()]
+            # print 'INPUT', job.info(False), ['%s=%d' % (token, job.get_required_token_number(token)[1]) for token in self.__token_pool.keys()]
 
             m_exclusive_jobs = job.get_m_exclusion_list()
             for e_job in m_exclusive_jobs:
-                print '?' * 25, e_job.introduce()
+                # print '?' * 25, e_job.introduce()
                 # self.__model += ((Sum(self.__Allocation[resource, job][t] for resource in self.__resources) < 1) |
                 #                  (Sum(self.__Allocation[resource, e_job][t] for resource in self.__resources) < 1))
                 self.__model += ( (Sum( (self.__Start[job][t] * t) - (self.__End[e_job][t] * t) for t in range(self.__sched_window_duration) ) >= 0) |
                                   (Sum( (self.__Start[e_job][t] * t) - (self.__End[job][t] * t) for t in range(self.__sched_window_duration) ) >= 0))
-            print '-' * 25
+            # print '-' * 25
 
         for t in range(self.__sched_window_duration):
             # Token constraints
@@ -282,8 +297,8 @@ class SolverAdapter(object):
                 for exc_resource in exclusive_resources:
                     for t in range(self.__sched_window_duration):
                         self.__model += (Sum(self.__Allocation[resource, job][t] for job in self.__jobs) * Sum(self.__Allocation[exc_resource, job][t] for job in self.__jobs) == 0)
-        for job in self.__jobs:
-            print 'PRIORITY', job.introduce(), job.get_priority()
+        # for job in self.__jobs:
+            # print 'PRIORITY', job.introduce(), job.get_priority()
 
         isinstance(self.__objective, Objective)
         obj_expr = None
