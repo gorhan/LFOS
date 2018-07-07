@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" preemptive="false" migration="NON_MIGRATION">
+  <taskset xsi:type="scheduler:TaskT" name="Finish" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="filter-1" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform"/>
+  <taskset xsi:type="scheduler:TaskT" name="setTransformParams" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="extract-1" type="->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="setCorrespondences" type="->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <taskset xsi:type="scheduler:TaskT" name="extract-2" type="->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="Transform" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputData-1" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="setFilterParams-2" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform"/>
+  <taskset xsi:type="scheduler:TaskT" name="Match" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputData-2" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputSrcData" type="->Match->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputDstData" type="->Match->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <taskset xsi:type="scheduler:TaskT" name="filter-2" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform"/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputData-1" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="Match" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="transform" type="->FineTransform->ICP->NLinearICP->LinearICP"/>
+  <taskset xsi:type="scheduler:TaskT" name="getCorrespondences" type="->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputDstData" type="->Match->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <taskset xsi:type="scheduler:TaskT" name="Transform" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="Input-Filter" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="setFilterParams-1" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform"/>
+  <taskset xsi:type="scheduler:TaskT" name="calibrate" type="->CalibratedInput"/>
+  <taskset xsi:type="scheduler:TaskT" name="Start" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="setMatchParams" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputData-2" type="->Filter->NoiseRemoval->StatisticalOutlierRemoval->RadiusOutlierRemoval->PassThroughFilter->Sampling->VoxelGrid->Uniform->FExtract->NARF->SIFT->FPFH"/>
+  <taskset xsi:type="scheduler:TaskT" name="FExtract-Match" type=""/>
+  <taskset xsi:type="scheduler:TaskT" name="getData" type="->Input->CalibratedInput"/>
+  <taskset xsi:type="scheduler:TaskT" name="setInputSrcData" type="->Match->Transform->FineTransform->ICP->NLinearICP->LinearICP->CoarseTransform->FPCA_IA->SAC_IA"/>
+  <System resourceMode="CB_AND_SB_EXCLUSIVE" name="System" belongs="//@resourceTypes.0">
+    <subResources xsi:type="scheduler:ResourceC" resourceMode="CB_AND_SB_EXCLUSIVE" name="Node01" belongs="//@resourceTypes.0">
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="CPU0101" capacity="1" belongs="//@resourceTypes.1">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@subResources.0/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="MEM0101" capacity="256" belongs="//@resourceTypes.2">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@subResources.1/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+    </subResources>
+    <subResources xsi:type="scheduler:ResourceC" resourceMode="CB_AND_SB_EXCLUSIVE" name="Node02" belongs="//@resourceTypes.0">
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="CPU0201" capacity="1" belongs="//@resourceTypes.1">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.1/@subResources.0/@power/@maxState">
+          <maxState scale="1.0" powerConsumption="120.0"/>
+          <minState scale="0.5" powerConsumption="50.0"/>
+        </power>
+      </subResources>
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="MEM0201" capacity="512" belongs="//@resourceTypes.2">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.1/@subResources.1/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+    </subResources>
+  </System>
+  <resourceTypes has="//@System //@System/@subResources.0 //@System/@subResources.1" identifier="COMPOSITE_t" abstraction="COMPOSITE"/>
+  <resourceTypes has="//@System/@subResources.0/@subResources.0 //@System/@subResources.1/@subResources.0" identifier="CPU_t"/>
+  <resourceTypes has="//@System/@subResources.0/@subResources.1 //@System/@subResources.1/@subResources.1" identifier="MEM_t" abstraction="PASSIVE"/>
+</scheduler:Scheduler>

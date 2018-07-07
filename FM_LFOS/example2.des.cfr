@@ -1,0 +1,279 @@
+abstract 1 .. 1 c0_objective_purpose 0 .. * {
+  0 .. * c0_maxi 0 .. 1 {
+    }
+  0 .. * c0_mini 0 .. 1 {
+    }
+  }
+abstract 1 .. * c0_time_related_objective_criteria 0 .. * {
+  0 .. * c0_makespan 0 .. 1 {
+    }
+  0 .. * c0_tardiness 0 .. 1 {
+    }
+  0 .. * c0_earliness 0 .. 1 {
+    }
+  0 .. * c0_lateness 0 .. 1 {
+    }
+  0 .. * c0_centering 0 .. 1 {
+    }
+  }
+abstract 1 .. * c0_resource_related_objective_criteria 0 .. * {
+  0 .. * c0_power_consumption_criteria 0 .. 1 {
+    }
+  0 .. * c0_utilization_criteria 0 .. 1 {
+    }
+  0 .. * c0_throughput_criteria 0 .. 1 {
+    }
+  }
+abstract 1 .. * c0_abstract_objective_criteria 0 .. * {
+  0 .. * c0_task_related_user_defined_criteria 0 .. 1 {
+    }
+  0 .. * c0_resource_related_user_defined_criteria 0 .. 1 {
+    }
+  }
+abstract 0 .. * c0_task_related_objective 0 .. * {
+  1 .. 1 c0_purpose : c0_objective_purpose 1 .. 1 {
+    }
+  1 .. * c0_criteria 1 .. 1 {
+    1 .. * c1_time_related_objective_criteria : c0_time_related_objective_criteria 0 .. 1 {
+      }
+    1 .. * c1_abstract_objective_criteria : c0_abstract_objective_criteria 0 .. 1 {
+      [some this . c0_task_related_user_defined_criteria && no this . c0_resource_related_user_defined_criteria]
+    }
+    }
+  }
+abstract 0 .. * c0_resource_related_objective 0 .. * {
+  1 .. 1 c1_purpose : c0_objective_purpose 1 .. 1 {
+    }
+  1 .. * c1_criteria 1 .. 1 {
+    1 .. * c1_resource_related_objective_criteria : c0_resource_related_objective_criteria 0 .. 1 {
+      }
+    1 .. * c2_abstract_objective_criteria : c0_abstract_objective_criteria 0 .. 1 {
+      [no this . c0_task_related_user_defined_criteria && some this . c0_resource_related_user_defined_criteria]
+    }
+    }
+  }
+abstract 0 .. * c0_global_objective 0 .. * {
+  1 .. 1 c2_purpose : c0_objective_purpose 1 .. 1 {
+    }
+  1 .. * c2_criteria 1 .. 1 {
+    1 .. * c2_time_related_objective_criteria : c0_time_related_objective_criteria 0 .. 1 {
+      }
+    1 .. * c2_resource_related_objective_criteria : c0_resource_related_objective_criteria 0 .. 1 {
+      }
+    1 .. * c3_abstract_objective_criteria : c0_abstract_objective_criteria 0 .. 1 {
+      }
+    }
+  }
+abstract 0 .. * c0_resource 0 .. * {
+  0 .. * c0_capacity 1 .. 1 {
+    }
+  0 .. * c0_resource_type 1 .. 1 {
+    1 .. 1 c0_abstraction 1 .. 1 {
+      0 .. * c0_ACTIVE 0 .. 1 {
+        }
+      0 .. * c0_PASSIVE 0 .. 1 {
+        }
+      0 .. * c0_COMPOSITE 0 .. 1 {
+        }
+      }
+    0 .. * c0_identifier 1 .. 1 {
+      }
+    }
+  1 .. 1 c0_mode 1 .. 1 {
+    0 .. * c0_shared 0 .. 1 {
+      }
+    1 .. * c0_exclusive 0 .. 1 {
+      0 .. * c0_capacity_based 0 .. 1 {
+        }
+      0 .. * c0_semantic_based 0 .. 1 {
+        }
+      }
+    }
+  0 .. * c0_power_consumption 1 .. 1 {
+    1 .. 1 c0_scalable 0 .. 1 {
+      0 .. * c0_discrete 0 .. 1 {
+        }
+      0 .. * c0_continuous 0 .. 1 {
+        }
+      }
+    [some this . c0_scalable => some this . parent . c0_resource_type . c0_abstraction . c0_ACTIVE]
+  }
+  0 .. * c0_objective : c0_resource_related_objective 0 .. 1 {
+    }
+  }
+abstract 0 .. * c0_timing 0 .. * {
+  0 .. * c0_release_time 1 .. 1 {
+    }
+  0 .. * c0_execution_time 1 .. 1 {
+    }
+  0 .. * c0_deadline 1 .. 1 {
+    }
+  1 .. 1 c0_periodicity 1 .. 1 {
+    0 .. * c0_periodic 0 .. 1 {
+      }
+    0 .. * c0_aperiodic 0 .. 1 {
+      0 .. * c0_sporadic 0 .. 1 {
+        }
+      }
+    }
+  }
+abstract 0 .. * c0_resource_requirement 0 .. * {
+  0 .. * c0_eligible_resources -> c0_resource 1 .. * {
+    }
+  0 .. * c0_resource_identifier 1 .. 1 {
+    }
+  }
+abstract 0 .. * c0_requirement 0 .. * {
+  1 .. 1 c0_deadline_requirement 1 .. 1 {
+    0 .. * c0_hard 0 .. 1 {
+      }
+    0 .. * c0_soft 0 .. 1 {
+      }
+    0 .. * c0_firm 0 .. 1 {
+      }
+    }
+  0 .. * c0_required_resources -> c0_resource_requirement 1 .. * {
+    }
+  [no res : this . c0_required_resources . dref . c0_eligible_resources | some res . dref . c0_resource_type . c0_abstraction . c0_COMPOSITE]
+}
+abstract 0 .. * c0_task 0 .. * {
+  1 .. 1 c0_granularity 1 .. 1 {
+    0 .. * c0_terminal 0 .. 1 {
+      }
+    0 .. * c0_composite 0 .. 1 {
+      }
+    }
+  0 .. * c1_timing : c0_timing 1 .. 1 {
+    }
+  0 .. * c0_priority 1 .. 1 {
+    }
+  0 .. * c0_preemptable 0 .. 1 {
+    0 .. * c0_cooperative 0 .. 1 {
+      }
+    }
+  0 .. * c1_requirement : c0_requirement 1 .. 1 {
+    }
+  0 .. * c1_objective : c0_task_related_objective 0 .. 1 {
+    }
+  0 .. * c0_dependency 0 .. 1 {
+    0 .. * c0_token_type 1 .. 1 {
+      }
+    0 .. * c0_n_tokens 1 .. 1 {
+      }
+    0 .. * c0_sequence_dependent_setup_time 1 .. 1 {
+      }
+    }
+  }
+abstract 0 .. * c0_scheduling_policy 0 .. * {
+  0 .. * c0_grouping 0 .. 1 {
+    }
+  1 .. 1 c0_ranking 1 .. 1 {
+    1 .. 1 c0_default 0 .. 1 {
+      0 .. * c0_ERT 0 .. 1 {
+        }
+      0 .. * c0_ED 0 .. 1 {
+        }
+      0 .. * c0_RM 0 .. 1 {
+        }
+      0 .. * c0_SJF 0 .. 1 {
+        }
+      0 .. * c0_FIFO 0 .. 1 {
+        }
+      }
+    0 .. * c0_user_defined 0 .. 1 {
+      }
+    }
+  }
+abstract 0 .. * c0_scheduling_characteristic 0 .. * {
+  1 .. 1 c0_scheduling_characteristic_type 1 .. 1 {
+    0 .. * c0_online 0 .. 1 {
+      }
+    0 .. * c0_offline 0 .. 1 {
+      }
+    }
+  0 .. * c0_preemptive 0 .. 1 {
+    }
+  1 .. 1 c0_migration 0 .. 1 {
+    0 .. * c0_task_level 0 .. 1 {
+      }
+    0 .. * c0_job_level 0 .. 1 {
+      }
+    }
+  0 .. * c0_policy : c0_scheduling_policy 1 .. 1 {
+    }
+  0 .. * c0_time_resolution 1 .. 1 {
+    }
+  1 .. 1 c0_priority_assignment 1 .. 1 {
+    0 .. * c0_fixed 0 .. 1 {
+      }
+    0 .. * c0_dynamic 0 .. 1 {
+      }
+    }
+  0 .. * c0_scheduling_window 1 .. 1 {
+    }
+  0 .. * c2_objective -> c0_global_objective 1 .. * {
+    }
+  }
+abstract 1 .. * c0_solver 0 .. * {
+  0 .. * c0_IBM_ILOG_CPLEX_Optimizer 0 .. 1 {
+    }
+  0 .. * c0_SCIP_SoPlex 0 .. 1 {
+    }
+  0 .. * c0_Knapsack 0 .. 1 {
+    }
+  0 .. * c0_SAS_OR_R 0 .. 1 {
+    }
+  }
+abstract 0 .. * c0_DSLB 0 .. * {
+  0 .. * c0_name -> string 1 .. 1 {
+    }
+  [this . c0_name . dref = "Domain-Specific Language Based"]
+}
+abstract 0 .. * c0_DSB 0 .. * {
+  0 .. * c1_name -> string 1 .. 1 {
+    }
+  [this . c1_name . dref = "Domain Structure Based"]
+}
+abstract 1 .. * c0_input 0 .. * {
+  0 .. * c1_DSLB : c0_DSLB 0 .. 1 {
+    }
+  0 .. * c1_DSB : c0_DSB 0 .. 1 {
+    }
+  }
+abstract 1 .. * c0_output 0 .. * {
+  0 .. * c2_DSLB : c0_DSLB 0 .. 1 {
+    }
+  0 .. * c2_DSB : c0_DSB 0 .. 1 {
+    }
+  }
+abstract 0 .. * c0_scheduling_strategy 0 .. * {
+  1 .. * c1_solver : c0_solver 1 .. 1 {
+    }
+  0 .. * c0_solver_meta_knowledge 1 .. 1 {
+    }
+  1 .. * c1_input : c0_input 1 .. 1 {
+    }
+  1 .. * c1_output : c0_output 1 .. 1 {
+    }
+  }
+abstract 0 .. * c0_scheduler 0 .. * {
+  0 .. * c0_system -> c0_resource 1 .. * {
+    }
+  0 .. * c0_taskset -> c0_task 1 .. * {
+    }
+  0 .. * c0_properties : c0_scheduling_characteristic 1 .. 1 {
+    }
+  0 .. * c0_strategy : c0_scheduling_strategy 0 .. 1 {
+    }
+  }
+0 .. * c0_machine : c0_resource 1 .. 1 {
+  }
+[some c0_machine . c0_resource_type . c0_abstraction . c0_ACTIVE && some c0_machine . c0_mode . c0_exclusive . c0_capacity_based && no c0_machine . c0_power_consumption . c0_scalable && no c0_machine . c0_objective]0 .. * c0_city : c0_task 1 .. 1 {
+  }
+0 .. * c0_task_req : c0_resource_requirement 1 .. 1 {
+  }
+[c0_task_req . c0_eligible_resources . dref = c0_machine][some c0_city . c1_timing . c0_periodicity . c0_aperiodic && no c0_city . c1_timing . c0_periodicity . c0_aperiodic . c0_sporadic && some c0_city . c1_requirement . c0_deadline_requirement . c0_soft && c0_city . c1_requirement . c0_required_resources . dref = c0_task_req && some c0_city . c0_granularity . c0_terminal && no c0_city . c1_objective && some c0_city . c0_dependency]0 .. * c0_tsp_scheduler : c0_scheduler 1 .. 1 {
+  }
+0 .. * c0_mini_objective : c0_global_objective 1 .. 1 {
+  }
+[some c0_mini_objective . c2_purpose . c0_mini && no c0_mini_objective . c2_criteria . c2_time_related_objective_criteria . c0_tardiness && no c0_mini_objective . c2_criteria . c2_time_related_objective_criteria . c0_centering && no c0_mini_objective . c2_criteria . c2_time_related_objective_criteria . c0_earliness && no c0_mini_objective . c2_criteria . c2_resource_related_objective_criteria && no c0_mini_objective . c2_criteria . c3_abstract_objective_criteria][c0_tsp_scheduler . c0_taskset . dref = c0_city && c0_tsp_scheduler . c0_system . dref = c0_machine][some c0_tsp_scheduler . c0_properties . c0_scheduling_characteristic_type . c0_offline && some c0_tsp_scheduler . c0_properties . c0_policy . c0_ranking . c0_user_defined && some c0_tsp_scheduler . c0_properties . c0_priority_assignment . c0_fixed && c0_tsp_scheduler . c0_properties . c2_objective . dref = c0_mini_objective][no c0_tsp_scheduler . c0_strategy]

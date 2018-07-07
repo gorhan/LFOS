@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated platformMM -->
+      <package
+            uri="http://www.example.org/platformMM"
+            class="platformMM.PlatformMMPackage"
+            genModel="model/platformMM.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated platformMM -->
+      <factory
+            uri="http://www.example.org/platformMM"
+            class="platformMM.provider.PlatformMMItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated platformMM -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="platformMM.presentation.PlatformMMModelWizardID"
+            name="%_UI_PlatformMMModelWizard_label"
+            class="platformMM.presentation.PlatformMMModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/PlatformMMModelFile.gif">
+         <description>%_UI_PlatformMMModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated platformMM -->
+      <editor
+            id="platformMM.presentation.PlatformMMEditorID"
+            name="%_UI_PlatformMMEditor_label"
+            icon="icons/full/obj16/PlatformMMModelFile.gif"
+            extensions="res"
+            class="platformMM.presentation.PlatformMMEditor"
+            contributorClass="platformMM.presentation.PlatformMMActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

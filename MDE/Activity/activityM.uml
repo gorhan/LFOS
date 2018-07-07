@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_VkDeUF2sEei_K6cm9zZcqA" name="registration">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_VkHvwF2sEei_K6cm9zZcqA" name="registration" node="_gGlB4F2sEeiJh8gj2Z3irA _-etd8F2sEeiJh8gj2Z3irA _ND-eMF2tEeiJh8gj2Z3irA">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_GQ19gF2tEeiJh8gj2Z3irA" target="_-etd8F2sEeiJh8gj2Z3irA" source="_gGlB4F2sEeiJh8gj2Z3irA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_gGlB4F2sEeiJh8gj2Z3irA" name="Start" outgoing="_GQ19gF2tEeiJh8gj2Z3irA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_-etd8F2sEeiJh8gj2Z3irA" name="calibrate" incoming="_GQ19gF2tEeiJh8gj2Z3irA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_ND-eMF2tEeiJh8gj2Z3irA" name="getDat"/>
+  </packagedElement>
+</uml:Model>

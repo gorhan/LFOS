@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.m2m.atl.adt.launching.atlTransformation">
+<stringAttribute key="ATL File Name" value="/org.eclipse.OptML/OptMLTranslator.atl"/>
+<stringAttribute key="ATL VM" value="EMF-specific VM"/>
+<stringAttribute key="ATL_COMPILER" value="atl2006"/>
+<booleanAttribute key="IS_REFINING" value="false"/>
+<mapAttribute key="Input">
+<mapEntry key="ClassM" value="ClassMM"/>
+<mapEntry key="FeatureM" value="FeatureMM"/>
+<mapEntry key="PlatformM" value="PlatformMM"/>
+<mapEntry key="ProcessM" value="ProcessMM"/>
+</mapAttribute>
+<mapAttribute key="Libs"/>
+<mapAttribute key="Model Handler">
+<mapEntry key="ClassMM" value="EMF"/>
+<mapEntry key="FeatureMM" value="EMF"/>
+<mapEntry key="PlatformMM" value="EMF"/>
+<mapEntry key="ProcessMM" value="EMF"/>
+<mapEntry key="SchedulerMM" value="EMF"/>
+</mapAttribute>
+<mapAttribute key="ModelType">
+<mapEntry key="ClassM" value="MODELINPUT"/>
+<mapEntry key="ClassMM" value="METAMODELINPUT"/>
+<mapEntry key="FeatureM" value="MODELINPUT"/>
+<mapEntry key="FeatureMM" value="METAMODELINPUT"/>
+<mapEntry key="PlatformM" value="MODELINPUT"/>
+<mapEntry key="PlatformMM" value="METAMODELINPUT"/>
+<mapEntry key="ProcessM" value="MODELINPUT"/>
+<mapEntry key="ProcessMM" value="METAMODELINPUT"/>
+<mapEntry key="SchedulerM" value="MODELOUTPUT"/>
+<mapEntry key="SchedulerMM" value="METAMODELOUTPUT"/>
+</mapAttribute>
+<mapAttribute key="Options">
+<mapEntry key="OPTION_CLEAR" value="false"/>
+<mapEntry key="OPTION_CONTENT_TYPE" value="false"/>
+<mapEntry key="OPTION_DERIVED" value="true"/>
+<mapEntry key="allowInterModelReferences" value="false"/>
+<mapEntry key="printExecutionTime" value="false"/>
+<mapEntry key="step" value="false"/>
+<mapEntry key="supportUML2Stereotypes" value="false"/>
+</mapAttribute>
+<listAttribute key="OrderedInput">
+<listEntry value="ProcessM"/>
+<listEntry value="ClassM"/>
+<listEntry value="PlatformM"/>
+<listEntry value="FeatureM"/>
+</listAttribute>
+<listAttribute key="OrderedOutput">
+<listEntry value="SchedulerM"/>
+</listAttribute>
+<mapAttribute key="Output">
+<mapEntry key="SchedulerM" value="SchedulerMM"/>
+</mapAttribute>
+<mapAttribute key="Path">
+<mapEntry key="ClassM" value="/org.eclipse.OptML/inputs/classM.uml"/>
+<mapEntry key="ClassMM" value="uri:http://www.eclipse.org/uml2/5.0.0/UML"/>
+<mapEntry key="FeatureM" value="/org.eclipse.OptML/inputs/registration.featuremodel"/>
+<mapEntry key="FeatureMM" value="/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore"/>
+<mapEntry key="PlatformM" value="/org.eclipse.OptML/inputs/System.res"/>
+<mapEntry key="PlatformMM" value="/Platform/model/platformMM.ecore"/>
+<mapEntry key="ProcessM" value="/org.eclipse.OptML/inputs/registration.process"/>
+<mapEntry key="ProcessMM" value="/Process/model/process.ecore"/>
+<mapEntry key="SchedulerM" value="/org.eclipse.OptML/outputs/output.scheduler"/>
+<mapEntry key="SchedulerMM" value="/Scheduler/model/scheduler.ecore"/>
+</mapAttribute>
+<listAttribute key="Superimpose"/>
+</launchConfiguration>

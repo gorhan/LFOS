@@ -1,0 +1,70 @@
+/**
+ */
+package Connection.tests;
+
+import Connection.JoinProcess;
+import Connection.ProcessFactory;
+
+import junit.textui.TestRunner;
+
+/**
+ * <!-- begin-user-doc -->
+ * A test case for the model object '<em><b>Join Process</b></em>'.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class JoinProcessTest extends ProcessNodeTest {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static void main(String[] args) {
+		TestRunner.run(JoinProcessTest.class);
+	}
+
+	/**
+	 * Constructs a new Join Process test case with the given name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public JoinProcessTest(String name) {
+		super(name);
+	}
+
+	/**
+	 * Returns the fixture for this Join Process test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected JoinProcess getFixture() {
+		return (JoinProcess)fixture;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#setUp()
+	 * @generated
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		setFixture(ProcessFactory.eINSTANCE.createJoinProcess());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#tearDown()
+	 * @generated
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		setFixture(null);
+	}
+
+} //JoinProcessTest

@@ -1,0 +1,1001 @@
+<alloy builddate="2015-02-22 18:21 EST">
+
+<instance bitwidth="4" maxseq="1" command="Run show for 1 but 2 c0_DSB, 2 c0_DSLB, 3 c0_abstract_objective_criteria, 2 c0_centering, 2 c0_earliness, 2 c0_lateness, 2 c0_makespan, 3 c0_maxi, 3 c0_mini, 2 c0_name, 3 c0_objective_purpose, 2 c0_power_consumption_criteria, 2 c0_resource_related_objective_criteria, 3 c0_resource_related_user_defined_criteria, 2 c0_tardiness, 3 c0_task_related_user_defined_criteria, 2 c0_throughput_criteria, 2 c0_time_related_objective_criteria, 2 c0_utilization_criteria, 2 c1_name" filename="/Users/orhanguner/workspace/LFOS/FM_LFOS/example2.als">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/c0_purpose" ID="4" parentID="5">
+</sig>
+
+<sig label="this/c1_purpose" ID="6" parentID="5">
+</sig>
+
+<sig label="this/c2_purpose" ID="7" parentID="5">
+   <atom label="c2_purpose$0"/>
+</sig>
+
+<sig label="this/c0_objective_purpose" ID="5" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_maxi" ID="8" parentID="5">
+   <types> <type ID="5"/> <type ID="9"/> </types>
+</field>
+
+<field label="r_c0_mini" ID="10" parentID="5">
+   <tuple> <atom label="c2_purpose$0"/> <atom label="c0_mini$0"/> </tuple>
+   <types> <type ID="5"/> <type ID="11"/> </types>
+</field>
+
+<sig label="this/c0_maxi" ID="9" parentID="2">
+</sig>
+
+<sig label="this/c0_mini" ID="11" parentID="2">
+   <atom label="c0_mini$0"/>
+</sig>
+
+<sig label="this/c1_time_related_objective_criteria" ID="12" parentID="13">
+</sig>
+
+<sig label="this/c2_time_related_objective_criteria" ID="14" parentID="13">
+   <atom label="c2_time_related_objective_criteria$0"/>
+</sig>
+
+<sig label="this/c0_time_related_objective_criteria" ID="13" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_makespan" ID="15" parentID="13">
+   <types> <type ID="13"/> <type ID="16"/> </types>
+</field>
+
+<field label="r_c0_tardiness" ID="17" parentID="13">
+   <types> <type ID="13"/> <type ID="18"/> </types>
+</field>
+
+<field label="r_c0_earliness" ID="19" parentID="13">
+   <types> <type ID="13"/> <type ID="20"/> </types>
+</field>
+
+<field label="r_c0_lateness" ID="21" parentID="13">
+   <tuple> <atom label="c2_time_related_objective_criteria$0"/> <atom label="c0_lateness$0"/> </tuple>
+   <types> <type ID="13"/> <type ID="22"/> </types>
+</field>
+
+<field label="r_c0_centering" ID="23" parentID="13">
+   <types> <type ID="13"/> <type ID="24"/> </types>
+</field>
+
+<sig label="this/c0_makespan" ID="16" parentID="2">
+</sig>
+
+<sig label="this/c0_tardiness" ID="18" parentID="2">
+</sig>
+
+<sig label="this/c0_earliness" ID="20" parentID="2">
+</sig>
+
+<sig label="this/c0_lateness" ID="22" parentID="2">
+   <atom label="c0_lateness$0"/>
+</sig>
+
+<sig label="this/c0_centering" ID="24" parentID="2">
+</sig>
+
+<sig label="this/c1_resource_related_objective_criteria" ID="25" parentID="26">
+</sig>
+
+<sig label="this/c2_resource_related_objective_criteria" ID="27" parentID="26">
+</sig>
+
+<sig label="this/c0_resource_related_objective_criteria" ID="26" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_power_consumption_criteria" ID="28" parentID="26">
+   <types> <type ID="26"/> <type ID="29"/> </types>
+</field>
+
+<field label="r_c0_utilization_criteria" ID="30" parentID="26">
+   <types> <type ID="26"/> <type ID="31"/> </types>
+</field>
+
+<field label="r_c0_throughput_criteria" ID="32" parentID="26">
+   <types> <type ID="26"/> <type ID="33"/> </types>
+</field>
+
+<sig label="this/c0_power_consumption_criteria" ID="29" parentID="2">
+</sig>
+
+<sig label="this/c0_utilization_criteria" ID="31" parentID="2">
+</sig>
+
+<sig label="this/c0_throughput_criteria" ID="33" parentID="2">
+</sig>
+
+<sig label="this/c1_abstract_objective_criteria" ID="34" parentID="35">
+</sig>
+
+<sig label="this/c2_abstract_objective_criteria" ID="36" parentID="35">
+</sig>
+
+<sig label="this/c3_abstract_objective_criteria" ID="37" parentID="35">
+</sig>
+
+<sig label="this/c0_abstract_objective_criteria" ID="35" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_task_related_user_defined_criteria" ID="38" parentID="35">
+   <types> <type ID="35"/> <type ID="39"/> </types>
+</field>
+
+<field label="r_c0_resource_related_user_defined_criteria" ID="40" parentID="35">
+   <types> <type ID="35"/> <type ID="41"/> </types>
+</field>
+
+<sig label="this/c0_task_related_user_defined_criteria" ID="39" parentID="2">
+</sig>
+
+<sig label="this/c0_resource_related_user_defined_criteria" ID="41" parentID="2">
+</sig>
+
+<sig label="this/c1_objective" ID="42" parentID="43">
+</sig>
+
+<sig label="this/c0_task_related_objective" ID="43" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_purpose" ID="44" parentID="43">
+   <types> <type ID="43"/> <type ID="4"/> </types>
+</field>
+
+<field label="r_c0_criteria" ID="45" parentID="43">
+   <types> <type ID="43"/> <type ID="46"/> </types>
+</field>
+
+<sig label="this/c0_criteria" ID="46" parentID="2">
+</sig>
+
+<field label="r_c1_time_related_objective_criteria" ID="47" parentID="46">
+   <types> <type ID="46"/> <type ID="12"/> </types>
+</field>
+
+<field label="r_c1_abstract_objective_criteria" ID="48" parentID="46">
+   <types> <type ID="46"/> <type ID="34"/> </types>
+</field>
+
+<sig label="this/c0_objective" ID="49" parentID="50">
+</sig>
+
+<sig label="this/c0_resource_related_objective" ID="50" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c1_purpose" ID="51" parentID="50">
+   <types> <type ID="50"/> <type ID="6"/> </types>
+</field>
+
+<field label="r_c1_criteria" ID="52" parentID="50">
+   <types> <type ID="50"/> <type ID="53"/> </types>
+</field>
+
+<sig label="this/c1_criteria" ID="53" parentID="2">
+</sig>
+
+<field label="r_c1_resource_related_objective_criteria" ID="54" parentID="53">
+   <types> <type ID="53"/> <type ID="25"/> </types>
+</field>
+
+<field label="r_c2_abstract_objective_criteria" ID="55" parentID="53">
+   <types> <type ID="53"/> <type ID="36"/> </types>
+</field>
+
+<sig label="this/c0_mini_objective" ID="56" parentID="57" one="yes">
+   <atom label="c0_mini_objective$0"/>
+</sig>
+
+<sig label="this/c0_global_objective" ID="57" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c2_purpose" ID="58" parentID="57">
+   <tuple> <atom label="c0_mini_objective$0"/> <atom label="c2_purpose$0"/> </tuple>
+   <types> <type ID="57"/> <type ID="7"/> </types>
+</field>
+
+<field label="r_c2_criteria" ID="59" parentID="57">
+   <tuple> <atom label="c0_mini_objective$0"/> <atom label="c2_criteria$0"/> </tuple>
+   <types> <type ID="57"/> <type ID="60"/> </types>
+</field>
+
+<sig label="this/c2_criteria" ID="60" parentID="2">
+   <atom label="c2_criteria$0"/>
+</sig>
+
+<field label="r_c2_time_related_objective_criteria" ID="61" parentID="60">
+   <tuple> <atom label="c2_criteria$0"/> <atom label="c2_time_related_objective_criteria$0"/> </tuple>
+   <types> <type ID="60"/> <type ID="14"/> </types>
+</field>
+
+<field label="r_c2_resource_related_objective_criteria" ID="62" parentID="60">
+   <types> <type ID="60"/> <type ID="27"/> </types>
+</field>
+
+<field label="r_c3_abstract_objective_criteria" ID="63" parentID="60">
+   <types> <type ID="60"/> <type ID="37"/> </types>
+</field>
+
+<sig label="this/c0_machine" ID="64" parentID="65" one="yes">
+   <atom label="c0_machine$0"/>
+</sig>
+
+<sig label="this/c0_resource" ID="65" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_capacity" ID="66" parentID="65">
+   <tuple> <atom label="c0_machine$0"/> <atom label="c0_capacity$0"/> </tuple>
+   <types> <type ID="65"/> <type ID="67"/> </types>
+</field>
+
+<field label="r_c0_resource_type" ID="68" parentID="65">
+   <tuple> <atom label="c0_machine$0"/> <atom label="c0_resource_type$0"/> </tuple>
+   <types> <type ID="65"/> <type ID="69"/> </types>
+</field>
+
+<field label="r_c0_mode" ID="70" parentID="65">
+   <tuple> <atom label="c0_machine$0"/> <atom label="c0_mode$0"/> </tuple>
+   <types> <type ID="65"/> <type ID="71"/> </types>
+</field>
+
+<field label="r_c0_power_consumption" ID="72" parentID="65">
+   <tuple> <atom label="c0_machine$0"/> <atom label="c0_power_consumption$0"/> </tuple>
+   <types> <type ID="65"/> <type ID="73"/> </types>
+</field>
+
+<field label="r_c0_objective" ID="74" parentID="65">
+   <types> <type ID="65"/> <type ID="50"/> </types>
+</field>
+
+<sig label="this/c0_capacity" ID="67" parentID="2">
+   <atom label="c0_capacity$0"/>
+</sig>
+
+<sig label="this/c0_resource_type" ID="69" parentID="2">
+   <atom label="c0_resource_type$0"/>
+</sig>
+
+<field label="r_c0_abstraction" ID="75" parentID="69">
+   <tuple> <atom label="c0_resource_type$0"/> <atom label="c0_abstraction$0"/> </tuple>
+   <types> <type ID="69"/> <type ID="76"/> </types>
+</field>
+
+<field label="r_c0_identifier" ID="77" parentID="69">
+   <tuple> <atom label="c0_resource_type$0"/> <atom label="c0_identifier$0"/> </tuple>
+   <types> <type ID="69"/> <type ID="78"/> </types>
+</field>
+
+<sig label="this/c0_abstraction" ID="76" parentID="2">
+   <atom label="c0_abstraction$0"/>
+</sig>
+
+<field label="r_c0_ACTIVE" ID="79" parentID="76">
+   <tuple> <atom label="c0_abstraction$0"/> <atom label="c0_ACTIVE$0"/> </tuple>
+   <types> <type ID="76"/> <type ID="80"/> </types>
+</field>
+
+<field label="r_c0_PASSIVE" ID="81" parentID="76">
+   <types> <type ID="76"/> <type ID="82"/> </types>
+</field>
+
+<field label="r_c0_COMPOSITE" ID="83" parentID="76">
+   <types> <type ID="76"/> <type ID="84"/> </types>
+</field>
+
+<sig label="this/c0_ACTIVE" ID="80" parentID="2">
+   <atom label="c0_ACTIVE$0"/>
+</sig>
+
+<sig label="this/c0_PASSIVE" ID="82" parentID="2">
+</sig>
+
+<sig label="this/c0_COMPOSITE" ID="84" parentID="2">
+</sig>
+
+<sig label="this/c0_identifier" ID="78" parentID="2">
+   <atom label="c0_identifier$0"/>
+</sig>
+
+<sig label="this/c0_mode" ID="71" parentID="2">
+   <atom label="c0_mode$0"/>
+</sig>
+
+<field label="r_c0_shared" ID="85" parentID="71">
+   <types> <type ID="71"/> <type ID="86"/> </types>
+</field>
+
+<field label="r_c0_exclusive" ID="87" parentID="71">
+   <tuple> <atom label="c0_mode$0"/> <atom label="c0_exclusive$0"/> </tuple>
+   <types> <type ID="71"/> <type ID="88"/> </types>
+</field>
+
+<sig label="this/c0_shared" ID="86" parentID="2">
+</sig>
+
+<sig label="this/c0_exclusive" ID="88" parentID="2">
+   <atom label="c0_exclusive$0"/>
+</sig>
+
+<field label="r_c0_capacity_based" ID="89" parentID="88">
+   <tuple> <atom label="c0_exclusive$0"/> <atom label="c0_capacity_based$0"/> </tuple>
+   <types> <type ID="88"/> <type ID="90"/> </types>
+</field>
+
+<field label="r_c0_semantic_based" ID="91" parentID="88">
+   <types> <type ID="88"/> <type ID="92"/> </types>
+</field>
+
+<sig label="this/c0_capacity_based" ID="90" parentID="2">
+   <atom label="c0_capacity_based$0"/>
+</sig>
+
+<sig label="this/c0_semantic_based" ID="92" parentID="2">
+</sig>
+
+<sig label="this/c0_power_consumption" ID="73" parentID="2">
+   <atom label="c0_power_consumption$0"/>
+</sig>
+
+<field label="r_c0_scalable" ID="93" parentID="73">
+   <types> <type ID="73"/> <type ID="94"/> </types>
+</field>
+
+<sig label="this/c0_scalable" ID="94" parentID="2">
+</sig>
+
+<field label="r_c0_discrete" ID="95" parentID="94">
+   <types> <type ID="94"/> <type ID="96"/> </types>
+</field>
+
+<field label="r_c0_continuous" ID="97" parentID="94">
+   <types> <type ID="94"/> <type ID="98"/> </types>
+</field>
+
+<sig label="this/c0_discrete" ID="96" parentID="2">
+</sig>
+
+<sig label="this/c0_continuous" ID="98" parentID="2">
+</sig>
+
+<sig label="this/c1_timing" ID="99" parentID="100">
+   <atom label="c1_timing$0"/>
+</sig>
+
+<sig label="this/c0_timing" ID="100" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_release_time" ID="101" parentID="100">
+   <tuple> <atom label="c1_timing$0"/> <atom label="c0_release_time$0"/> </tuple>
+   <types> <type ID="100"/> <type ID="102"/> </types>
+</field>
+
+<field label="r_c0_execution_time" ID="103" parentID="100">
+   <tuple> <atom label="c1_timing$0"/> <atom label="c0_execution_time$0"/> </tuple>
+   <types> <type ID="100"/> <type ID="104"/> </types>
+</field>
+
+<field label="r_c0_deadline" ID="105" parentID="100">
+   <tuple> <atom label="c1_timing$0"/> <atom label="c0_deadline$0"/> </tuple>
+   <types> <type ID="100"/> <type ID="106"/> </types>
+</field>
+
+<field label="r_c0_periodicity" ID="107" parentID="100">
+   <tuple> <atom label="c1_timing$0"/> <atom label="c0_periodicity$0"/> </tuple>
+   <types> <type ID="100"/> <type ID="108"/> </types>
+</field>
+
+<sig label="this/c0_release_time" ID="102" parentID="2">
+   <atom label="c0_release_time$0"/>
+</sig>
+
+<sig label="this/c0_execution_time" ID="104" parentID="2">
+   <atom label="c0_execution_time$0"/>
+</sig>
+
+<sig label="this/c0_deadline" ID="106" parentID="2">
+   <atom label="c0_deadline$0"/>
+</sig>
+
+<sig label="this/c0_periodicity" ID="108" parentID="2">
+   <atom label="c0_periodicity$0"/>
+</sig>
+
+<field label="r_c0_periodic" ID="109" parentID="108">
+   <types> <type ID="108"/> <type ID="110"/> </types>
+</field>
+
+<field label="r_c0_aperiodic" ID="111" parentID="108">
+   <tuple> <atom label="c0_periodicity$0"/> <atom label="c0_aperiodic$0"/> </tuple>
+   <types> <type ID="108"/> <type ID="112"/> </types>
+</field>
+
+<sig label="this/c0_periodic" ID="110" parentID="2">
+</sig>
+
+<sig label="this/c0_aperiodic" ID="112" parentID="2">
+   <atom label="c0_aperiodic$0"/>
+</sig>
+
+<field label="r_c0_sporadic" ID="113" parentID="112">
+   <types> <type ID="112"/> <type ID="114"/> </types>
+</field>
+
+<sig label="this/c0_sporadic" ID="114" parentID="2">
+</sig>
+
+<sig label="this/c0_task_req" ID="115" parentID="116" one="yes">
+   <atom label="c0_task_req$0"/>
+</sig>
+
+<sig label="this/c0_resource_requirement" ID="116" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_eligible_resources" ID="117" parentID="116">
+   <tuple> <atom label="c0_task_req$0"/> <atom label="c0_eligible_resources$0"/> </tuple>
+   <types> <type ID="116"/> <type ID="118"/> </types>
+</field>
+
+<field label="r_c0_resource_identifier" ID="119" parentID="116">
+   <tuple> <atom label="c0_task_req$0"/> <atom label="c0_resource_identifier$0"/> </tuple>
+   <types> <type ID="116"/> <type ID="120"/> </types>
+</field>
+
+<sig label="this/c0_eligible_resources" ID="118" parentID="2">
+   <atom label="c0_eligible_resources$0"/>
+</sig>
+
+<field label="c0_eligible_resources_ref" ID="121" parentID="118">
+   <tuple> <atom label="c0_eligible_resources$0"/> <atom label="c0_machine$0"/> </tuple>
+   <types> <type ID="118"/> <type ID="65"/> </types>
+</field>
+
+<sig label="this/c0_resource_identifier" ID="120" parentID="2">
+   <atom label="c0_resource_identifier$0"/>
+</sig>
+
+<sig label="this/c1_requirement" ID="122" parentID="123">
+   <atom label="c1_requirement$0"/>
+</sig>
+
+<sig label="this/c0_requirement" ID="123" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_deadline_requirement" ID="124" parentID="123">
+   <tuple> <atom label="c1_requirement$0"/> <atom label="c0_deadline_requirement$0"/> </tuple>
+   <types> <type ID="123"/> <type ID="125"/> </types>
+</field>
+
+<field label="r_c0_required_resources" ID="126" parentID="123">
+   <tuple> <atom label="c1_requirement$0"/> <atom label="c0_required_resources$0"/> </tuple>
+   <types> <type ID="123"/> <type ID="127"/> </types>
+</field>
+
+<sig label="this/c0_deadline_requirement" ID="125" parentID="2">
+   <atom label="c0_deadline_requirement$0"/>
+</sig>
+
+<field label="r_c0_hard" ID="128" parentID="125">
+   <types> <type ID="125"/> <type ID="129"/> </types>
+</field>
+
+<field label="r_c0_soft" ID="130" parentID="125">
+   <tuple> <atom label="c0_deadline_requirement$0"/> <atom label="c0_soft$0"/> </tuple>
+   <types> <type ID="125"/> <type ID="131"/> </types>
+</field>
+
+<field label="r_c0_firm" ID="132" parentID="125">
+   <types> <type ID="125"/> <type ID="133"/> </types>
+</field>
+
+<sig label="this/c0_hard" ID="129" parentID="2">
+</sig>
+
+<sig label="this/c0_soft" ID="131" parentID="2">
+   <atom label="c0_soft$0"/>
+</sig>
+
+<sig label="this/c0_firm" ID="133" parentID="2">
+</sig>
+
+<sig label="this/c0_required_resources" ID="127" parentID="2">
+   <atom label="c0_required_resources$0"/>
+</sig>
+
+<field label="c0_required_resources_ref" ID="134" parentID="127">
+   <tuple> <atom label="c0_required_resources$0"/> <atom label="c0_task_req$0"/> </tuple>
+   <types> <type ID="127"/> <type ID="116"/> </types>
+</field>
+
+<sig label="this/c0_city" ID="135" parentID="136" one="yes">
+   <atom label="c0_city$0"/>
+</sig>
+
+<sig label="this/c0_task" ID="136" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_granularity" ID="137" parentID="136">
+   <tuple> <atom label="c0_city$0"/> <atom label="c0_granularity$0"/> </tuple>
+   <types> <type ID="136"/> <type ID="138"/> </types>
+</field>
+
+<field label="r_c1_timing" ID="139" parentID="136">
+   <tuple> <atom label="c0_city$0"/> <atom label="c1_timing$0"/> </tuple>
+   <types> <type ID="136"/> <type ID="100"/> </types>
+</field>
+
+<field label="r_c0_priority" ID="140" parentID="136">
+   <tuple> <atom label="c0_city$0"/> <atom label="c0_priority$0"/> </tuple>
+   <types> <type ID="136"/> <type ID="141"/> </types>
+</field>
+
+<field label="r_c0_preemptable" ID="142" parentID="136">
+   <types> <type ID="136"/> <type ID="143"/> </types>
+</field>
+
+<field label="r_c1_requirement" ID="144" parentID="136">
+   <tuple> <atom label="c0_city$0"/> <atom label="c1_requirement$0"/> </tuple>
+   <types> <type ID="136"/> <type ID="123"/> </types>
+</field>
+
+<field label="r_c1_objective" ID="145" parentID="136">
+   <types> <type ID="136"/> <type ID="43"/> </types>
+</field>
+
+<field label="r_c0_dependency" ID="146" parentID="136">
+   <tuple> <atom label="c0_city$0"/> <atom label="c0_dependency$0"/> </tuple>
+   <types> <type ID="136"/> <type ID="147"/> </types>
+</field>
+
+<sig label="this/c0_granularity" ID="138" parentID="2">
+   <atom label="c0_granularity$0"/>
+</sig>
+
+<field label="r_c0_terminal" ID="148" parentID="138">
+   <tuple> <atom label="c0_granularity$0"/> <atom label="c0_terminal$0"/> </tuple>
+   <types> <type ID="138"/> <type ID="149"/> </types>
+</field>
+
+<field label="r_c0_composite" ID="150" parentID="138">
+   <types> <type ID="138"/> <type ID="151"/> </types>
+</field>
+
+<sig label="this/c0_terminal" ID="149" parentID="2">
+   <atom label="c0_terminal$0"/>
+</sig>
+
+<sig label="this/c0_composite" ID="151" parentID="2">
+</sig>
+
+<sig label="this/c0_priority" ID="141" parentID="2">
+   <atom label="c0_priority$0"/>
+</sig>
+
+<sig label="this/c0_preemptable" ID="143" parentID="2">
+</sig>
+
+<field label="r_c0_cooperative" ID="152" parentID="143">
+   <types> <type ID="143"/> <type ID="153"/> </types>
+</field>
+
+<sig label="this/c0_cooperative" ID="153" parentID="2">
+</sig>
+
+<sig label="this/c0_dependency" ID="147" parentID="2">
+   <atom label="c0_dependency$0"/>
+</sig>
+
+<field label="r_c0_token_type" ID="154" parentID="147">
+   <tuple> <atom label="c0_dependency$0"/> <atom label="c0_token_type$0"/> </tuple>
+   <types> <type ID="147"/> <type ID="155"/> </types>
+</field>
+
+<field label="r_c0_n_tokens" ID="156" parentID="147">
+   <tuple> <atom label="c0_dependency$0"/> <atom label="c0_n_tokens$0"/> </tuple>
+   <types> <type ID="147"/> <type ID="157"/> </types>
+</field>
+
+<field label="r_c0_sequence_dependent_setup_time" ID="158" parentID="147">
+   <tuple> <atom label="c0_dependency$0"/> <atom label="c0_sequence_dependent_setup_time$0"/> </tuple>
+   <types> <type ID="147"/> <type ID="159"/> </types>
+</field>
+
+<sig label="this/c0_token_type" ID="155" parentID="2">
+   <atom label="c0_token_type$0"/>
+</sig>
+
+<sig label="this/c0_n_tokens" ID="157" parentID="2">
+   <atom label="c0_n_tokens$0"/>
+</sig>
+
+<sig label="this/c0_sequence_dependent_setup_time" ID="159" parentID="2">
+   <atom label="c0_sequence_dependent_setup_time$0"/>
+</sig>
+
+<sig label="this/c0_policy" ID="160" parentID="161">
+   <atom label="c0_policy$0"/>
+</sig>
+
+<sig label="this/c0_scheduling_policy" ID="161" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_grouping" ID="162" parentID="161">
+   <types> <type ID="161"/> <type ID="163"/> </types>
+</field>
+
+<field label="r_c0_ranking" ID="164" parentID="161">
+   <tuple> <atom label="c0_policy$0"/> <atom label="c0_ranking$0"/> </tuple>
+   <types> <type ID="161"/> <type ID="165"/> </types>
+</field>
+
+<sig label="this/c0_grouping" ID="163" parentID="2">
+</sig>
+
+<sig label="this/c0_ranking" ID="165" parentID="2">
+   <atom label="c0_ranking$0"/>
+</sig>
+
+<field label="r_c0_default" ID="166" parentID="165">
+   <types> <type ID="165"/> <type ID="167"/> </types>
+</field>
+
+<field label="r_c0_user_defined" ID="168" parentID="165">
+   <tuple> <atom label="c0_ranking$0"/> <atom label="c0_user_defined$0"/> </tuple>
+   <types> <type ID="165"/> <type ID="169"/> </types>
+</field>
+
+<sig label="this/c0_default" ID="167" parentID="2">
+</sig>
+
+<field label="r_c0_ERT" ID="170" parentID="167">
+   <types> <type ID="167"/> <type ID="171"/> </types>
+</field>
+
+<field label="r_c0_ED" ID="172" parentID="167">
+   <types> <type ID="167"/> <type ID="173"/> </types>
+</field>
+
+<field label="r_c0_RM" ID="174" parentID="167">
+   <types> <type ID="167"/> <type ID="175"/> </types>
+</field>
+
+<field label="r_c0_SJF" ID="176" parentID="167">
+   <types> <type ID="167"/> <type ID="177"/> </types>
+</field>
+
+<field label="r_c0_FIFO" ID="178" parentID="167">
+   <types> <type ID="167"/> <type ID="179"/> </types>
+</field>
+
+<sig label="this/c0_ERT" ID="171" parentID="2">
+</sig>
+
+<sig label="this/c0_ED" ID="173" parentID="2">
+</sig>
+
+<sig label="this/c0_RM" ID="175" parentID="2">
+</sig>
+
+<sig label="this/c0_SJF" ID="177" parentID="2">
+</sig>
+
+<sig label="this/c0_FIFO" ID="179" parentID="2">
+</sig>
+
+<sig label="this/c0_user_defined" ID="169" parentID="2">
+   <atom label="c0_user_defined$0"/>
+</sig>
+
+<sig label="this/c0_properties" ID="180" parentID="181">
+   <atom label="c0_properties$0"/>
+</sig>
+
+<sig label="this/c0_scheduling_characteristic" ID="181" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_scheduling_characteristic_type" ID="182" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c0_scheduling_characteristic_type$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="183"/> </types>
+</field>
+
+<field label="r_c0_preemptive" ID="184" parentID="181">
+   <types> <type ID="181"/> <type ID="185"/> </types>
+</field>
+
+<field label="r_c0_migration" ID="186" parentID="181">
+   <types> <type ID="181"/> <type ID="187"/> </types>
+</field>
+
+<field label="r_c0_policy" ID="188" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c0_policy$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="161"/> </types>
+</field>
+
+<field label="r_c0_time_resolution" ID="189" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c0_time_resolution$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="190"/> </types>
+</field>
+
+<field label="r_c0_priority_assignment" ID="191" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c0_priority_assignment$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="192"/> </types>
+</field>
+
+<field label="r_c0_scheduling_window" ID="193" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c0_scheduling_window$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="194"/> </types>
+</field>
+
+<field label="r_c2_objective" ID="195" parentID="181">
+   <tuple> <atom label="c0_properties$0"/> <atom label="c2_objective$0"/> </tuple>
+   <types> <type ID="181"/> <type ID="196"/> </types>
+</field>
+
+<sig label="this/c0_scheduling_characteristic_type" ID="183" parentID="2">
+   <atom label="c0_scheduling_characteristic_type$0"/>
+</sig>
+
+<field label="r_c0_online" ID="197" parentID="183">
+   <types> <type ID="183"/> <type ID="198"/> </types>
+</field>
+
+<field label="r_c0_offline" ID="199" parentID="183">
+   <tuple> <atom label="c0_scheduling_characteristic_type$0"/> <atom label="c0_offline$0"/> </tuple>
+   <types> <type ID="183"/> <type ID="200"/> </types>
+</field>
+
+<sig label="this/c0_online" ID="198" parentID="2">
+</sig>
+
+<sig label="this/c0_offline" ID="200" parentID="2">
+   <atom label="c0_offline$0"/>
+</sig>
+
+<sig label="this/c0_preemptive" ID="185" parentID="2">
+</sig>
+
+<sig label="this/c0_migration" ID="187" parentID="2">
+</sig>
+
+<field label="r_c0_task_level" ID="201" parentID="187">
+   <types> <type ID="187"/> <type ID="202"/> </types>
+</field>
+
+<field label="r_c0_job_level" ID="203" parentID="187">
+   <types> <type ID="187"/> <type ID="204"/> </types>
+</field>
+
+<sig label="this/c0_task_level" ID="202" parentID="2">
+</sig>
+
+<sig label="this/c0_job_level" ID="204" parentID="2">
+</sig>
+
+<sig label="this/c0_time_resolution" ID="190" parentID="2">
+   <atom label="c0_time_resolution$0"/>
+</sig>
+
+<sig label="this/c0_priority_assignment" ID="192" parentID="2">
+   <atom label="c0_priority_assignment$0"/>
+</sig>
+
+<field label="r_c0_fixed" ID="205" parentID="192">
+   <tuple> <atom label="c0_priority_assignment$0"/> <atom label="c0_fixed$0"/> </tuple>
+   <types> <type ID="192"/> <type ID="206"/> </types>
+</field>
+
+<field label="r_c0_dynamic" ID="207" parentID="192">
+   <types> <type ID="192"/> <type ID="208"/> </types>
+</field>
+
+<sig label="this/c0_fixed" ID="206" parentID="2">
+   <atom label="c0_fixed$0"/>
+</sig>
+
+<sig label="this/c0_dynamic" ID="208" parentID="2">
+</sig>
+
+<sig label="this/c0_scheduling_window" ID="194" parentID="2">
+   <atom label="c0_scheduling_window$0"/>
+</sig>
+
+<sig label="this/c2_objective" ID="196" parentID="2">
+   <atom label="c2_objective$0"/>
+</sig>
+
+<field label="c2_objective_ref" ID="209" parentID="196">
+   <tuple> <atom label="c2_objective$0"/> <atom label="c0_mini_objective$0"/> </tuple>
+   <types> <type ID="196"/> <type ID="57"/> </types>
+</field>
+
+<sig label="this/c1_solver" ID="210" parentID="211">
+</sig>
+
+<sig label="this/c0_solver" ID="211" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_IBM_ILOG_CPLEX_Optimizer" ID="212" parentID="211">
+   <types> <type ID="211"/> <type ID="213"/> </types>
+</field>
+
+<field label="r_c0_SCIP_SoPlex" ID="214" parentID="211">
+   <types> <type ID="211"/> <type ID="215"/> </types>
+</field>
+
+<field label="r_c0_Knapsack" ID="216" parentID="211">
+   <types> <type ID="211"/> <type ID="217"/> </types>
+</field>
+
+<field label="r_c0_SAS_OR_R" ID="218" parentID="211">
+   <types> <type ID="211"/> <type ID="219"/> </types>
+</field>
+
+<sig label="this/c0_IBM_ILOG_CPLEX_Optimizer" ID="213" parentID="2">
+</sig>
+
+<sig label="this/c0_SCIP_SoPlex" ID="215" parentID="2">
+</sig>
+
+<sig label="this/c0_Knapsack" ID="217" parentID="2">
+</sig>
+
+<sig label="this/c0_SAS_OR_R" ID="219" parentID="2">
+</sig>
+
+<sig label="this/c1_DSLB" ID="220" parentID="221">
+</sig>
+
+<sig label="this/c2_DSLB" ID="222" parentID="221">
+</sig>
+
+<sig label="this/c0_DSLB" ID="221" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_name" ID="223" parentID="221">
+   <types> <type ID="221"/> <type ID="224"/> </types>
+</field>
+
+<sig label="this/c0_name" ID="224" parentID="2">
+</sig>
+
+<field label="c0_name_ref" ID="225" parentID="224">
+   <types> <type ID="224"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/c1_DSB" ID="226" parentID="227">
+</sig>
+
+<sig label="this/c2_DSB" ID="228" parentID="227">
+</sig>
+
+<sig label="this/c0_DSB" ID="227" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c1_name" ID="229" parentID="227">
+   <types> <type ID="227"/> <type ID="230"/> </types>
+</field>
+
+<sig label="this/c1_name" ID="230" parentID="2">
+</sig>
+
+<field label="c1_name_ref" ID="231" parentID="230">
+   <types> <type ID="230"/> <type ID="1"/> </types>
+</field>
+
+<sig label="this/c1_input" ID="232" parentID="233">
+</sig>
+
+<sig label="this/c0_input" ID="233" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c1_DSLB" ID="234" parentID="233">
+   <types> <type ID="233"/> <type ID="220"/> </types>
+</field>
+
+<field label="r_c1_DSB" ID="235" parentID="233">
+   <types> <type ID="233"/> <type ID="226"/> </types>
+</field>
+
+<sig label="this/c1_output" ID="236" parentID="237">
+</sig>
+
+<sig label="this/c0_output" ID="237" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c2_DSLB" ID="238" parentID="237">
+   <types> <type ID="237"/> <type ID="222"/> </types>
+</field>
+
+<field label="r_c2_DSB" ID="239" parentID="237">
+   <types> <type ID="237"/> <type ID="228"/> </types>
+</field>
+
+<sig label="this/c0_strategy" ID="240" parentID="241">
+</sig>
+
+<sig label="this/c0_scheduling_strategy" ID="241" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c1_solver" ID="242" parentID="241">
+   <types> <type ID="241"/> <type ID="211"/> </types>
+</field>
+
+<field label="r_c0_solver_meta_knowledge" ID="243" parentID="241">
+   <types> <type ID="241"/> <type ID="244"/> </types>
+</field>
+
+<field label="r_c1_input" ID="245" parentID="241">
+   <types> <type ID="241"/> <type ID="233"/> </types>
+</field>
+
+<field label="r_c1_output" ID="246" parentID="241">
+   <types> <type ID="241"/> <type ID="237"/> </types>
+</field>
+
+<sig label="this/c0_solver_meta_knowledge" ID="244" parentID="2">
+</sig>
+
+<sig label="this/c0_tsp_scheduler" ID="247" parentID="248" one="yes">
+   <atom label="c0_tsp_scheduler$0"/>
+</sig>
+
+<sig label="this/c0_scheduler" ID="248" parentID="2" abstract="yes">
+</sig>
+
+<field label="r_c0_system" ID="249" parentID="248">
+   <tuple> <atom label="c0_tsp_scheduler$0"/> <atom label="c0_system$0"/> </tuple>
+   <types> <type ID="248"/> <type ID="250"/> </types>
+</field>
+
+<field label="r_c0_taskset" ID="251" parentID="248">
+   <tuple> <atom label="c0_tsp_scheduler$0"/> <atom label="c0_taskset$0"/> </tuple>
+   <types> <type ID="248"/> <type ID="252"/> </types>
+</field>
+
+<field label="r_c0_properties" ID="253" parentID="248">
+   <tuple> <atom label="c0_tsp_scheduler$0"/> <atom label="c0_properties$0"/> </tuple>
+   <types> <type ID="248"/> <type ID="181"/> </types>
+</field>
+
+<field label="r_c0_strategy" ID="254" parentID="248">
+   <types> <type ID="248"/> <type ID="241"/> </types>
+</field>
+
+<sig label="this/c0_system" ID="250" parentID="2">
+   <atom label="c0_system$0"/>
+</sig>
+
+<field label="c0_system_ref" ID="255" parentID="250">
+   <tuple> <atom label="c0_system$0"/> <atom label="c0_machine$0"/> </tuple>
+   <types> <type ID="250"/> <type ID="65"/> </types>
+</field>
+
+<sig label="this/c0_taskset" ID="252" parentID="2">
+   <atom label="c0_taskset$0"/>
+</sig>
+
+<field label="c0_taskset_ref" ID="256" parentID="252">
+   <tuple> <atom label="c0_taskset$0"/> <atom label="c0_city$0"/> </tuple>
+   <types> <type ID="252"/> <type ID="136"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+</instance>
+
+<source filename="/Users/orhanguner/workspace/LFOS/FM_LFOS/example2.als" content="/*&#x000a;All clafers: 136 | Abstract: 21 | Concrete: 115 | Reference: 7&#x000a;Constraints: 13&#x000a;Goals: 0&#x000a;Global scope: 1..*&#x000a;Can skip name resolver: no&#x000a;*/&#x000a;open util/integer&#x000a;pred show {}&#x000a;run show for 1 but 2 c0_DSB, 2 c0_DSLB, 3 c0_abstract_objective_criteria, 2 c0_centering, 2 c0_earliness, 2 c0_lateness, 2 c0_makespan, 3 c0_maxi, 3 c0_mini, 2 c0_name, 3 c0_objective_purpose, 2 c0_power_consumption_criteria, 2 c0_resource_related_objective_criteria, 3 c0_resource_related_user_defined_criteria, 2 c0_tardiness, 3 c0_task_related_user_defined_criteria, 2 c0_throughput_criteria, 2 c0_time_related_objective_criteria, 2 c0_utilization_criteria, 2 c1_name&#x000a;&#x000a;abstract sig c0_objective_purpose&#x000a;{ r_c0_maxi : lone c0_maxi&#x000a;, r_c0_mini : lone c0_mini }&#x000a;&#x000a;sig c0_maxi&#x000a;{}&#x000a;{ one @r_c0_maxi.this }&#x000a;&#x000a;sig c0_mini&#x000a;{}&#x000a;{ one @r_c0_mini.this }&#x000a;&#x000a;abstract sig c0_time_related_objective_criteria&#x000a;{ r_c0_makespan : lone c0_makespan&#x000a;, r_c0_tardiness : lone c0_tardiness&#x000a;, r_c0_earliness : lone c0_earliness&#x000a;, r_c0_lateness : lone c0_lateness&#x000a;, r_c0_centering : lone c0_centering }&#x000a;&#x000a;sig c0_makespan&#x000a;{}&#x000a;{ one @r_c0_makespan.this }&#x000a;&#x000a;sig c0_tardiness&#x000a;{}&#x000a;{ one @r_c0_tardiness.this }&#x000a;&#x000a;sig c0_earliness&#x000a;{}&#x000a;{ one @r_c0_earliness.this }&#x000a;&#x000a;sig c0_lateness&#x000a;{}&#x000a;{ one @r_c0_lateness.this }&#x000a;&#x000a;sig c0_centering&#x000a;{}&#x000a;{ one @r_c0_centering.this }&#x000a;&#x000a;abstract sig c0_resource_related_objective_criteria&#x000a;{ r_c0_power_consumption_criteria : lone c0_power_consumption_criteria&#x000a;, r_c0_utilization_criteria : lone c0_utilization_criteria&#x000a;, r_c0_throughput_criteria : lone c0_throughput_criteria }&#x000a;&#x000a;sig c0_power_consumption_criteria&#x000a;{}&#x000a;{ one @r_c0_power_consumption_criteria.this }&#x000a;&#x000a;sig c0_utilization_criteria&#x000a;{}&#x000a;{ one @r_c0_utilization_criteria.this }&#x000a;&#x000a;sig c0_throughput_criteria&#x000a;{}&#x000a;{ one @r_c0_throughput_criteria.this }&#x000a;&#x000a;abstract sig c0_abstract_objective_criteria&#x000a;{ r_c0_task_related_user_defined_criteria : lone c0_task_related_user_defined_criteria&#x000a;, r_c0_resource_related_user_defined_criteria : lone c0_resource_related_user_defined_criteria }&#x000a;&#x000a;sig c0_task_related_user_defined_criteria&#x000a;{}&#x000a;{ one @r_c0_task_related_user_defined_criteria.this }&#x000a;&#x000a;sig c0_resource_related_user_defined_criteria&#x000a;{}&#x000a;{ one @r_c0_resource_related_user_defined_criteria.this }&#x000a;&#x000a;abstract sig c0_task_related_objective&#x000a;{ r_c0_purpose : one c0_purpose&#x000a;, r_c0_criteria : one c0_criteria }&#x000a;&#x000a;sig c0_purpose extends c0_objective_purpose&#x000a;{}&#x000a;{ one @r_c0_purpose.this&#x000a;  let children = (r_c0_maxi + r_c0_mini) | one children }&#x000a;&#x000a;sig c0_criteria&#x000a;{ r_c1_time_related_objective_criteria : lone c1_time_related_objective_criteria&#x000a;, r_c1_abstract_objective_criteria : lone c1_abstract_objective_criteria }&#x000a;{ one @r_c0_criteria.this&#x000a;  let children = (r_c1_time_related_objective_criteria + r_c1_abstract_objective_criteria) | some children }&#x000a;&#x000a;sig c1_time_related_objective_criteria extends c0_time_related_objective_criteria&#x000a;{}&#x000a;{ one @r_c1_time_related_objective_criteria.this&#x000a;  let children = (r_c0_makespan + r_c0_tardiness + r_c0_earliness + r_c0_lateness + r_c0_centering) | some children }&#x000a;&#x000a;sig c1_abstract_objective_criteria extends c0_abstract_objective_criteria&#x000a;{}&#x000a;{ one @r_c1_abstract_objective_criteria.this&#x000a;  let children = (r_c0_task_related_user_defined_criteria + r_c0_resource_related_user_defined_criteria) | some children&#x000a;  (some this.@r_c0_task_related_user_defined_criteria) &amp;&amp; (no this.@r_c0_resource_related_user_defined_criteria) }&#x000a;&#x000a;abstract sig c0_resource_related_objective&#x000a;{ r_c1_purpose : one c1_purpose&#x000a;, r_c1_criteria : one c1_criteria }&#x000a;&#x000a;sig c1_purpose extends c0_objective_purpose&#x000a;{}&#x000a;{ one @r_c1_purpose.this&#x000a;  let children = (r_c0_maxi + r_c0_mini) | one children }&#x000a;&#x000a;sig c1_criteria&#x000a;{ r_c1_resource_related_objective_criteria : lone c1_resource_related_objective_criteria&#x000a;, r_c2_abstract_objective_criteria : lone c2_abstract_objective_criteria }&#x000a;{ one @r_c1_criteria.this&#x000a;  let children = (r_c1_resource_related_objective_criteria + r_c2_abstract_objective_criteria) | some children }&#x000a;&#x000a;sig c1_resource_related_objective_criteria extends c0_resource_related_objective_criteria&#x000a;{}&#x000a;{ one @r_c1_resource_related_objective_criteria.this&#x000a;  let children = (r_c0_power_consumption_criteria + r_c0_utilization_criteria + r_c0_throughput_criteria) | some children }&#x000a;&#x000a;sig c2_abstract_objective_criteria extends c0_abstract_objective_criteria&#x000a;{}&#x000a;{ one @r_c2_abstract_objective_criteria.this&#x000a;  let children = (r_c0_task_related_user_defined_criteria + r_c0_resource_related_user_defined_criteria) | some children&#x000a;  (no this.@r_c0_task_related_user_defined_criteria) &amp;&amp; (some this.@r_c0_resource_related_user_defined_criteria) }&#x000a;&#x000a;abstract sig c0_global_objective&#x000a;{ r_c2_purpose : one c2_purpose&#x000a;, r_c2_criteria : one c2_criteria }&#x000a;&#x000a;sig c2_purpose extends c0_objective_purpose&#x000a;{}&#x000a;{ one @r_c2_purpose.this&#x000a;  let children = (r_c0_maxi + r_c0_mini) | one children }&#x000a;&#x000a;sig c2_criteria&#x000a;{ r_c2_time_related_objective_criteria : lone c2_time_related_objective_criteria&#x000a;, r_c2_resource_related_objective_criteria : lone c2_resource_related_objective_criteria&#x000a;, r_c3_abstract_objective_criteria : lone c3_abstract_objective_criteria }&#x000a;{ one @r_c2_criteria.this&#x000a;  let children = (r_c2_time_related_objective_criteria + r_c2_resource_related_objective_criteria + r_c3_abstract_objective_criteria) | some children }&#x000a;&#x000a;sig c2_time_related_objective_criteria extends c0_time_related_objective_criteria&#x000a;{}&#x000a;{ one @r_c2_time_related_objective_criteria.this&#x000a;  let children = (r_c0_makespan + r_c0_tardiness + r_c0_earliness + r_c0_lateness + r_c0_centering) | some children }&#x000a;&#x000a;sig c2_resource_related_objective_criteria extends c0_resource_related_objective_criteria&#x000a;{}&#x000a;{ one @r_c2_resource_related_objective_criteria.this&#x000a;  let children = (r_c0_power_consumption_criteria + r_c0_utilization_criteria + r_c0_throughput_criteria) | some children }&#x000a;&#x000a;sig c3_abstract_objective_criteria extends c0_abstract_objective_criteria&#x000a;{}&#x000a;{ one @r_c3_abstract_objective_criteria.this&#x000a;  let children = (r_c0_task_related_user_defined_criteria + r_c0_resource_related_user_defined_criteria) | some children }&#x000a;&#x000a;abstract sig c0_resource&#x000a;{ r_c0_capacity : one c0_capacity&#x000a;, r_c0_resource_type : one c0_resource_type&#x000a;, r_c0_mode : one c0_mode&#x000a;, r_c0_power_consumption : one c0_power_consumption&#x000a;, r_c0_objective : lone c0_objective }&#x000a;&#x000a;sig c0_capacity&#x000a;{}&#x000a;{ one @r_c0_capacity.this }&#x000a;&#x000a;sig c0_resource_type&#x000a;{ r_c0_abstraction : one c0_abstraction&#x000a;, r_c0_identifier : one c0_identifier }&#x000a;{ one @r_c0_resource_type.this }&#x000a;&#x000a;sig c0_abstraction&#x000a;{ r_c0_ACTIVE : lone c0_ACTIVE&#x000a;, r_c0_PASSIVE : lone c0_PASSIVE&#x000a;, r_c0_COMPOSITE : lone c0_COMPOSITE }&#x000a;{ one @r_c0_abstraction.this&#x000a;  let children = (r_c0_ACTIVE + r_c0_PASSIVE + r_c0_COMPOSITE) | one children }&#x000a;&#x000a;sig c0_ACTIVE&#x000a;{}&#x000a;{ one @r_c0_ACTIVE.this }&#x000a;&#x000a;sig c0_PASSIVE&#x000a;{}&#x000a;{ one @r_c0_PASSIVE.this }&#x000a;&#x000a;sig c0_COMPOSITE&#x000a;{}&#x000a;{ one @r_c0_COMPOSITE.this }&#x000a;&#x000a;sig c0_identifier&#x000a;{}&#x000a;{ one @r_c0_identifier.this }&#x000a;&#x000a;sig c0_mode&#x000a;{ r_c0_shared : lone c0_shared&#x000a;, r_c0_exclusive : lone c0_exclusive }&#x000a;{ one @r_c0_mode.this&#x000a;  let children = (r_c0_shared + r_c0_exclusive) | one children }&#x000a;&#x000a;sig c0_shared&#x000a;{}&#x000a;{ one @r_c0_shared.this }&#x000a;&#x000a;sig c0_exclusive&#x000a;{ r_c0_capacity_based : lone c0_capacity_based&#x000a;, r_c0_semantic_based : lone c0_semantic_based }&#x000a;{ one @r_c0_exclusive.this&#x000a;  let children = (r_c0_capacity_based + r_c0_semantic_based) | some children }&#x000a;&#x000a;sig c0_capacity_based&#x000a;{}&#x000a;{ one @r_c0_capacity_based.this }&#x000a;&#x000a;sig c0_semantic_based&#x000a;{}&#x000a;{ one @r_c0_semantic_based.this }&#x000a;&#x000a;sig c0_power_consumption&#x000a;{ r_c0_scalable : lone c0_scalable }&#x000a;{ one @r_c0_power_consumption.this&#x000a;  (some this.@r_c0_scalable) =&gt; (some (((this.~@r_c0_power_consumption).@r_c0_resource_type).@r_c0_abstraction).@r_c0_ACTIVE) }&#x000a;&#x000a;sig c0_scalable&#x000a;{ r_c0_discrete : lone c0_discrete&#x000a;, r_c0_continuous : lone c0_continuous }&#x000a;{ one @r_c0_scalable.this&#x000a;  let children = (r_c0_discrete + r_c0_continuous) | one children }&#x000a;&#x000a;sig c0_discrete&#x000a;{}&#x000a;{ one @r_c0_discrete.this }&#x000a;&#x000a;sig c0_continuous&#x000a;{}&#x000a;{ one @r_c0_continuous.this }&#x000a;&#x000a;sig c0_objective extends c0_resource_related_objective&#x000a;{}&#x000a;{ one @r_c0_objective.this }&#x000a;&#x000a;abstract sig c0_timing&#x000a;{ r_c0_release_time : one c0_release_time&#x000a;, r_c0_execution_time : one c0_execution_time&#x000a;, r_c0_deadline : one c0_deadline&#x000a;, r_c0_periodicity : one c0_periodicity }&#x000a;&#x000a;sig c0_release_time&#x000a;{}&#x000a;{ one @r_c0_release_time.this }&#x000a;&#x000a;sig c0_execution_time&#x000a;{}&#x000a;{ one @r_c0_execution_time.this }&#x000a;&#x000a;sig c0_deadline&#x000a;{}&#x000a;{ one @r_c0_deadline.this }&#x000a;&#x000a;sig c0_periodicity&#x000a;{ r_c0_periodic : lone c0_periodic&#x000a;, r_c0_aperiodic : lone c0_aperiodic }&#x000a;{ one @r_c0_periodicity.this&#x000a;  let children = (r_c0_periodic + r_c0_aperiodic) | one children }&#x000a;&#x000a;sig c0_periodic&#x000a;{}&#x000a;{ one @r_c0_periodic.this }&#x000a;&#x000a;sig c0_aperiodic&#x000a;{ r_c0_sporadic : lone c0_sporadic }&#x000a;{ one @r_c0_aperiodic.this }&#x000a;&#x000a;sig c0_sporadic&#x000a;{}&#x000a;{ one @r_c0_sporadic.this }&#x000a;&#x000a;abstract sig c0_resource_requirement&#x000a;{ r_c0_eligible_resources : some c0_eligible_resources&#x000a;, r_c0_resource_identifier : one c0_resource_identifier }&#x000a;{ all disj x, y : this.@r_c0_eligible_resources | (x.@c0_eligible_resources_ref) != (y.@c0_eligible_resources_ref)  }&#x000a;&#x000a;sig c0_eligible_resources&#x000a;{ c0_eligible_resources_ref : one c0_resource }&#x000a;{ one @r_c0_eligible_resources.this }&#x000a;&#x000a;sig c0_resource_identifier&#x000a;{}&#x000a;{ one @r_c0_resource_identifier.this }&#x000a;&#x000a;abstract sig c0_requirement&#x000a;{ r_c0_deadline_requirement : one c0_deadline_requirement&#x000a;, r_c0_required_resources : some c0_required_resources }&#x000a;{ all disj x, y : this.@r_c0_required_resources | (x.@c0_required_resources_ref) != (y.@c0_required_resources_ref) &#x000a;  no  res : ((this.@r_c0_required_resources).@c0_required_resources_ref).@r_c0_eligible_resources | some (((res.@c0_eligible_resources_ref).@r_c0_resource_type).@r_c0_abstraction).@r_c0_COMPOSITE }&#x000a;&#x000a;sig c0_deadline_requirement&#x000a;{ r_c0_hard : lone c0_hard&#x000a;, r_c0_soft : lone c0_soft&#x000a;, r_c0_firm : lone c0_firm }&#x000a;{ one @r_c0_deadline_requirement.this&#x000a;  let children = (r_c0_hard + r_c0_soft + r_c0_firm) | one children }&#x000a;&#x000a;sig c0_hard&#x000a;{}&#x000a;{ one @r_c0_hard.this }&#x000a;&#x000a;sig c0_soft&#x000a;{}&#x000a;{ one @r_c0_soft.this }&#x000a;&#x000a;sig c0_firm&#x000a;{}&#x000a;{ one @r_c0_firm.this }&#x000a;&#x000a;sig c0_required_resources&#x000a;{ c0_required_resources_ref : one c0_resource_requirement }&#x000a;{ one @r_c0_required_resources.this }&#x000a;&#x000a;abstract sig c0_task&#x000a;{ r_c0_granularity : one c0_granularity&#x000a;, r_c1_timing : one c1_timing&#x000a;, r_c0_priority : one c0_priority&#x000a;, r_c0_preemptable : lone c0_preemptable&#x000a;, r_c1_requirement : one c1_requirement&#x000a;, r_c1_objective : lone c1_objective&#x000a;, r_c0_dependency : lone c0_dependency }&#x000a;&#x000a;sig c0_granularity&#x000a;{ r_c0_terminal : lone c0_terminal&#x000a;, r_c0_composite : lone c0_composite }&#x000a;{ one @r_c0_granularity.this&#x000a;  let children = (r_c0_terminal + r_c0_composite) | one children }&#x000a;&#x000a;sig c0_terminal&#x000a;{}&#x000a;{ one @r_c0_terminal.this }&#x000a;&#x000a;sig c0_composite&#x000a;{}&#x000a;{ one @r_c0_composite.this }&#x000a;&#x000a;sig c1_timing extends c0_timing&#x000a;{}&#x000a;{ one @r_c1_timing.this }&#x000a;&#x000a;sig c0_priority&#x000a;{}&#x000a;{ one @r_c0_priority.this }&#x000a;&#x000a;sig c0_preemptable&#x000a;{ r_c0_cooperative : lone c0_cooperative }&#x000a;{ one @r_c0_preemptable.this }&#x000a;&#x000a;sig c0_cooperative&#x000a;{}&#x000a;{ one @r_c0_cooperative.this }&#x000a;&#x000a;sig c1_requirement extends c0_requirement&#x000a;{}&#x000a;{ one @r_c1_requirement.this }&#x000a;&#x000a;sig c1_objective extends c0_task_related_objective&#x000a;{}&#x000a;{ one @r_c1_objective.this }&#x000a;&#x000a;sig c0_dependency&#x000a;{ r_c0_token_type : one c0_token_type&#x000a;, r_c0_n_tokens : one c0_n_tokens&#x000a;, r_c0_sequence_dependent_setup_time : one c0_sequence_dependent_setup_time }&#x000a;{ one @r_c0_dependency.this }&#x000a;&#x000a;sig c0_token_type&#x000a;{}&#x000a;{ one @r_c0_token_type.this }&#x000a;&#x000a;sig c0_n_tokens&#x000a;{}&#x000a;{ one @r_c0_n_tokens.this }&#x000a;&#x000a;sig c0_sequence_dependent_setup_time&#x000a;{}&#x000a;{ one @r_c0_sequence_dependent_setup_time.this }&#x000a;&#x000a;abstract sig c0_scheduling_policy&#x000a;{ r_c0_grouping : lone c0_grouping&#x000a;, r_c0_ranking : one c0_ranking }&#x000a;&#x000a;sig c0_grouping&#x000a;{}&#x000a;{ one @r_c0_grouping.this }&#x000a;&#x000a;sig c0_ranking&#x000a;{ r_c0_default : lone c0_default&#x000a;, r_c0_user_defined : lone c0_user_defined }&#x000a;{ one @r_c0_ranking.this&#x000a;  let children = (r_c0_default + r_c0_user_defined) | one children }&#x000a;&#x000a;sig c0_default&#x000a;{ r_c0_ERT : lone c0_ERT&#x000a;, r_c0_ED : lone c0_ED&#x000a;, r_c0_RM : lone c0_RM&#x000a;, r_c0_SJF : lone c0_SJF&#x000a;, r_c0_FIFO : lone c0_FIFO }&#x000a;{ one @r_c0_default.this&#x000a;  let children = (r_c0_ERT + r_c0_ED + r_c0_RM + r_c0_SJF + r_c0_FIFO) | one children }&#x000a;&#x000a;sig c0_ERT&#x000a;{}&#x000a;{ one @r_c0_ERT.this }&#x000a;&#x000a;sig c0_ED&#x000a;{}&#x000a;{ one @r_c0_ED.this }&#x000a;&#x000a;sig c0_RM&#x000a;{}&#x000a;{ one @r_c0_RM.this }&#x000a;&#x000a;sig c0_SJF&#x000a;{}&#x000a;{ one @r_c0_SJF.this }&#x000a;&#x000a;sig c0_FIFO&#x000a;{}&#x000a;{ one @r_c0_FIFO.this }&#x000a;&#x000a;sig c0_user_defined&#x000a;{}&#x000a;{ one @r_c0_user_defined.this }&#x000a;&#x000a;abstract sig c0_scheduling_characteristic&#x000a;{ r_c0_scheduling_characteristic_type : one c0_scheduling_characteristic_type&#x000a;, r_c0_preemptive : lone c0_preemptive&#x000a;, r_c0_migration : lone c0_migration&#x000a;, r_c0_policy : one c0_policy&#x000a;, r_c0_time_resolution : one c0_time_resolution&#x000a;, r_c0_priority_assignment : one c0_priority_assignment&#x000a;, r_c0_scheduling_window : one c0_scheduling_window&#x000a;, r_c2_objective : some c2_objective }&#x000a;{ all disj x, y : this.@r_c2_objective | (x.@c2_objective_ref) != (y.@c2_objective_ref)  }&#x000a;&#x000a;sig c0_scheduling_characteristic_type&#x000a;{ r_c0_online : lone c0_online&#x000a;, r_c0_offline : lone c0_offline }&#x000a;{ one @r_c0_scheduling_characteristic_type.this&#x000a;  let children = (r_c0_online + r_c0_offline) | one children }&#x000a;&#x000a;sig c0_online&#x000a;{}&#x000a;{ one @r_c0_online.this }&#x000a;&#x000a;sig c0_offline&#x000a;{}&#x000a;{ one @r_c0_offline.this }&#x000a;&#x000a;sig c0_preemptive&#x000a;{}&#x000a;{ one @r_c0_preemptive.this }&#x000a;&#x000a;sig c0_migration&#x000a;{ r_c0_task_level : lone c0_task_level&#x000a;, r_c0_job_level : lone c0_job_level }&#x000a;{ one @r_c0_migration.this&#x000a;  let children = (r_c0_task_level + r_c0_job_level) | one children }&#x000a;&#x000a;sig c0_task_level&#x000a;{}&#x000a;{ one @r_c0_task_level.this }&#x000a;&#x000a;sig c0_job_level&#x000a;{}&#x000a;{ one @r_c0_job_level.this }&#x000a;&#x000a;sig c0_policy extends c0_scheduling_policy&#x000a;{}&#x000a;{ one @r_c0_policy.this }&#x000a;&#x000a;sig c0_time_resolution&#x000a;{}&#x000a;{ one @r_c0_time_resolution.this }&#x000a;&#x000a;sig c0_priority_assignment&#x000a;{ r_c0_fixed : lone c0_fixed&#x000a;, r_c0_dynamic : lone c0_dynamic }&#x000a;{ one @r_c0_priority_assignment.this&#x000a;  let children = (r_c0_fixed + r_c0_dynamic) | one children }&#x000a;&#x000a;sig c0_fixed&#x000a;{}&#x000a;{ one @r_c0_fixed.this }&#x000a;&#x000a;sig c0_dynamic&#x000a;{}&#x000a;{ one @r_c0_dynamic.this }&#x000a;&#x000a;sig c0_scheduling_window&#x000a;{}&#x000a;{ one @r_c0_scheduling_window.this }&#x000a;&#x000a;sig c2_objective&#x000a;{ c2_objective_ref : one c0_global_objective }&#x000a;{ one @r_c2_objective.this }&#x000a;&#x000a;abstract sig c0_solver&#x000a;{ r_c0_IBM_ILOG_CPLEX_Optimizer : lone c0_IBM_ILOG_CPLEX_Optimizer&#x000a;, r_c0_SCIP_SoPlex : lone c0_SCIP_SoPlex&#x000a;, r_c0_Knapsack : lone c0_Knapsack&#x000a;, r_c0_SAS_OR_R : lone c0_SAS_OR_R }&#x000a;&#x000a;sig c0_IBM_ILOG_CPLEX_Optimizer&#x000a;{}&#x000a;{ one @r_c0_IBM_ILOG_CPLEX_Optimizer.this }&#x000a;&#x000a;sig c0_SCIP_SoPlex&#x000a;{}&#x000a;{ one @r_c0_SCIP_SoPlex.this }&#x000a;&#x000a;sig c0_Knapsack&#x000a;{}&#x000a;{ one @r_c0_Knapsack.this }&#x000a;&#x000a;sig c0_SAS_OR_R&#x000a;{}&#x000a;{ one @r_c0_SAS_OR_R.this }&#x000a;&#x000a;abstract sig c0_DSLB&#x000a;{ r_c0_name : one c0_name }&#x000a;{ ((this.@r_c0_name).@c0_name_ref) = 0 }&#x000a;&#x000a;sig c0_name&#x000a;{ c0_name_ref : one Int }&#x000a;{ one @r_c0_name.this }&#x000a;&#x000a;abstract sig c0_DSB&#x000a;{ r_c1_name : one c1_name }&#x000a;{ ((this.@r_c1_name).@c1_name_ref) = 1 }&#x000a;&#x000a;sig c1_name&#x000a;{ c1_name_ref : one Int }&#x000a;{ one @r_c1_name.this }&#x000a;&#x000a;abstract sig c0_input&#x000a;{ r_c1_DSLB : lone c1_DSLB&#x000a;, r_c1_DSB : lone c1_DSB }&#x000a;&#x000a;sig c1_DSLB extends c0_DSLB&#x000a;{}&#x000a;{ one @r_c1_DSLB.this }&#x000a;&#x000a;sig c1_DSB extends c0_DSB&#x000a;{}&#x000a;{ one @r_c1_DSB.this }&#x000a;&#x000a;abstract sig c0_output&#x000a;{ r_c2_DSLB : lone c2_DSLB&#x000a;, r_c2_DSB : lone c2_DSB }&#x000a;&#x000a;sig c2_DSLB extends c0_DSLB&#x000a;{}&#x000a;{ one @r_c2_DSLB.this }&#x000a;&#x000a;sig c2_DSB extends c0_DSB&#x000a;{}&#x000a;{ one @r_c2_DSB.this }&#x000a;&#x000a;abstract sig c0_scheduling_strategy&#x000a;{ r_c1_solver : one c1_solver&#x000a;, r_c0_solver_meta_knowledge : one c0_solver_meta_knowledge&#x000a;, r_c1_input : one c1_input&#x000a;, r_c1_output : one c1_output }&#x000a;&#x000a;sig c1_solver extends c0_solver&#x000a;{}&#x000a;{ one @r_c1_solver.this&#x000a;  let children = (r_c0_IBM_ILOG_CPLEX_Optimizer + r_c0_SCIP_SoPlex + r_c0_Knapsack + r_c0_SAS_OR_R) | some children }&#x000a;&#x000a;sig c0_solver_meta_knowledge&#x000a;{}&#x000a;{ one @r_c0_solver_meta_knowledge.this }&#x000a;&#x000a;sig c1_input extends c0_input&#x000a;{}&#x000a;{ one @r_c1_input.this&#x000a;  let children = (r_c1_DSLB + r_c1_DSB) | some children }&#x000a;&#x000a;sig c1_output extends c0_output&#x000a;{}&#x000a;{ one @r_c1_output.this&#x000a;  let children = (r_c2_DSLB + r_c2_DSB) | some children }&#x000a;&#x000a;abstract sig c0_scheduler&#x000a;{ r_c0_system : some c0_system&#x000a;, r_c0_taskset : some c0_taskset&#x000a;, r_c0_properties : one c0_properties&#x000a;, r_c0_strategy : lone c0_strategy }&#x000a;{ all disj x, y : this.@r_c0_system | (x.@c0_system_ref) != (y.@c0_system_ref) &#x000a;  all disj x, y : this.@r_c0_taskset | (x.@c0_taskset_ref) != (y.@c0_taskset_ref)  }&#x000a;&#x000a;sig c0_system&#x000a;{ c0_system_ref : one c0_resource }&#x000a;{ one @r_c0_system.this }&#x000a;&#x000a;sig c0_taskset&#x000a;{ c0_taskset_ref : one c0_task }&#x000a;{ one @r_c0_taskset.this }&#x000a;&#x000a;sig c0_properties extends c0_scheduling_characteristic&#x000a;{}&#x000a;{ one @r_c0_properties.this }&#x000a;&#x000a;sig c0_strategy extends c0_scheduling_strategy&#x000a;{}&#x000a;{ one @r_c0_strategy.this }&#x000a;&#x000a;one sig c0_machine extends c0_resource&#x000a;{}&#x000a;&#x000a;fact { (((some ((c0_machine.@r_c0_resource_type).@r_c0_abstraction).@r_c0_ACTIVE) &amp;&amp; (some ((c0_machine.@r_c0_mode).@r_c0_exclusive).@r_c0_capacity_based)) &amp;&amp; (no (c0_machine.@r_c0_power_consumption).@r_c0_scalable)) &amp;&amp; (no c0_machine.@r_c0_objective) }&#x000a;one sig c0_city extends c0_task&#x000a;{}&#x000a;&#x000a;one sig c0_task_req extends c0_resource_requirement&#x000a;{}&#x000a;&#x000a;fact { ((c0_task_req.@r_c0_eligible_resources).@c0_eligible_resources_ref) = c0_machine }&#x000a;fact { ((((((some ((c0_city.@r_c1_timing).@r_c0_periodicity).@r_c0_aperiodic) &amp;&amp; (no (((c0_city.@r_c1_timing).@r_c0_periodicity).@r_c0_aperiodic).@r_c0_sporadic)) &amp;&amp; (some ((c0_city.@r_c1_requirement).@r_c0_deadline_requirement).@r_c0_soft)) &amp;&amp; ((((c0_city.@r_c1_requirement).@r_c0_required_resources).@c0_required_resources_ref) = c0_task_req)) &amp;&amp; (some (c0_city.@r_c0_granularity).@r_c0_terminal)) &amp;&amp; (no c0_city.@r_c1_objective)) &amp;&amp; (some c0_city.@r_c0_dependency) }&#x000a;one sig c0_tsp_scheduler extends c0_scheduler&#x000a;{}&#x000a;&#x000a;one sig c0_mini_objective extends c0_global_objective&#x000a;{}&#x000a;&#x000a;fact { (((((some (c0_mini_objective.@r_c2_purpose).@r_c0_mini) &amp;&amp; (no ((c0_mini_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_tardiness)) &amp;&amp; (no ((c0_mini_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_centering)) &amp;&amp; (no ((c0_mini_objective.@r_c2_criteria).@r_c2_time_related_objective_criteria).@r_c0_earliness)) &amp;&amp; (no (c0_mini_objective.@r_c2_criteria).@r_c2_resource_related_objective_criteria)) &amp;&amp; (no (c0_mini_objective.@r_c2_criteria).@r_c3_abstract_objective_criteria) }&#x000a;fact { (((c0_tsp_scheduler.@r_c0_taskset).@c0_taskset_ref) = c0_city) &amp;&amp; (((c0_tsp_scheduler.@r_c0_system).@c0_system_ref) = c0_machine) }&#x000a;fact { (((some ((c0_tsp_scheduler.@r_c0_properties).@r_c0_scheduling_characteristic_type).@r_c0_offline) &amp;&amp; (some (((c0_tsp_scheduler.@r_c0_properties).@r_c0_policy).@r_c0_ranking).@r_c0_user_defined)) &amp;&amp; (some ((c0_tsp_scheduler.@r_c0_properties).@r_c0_priority_assignment).@r_c0_fixed)) &amp;&amp; ((((c0_tsp_scheduler.@r_c0_properties).@r_c2_objective).@c2_objective_ref) = c0_mini_objective) }&#x000a;fact { no c0_tsp_scheduler.@r_c0_strategy }&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/integer.als" content="module util/integer&#x000a;&#x000a;/*&#x000a; * A collection of utility functions for using Integers in Alloy.&#x000a; * Note that integer overflows are silently truncated to the current bitwidth&#x000a; * using the 2&apos;s complement arithmetic, unless the &quot;forbid overfows&quot; option is&#x000a; * turned on, in which case only models that don&apos;t have any overflows are &#x000a; * analyzed. &#x000a; */&#x000a;&#x000a;fun add  [n1, n2: Int] : Int { this/plus[n1, n2] }&#x000a;fun plus [n1, n2: Int] : Int { n1 fun/add n2 }&#x000a;&#x000a;fun sub   [n1, n2: Int] : Int { this/minus[n1, n2] }&#x000a;fun minus [n1, n2: Int] : Int { n1 fun/sub n2 }&#x000a;&#x000a;fun mul [n1, n2: Int] : Int { n1 fun/mul n2 }&#x000a;&#x000a;/**&#x000a; * Performs the division with &quot;round to zero&quot; semantics, except the following 3 cases&#x000a; * 1) if a is 0, then it returns 0&#x000a; * 2) else if b is 0, then it returns 1 if a is negative and -1 if a is positive&#x000a; * 3) else if a is the smallest negative integer, and b is -1, then it returns a&#x000a; */&#x000a;fun div [n1, n2: Int] : Int { n1 fun/div n2 }&#x000a;&#x000a;/** answer is defined to be the unique integer that satisfies &quot;a = ((a/b)*b) + remainder&quot; */&#x000a;fun rem [n1, n2: Int] : Int { n1 fun/rem n2 }&#x000a;&#x000a;/** negate */&#x000a;fun negate [n: Int] : Int { 0 fun/sub n }&#x000a;&#x000a;/** equal to */&#x000a;pred eq [n1, n2: Int] { int[n1] = int[n2] }&#x000a;&#x000a;/** greater than */&#x000a;pred gt [n1, n2: Int] { n1 &gt; n2 }&#x000a;&#x000a;/** less then */&#x000a;pred lt [n1, n2: Int] { n1 &lt; n2 }&#x000a;&#x000a;/** greater than or equal */&#x000a;pred gte [n1, n2: Int] { n1 &gt;= n2 }&#x000a;&#x000a;/** less than or equal */&#x000a;pred lte [n1, n2: Int] { n1 &lt;= n2 }&#x000a;&#x000a;/** integer is zero */&#x000a;pred zero [n: Int] { n = 0 }&#x000a;&#x000a;/** positive */&#x000a;pred pos  [n: Int] { n &gt; 0 }&#x000a;&#x000a;/** negative */&#x000a;pred neg  [n: Int] { n &lt; 0 }&#x000a;&#x000a;/** non-positive */&#x000a;pred nonpos [n: Int] { n &lt;= 0 }&#x000a;&#x000a;/** non-negative */&#x000a;pred nonneg [n: Int] { n &gt;= 0 }&#x000a;&#x000a;/** signum (aka sign or sgn) */&#x000a;fun signum [n: Int] : Int { n&lt;0 =&gt; (0 fun/sub 1) else (n&gt;0 =&gt; 1 else 0) }&#x000a;&#x000a;/**&#x000a; * returns the ith element (zero-based) from the set s&#x000a; * in the ordering of &apos;next&apos;, which is a linear ordering&#x000a; * relation like that provided by util/ordering&#x000a; */&#x000a;fun int2elem[i: Int, next: univ-&gt;univ, s: set univ] : lone s {&#x000a;  {e: s | #^next.e = int i }&#x000a;}&#x000a;&#x000a;/**&#x000a; * returns the index of the element (zero-based) in the&#x000a; * ordering of next, which is a linear ordering relation&#x000a; * like that provided by util/ordering&#x000a; */&#x000a;fun elem2int[e: univ, next: univ-&gt;univ] : lone Int {&#x000a;  Int[#^next.e]&#x000a;}&#x000a;&#x000a;/** returns the largest integer in the current bitwidth */&#x000a;fun max:one Int { fun/max }&#x000a;&#x000a;/** returns the smallest integer in the current bitwidth */&#x000a;fun min:one Int { fun/min }&#x000a;&#x000a;/** maps each integer (except max) to the integer after it */&#x000a;fun next:Int-&gt;Int { fun/next }&#x000a;&#x000a;/** maps each integer (except min) to the integer before it */&#x000a;fun prev:Int-&gt;Int { ~next }&#x000a;&#x000a;/** given a set of integers, return the largest element */&#x000a;fun max [es: set Int]: lone Int { es - es.^prev }&#x000a;&#x000a;/** given a set of integers, return the smallest element */&#x000a;fun min [es: set Int]: lone Int { es - es.^next }&#x000a;&#x000a;/** given an integer, return all integers prior to it */&#x000a;fun prevs [e: Int]: set Int { e.^prev }&#x000a;&#x000a;/** given an integer, return all integers following it */&#x000a;fun nexts [e: Int]: set Int { e.^next }&#x000a;&#x000a;/** returns the larger of the two integers */&#x000a;fun larger [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; b else a) }&#x000a;&#x000a;/** returns the smaller of the two integers */&#x000a;fun smaller [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; a else b) }&#x000a;"/>
+
+</alloy>

@@ -1,0 +1,294 @@
+-- @nsURI ClassMM=http://www.eclipse.org/uml2/5.0.0/UML
+-- @path SchedulerMM=/Scheduler/model/scheduler.ecore
+-- @path PlatformMM=/Platform/model/PlatformMM.ecore
+-- @path FeatureMM=/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore
+-- @path ProcessMM=/Process/model/process.ecore
+
+module OptMLTranslator;
+create SchedulerM : SchedulerMM from ProcessM : ProcessMM, ClassM : ClassMM, PlatformM : PlatformMM, FeatureM : FeatureMM;
+
+helper
+def : allResources() : Set(PlatformMM!Resource) =
+	PlatformMM!Resource.allInstances()->asSet()
+;
+
+helper context PlatformMM!CompositeResource
+def : getAllChildren() : OrderedSet(PlatformMM!Resource) =
+	self.childs->iterate(child; el: OrderedSet(PlatformMM!Resource) = OrderedSet{} |
+	el.append(child).union(
+	if child.belongs.abstraction = #COMPOSITE then
+		el.union(child.getAllChildren())
+	else
+		Set{}
+	endif))
+;
+
+helper context PlatformMM!CompositeResource
+def : getAllChildrenNames() : String =
+	self.childs->iterate(child; el: String = ' ' |
+	el + child.name +
+	if child.belongs.abstraction = #COMPOSITE then
+		child.getAllChildrenNames()
+	else
+		' '
+	endif)
+;
+
+helper context PlatformMM!CompositeResource
+def : isRoot() : Boolean =
+	thisModule.allResources().symetricDifference(self.getAllChildren()) = self
+;
+
+helper
+def : getMaxState(states : Sequence(PlatformMM!StateDVS)) : PlatformMM!StateDVS = 
+	states->iterate(state; max_state : PlatformMM!StateDVS = states->first() |
+	if state.scale > max_state.scale then
+		state
+	else
+		max_state
+	endif
+	)
+;
+
+helper
+def : getMinState(states : Sequence(PlatformMM!StateDVS)) : PlatformMM!StateDVS = 
+	states->iterate(state; min_state : PlatformMM!StateDVS = states->first() |
+	if state.scale < min_state.scale then
+		state
+	else
+		min_state
+	endif)
+;
+
+helper context FeatureMM!FeatureModel
+def : getModuleName() : String = self.root.name;
+	
+helper
+def : getTaskInstances() : Set(ProcessMM!ProcessNode) = ProcessMM!ProcessNode.allInstances()->asSet();
+
+helper
+def : getNumberTasks() : Integer = thisModule.getTaskInstances()->size();
+
+
+helper context ClassMM!Class
+def : getInheritedClasses() : Sequence(ClassMM!Class) = 
+	if self.generalization.oclIsUndefined() then
+		Sequence{}
+	else
+		let parents : Sequence(ClassMM!Class) = self.generalization->collect(e | e.general)->asSequence() in
+			parents->iterate(cls; r_cls: Sequence(ClassMM!Class) = Sequence{self} |
+				r_cls.union(cls.getInheritedClasses())
+			)
+	endif
+;
+	
+helper context ClassMM!Class
+def : inFunction(func_name : String) : Boolean = self.ownedOperation->collect(op | op.name)->includes(func_name);
+
+helper context ProcessMM!ProcessNode
+def : getAllClassesWithFunction(func_name : String) : Set(ClassMM!Class) = 
+	let allClasses : Sequence(ClassMM!Class) = ClassMM!Class.allInstances() in
+		allClasses->select(cls | cls.getInheritedClasses()->select(in_cls | in_cls.inFunction(thisModule.getFunctionName(self.name)))->size() > 0)
+;
+
+helper context ProcessMM!ProcessNode
+def : getDependencies() : Sequence(ClassMM!Class) =
+	let edges : Sequence(ProcessMM!Edge) = ProcessMM!Edge.allInstances() in
+		edges->select(edge | edge.target = self)->collect(edge | edge.source)
+;
+
+helper
+def : getFunctionName(str : String) : String = str.split('-')->first();
+
+helper
+def : getTokenName(task_name : String, task_type : String) : String = task_type + '::' + task_name;
+
+helper
+def : getPlatformResource(resource_name : String) : PlatformMM!Resource =
+	PlatformMM!Resource.allInstances()->select(r | r.belongs.identifier = resource_name)->first();
+
+helper
+def : getAllPlatformResources(resource_type : String) : Sequence(PlatformMM!Resource) = 
+	PlatformMM!Resource.allInstances()->select(r | r.belongs.identifier = resource_type);
+
+helper context PlatformMM!Resource
+def : getWCETValue(resource_identifier : String) : Integer =
+	PlatformMM!Resource.allInstances()->select(p_res | p_res.belongs.identifier = resource_identifier);
+
+rule PlatformDiagram2System {
+	from
+		platform_diag : PlatformMM!PlatformDiagram
+		using {
+			task_nodes : Sequence(ProcessMM!ProcessNode) = thisModule.getTaskInstances();
+		}
+		
+	to
+		schedulerM : SchedulerMM!Scheduler (
+			System <- platform_diag.System,
+			resourceTypes <- platform_diag.resourceTypes->collect(e | thisModule.ResourceTypeTranslation(e)),
+			taskset <- task_nodes->collect(e | thisModule.ProcessNode2Task(e)),
+			tokenPool <- Sequence{},
+			schedType <- #OFFLINE,
+			preemptive <- false,
+			migration <- #NON_MIGRATION,
+			priorityAssignment <- #FIXED,
+			policyRanking <- #FIFO,
+			policyGrouping <- false,
+			schedBegin <- 0,
+			schedDuration <- thisModule.getNumberTasks() + 1
+		)
+}
+
+lazy rule ProcessDaigram2Taskset {
+	from
+		process_diag : ProcessMM!ProcessDiagram
+	to
+		taskset : SchedulerMM!Scheduler (
+			
+		)
+}
+
+rule CompPlatform2CompResource {
+	from
+		pri_res : PlatformMM!CompositeResource
+	to
+		sc_res : SchedulerMM!ResourceC (
+			belongs <- thisModule.ResourceTypeTranslation(pri_res.belongs),
+			capacity <- 0,
+			exclusiveResources <- Sequence{},
+			name <- pri_res.name,
+			renewable <- true,
+			resourceMode <- #CB_AND_SB_EXCLUSIVE,
+			subResources <- Sequence{
+				pri_res.childs->collect(e | thisModule.resolveTemp(e, 'sc_t_res')),
+				pri_res.childs->collect(e | thisModule.resolveTemp(e, 'sc_res'))
+			}
+		)
+}
+
+rule TempPlatform2TempResource {
+	from
+		pri_t_res : PlatformMM!TerminalResource
+		
+	to
+		sc_t_res : SchedulerMM!ResourceT (
+			belongs <- thisModule.ResourceTypeTranslation(pri_t_res.belongs),
+			capacity <- pri_t_res.capacity,
+			exclusiveResources <- Sequence{},
+			name <- pri_t_res.name,
+			renewable <- true,
+			resourceMode <- #CB_AND_SB_EXCLUSIVE,
+			power <- power_st
+		),
+		power_st : SchedulerMM!DiscreteStatePowerConsumption (
+			runnableStates <- pri_t_res.states.asSequence()->collect(e | thisModule.resolveTemp(e, 'power_state')),
+			maxState <- thisModule.getMaxState(pri_t_res.states.asSequence()),
+			minState <- thisModule.getMinState(pri_t_res.states.asSequence()),
+			currPowerState <- thisModule.getMaxState(pri_t_res.states.asSequence())
+		)
+}
+
+rule StateDVS2PowerState {
+	from
+		states_dvs : PlatformMM!StateDVS
+	to
+		power_state : SchedulerMM!PowerState (
+			powerConsumption <- states_dvs.energy,
+			scale <- states_dvs.scale
+		)
+}
+
+unique lazy rule ResourceTypeTranslation {
+	from
+		resource_type_source : PlatformMM!ResourceType
+	to
+		resorce_type_target : SchedulerMM!ResourceType (
+			abstraction <- resource_type_source.abstraction,
+			identifier <- resource_type_source.identifier
+		)
+}
+
+unique lazy rule ProcessNode2Task {
+	from
+		proc_node : ProcessMM!ProcessNode (not (proc_node.oclIsTypeOf(ProcessMM!InitialActivity) or proc_node.oclIsTypeOf(ProcessMM!FinalActivity)) )
+		using {
+			scope : String = 
+				if proc_node.namespace.oclIsUndefined() or proc_node.namespace = '' then
+					'Global'
+				else
+					proc_node.namespace
+				endif;
+		}
+	to
+		task_node : SchedulerMM!TaskT (
+			name <- proc_node.name,
+			type <- scope,
+			fires <- thisModule.Edge2Dependency(proc_node),
+			dependencyItems <- Sequence{dep_item},
+			resourceRequirementItems <- proc_node.requires->collect(e | thisModule.ProcessRequirement2Requirement(e)),
+			
+			releaseTime <- 0,
+			deadline <- thisModule.getNumberTasks()+1,
+			deadlineType <- #HARD,
+			period <- -1,
+			periodType <- #APERIODIC,
+			pmtnType <- #NOT_PPREEMPTABLE,
+			relation <- #AND
+		),
+		dep_item : SchedulerMM!DependencyItem (
+			numTokens <- 1,
+			setupTime <- 0,
+			token <- proc_node.getDependencies()->collect(cls | thisModule.Edge2Dependency(cls))->first()
+		)
+}
+
+unique lazy rule ProcessRequirement2Requirement {
+	from
+		req_resource_proc : ProcessMM!Requirement
+		using {
+			platform_resource : PlatformMM!Resource = thisModule.getPlatformResource(req_resource_proc.resourceName);
+		}
+	to
+		req_resource_scheduler : SchedulerMM!ResourceRequirementItem (
+			requiredCapacity <- req_resource_proc.requiredCapacity.intValue(),
+			requiredResourceType <- thisModule.ResourceTypeTranslation(platform_resource.belongs),
+			eligibleResourceItems <- thisModule.EligibleResourceItemTranslation(req_resource_proc)
+		)
+}
+
+unique lazy rule EligibleResourceItemTranslation {
+	from
+		el_p_resource : ProcessMM!Requirement
+		using {
+			platform_resource : PlatformMM!Resource = thisModule.getPlatformResource(el_p_resource.resourceName);
+			active : Boolean = platform_resource.belongs.abstraction = #ACTIVE;
+		}
+	to 
+		req_resource_item : SchedulerMM!EligibleResource (
+			wcetOnResource <-
+				if active then
+			 		el_p_resource.WCET.intValue()
+				else
+					-1
+				endif,
+			eligibleResourcePtr <- platform_resource
+		)
+}
+
+unique lazy rule Edge2Dependency {
+	from
+		proc_node : ProcessMM!ProcessNode
+		using {
+			scope : String = 
+				if proc_node.namespace.oclIsUndefined() or proc_node.namespace = '' then
+					'Global'
+				else
+					proc_node.namespace
+				endif;
+		}
+	to
+		t_token : SchedulerMM!Token (
+			amount <- 1,
+			name <- thisModule.getTokenName(proc_node.name, scope)
+		)
+}

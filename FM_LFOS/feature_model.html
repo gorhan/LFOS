@@ -1,0 +1,359 @@
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">xor</span> <span class="claferDecl" id="c0_objective_purpose">objective_purpose</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_maxi">maxi</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_mini">mini</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_time_related_objective_criteria">time_related_objective_criteria</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_makespan">makespan</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_tardiness">tardiness</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_earliness">earliness</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_lateness">lateness</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_centering">centering</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_resource_related_objective_criteria">resource_related_objective_criteria</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_power_consumption_criteria">power_consumption_criteria</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_utilization_criteria">utilization_criteria</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_throughput_criteria">throughput_criteria</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_abstract_objective_criteria">abstract_objective_criteria</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_task_related_user_defined_criteria">task_related_user_defined_criteria</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_resource_related_user_defined_criteria">resource_related_user_defined_criteria</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_task_related_objective">task_related_objective</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_task_objective_purpose">task_objective_purpose</span><span class="keyword"> : </span><a href="#c0_objective_purpose"><span class="reference">objective_purpose</span></a></div>
+  <div class="indent">
+  <span class="keyword">or</span> <span class="claferDecl" id="c0_criteria">criteria</span>
+    <div class="indent">
+    `<a href="#c0_time_related_objective_criteria"><span class="reference">time_related_objective_criteria</span></a></div>
+    <div class="indent">
+    `<a href="#c0_abstract_objective_criteria"><span class="reference">abstract_objective_criteria</span></a></div>
+      <div class="indent">
+      <span class="keyword">[</span> <a href="#c0_task_related_user_defined_criteria"><span class="reference">task_related_user_defined_criteria</span></a> &amp;&amp;  ! <a href="#c0_resource_related_user_defined_criteria"><span class="reference">resource_related_user_defined_criteria</span></a> <span class="keyword">]</span></div>
+   
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_resource_related_objective">resource_related_objective</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_resource_objective_purpose">resource_objective_purpose</span><span class="keyword"> : </span><a href="#c0_objective_purpose"><span class="reference">objective_purpose</span></a></div>
+  <div class="indent">
+  <span class="keyword">or</span> <span class="claferDecl" id="c1_criteria">criteria</span>
+    <div class="indent">
+    `<a href="#c0_resource_related_objective_criteria"><span class="reference">resource_related_objective_criteria</span></a></div>
+    <div class="indent">
+    `<a href="#c0_abstract_objective_criteria"><span class="reference">abstract_objective_criteria</span></a></div>
+      <div class="indent">
+      <span class="keyword">[</span>  ! <a href="#c0_task_related_user_defined_criteria"><span class="reference">task_related_user_defined_criteria</span></a> &amp;&amp; <a href="#c0_resource_related_user_defined_criteria"><span class="reference">resource_related_user_defined_criteria</span></a> <span class="keyword">]</span></div>
+   
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_global_objective">global_objective</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_purpose">purpose</span><span class="keyword"> : </span><a href="#c0_objective_purpose"><span class="reference">objective_purpose</span></a></div>
+  <div class="indent">
+  <span class="keyword">or</span> <span class="claferDecl" id="c2_criteria">criteria</span>
+    <div class="indent">
+    `<a href="#c0_time_related_objective_criteria"><span class="reference">time_related_objective_criteria</span></a></div>
+    <div class="indent">
+    `<a href="#c0_resource_related_objective_criteria"><span class="reference">resource_related_objective_criteria</span></a></div>
+    <div class="indent">
+    `<a href="#c0_abstract_objective_criteria"><span class="reference">abstract_objective_criteria</span></a></div>
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_resource">resource</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_capacity">capacity</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_resource_type">resource_type</span>
+    <div class="indent">
+    <span class="keyword">xor</span> <span class="claferDecl" id="c0_abstraction">abstraction</span>
+      <div class="indent">
+      <span class="claferDecl" id="c0_ACTIVE">ACTIVE</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_PASSIVE">PASSIVE</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_COMPOSITE">COMPOSITE</span></div>
+    </div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_identifier">identifier</span></div>
+  </div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_mode">mode</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_shared">shared</span></div>
+    <div class="indent">
+    <span class="keyword">or</span> <span class="claferDecl" id="c0_exclusive">exclusive</span>
+      <div class="indent">
+      <span class="claferDecl" id="c0_capacity_based">capacity_based</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_semantic_based">semantic_based</span></div>
+    </div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_power_consumption">power_consumption</span>
+    <div class="indent">
+    <span class="keyword">xor</span> <span class="claferDecl" id="c0_scalable">scalable</span> ?
+      <div class="indent">
+      <span class="claferDecl" id="c0_discrete">discrete</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_continuous">continuous</span></div>
+    </div>
+    <div class="indent">
+    <span class="keyword">[</span> <a href="#c0_scalable"><span class="reference">scalable</span></a> =&gt; <a href="#c0_resource_type"><span class="reference">resource_type</span></a>.<a href="#c0_abstraction"><span class="reference">abstraction</span></a>.<a href="#c0_ACTIVE"><span class="reference">ACTIVE</span></a> <span class="keyword">]</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_resource_objective">resource_objective</span><span class="keyword"> : </span><a href="#c0_resource_related_objective"><span class="reference">resource_related_objective</span></a> ?</div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_timing">timing</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_release_time">release_time</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_execution_time">execution_time</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_deadline">deadline</span></div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_periodicity">periodicity</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_periodic">periodic</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_aperiodic">aperiodic</span>
+      <div class="indent">
+      <span class="claferDecl" id="c0_sporadic">sporadic</span> ?</div>
+    </div>
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_resource_requirement">resource_requirement</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_eligible_resources">eligible_resources</span><span class="keyword"> -> </span><a href="#c0_resource"><span class="reference">resource</span></a> +</div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_resource_identifier">resource_identifier</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_requirement">requirement</span>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_deadline_requirement">deadline_requirement</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_hard">hard</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_soft">soft</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_firm">firm</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_required_resources">required_resources</span><span class="keyword"> -> </span><a href="#c0_resource_requirement"><span class="reference">resource_requirement</span></a> +</div>
+  <div class="indent">
+  <span class="keyword">[</span> <span class="keyword">no</span> res<span class="keyword"> : </span><a href="#c0_required_resources"><span class="reference">required_resources</span></a>.<a href="#c0_eligible_resources"><span class="reference">eligible_resources</span></a> | <a href="#res"><span class="reference">res</span></a>.<a href="#c0_resource_type"><span class="reference">resource_type</span></a>.<a href="#c0_abstraction"><span class="reference">abstraction</span></a>.<a href="#c0_COMPOSITE"><span class="reference">COMPOSITE</span></a> <span class="keyword">]</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_task">task</span>
+  <div class="indent">
+  `<a href="#c0_timing"><span class="reference">timing</span></a></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_priority">priority</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_preemptable">preemptable</span> ?
+    <div class="indent">
+    <span class="claferDecl" id="c0_cooperative">cooperative</span> ?</div>
+  </div>
+  <div class="indent">
+  `<a href="#c0_requirement"><span class="reference">requirement</span></a></div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_granularity">granularity</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_terminal">terminal</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_composite">composite</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_task_objective">task_objective</span><span class="keyword"> : </span><a href="#c0_task_related_objective"><span class="reference">task_related_objective</span></a> ?</div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_dependency">dependency</span> ?
+    <div class="indent">
+    <span class="claferDecl" id="c0_token_type">token_type</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_n_tokens">n_tokens</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_sequence_dependent_setup_time">sequence_dependent_setup_time</span></div>
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_scheduling_policy">scheduling_policy</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_grouping">grouping</span> ?</div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_ranking">ranking</span>
+    <div class="indent">
+    <span class="keyword">xor</span> <span class="claferDecl" id="c0_default">default</span>
+      <div class="indent">
+      <span class="claferDecl" id="c0_ERT">ERT</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_ED">ED</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_RM">RM</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_SJF">SJF</span></div>
+      <div class="indent">
+      <span class="claferDecl" id="c0_FIFO">FIFO</span></div>
+    </div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_user_defined">user_defined</span></div>
+  </div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_scheduling_characteristic">scheduling_characteristic</span>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_scheduling_characteristic_type">scheduling_characteristic_type</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_online">online</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_offline">offline</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_preemptive">preemptive</span> ?</div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_migration">migration</span> ?
+    <div class="indent">
+    <span class="claferDecl" id="c0_task_level">task_level</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_job_level">job_level</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_policy">policy</span><span class="keyword"> : </span><a href="#c0_scheduling_policy"><span class="reference">scheduling_policy</span></a></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_time_resolution">time_resolution</span></div>
+  <div class="indent">
+  <span class="keyword">xor</span> <span class="claferDecl" id="c0_priority_assignment">priority_assignment</span>
+    <div class="indent">
+    <span class="claferDecl" id="c0_fixed">fixed</span></div>
+    <div class="indent">
+    <span class="claferDecl" id="c0_dynamic">dynamic</span></div>
+  </div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_scheduling_window">scheduling_window</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_objective">objective</span><span class="keyword"> -> </span><a href="#c0_global_objective"><span class="reference">global_objective</span></a> +</div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_solver">solver</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_IBM_ILOG_CPLEX_Optimizer">IBM_ILOG_CPLEX_Optimizer</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_SCIP_SoPlex">SCIP_SoPlex</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_Knapsack">Knapsack</span></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_SAS_OR_R">SAS_OR_R</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_DSLB">DSLB</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_name">name</span><span class="keyword"> : </span><a href="#string"><span class="reference">string</span></a></div>
+  <div class="indent">
+  <span class="keyword">[</span> <a href="#c0_name"><span class="reference">name</span></a> = "Domain-Specific Language Based" <span class="keyword">]</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_DSB">DSB</span>
+  <div class="indent">
+  <span class="claferDecl" id="c1_name">name</span><span class="keyword"> : </span><a href="#string"><span class="reference">string</span></a></div>
+  <div class="indent">
+  <span class="keyword">[</span> <a href="#c1_name"><span class="reference">name</span></a> = "Domain Structure Based" <span class="keyword">]</span></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_input">input</span>
+  <div class="indent">
+  `<a href="#c0_DSLB"><span class="reference">DSLB</span></a></div>
+  <div class="indent">
+  `<a href="#c0_DSB"><span class="reference">DSB</span></a></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="keyword">or</span> <span class="claferDecl" id="c0_output">output</span>
+  <div class="indent">
+  `<a href="#c0_DSLB"><span class="reference">DSLB</span></a></div>
+  <div class="indent">
+  `<a href="#c0_DSB"><span class="reference">DSB</span></a></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_scheduling_strategy">scheduling_strategy</span>
+  <div class="indent">
+  `<a href="#c0_solver"><span class="reference">solver</span></a></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_solver_meta_knowledge">solver_meta_knowledge</span></div>
+  <div class="indent">
+  `<a href="#c0_input"><span class="reference">input</span></a></div>
+  <div class="indent">
+  `<a href="#c0_output"><span class="reference">output</span></a></div>
+</div>
+
+
+<div>
+<span class="keyword">abstract</span> <span class="claferDecl" id="c0_scheduler">scheduler</span>
+  <div class="indent">
+  <span class="claferDecl" id="c0_taskset">taskset</span><span class="keyword"> -> </span><a href="#c0_task"><span class="reference">task</span></a> +</div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_system">system</span><span class="keyword"> -> </span><a href="#c0_resource"><span class="reference">resource</span></a> +</div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_properties">properties</span><span class="keyword"> : </span><a href="#c0_scheduling_characteristic"><span class="reference">scheduling_characteristic</span></a></div>
+  <div class="indent">
+  <span class="claferDecl" id="c0_strategy">strategy</span><span class="keyword"> : </span><a href="#c0_scheduling_strategy"><span class="reference">scheduling_strategy</span></a> ?</div>
+</div>
+

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_zza5sFmrEeijjorh6rteZQ" name="Registration">
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_aIG_0FmwEeiOxYNPMqwLFg" name="Real">
+    <generalization xmi:id="_z-1T8Fm1EeiOxYNPMqwLFg" general="_rh1ScFm1EeiOxYNPMqwLFg" isSubstitutable="false"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_qtJGIFm1EeiOxYNPMqwLFg">
+    <generalization xmi:id="_z44c8Fm1EeiOxYNPMqwLFg" general="_rh1ScFm1EeiOxYNPMqwLFg" isSubstitutable="false"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_kHPicFmwEeiOxYNPMqwLFg" name="String">
+    <generalization xmi:id="_zyeS8Fm1EeiOxYNPMqwLFg" general="_rh1ScFm1EeiOxYNPMqwLFg" isSubstitutable="false"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_Wqz9EFmxEeiOxYNPMqwLFg" name="Bool">
+    <generalization xmi:id="_zqie8Fm1EeiOxYNPMqwLFg" general="_rh1ScFm1EeiOxYNPMqwLFg" isSubstitutable="false"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_mowc8FmwEeiOxYNPMqwLFg" name="Integer">
+    <generalization xmi:id="_xPh1EFm1EeiOxYNPMqwLFg" general="_rh1ScFm1EeiOxYNPMqwLFg" isSubstitutable="false"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_rh1ScFm1EeiOxYNPMqwLFg" name="AbstractType" isAbstract="true"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="__kVUQFmxEeiOxYNPMqwLFg" name="PointCloud"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_XjmCYFm1EeiOxYNPMqwLFg" name="Parameter">
+    <ownedAttribute xmi:id="_aelz4Fm1EeiOxYNPMqwLFg" name="name" type="_kHPicFmwEeiOxYNPMqwLFg">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_bW24oFm1EeiOxYNPMqwLFg" value=""/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_jY9G0Fm1EeiOxYNPMqwLFg" name="value" type="_rh1ScFm1EeiOxYNPMqwLFg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_sa2-cFmwEeiOxYNPMqwLFg" name="Registration">
+    <ownedAttribute xmi:id="_waigEFmwEeiOxYNPMqwLFg" name="speed" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_16dFYFmwEeiOxYNPMqwLFg" name="energy" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_2Dr54FmwEeiOxYNPMqwLFg" name="precision" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedOperation xmi:id="_53j0IFmwEeiOxYNPMqwLFg" name="setSpeed" concurrency="concurrent">
+      <ownedParameter xmi:id="_DQerUFmxEeiOxYNPMqwLFg" name="speed" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+      <ownedParameter xmi:id="_SEsGgFmxEeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_e1EowFmxEeiOxYNPMqwLFg" name="getSpeed">
+      <ownedParameter xmi:id="_iFB9oFmxEeiOxYNPMqwLFg" name="Return" type="_aIG_0FmwEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_oZwrEFmxEeiOxYNPMqwLFg" name="setEnergy" concurrency="concurrent">
+      <ownedParameter xmi:id="_oZwrEVmxEeiOxYNPMqwLFg" name="energy" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+      <ownedParameter xmi:id="_oZwrElmxEeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_rkoroFmxEeiOxYNPMqwLFg" name="getEnergy">
+      <ownedParameter xmi:id="_rkoroVmxEeiOxYNPMqwLFg" name="Return" type="_aIG_0FmwEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_uVV4sFmxEeiOxYNPMqwLFg" name="setPrecision" concurrency="concurrent">
+      <ownedParameter xmi:id="_uVV4sVmxEeiOxYNPMqwLFg" name="precision" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+      <ownedParameter xmi:id="_uVV4slmxEeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_uVV4s1mxEeiOxYNPMqwLFg" name="getPrecision">
+      <ownedParameter xmi:id="_uVV4tFmxEeiOxYNPMqwLFg" name="Return" type="_aIG_0FmwEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_2Lc5UFmxEeiOxYNPMqwLFg" name="Input">
+    <generalization xmi:id="_4DYZYFmzEeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedAttribute xmi:id="_5hUB4FmxEeiOxYNPMqwLFg" name="input" type="__kVUQFmxEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_FlSxIFmyEeiOxYNPMqwLFg" name="fps" type="_mowc8FmwEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_KriSMFmyEeiOxYNPMqwLFg" name="resolution" type="_kHPicFmwEeiOxYNPMqwLFg">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_LKKu8FmyEeiOxYNPMqwLFg" value=""/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_RYxmQFmyEeiOxYNPMqwLFg" name="getData" isAbstract="true">
+      <ownedParameter xmi:id="_S5gZMFmyEeiOxYNPMqwLFg" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_PKwkoFm0EeiOxYNPMqwLFg" name="CalibratedInput">
+    <generalization xmi:id="_T2t9cFm0EeiOxYNPMqwLFg" general="_2Lc5UFmxEeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_Yr_qUFm0EeiOxYNPMqwLFg" name="calibrate">
+      <ownedParameter xmi:id="_icVjAFm0EeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_b5PpcFm0EeiOxYNPMqwLFg" name="getData">
+      <ownedParameter xmi:id="_eUBCwFm0EeiOxYNPMqwLFg" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_t9OzUFm0EeiOxYNPMqwLFg" name="Filter">
+    <generalization xmi:id="_7IqS0Fm0EeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedAttribute xmi:id="_9kxv8Fm0EeiOxYNPMqwLFg" name="input" type="__kVUQFmxEeiOxYNPMqwLFg">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_935gQFm0EeiOxYNPMqwLFg" value=""/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_51V0UFm1EeiOxYNPMqwLFg" name="parameters" type="_XjmCYFm1EeiOxYNPMqwLFg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6gjUgFm1EeiOxYNPMqwLFg" value="*"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_CG-6YFm2EeiOxYNPMqwLFg" name="setInputData" concurrency="concurrent">
+      <ownedParameter xmi:id="_HDEZ4Fm2EeiOxYNPMqwLFg" name="cloud" type="__kVUQFmxEeiOxYNPMqwLFg"/>
+      <ownedParameter xmi:id="_HTSnMFm2EeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_O3A3UFm2EeiOxYNPMqwLFg" name="getInputData" concurrency="concurrent">
+      <ownedParameter xmi:id="_O3A3UVm2EeiOxYNPMqwLFg" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_XToeUFm2EeiOxYNPMqwLFg" name="setFilterParams" concurrency="concurrent">
+      <ownedParameter xmi:id="_XToeUVm2EeiOxYNPMqwLFg" name="params" type="_XjmCYFm1EeiOxYNPMqwLFg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cprV8Fm2EeiOxYNPMqwLFg" value="*"/>
+      </ownedParameter>
+      <ownedParameter xmi:id="_XToeUlm2EeiOxYNPMqwLFg" name="Return" type="_Wqz9EFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_fdpSYFm2EeiOxYNPMqwLFg" name="getFilteringParams" concurrency="concurrent">
+      <ownedParameter xmi:id="_fdpSYVm2EeiOxYNPMqwLFg" name="Return" type="_XjmCYFm1EeiOxYNPMqwLFg" direction="return">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jnjHAFm2EeiOxYNPMqwLFg" value="*"/>
+      </ownedParameter>
+    </ownedOperation>
+  </packagedElement>
+</uml:Model>

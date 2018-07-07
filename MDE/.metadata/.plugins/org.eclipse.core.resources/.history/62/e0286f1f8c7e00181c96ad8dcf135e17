@@ -1,0 +1,17 @@
+/**
+ */
+package Connection;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Fork Process</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see Connection.ProcessPackage#getForkProcess()
+ * @model
+ * @generated
+ */
+public interface ForkProcess extends ProcessNode {
+} // ForkProcess

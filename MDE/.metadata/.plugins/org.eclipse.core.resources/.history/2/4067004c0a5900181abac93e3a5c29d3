@@ -1,0 +1,17 @@
+/**
+ */
+package featuremodel;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Attribute Type String</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see featuremodel.FeaturemodelPackage#getAttributeTypeString()
+ * @model
+ * @generated
+ */
+public interface AttributeTypeString extends AttributeType {
+} // AttributeTypeString

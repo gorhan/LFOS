@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated process -->
+      <package
+            uri="http://www.example.org/process"
+            class="Connection.ProcessPackage"
+            genModel="model/process.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated process -->
+      <factory
+            uri="http://www.example.org/process"
+            class="Connection.provider.ProcessItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated process -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="Connection.presentation.ProcessModelWizardID"
+            name="%_UI_ProcessModelWizard_label"
+            class="Connection.presentation.ProcessModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/ProcessModelFile.gif">
+         <description>%_UI_ProcessModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated process -->
+      <editor
+            id="Connection.presentation.ProcessEditorID"
+            name="%_UI_ProcessEditor_label"
+            icon="icons/full/obj16/ProcessModelFile.gif"
+            extensions="process"
+            class="Connection.presentation.ProcessEditor"
+            contributorClass="Connection.presentation.ProcessActionBarContributor">
+      </editor>
+   </extension>
+</plugin>

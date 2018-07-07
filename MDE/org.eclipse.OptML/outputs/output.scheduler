@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<scheduler:Scheduler xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scheduler="http://www.example.org/scheduler" schedDuration="30" preemptive="false" migration="NON_MIGRATION">
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Match" type="Match">
+    <dependencyItems token="//@taskset.19/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Match::Match" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="transform" type="Transform">
+    <dependencyItems token="//@taskset.4/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Transform::transform" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="getCorrespondences" type="Match">
+    <dependencyItems token="//@taskset.18/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Match::getCorrespondences" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Finish" type="Global">
+    <dependencyItems token="//@taskset.1/@fires.0"/>
+    <fires name="Global::Finish" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setTransformParams" type="Transform">
+    <dependencyItems token="//@taskset.10/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Transform::setTransformParams" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="extract-1" type="FExtract">
+    <dependencyItems token="//@taskset.20/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="FExtract::extract-1" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputDstData" type="Transform">
+    <dependencyItems token="//@taskset.24/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Transform::setInputDstData" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Start" type="Global">
+    <dependencyItems/>
+    <fires name="Global::Start" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputSrcData" type="Transform">
+    <dependencyItems token="//@taskset.24/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Transform::setInputSrcData" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Match" type="Global">
+    <dependencyItems token="//@taskset.17/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Global::Match" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setCorrespondences" type="Transform">
+    <dependencyItems token="//@taskset.22/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Transform::setCorrespondences" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="getData" type="Input::CalibratedInput">
+    <dependencyItems token="//@taskset.13/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Input::CalibratedInput::getData" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputData-2" type="Filter">
+    <dependencyItems token="//@taskset.23/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::setInputData-2" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="calibrate" type="Input::CalibratedInput">
+    <dependencyItems token="//@taskset.7/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Input::CalibratedInput::calibrate" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputDstData" type="Match">
+    <dependencyItems token="//@taskset.9/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Match::setInputDstData" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="filter-2" type="Filter">
+    <dependencyItems token="//@taskset.27/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::filter-2" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="filter-1" type="Filter">
+    <dependencyItems token="//@taskset.26/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::filter-1" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="FExtract-Match" type="Global">
+    <dependencyItems token="//@taskset.5/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Global::FExtract-Match" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setMatchParams" type="Match">
+    <dependencyItems token="//@taskset.0/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Match::setMatchParams" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputSrcData" type="Match">
+    <dependencyItems token="//@taskset.9/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Match::setInputSrcData" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputData-1" type="FExtract">
+    <dependencyItems token="//@taskset.16/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="FExtract::setInputData-1" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="extract-2" type="FExtract">
+    <dependencyItems token="//@taskset.28/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="FExtract::extract-2" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Transform" type="Global">
+    <dependencyItems token="//@taskset.8/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Global::Transform" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Input-Filter" type="Global">
+    <dependencyItems token="//@taskset.11/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Global::Input-Filter" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="Transform" type="Global">
+    <dependencyItems token="//@taskset.2/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <fires name="Global::Transform" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputData-1" type="Filter">
+    <dependencyItems token="//@taskset.23/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::setInputData-1" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setFilterParams-1" type="Filter">
+    <dependencyItems token="//@taskset.25/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::setFilterParams-1" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setFilterParams-2" type="Filter">
+    <dependencyItems token="//@taskset.12/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="Filter::setFilterParams-2" amount="1"/>
+  </taskset>
+  <taskset xsi:type="scheduler:TaskT" periodType="APERIODIC" period="-1" deadline="30" relation="AND" name="setInputData-2" type="FExtract">
+    <dependencyItems token="//@taskset.15/@fires.0"/>
+    <resourceRequirementItems requiredCapacity="1" requiredResourceType="//@resourceTypes.1">
+      <eligibleResourceItems wcetOnResource="1" eligibleResourcePtr="//@System/@subResources.0/@subResources.0"/>
+    </resourceRequirementItems>
+    <resourceRequirementItems requiredCapacity="256" requiredResourceType="//@resourceTypes.2">
+      <eligibleResourceItems wcetOnResource="-1" eligibleResourcePtr="//@System/@subResources.0/@subResources.1"/>
+    </resourceRequirementItems>
+    <fires name="FExtract::setInputData-2" amount="1"/>
+  </taskset>
+  <System resourceMode="CB_AND_SB_EXCLUSIVE" name="System" belongs="//@resourceTypes.0">
+    <subResources xsi:type="scheduler:ResourceC" resourceMode="CB_AND_SB_EXCLUSIVE" name="Node01" belongs="//@resourceTypes.0">
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="CPU0101" capacity="1" belongs="//@resourceTypes.1">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@subResources.0/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="MEM0101" capacity="256" belongs="//@resourceTypes.2">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.0/@subResources.1/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+    </subResources>
+    <subResources xsi:type="scheduler:ResourceC" resourceMode="CB_AND_SB_EXCLUSIVE" name="Node02" belongs="//@resourceTypes.0">
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="CPU0201" capacity="1" belongs="//@resourceTypes.1">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.1/@subResources.0/@power/@maxState">
+          <maxState scale="1.0" powerConsumption="120.0"/>
+          <minState scale="0.5" powerConsumption="50.0"/>
+        </power>
+      </subResources>
+      <subResources xsi:type="scheduler:ResourceT" resourceMode="CB_AND_SB_EXCLUSIVE" name="MEM0201" capacity="1" belongs="//@resourceTypes.2">
+        <power xsi:type="scheduler:DiscreteStatePowerConsumption" currPowerState="//@System/@subResources.1/@subResources.1/@power/@minState">
+          <minState scale="1.0" powerConsumption="-1.0"/>
+        </power>
+      </subResources>
+    </subResources>
+  </System>
+  <resourceTypes has="//@System //@System/@subResources.0 //@System/@subResources.1" identifier="COMPOSITE_t" abstraction="COMPOSITE"/>
+  <resourceTypes has="//@System/@subResources.0/@subResources.0 //@System/@subResources.1/@subResources.0" identifier="CPU_t"/>
+  <resourceTypes has="//@System/@subResources.0/@subResources.1 //@System/@subResources.1/@subResources.1" identifier="MEM_t" abstraction="PASSIVE"/>
+</scheduler:Scheduler>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_zza5sFmrEeijjorh6rteZQ" name="Registration">
+  <packagedElement xmi:type="uml:Class" xmi:id="_qhty4FmtEeiOxYNPMqwLFg" name="Registration">
+    <ownedAttribute xmi:id="_HYLA0FmuEeiOxYNPMqwLFg" name="speed" visibility="public">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__AocMFmvEeiOxYNPMqwLFg" value="1"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_JpaDoFmuEeiOxYNPMqwLFg" value=""/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_F8aikFmwEeiOxYNPMqwLFg" name="energy"/>
+  </packagedElement>
+</uml:Model>

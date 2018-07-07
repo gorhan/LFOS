@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/Platform/src" modelPluginID="Platform" modelName="PlatformMM"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>platformMM.ecore</foreignModel>
+  <genPackages prefix="PlatformMM" disposableProviderFactory="true" ecorePackage="platformMM.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="platformMM.ecore#//PlatformType">
+      <genEnumLiterals ecoreEnumLiteral="platformMM.ecore#//PlatformType/COMPOSITE"/>
+      <genEnumLiterals ecoreEnumLiteral="platformMM.ecore#//PlatformType/ACTIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="platformMM.ecore#//PlatformType/PASSIVE"/>
+    </genEnums>
+    <genClasses ecoreClass="platformMM.ecore#//Resource">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platformMM.ecore#//Resource/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platformMM.ecore#//Resource/capacity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute platformMM.ecore#//Resource/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platformMM.ecore#//Resource/childs"/>
+      <genOperations ecoreOperation="platformMM.ecore#//Resource/setCapacity">
+        <genParameters ecoreParameter="platformMM.ecore#//Resource/setCapacity/capacity"/>
+      </genOperations>
+      <genOperations ecoreOperation="platformMM.ecore#//Resource/getCapacity"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

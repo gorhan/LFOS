@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_zza5sFmrEeijjorh6rteZQ" name="Registration">
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_aIG_0FmwEeiOxYNPMqwLFg" name="Real"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_kHPicFmwEeiOxYNPMqwLFg" name="String"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_mowc8FmwEeiOxYNPMqwLFg" name="Integer"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_sa2-cFmwEeiOxYNPMqwLFg" name="Registration">
+    <ownedAttribute xmi:id="_waigEFmwEeiOxYNPMqwLFg" name="speed" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_16dFYFmwEeiOxYNPMqwLFg" name="energy" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedAttribute xmi:id="_2Dr54FmwEeiOxYNPMqwLFg" name="precision" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    <ownedOperation xmi:id="_53j0IFmwEeiOxYNPMqwLFg" name="setSpeed" concurrency="concurrent">
+      <ownedParameter xmi:id="_DQerUFmxEeiOxYNPMqwLFg" name="speed" type="_aIG_0FmwEeiOxYNPMqwLFg"/>
+    </ownedOperation>
+  </packagedElement>
+</uml:Model>

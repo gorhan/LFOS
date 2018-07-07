@@ -1,0 +1,17 @@
+/**
+ */
+package Connection;
+
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Join Process</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ *
+ * @see Connection.ProcessPackage#getJoinProcess()
+ * @model
+ * @generated
+ */
+public interface JoinProcess extends ProcessNode {
+} // JoinProcess

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process:ProcessDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:process="http://www.example.org/process" name="Registration">
+  <nodes xsi:type="process:Process" name="calibrate" guard="" namespace="Input::CalibratedInput">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <output>
+      <data amount="100" producedBy="//@nodes.0"/>
+    </output>
+  </nodes>
+  <nodes xsi:type="process:Process" name="getData" guard="" namespace="Input::CalibratedInput" period="3.0">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.0"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::setInputData-1" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.1"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::setInputData-2" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.1"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::setFilterParams-1" guard="" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.2"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::setFilterParams-2" guard="" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::filter-1" guard="" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.4"/>
+      <data producedBy="//@nodes.2"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Filter::filter-2" guard="" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.3"/>
+      <data producedBy="//@nodes.5"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="FExtract::setInputData-1" guard="" namespace="FExtract">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input operation="OR">
+      <data producedBy="//@nodes.6"/>
+      <data producedBy="//@nodes.7"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="FExtract::setInputData-2" guard="" namespace="FExtract">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input operation="OR">
+      <data producedBy="//@nodes.6"/>
+      <data producedBy="//@nodes.7"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="FExtract::extract-1" guard="" namespace="FExtract">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.8"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="FExtract::extract-2" guard="" namespace="FExtract">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.9"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Match::setInputSrcData" guard="" namespace="Match">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <output>
+      <data amount="2" producedBy="//@nodes.12"/>
+    </output>
+    <input operation="OR">
+      <data producedBy="//@nodes.10"/>
+      <data producedBy="//@nodes.11"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Match::setInputDstData" guard="" namespace="Match">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <output>
+      <data amount="2" producedBy="//@nodes.13"/>
+    </output>
+    <input operation="OR">
+      <data producedBy="//@nodes.10"/>
+      <data producedBy="//@nodes.11"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Match::setMatchParams" namespace="Match">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Match::getCorrespondences" namespace="Match">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.14"/>
+      <data producedBy="//@nodes.13"/>
+      <data producedBy="//@nodes.12"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Transform::setInputSrcData" guard="" namespace="Transform">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.12"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Transform::setInputDstData" guard="" namespace="Transform">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.13"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Transform::setCorrespondences" namespace="Transform">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.15"/>
+    </input>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Transform::setTransformParams" namespace="Transform">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+  </nodes>
+  <nodes xsi:type="process:Process" name="Transform::transform" namespace="Transform">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="256.0"/>
+    <input>
+      <data producedBy="//@nodes.16"/>
+      <data producedBy="//@nodes.17"/>
+      <data producedBy="//@nodes.19"/>
+      <data producedBy="//@nodes.18"/>
+    </input>
+  </nodes>
+</process:ProcessDiagram>

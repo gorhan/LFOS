@@ -1,0 +1,132 @@
+
+# <copyright>
+# </copyright>
+#
+# $Id$
+
+# ====================================================================
+# To code developer:
+#   Do NOT change the properties between this line and the
+#   "%%% END OF TRANSLATED PROPERTIES %%%" line.
+#   Make a new property name, append to the end of the file and change
+#   the code to use the new property.
+# ====================================================================
+
+# ====================================================================
+# %%% END OF TRANSLATED PROPERTIES %%%
+# ====================================================================
+
+pluginName = FeatureModel Edit Support Plug-in
+
+_UI_CreateChild_text = {0}
+_UI_CreateChild_text2 = {1} {0}
+_UI_CreateChild_text3 = {1}
+_UI_CreateChild_tooltip = Create New {0} Under {1} Feature
+_UI_CreateChild_description = Create a new child of type {0} for the {1} feature of the selected {2}.
+_UI_CreateSibling_description = Create a new sibling of type {0} for the selected {2}, under the {1} feature of their parent.
+
+_UI_PropertyDescriptor_description = The {0} of the {1}
+
+_UI_FeatureModel_type = Feature Model
+_UI_Constraint_type = Constraint
+_UI_Group_type = Group
+_UI_Feature_type = Feature
+_UI_Attribute_type = Attribute
+_UI_Description_type = Description
+_UI_VariantModel_type = Variant Model
+_UI_Selection_type = Selection
+_UI_Value_type = Value
+_UI_Unknown_type = Object
+
+_UI_Unknown_datatype= Value
+
+_UI_FeatureModel_id_feature = Id
+_UI_FeatureModel_version_feature = Version
+_UI_FeatureModel_description_feature = Description
+_UI_FeatureModel_attributes_feature = Attributes
+_UI_FeatureModel_root_feature = Root
+_UI_FeatureModel_constraints_feature = Constraints
+_UI_Constraint_id_feature = Id
+_UI_Constraint_language_feature = Language
+_UI_Constraint_code_feature = Code
+_UI_Constraint_description_feature = Description
+_UI_Group_id_feature = Id
+_UI_Group_lower_feature = Lower
+_UI_Group_upper_feature = Upper
+_UI_Group_features_feature = Features
+_UI_Feature_id_feature = Id
+_UI_Feature_name_feature = Name
+_UI_Feature_type_feature = Type
+_UI_Feature_description_feature = Description
+_UI_Feature_attributes_feature = Attributes
+_UI_Feature_parent_feature = Parent
+_UI_Feature_children_feature = Children
+_UI_Attribute_id_feature = Id
+_UI_Attribute_name_feature = Name
+_UI_Attribute_setable_feature = Setable
+_UI_Attribute_description_feature = Description
+_UI_Attribute_value_feature = Value
+_UI_Description_id_feature = Id
+_UI_Description_text_feature = Text
+_UI_VariantModel_id_feature = Id
+_UI_VariantModel_version_feature = Version
+_UI_VariantModel_attributes_feature = Attributes
+_UI_VariantModel_selections_feature = Selections
+_UI_Selection_id_feature = Id
+_UI_Selection_bounded_feature = Bounded
+_UI_Selection_state_feature = State
+_UI_Selection_selector_feature = Selector
+_UI_Selection_attributes_feature = Attributes
+_UI_Selection_feature_feature = Feature
+_UI_Selection_values_feature = Values
+_UI_Value_id_feature = Id
+_UI_Value_attribute_feature = Attribute
+_UI_Value_value_feature = Value
+_UI_Unknown_feature = Unspecified
+
+_UI_SelectionState_unselected_literal = unselected
+_UI_SelectionState_selected_literal = selected
+_UI_SelectionState_excluded_literal = excluded
+_UI_VariabilityType_mandatory_literal = mandatory
+_UI_VariabilityType_optional_literal = optional
+_UI_VariabilityType_alternative_literal = alternative
+_UI_VariabilityType_or_literal = or
+_UI_FeatureSelection_type = Feature Selection
+_UI_AttributeValue_type = Attribute Value
+_UI_VariantModel_values_feature = Values
+_UI_FeatureSelection_id_feature = Id
+_UI_FeatureSelection_bound_feature = Bound
+_UI_FeatureSelection_state_feature = State
+_UI_FeatureSelection_feature_feature = Feature
+_UI_AttributeValue_id_feature = Id
+_UI_AttributeValue_attribute_feature = Attribute
+_UI_AttributeValue_content_feature = Content
+_UI_Rule_type = Rule
+_UI_Rule_language_feature = Language
+_UI_Rule_code_feature = Code
+_UI_VariantSelection_type = Variant Selection
+_UI_ResultSelection_type = Result Selection
+_UI_VariantSelection_state_feature = State
+_UI_VariantSelection_feature_feature = Feature
+_UI_VariantModel_featureModel_feature = Feature Model
+_UI_AttributeType_type = Attribute Type
+_UI_AttributeTypeInt_type = Attribute Type Int
+_UI_AttributeTypeString_type = Attribute Type String
+_UI_AttributeTypeBoolean_type = Attribute Type Boolean
+_UI_AttributeTypeEObject_type = Attribute Type EObject
+_UI_AttributeValueInt_type = Attribute Value Int
+_UI_AttributeValueString_type = Attribute Value String
+_UI_AttributeValueBoolean_type = Attribute Value Boolean
+_UI_AttributeValueEObject_type = Attribute Value EObject
+_UI_Attribute_defaultvalue_feature = Defaultvalue
+_UI_Attribute_type_feature = Type
+_UI_AttributeValueInt_value_feature = Value
+_UI_AttributeValueString_value_feature = Value
+_UI_AttributeValueBoolean_value_feature = Value
+_UI_AttributeValueEObject_value_feature = Value
+_UI_VariantValue_type = Variant Value
+_UI_Attribute_defaultValue_feature = Default Value
+_UI_VariantSelection_bound_feature = Bound
+_UI_VariantValue_id_feature = Id
+_UI_VariantValue_attribute_feature = Attribute
+_UI_VariantValue_value_feature = Value

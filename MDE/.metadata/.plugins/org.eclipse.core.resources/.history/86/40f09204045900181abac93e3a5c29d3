@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<featuremodel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:featuremodel="http://www.eclipse.org/featuremodel" xsi:schemaLocation="http://www.eclipse.org/featuremodel ../metamodels/featuremodel.ecore"/>

@@ -1,0 +1,162 @@
+-- @nsURI ClassMM=http://www.eclipse.org/uml2/5.0.0/UML
+-- @path SchedulerMM=/Scheduler/model/scheduler.ecore
+-- @path PlatformMM=/Platform/model/PlatformMM.ecore
+-- @path FeatureMM=/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore
+-- @path ProcessMM=/Process/model/process.ecore
+
+module OptMLTranslator;
+create SchedulerM : SchedulerMM from ProcessM : ProcessMM, ClassM : ClassMM, PlatformM : PlatformMM, FeatureM : FeatureMM;
+
+helper def : allResources() : Set(PlatformMM!Resource) =
+	PlatformMM!Resource.allInstances()->asSet();
+
+helper context PlatformMM!CompositeResource def : getAllChildren() : OrderedSet(PlatformMM!Resource) =
+	self.childs->iterate(child; el: OrderedSet(PlatformMM!Resource) = OrderedSet{} |
+	el.append(child).union(
+	if child.belongs.abstraction = #COMPOSITE then
+		el.union(child.getAllChildren())
+	else
+		Set{}
+	endif
+	)
+	)
+;
+
+helper context PlatformMM!CompositeResource def : getAllChildrenNames() : String =
+	self.childs->iterate(child; el: String = ' ' |
+	el + child.name +
+	if child.belongs.abstraction = #COMPOSITE then
+		child.getAllChildrenNames()
+	else
+		' '
+	endif
+	)
+;
+
+helper context PlatformMM!CompositeResource def : isRoot() : Boolean =
+	thisModule.allResources().symetricDifference(self.getAllChildren()) = self
+;
+
+helper
+	def : getMaxState(states : Sequence(PlatformMM!StateDVS)) : PlatformMM!StateDVS = 
+		states->iterate(state; max_state : PlatformMM!StateDVS = states->first() |
+		if state.scale > max_state.scale then
+			state
+		else
+			max_state
+		endif
+		)
+;
+	
+helper
+	def : getMinState(states : Sequence(PlatformMM!StateDVS)) : PlatformMM!StateDVS = 
+		states->iterate(state; min_state : PlatformMM!StateDVS = states->first() |
+		if state.scale < min_state.scale then
+			state
+		else
+			min_state
+		endif
+		)
+;
+
+helper context FeatureMM!FeatureModel
+	def : getModuleName() : String = self.root.name;
+	
+helper
+	def : getTaskInstances() : Set(ProcessMM!ProcessNode) = ProcessMM!ProcessNode.allInstances()->asSet();
+
+rule PlatformDiagram2System {
+	from
+		platform_diag : PlatformMM!PlatformDiagram
+	to
+		schedulerM : SchedulerMM!Scheduler (
+			System <- platform_diag.System,
+			resourceTypes <- platform_diag.resourceTypes->collect(e | thisModule.ResourceTypeTranslation(e)),
+			taskset <- thisModule.getTaskInstances()->collect(e | thisModule.ProcessNode2Task(e)),
+			schedType <- #OFFLINE,
+			preemptive <- false,
+			migration <- #NON_MIGRATION,
+			priorityAssignment <- #FIXED,
+			policyRanking <- #FIFO,
+			policyGrouping <- false
+		)
+}
+
+lazy rule ProcessDaigram2Taskset {
+	from
+		process_diag : ProcessMM!ProcessDiagram
+	to
+		taskset : SchedulerMM!Scheduler (
+			
+		)
+}
+
+rule CompPlatform2CompResource {
+	from
+		pri_res : PlatformMM!CompositeResource
+	to
+		sc_res : SchedulerMM!ResourceC (
+			belongs <- thisModule.ResourceTypeTranslation(pri_res.belongs),
+			capacity <- 0,
+			exclusiveResources <- Sequence{},
+			name <- pri_res.name,
+			renewable <- true,
+			resourceMode <- #CB_AND_SB_EXCLUSIVE,
+			subResources <- Sequence{
+				pri_res.childs->collect(e | thisModule.resolveTemp(e, 'sc_t_res')),
+				pri_res.childs->collect(e | thisModule.resolveTemp(e, 'sc_res'))
+			}
+		)
+}
+
+rule TempPlatform2TempResource {
+	from
+		pri_t_res : PlatformMM!TerminalResource
+		
+	to
+		sc_t_res : SchedulerMM!ResourceT (
+			belongs <- thisModule.ResourceTypeTranslation(pri_t_res.belongs),
+			capacity <- pri_t_res.capacity,
+			exclusiveResources <- Sequence{},
+			name <- pri_t_res.name,
+			renewable <- true,
+			resourceMode <- #CB_AND_SB_EXCLUSIVE,
+			power <- power_st
+		),
+		power_st : SchedulerMM!DiscreteStatePowerConsumption (
+			runnableStates <- pri_t_res.states.asSequence()->collect(e | thisModule.resolveTemp(e, 'power_state')),
+			maxState <- thisModule.getMaxState(pri_t_res.states.asSequence()),
+			minState <- thisModule.getMinState(pri_t_res.states.asSequence()),
+			currPowerState <- thisModule.getMaxState(pri_t_res.states.asSequence())
+		)
+}
+
+rule StateDVS2PowerState {
+	from
+		states_dvs : PlatformMM!StateDVS
+	to
+		power_state : SchedulerMM!PowerState (
+			powerConsumption <- states_dvs.energy,
+			scale <- states_dvs.scale
+		)
+}
+
+unique lazy rule ResourceTypeTranslation {
+	from
+		resource_type_source : PlatformMM!ResourceType
+	to
+		resorce_type_target : SchedulerMM!ResourceType (
+			abstraction <- resource_type_source.abstraction,
+			identifier <- resource_type_source.identifier
+		)
+}
+
+unique lazy rule ProcessNode2Task {
+	from
+		proc_node : ProcessMM!ProcessNode (not (proc_node.oclIsTypeOf(ProcessMM!InitialActivity) or proc_node.oclIsTypeOf(ProcessMM!FinalActivity)) )
+	to
+		task_node : SchedulerMM!TaskT (
+			name <- proc_node.name,
+			type <- proc_node.namespace
+		)
+}

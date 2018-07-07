@@ -1,0 +1,29 @@
+-- @path schedulerMM=/Scheduler/model/scheduler.ecore
+-- @path featureMM=/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore
+
+module OptML2Scheduler;
+create schedulerM : schedulerMM from featureM : featureMM;
+
+helper def : getTerminalFeatures() : Sequence(featureMM!Feature) = 
+	Sequence{featureMM!Feature.allInstances()}
+;
+
+rule name {
+	from
+		fm : featureMM!FeatureModel
+	to 
+		sm : schedulerMM!Scheduler (
+			name <- fm.root.name,
+			taskset <- Sequence{thisModule.getTerminalFeatures()->collect(e | thisModule.resolveTemp(e, 'task'))}
+		)
+}
+
+rule Feature2TaskT {
+	from
+		feature : featureMM!Feature (feature.children.isEmpty())
+	to
+		task : schedulerMM!TaskT (
+			name <- feature.name
+		)
+		
+}

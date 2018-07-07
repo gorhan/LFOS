@@ -1,0 +1,37 @@
+/**
+ */
+package Connection.impl;
+
+import Connection.ForkProcess;
+import Connection.ProcessPackage;
+
+import org.eclipse.emf.ecore.EClass;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Fork Process</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * @generated
+ */
+public class ForkProcessImpl extends ProcessNodeImpl implements ForkProcess {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ForkProcessImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return ProcessPackage.Literals.FORK_PROCESS;
+	}
+
+} //ForkProcessImpl

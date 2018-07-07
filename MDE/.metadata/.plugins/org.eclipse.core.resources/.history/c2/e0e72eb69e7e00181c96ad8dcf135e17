@@ -1,0 +1,105 @@
+/**
+ */
+package Connection;
+
+import org.eclipse.emf.ecore.EObject;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Edge</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * </p>
+ * <ul>
+ *   <li>{@link Connection.Edge#getTarget <em>Target</em>}</li>
+ *   <li>{@link Connection.Edge#getSource <em>Source</em>}</li>
+ *   <li>{@link Connection.Edge#getStrength <em>Strength</em>}</li>
+ * </ul>
+ *
+ * @see Connection.ProcessPackage#getEdge()
+ * @model
+ * @generated
+ */
+public interface Edge extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Target</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Target</em>' reference.
+	 * @see #setTarget(ProcessNode)
+	 * @see Connection.ProcessPackage#getEdge_Target()
+	 * @model
+	 * @generated
+	 */
+	ProcessNode getTarget();
+
+	/**
+	 * Sets the value of the '{@link Connection.Edge#getTarget <em>Target</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Target</em>' reference.
+	 * @see #getTarget()
+	 * @generated
+	 */
+	void setTarget(ProcessNode value);
+
+	/**
+	 * Returns the value of the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Source</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Source</em>' reference.
+	 * @see #setSource(ProcessNode)
+	 * @see Connection.ProcessPackage#getEdge_Source()
+	 * @model
+	 * @generated
+	 */
+	ProcessNode getSource();
+
+	/**
+	 * Sets the value of the '{@link Connection.Edge#getSource <em>Source</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Source</em>' reference.
+	 * @see #getSource()
+	 * @generated
+	 */
+	void setSource(ProcessNode value);
+
+	/**
+	 * Returns the value of the '<em><b>Strength</b></em>' attribute.
+	 * The default value is <code>"1"</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Strength</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Strength</em>' attribute.
+	 * @see #setStrength(int)
+	 * @see Connection.ProcessPackage#getEdge_Strength()
+	 * @model default="1"
+	 * @generated
+	 */
+	int getStrength();
+
+	/**
+	 * Sets the value of the '{@link Connection.Edge#getStrength <em>Strength</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Strength</em>' attribute.
+	 * @see #getStrength()
+	 * @generated
+	 */
+	void setStrength(int value);
+
+} // Edge

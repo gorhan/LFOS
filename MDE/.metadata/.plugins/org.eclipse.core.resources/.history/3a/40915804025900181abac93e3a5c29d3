@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.featuremodel.wizard.category"
+      name="EMF Feature Model">
+    </category>
+    <wizard
+      id = "org.eclipse.featuremodel.presentation.FeatureModelModelWizardID"
+      name = "%_UI_FeatureModelModelWizard_label"
+      class = "org.eclipse.featuremodel.presentation.FeatureModelModelWizard"
+      category = "org.eclipse.featuremodel.wizard.category"
+      icon = "icons/full/obj16/FeatureModelModelFile.gif">
+      <description>%_UI_FeaturemodelModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "org.eclipse.featuremodel.presentation.FeatureModelEditorID"
+        name = "%_UI_FeatureModelEditor_label"
+        icon = "icons/full/obj16/FeatureModelModelFile.gif"
+        extensions = "featuremodel"
+        class = "org.eclipse.featuremodel.presentation.FeatureModelEditor" 
+        contributorClass="org.eclipse.featuremodel.presentation.FeatureModelActionBarContributor" >
+    </editor>
+  </extension>    
+
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.featuremodel.wizard.category"
+      name="EMF Feature Model">
+    </category>
+    <wizard
+      id = "org.eclipse.variantmodel.presentation.VariantModelModelWizardID"
+      name = "%_UI_VariantModelModelWizard_label"
+      class = "org.eclipse.variantmodel.presentation.VariantModelModelWizard"
+      category = "org.eclipse.featuremodel.wizard.category"
+      icon = "icons/full/obj16/VariantModelModelFile.gif">
+      <description>%_UI_VariantModelModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "org.eclipse.variantmodel.presentation.VariantModelEditorID"
+        name = "%_UI_VariantModelEditor_label"
+        icon = "icons/full/obj16/VariantModelModelFile.gif"
+        extensions = "variantmodel"
+        class = "org.eclipse.variantmodel.presentation.VariantModelEditor" 
+        contributorClass="org.eclipse.variantmodel.presentation.VariantModelActionBarContributor" >
+    </editor>
+  </extension>    
+</plugin>
