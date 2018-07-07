@@ -1,6 +1,9 @@
 from LFOS.Resource.Resource import System, ResourceTypeList
 from LFOS.Scheduling.Characteristic.Time import Time, TimeResolution
 from matplotlib import colors
+
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.ticker import MultipleLocator
@@ -160,7 +163,7 @@ class Schedule:
                 reservation[2] = end
                 return True
 
-        print job, begin, end, capacity
+        print(job, begin, end, capacity)
         self.__schedule[on_resource].append([job, begin, end, capacity, False])
         self.__schedule[on_resource].sort(key=lambda slot: slot[1])
 
@@ -269,10 +272,11 @@ class Schedule:
 
         dpi = fig.get_dpi()
         LOG(msg='DPI=%d' % dpi)
+        
         fig.set_size_inches((40 * (self.__end - self.__begin) * (tm_res))/float(dpi), (60.0 * len(self.__schedule))/float(dpi))
         # to know size of legend
         # plt.tight_layout()
-        plt.show()
+        plt.show(block=True)
         # canvas = FigureCanvasTkAgg(fig, master=root)
         # canvas.show()
 

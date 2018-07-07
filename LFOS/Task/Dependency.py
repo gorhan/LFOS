@@ -61,8 +61,8 @@ class Dependency:
         self.__m_list = []
         self.__logical_relation = OR()
 
-    def __getattr__(self, item):
-        getattr(self.__list, item)()
+#    def __getattr__(self, item):
+#        getattr(self.__list, item)()
 
     def set_logical_relation(self, relation):
         try:

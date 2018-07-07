@@ -53,9 +53,11 @@ class Scheduler(SchedulingCharacteristic, SchedulingStrategy, TokenPool):
         begin, end = self.get_scheduling_window_boundaries()
         jobs = []
         for task in self.__taskset:
+            LOG(msg="I am here!")
             jobs += task.get_jobs(begin, end)
-            print begin, end
-            print jobs
+            LOG(msg="I am here!")
+            print(begin, end)
+            print(jobs)
         if not jobs:
             LOG(msg='There is no jobs within [%r %r]' % (begin, end), log=Logs.ERROR)
             return None

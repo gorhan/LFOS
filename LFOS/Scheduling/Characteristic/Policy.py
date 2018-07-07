@@ -2,6 +2,8 @@ from LFOS.Log import LOG, Logs
 from LFOS.Task.Priority import Priority, PriorityRanking
 from copy import copy
 
+from functools import cmp_to_key
+
 def compareFIFO(task1, task2):
     return 1
 
@@ -96,15 +98,15 @@ class SchedulingPolicy:
         for level in range(num_levels):
             while intervals:
                 begin, end = intervals.pop(0)
-                print 'Start', begin, 'End', end, 'Level', level
+                print('Start', begin, 'End', end, 'Level', level)
                 self.__taskset[begin:end] = sorted(self.__taskset[begin:end], key=lambda task: task.get_importance_levels()[level])
                 for temp in self.__taskset[begin:end]:
-                    print '%s --> %r' % (temp.name, temp.levels)
+                    print('%s --> %r' % (temp.name, temp.levels))
                 SchedulingPolicy.determine_intervals(self.__taskset[begin:end], level, sub_intervals, begin)
 
             if level == num_levels - 1:
                 for begin, end in sub_intervals:
-                    self.__taskset[begin:end] = sorted(self.__taskset[begin:end], cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
+                    self.__taskset[begin:end] = sorted(self.__taskset[begin:end], key=cmp_to_key(SchedulingPolicy.RANKING_COMPARE[self.__ranking]))
 
             intervals = copy(sub_intervals)
             sub_intervals = []
@@ -121,6 +123,6 @@ class SchedulingPolicy:
         if self.__grouping:
             self.__group_tasks()
         else:
-            self.__taskset = sorted(self.__taskset, cmp=SchedulingPolicy.RANKING_COMPARE[self.__ranking])
+            self.__taskset = sorted(self.__taskset, key=cmp_to_key(SchedulingPolicy.RANKING_COMPARE[self.__ranking]))
 
         SchedulingPolicy.prioritize_taskset(self.__taskset)

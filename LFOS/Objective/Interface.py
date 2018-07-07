@@ -1,4 +1,4 @@
-from Types import *
+from .Types import *
 from LFOS.Log import Logs, LOG
 
 ALL = [

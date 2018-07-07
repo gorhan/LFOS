@@ -1,6 +1,6 @@
 from LFOS.Log import LOG, Logs
-from Types import *
-from Interface import Objective
+from .Types import *
+from .Interface import Objective
 
 
 class ResourceObjective(Objective):

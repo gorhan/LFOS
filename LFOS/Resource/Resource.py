@@ -50,9 +50,9 @@ class ResourceInterface(object):
 
     def print_accessibilites(self):
         for resource, resource_set in ResourceInterface.ACCESSIBILITY.items():
-            print '%s:' % resource.info()
+            print('%s:' % resource.info())
             for accessible_resource in resource_set:
-                print '\t%s' % accessible_resource.info()
+                print('\t%s' % accessible_resource.info())
 
     @staticmethod
     def get_root():
@@ -82,7 +82,7 @@ class ResourceInterface(object):
     # def free(self, running_task):
     #     LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
-    def search_resources(self, response, **kwargs):
+    def search_resources(self, **kwargs):
         LOG(msg='Invalid procedure call', log=Logs.ERROR)
 
     def info(self, detailed=False):
@@ -103,7 +103,7 @@ class TerminalResource(ResourceInterface, Mode):
         self.__capacity = 0.0
         self.__running_tasks = dict()
 
-        self.__power = None
+        self.__power = PowerFactory.create_instance(PowerTypeList.FIXED_STATE_POWER_CONSUMPTION, 1.0, 1.0)
 
         self.__renewable = True
         self.__objective = None
@@ -135,12 +135,12 @@ class TerminalResource(ResourceInterface, Mode):
         return self.__capacity
 
     def get_available_capacity(self):
-        if self.__mode.is_mode(ModeTypeList.SHARED):
+        if self.is_mode(ModeTypeList.SHARED):
             return self.__capacity
-        elif self.__mode.is_mode(ModeTypeList.CB_EXCLUSIVE):
+        elif self.is_mode(ModeTypeList.CB_EXCLUSIVE):
             return self.__capacity - sum(self.__running_tasks.values())
         else:
-            for exc_resource in self.__mode.get_exclusive_resources():
+            for exc_resource in self.get_exclusive_resources():
                 if exc_resource.is_running():
                     LOG(msg='Exclusive resource is running. Resource=%s Mode=%s' % (exc_resource.get_credential(), ModeTypeList.SB_EXCLUSIVE))
                     return 0
@@ -153,12 +153,13 @@ class TerminalResource(ResourceInterface, Mode):
     def get_utilized_capacity(self, by_task):
         return self.__running_tasks[by_task] if by_task in self.__running_tasks else 0.0
 
-    def search_resources(self, response, **kwargs):
-        if (kwargs.has_key('abstraction') and self.type.same_abstraction(kwargs['abstraction'])) or \
-                (kwargs.has_key('identifier') and self.type.same_identifier(kwargs['identifier'])) or \
-                (kwargs.has_key('type') and self.type == kwargs['type']) or \
-                (kwargs.has_key('name') and self.name == kwargs['name']):
-            response.append(self)
+    def search_resources(self, **kwargs):
+        if (('abstraction' in kwargs) and self.type.same_abstraction(kwargs['abstraction'])) or \
+                (('identifier' in kwargs) and self.type.same_identifier(kwargs['identifier'])) or \
+                (('type' in kwargs) and self.type == kwargs['type']) or \
+                (('name' in kwargs) and self.name == kwargs['name']):
+            return [self]
+        return []
 
     # def alloc(self, requester, resources):
     #     if self in resources:
@@ -201,12 +202,12 @@ class TerminalResource(ResourceInterface, Mode):
 
     def info(self, detailed=False):
         if detailed:
-            return '%s --> Capacity=%.2f, Available Capacity=%.2f' % (self.get_credential(), self.get_capacity(), self.get_available_capacity())
+            return '%s --> Capacity=%.2f, Available Capacity=%.2f, Power Consumption=%s' % (self.get_credential(), self.get_capacity(), self.get_available_capacity(), self.__power)
 
         return '%s' % self.get_credential()
 
     def pretty_print(self, indent=0):
-        print '%s%s' % ('\t'*indent, self.info())
+        print('%s%s' % ('\t'*indent, self.info(True)))
 
 
 class CompositeResource(ResourceInterface, list):
@@ -247,9 +248,17 @@ class CompositeResource(ResourceInterface, list):
 
         return [resource for resource in self if not self_resource or self_resource != resource]
 
-    def search_resources(self, response, **kwargs):
+    def search_resources(self, **kwargs):
+        result = []
+        if (('abstraction' in kwargs) and self.type.same_abstraction(kwargs['abstraction'])) or \
+            (('identifier' in kwargs) and self.type.same_identifier(kwargs['identifier'])) or \
+                (('type' in kwargs) and self.type == kwargs['type']) or \
+                (('name' in kwargs) and self.name == kwargs['name']):
+            result = [self]
         for resource in self.get_child_resources():
-            resource.search_resources(response, **kwargs)
+            result += resource.search_resources(**kwargs)
+        return result
+    
 
     def for_each_sub_terminal_resource(self):
         stack = [self]
@@ -293,7 +302,7 @@ class CompositeResource(ResourceInterface, list):
         return '%s' % (self.get_credential())
 
     def pretty_print(self, indent=0):
-        print '%s%s' % ('\t'*indent, self.info())
+        print('%s%s' % ('\t'*indent, self.info(True)))
         for resource in self.get_child_resources():
             resource.pretty_print(indent+1)
         

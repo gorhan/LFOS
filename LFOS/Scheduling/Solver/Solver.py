@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from LFOS.Log import LOG, Logs
 from LFOS.Scheduling.Schedule.Schedule import Schedule
 from LFOS.Task.Task import TaskInterface
@@ -143,7 +145,7 @@ class SolverAdapter(object):
                 # exec_time = int(el_resources_dict[resources[0]])
 
                 for resource, exec_time in el_resources_dict.items():
-                    o_resources = el_resources_dict.keys()
+                    o_resources = list(el_resources_dict.keys())
                     o_resources.pop(o_resources.index(resource))
                     expr = []
                     if o_resources:
@@ -169,6 +171,7 @@ class SolverAdapter(object):
                         expr.append(Sum(self.__Allocation[resource, job][release_time:deadline]) == (exec_time * req_capacity))
                         expr.append(Sum(self.__Allocation[resource, job]) == (exec_time * req_capacity))
 
+                    print('--'.join(str(e) for e in expr), end='\n\n')
                     self.__model += expr
 
                 for resource in self.__resources:
@@ -205,8 +208,7 @@ class SolverAdapter(object):
                     self.__model += (Sum(req_capacity * (self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) for t in range(release_time, deadline)) == Sum(self.__AuxWorking[job][release_time:deadline]))
 
             # TODO: The constraints for passive resource requirements have to be implemented.
-            passive_resources = []
-            self.__resource_as_structure.search_resources(passive_resources, abstraction=ResourceTypeList.PASSIVE)
+            passive_resources = self.__resource_as_structure.search_resources(abstraction=ResourceTypeList.PASSIVE)
             passive_resources = set(passive_resources)
             required_resources = set([])
             for requirement_item in passive_resource_requirements:
@@ -304,6 +306,8 @@ class SolverAdapter(object):
         obj_expr = None
         obj_purpose = self.__objective.get_purpose()
         obj_criteria = self.__objective.get_criteria()
+
+        print(f'Criteria={obj_criteria}')
         if obj_criteria == ObjectiveLateness():
             obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveEarliness():
@@ -314,6 +318,7 @@ class SolverAdapter(object):
             obj_expr = Sum([self.__Allocation[resource, job][t] * -resource.get_power_consumption().get_max_power_state()[1] for t in range(self.__sched_window_duration) for job in self.__jobs for resource in self.__resources])
             # obj_expr = - Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveMakespan():
+            print('ENTEr')
             C_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'C_max')
             self.__model += [(self.__End[job][t+1] * (t+1)) < C_max for t in range(self.__sched_window_duration) for job in self.__jobs]
             obj_expr = C_max
@@ -322,11 +327,13 @@ class SolverAdapter(object):
             self.__model += [(self.__End[job][t+1] * (t + 1 - job.get_extended_deadline())) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
             obj_expr = L_max
 
+        print(f'Obj_exp={obj_expr}')
         if obj_purpose == Mini():
             obj_expr = Minimize(obj_expr)
         elif obj_purpose == Maxi():
             obj_expr = Maximize(obj_expr)
 
+        print(obj_expr)
         self.__model += obj_expr
 
         # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
@@ -367,19 +374,19 @@ class SolverAdapter(object):
         self.__last_optimized_schedule = Schedule(self.__sched_window_begin, self.__sched_window_actual_end)
 
         for job in self.__jobs:
-            print '[Start]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__Start[job]])
-            print '  [End]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__End[job]])
-            print '  [AuxWorking]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__AuxWorking[job]])
-            print '\n'.join(['[Allocation] %s on %s --> %r' % (job.get_attr('name'), resource.get_resource_name(), ', '.join(str(item.get_value()) for item in self.__Allocation[resource, job])) for resource in self.__resources])
-            print '\n'.join(['[Allocation] %s on %s --> %r' % (job.get_attr('name'), resource.get_resource_name(), ', '.join('%r' % item.name() for item in self.__Allocation[resource, job])) for resource in self.__resources])
+            print('[Start]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__Start[job]]))
+            print('  [End]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__End[job]]))
+            print('  [AuxWorking]%s --> %r' % (job.introduce(), [item.get_value() for item in self.__AuxWorking[job]]))
+            print('\n'.join(['[Allocation] %s on %s --> %r' % (job.get_attr('name'), resource.get_resource_name(), ', '.join(str(item.get_value()) for item in self.__Allocation[resource, job])) for resource in self.__resources]))
+            print('\n'.join(['[Allocation] %s on %s --> %r' % (job.get_attr('name'), resource.get_resource_name(), ', '.join('%r' % item.name() for item in self.__Allocation[resource, job])) for resource in self.__resources]))
             for t in range(job.get_release_time(), job.get_extended_deadline(job.get_deadline())):
                 reserved_resources = {resource: self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() for resource in self.__resources if self.__Allocation[resource, job][t-self.__sched_window_begin].get_value() > 0}
                 if reserved_resources:
                     self.__last_optimized_schedule.append_item(job, Time.decode(t), Time.decode(t+1), reserved_resources)
 
         # self.__last_optimized_schedule.plot_schedule()
-        print '%s' % '\n'.join(['%8s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()])
-        print '%s' % '\n'.join(['[%s, %8s] == %r' % (job.introduce(), token, [item.get_value() for item in self.__AndOrDependencyTable[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()])
+        print('%s' % '\n'.join(['%8s == %r' % (token, [item.get_value() for item in t_array]) for token, t_array in self.__TokenPool.items()]))
+        print('%s' % '\n'.join(['[%s, %8s] == %r' % (job.introduce(), token, [item.get_value() for item in self.__AndOrDependencyTable[job, token]]) for job in self.__jobs for token in self.__token_pool.keys()]))
 
     def get_last_schedule(self):
         return self.__last_optimized_schedule if self.__optimized else None

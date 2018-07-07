@@ -62,7 +62,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
             'default': 'list(\"__<name>__\"]',
             'desc': 'The list of names of the token which would be fired after completion of the task instance.'
         },
-        'token_number': {
+        'token_num': {
             'variable': 'list(int)',
             'default': '[1]',
             'desc': 'The list of numbers of a specific token that would be fired. There exist one-to-one relation between the list and token_name list with respect to index.'
@@ -78,17 +78,33 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
 
         self.set_periodicity(kwargs['periodicity'])
 
-        # self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else ['__%s__' % self.get_name()]
         self.firing_tokens = kwargs['token_name'] if 'token_name' in kwargs else []
         self.num_firing_tokens = kwargs['token_num'] if 'token_num' in kwargs else [1] * len(self.firing_tokens)
 
         self.__objective = None
 
-    def __eq__(self, other):
-        return isinstance(other, TaskInterface) and self.get_attr('type') == other.get_attr('type') and self.get_attr('name') == other.get_attr('name')
+#    def __eq__(self, other):
+#        return isinstance(other, TaskInterface) and self.get_attr('type') == other.get_attr('type') and self.get_attr('name') == other.get_attr('name')
 
     def get_output_tokens(self):
         return [[token, self.num_firing_tokens[i]] for i, token in enumerate(self.firing_tokens)]
+    
+    def add_output_token(self, token, amount=1):
+        if token in self.firing_tokens:
+            self.num_firing_tokens[self.firing_tokens.index(token)] += amount
+        else:
+            self.firing_tokens.append(token)
+            self.num_firing_tokens.append(amount)
+        return token
+    
+    def delete_output_token(self, token):
+        try:
+            index = self.firing_tokens.index(token)
+        except ValueError:
+            return None
+
+        self.num_firing_tokens.pop(index)
+        return self.firing_tokens.pop(index)
 
     def get_token_number_wrt_token(self, token):
         if token in self.firing_tokens:
@@ -118,6 +134,9 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
 
             dependency_detail = '\tDEPENDENCY:\n'
             dependency_detail += '%s[%s]\n' % ('\t'*2, ('\n%s' % ('\t'*2)).join(map(str, self.get_dependency_list())) if self.get_dependency_list() else 'EMPTY')
+            
+            firing_tokens_detail = '\tOUTPUT:\n'
+            firing_tokens_detail += '%s{%s}\n' % ('\t'*2, '\n\t\t'.join(['Token=%s [%d]' % (token, self.num_firing_tokens[ind]) for ind, token in enumerate(self.firing_tokens)] if self.firing_tokens else ['EMPTY']))
 
             preemption_detail = '\tPREEMPTABILITY:\n'
             preemption_detail += '%s%s in every %.2f\n' % ('\t'*2, self.get_preemption_type(), self.get_non_preemtable_execution_duration())
@@ -126,6 +145,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
             requirement_detail += '%sDeadline Requirement Type=%s\n' % ('\t'*2, self.get_deadline_requirement())
             requirement_detail += '%sPenalty (per unit time)=%.2f\n' % ('\t'*2, self.get_penalty_per_unit_time())
             requirement_detail += '%sPenalty Duration=%.2f\n' % ('\t' * 2, self.get_penalty_duration())
+            from functools import reduce
             requirement_detail += '%sRequired Resources:\n\t\t\t%s\n' % ('\t' * 2, '\n\t\t\t'.join(map(str, reduce(lambda r_l, r_r: r_l + r_r, self.get_required_resources().values()))) if self.get_required_resources() else 'EMPTY')
 
             granularity_detail ='\tGRANULARITY:%s\n' % (self.granularity())
@@ -134,6 +154,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
                   + timing_detail\
                   + priority_detail\
                   + dependency_detail\
+                  + firing_tokens_detail\
                   + preemption_detail\
                   + requirement_detail\
                   + granularity_detail\
@@ -190,10 +211,10 @@ class TerminalTask(TaskInterface):
         return jobs
 
 
-class CompositeTask(TaskInterface, list):
+class CompositeTask(TaskInterface):
     def __init__(self, **kwargs):
         TaskInterface.__init__(self, **kwargs)
-        list.__init__([])
+    #        list.__init__(self, [])
 
     def granularity(self):
         return TaskTypeList.COMPOSITE

@@ -6,20 +6,44 @@ class Criteria:
 
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
 class ObjectivePowerConsumption(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveLateness(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveTardiness(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveEarliness(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveCentering(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveMakespan(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class ObjectiveMaxLateness(Criteria):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+
+#class Logical:
+#    __metaclass__ = Singleton
+#    
+#    def __str__(self):
+#        return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+#class AND(Logical):
+#    def __eq__(self, other):
+#        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+#class OR(Logical):
+#    def __eq__(self, other):
+#        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+#class XOR(Logical):
+#    def __eq__(self, other):
+#        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 
 
 class Purpose:
@@ -27,7 +51,11 @@ class Purpose:
 
     def __str__(self):
         return '%s.%s' % (self.__class__.__bases__[0].__name__, self.__class__.__name__)
+    def __hash__(self):
+        return id(self)
 class Mini(Purpose):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 class Maxi(Purpose):
-    pass
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))

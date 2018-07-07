@@ -1,3 +1,4 @@
+from __future__ import print_function
 
 from LFOS.Task.Periodicity import PeriodicityTypeList
 from LFOS.Task.Preemptability import PreemptionTypeList

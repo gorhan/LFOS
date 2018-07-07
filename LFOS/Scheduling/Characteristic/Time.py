@@ -38,6 +38,7 @@ class Time(int):
         elif isinstance(other, float) or isinstance(other, int):
             return Time(Time.decode(self) + other)
 
+        print(type(other), other)
         raise TypeError
 
     def __radd__(self, other):

@@ -1,5 +1,8 @@
 from LFOS.Log import LOG, Logs
-from exceptions import Exception
+import sys
+
+if sys.version_info.major < 3.0:
+    from exceptions import Exception
 
 
 class PreemptionError(Exception):

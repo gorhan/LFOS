@@ -1,6 +1,10 @@
-import os
+from __future__ import print_function
+
 import sys
+import os
 sys.path.insert(0, os.path.abspath('..'))
+
+
 
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Resource.Resource import *
@@ -47,8 +51,8 @@ cpu2.set_power_consumption(proc_power_consumption)
 memory1.set_power_consumption(mem_power_consumption)
 memory2.set_power_consumption(mem_power_consumption)
 
-print cpu1.get_power_consumption().get_power_states()
-print cpu2.get_power_consumption().get_power_states()
+print(cpu1.get_power_consumption().get_power_states())
+print(cpu2.get_power_consumption().get_power_states())
 
 System.pretty_print()
 System.print_accessibilites()
@@ -60,11 +64,11 @@ task_1.set_period(Time(6))
 task_1.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(3), cpu2: Time(3)}, capacity=1)
 task_1.add_resource_requirement(resource_type=memory_t, capacity=640)
 # task_1.add_dependency('__Task_2__', 1)
-print task_1.info(True)
+print(task_1.info(True))
 task_2 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_1_2', type='Default', phase=Time(2), deadline=Time(4), periodicity=PeriodicityTypeList.PERIODIC, preemtability=PreemptionTypeList.NOT_PPREEMPTABLE, token_name=['__Task_1_2__'])
 task_2.set_period(Time(4))
 task_2.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
-print task_2.info(True)
+print(task_2.info(True))
 task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_1', type='Default', phase=Time(3), deadline=Time(14), periodicity=PeriodicityTypeList.APERIODIC)
 task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(2), cpu2: Time(2)}, capacity=1)
 task_3.add_resource_requirement(resource_type=memory_t, capacity=140)
@@ -72,15 +76,15 @@ task_3.add_resource_requirement(resource_type=memory_t, capacity=140)
 task_3.set_logical_relation(OR())
 task_3.add_dependency('__Task_1_1__', 1, Time(3))
 task_3.add_dependency('__Task_1_2__', 1, Time(2))
-print task_3.info(True)
+print(task_3.info(True))
 task_4 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_2', type='Default', phase=Time(8), deadline=Time(11), periodicity=PeriodicityTypeList.APERIODIC)
 task_4.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(1), cpu2: Time(1)}, capacity=1)
 task_4.set_logical_relation(OR())
 task_4.add_dependency('__Task_1_1__', 1, Time(1))
 task_4.add_dependency('__Task_1_2__', 1, Time(2))
-print task_4.info(True)
+print(task_4.info(True))
 
-scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
+scheduler = Scheduler(solver='Mistral2', verbose=10, time_cutoff=10000)
 
 scheduler.add_tasks_in_bundle(task_1, task_2, task_3, task_4)
 

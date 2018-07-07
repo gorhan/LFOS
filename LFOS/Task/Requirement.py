@@ -16,13 +16,13 @@ class ResourceRequirementItem(object):
         self.required_capacity = 1
 
     def set_resource_requirement(self, update=None, **kwargs):
-        if kwargs.has_key('resource_type'):
+        if 'resource_type' in kwargs:
             self.__set_type(kwargs['resource_type'])
         elif self.resource_type is None:
             LOG(msg='The resource type has to be specified before other parameters.', log=Logs.ERROR)
             return False
 
-        if kwargs.has_key('eligible_resources'):
+        if 'eligible_resources' in kwargs:
             if self.resource_type.same_abstraction(ResourceTypeList.ACTIVE):
                 if not isinstance(kwargs['eligible_resources'], dict):
                     LOG(msg='Eligible Resources have to be defined as dict structure whose keys are resources and values are execution time.', log=Logs.ERROR)
@@ -56,10 +56,9 @@ class ResourceRequirementItem(object):
                 LOG(msg='Eligible Resources have to be defined with actual execution times on the resources.', log=Logs.ERROR)
                 return False
             elif self.resource_type.same_abstraction(ResourceTypeList.PASSIVE):
-                self.eligible_resources = list()
-                System.search_resources(self.eligible_resources, type=self.resource_type)
+                self.eligible_resources = System.search_resources(type=self.resource_type)
 
-        if kwargs.has_key('capacity'):
+        if 'capacity' in kwargs:
             self.required_capacity = kwargs['capacity']
         else:
             self.required_capacity = 1
@@ -88,14 +87,11 @@ class ResourceRequirementItem(object):
 
 class ResourceRequirement:
     def __init__(self):
-        self.__dict = dict()
 
+        self.__dict = {}
         self.__dict[ResourceTypeList.ACTIVE] = list()
         self.__dict[ResourceTypeList.PASSIVE] = list()
         self.__dict[ResourceTypeList.COMPOSITE] = list()
-
-    def __getattr__(self, item):
-        getattr(self.__dict, item)()
 
     def add_resource_requirement(self, **kwargs):
         new_req = ResourceRequirementItem()
@@ -106,7 +102,7 @@ class ResourceRequirement:
 
         if new_req not in self.__dict[resource_abs]:
             self.__dict[resource_abs].append(new_req)
-            LOG(msg='New ResourceRequirement has been added to the ResourceRequirementList.')
+            LOG(msg='New ResourceRequirement: %s --> %s' % (resource_abs, new_req))
         else:
             pos = self.__dict[resource_abs].index(new_req)
             self.__dict[resource_abs][pos].update_resource_requirement(**kwargs)

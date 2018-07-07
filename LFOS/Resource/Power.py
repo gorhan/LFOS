@@ -161,6 +161,9 @@ class FixedStatePowerConsumption(Power):
         """
         return PowerTypeList.FIXED_STATE_POWER_CONSUMPTION
 
+    def __str__(self):
+        return '{ MIN=(%.2f, %.2f), MAX=(%.2f, %.2f) }' % (self._min_state[0], self._min_state[1], self._max_state[0], self._max_state[1])
+
 
 class DiscreteStatePowerConsumption(Power, dict):
     def __init__(self, min_scale, min_pow_cons, max_scale, max_pow_cons):
@@ -213,6 +216,7 @@ class DiscreteStatePowerConsumption(Power, dict):
         """
         if scale not in self and self.range_check(scale):
             self[scale] = pow_cons
+            print(self)
             return True
 
         if scale in self:
@@ -246,7 +250,7 @@ class DiscreteStatePowerConsumption(Power, dict):
         :param pow_cons: float -> power consumption value belonging to given power scale
         :return: True if given scale is higher than the current maximum power scale. Otherwise, False.
         """
-        if scale > self.get_max_power_state():
+        if scale > self.get_max_power_state()[0]:
             self._max_state = [scale, pow_cons]
             self[scale] = pow_cons
             return True
@@ -266,7 +270,7 @@ class DiscreteStatePowerConsumption(Power, dict):
         :param pow_cons: float -> power consumption value belonging to given power scale
         :return: True if given scale is less than the current minimum power scale. Otherwise, False.
         """
-        if scale < self.get_min_power_state():
+        if scale < self.get_min_power_state()[0]:
             self._min_state = [scale, pow_cons]
             self[scale] = pow_cons
             return True
@@ -295,6 +299,11 @@ class DiscreteStatePowerConsumption(Power, dict):
         :return: PowerTypeList
         """
         return PowerTypeList.DISCRETE_STATE_POWER_CONSUMPTION
+
+    def __str__(self):
+        return '{ ' + \
+                ', '.join(['(%.2f, %.2f)' % (scale, self[scale]) for scale in sorted(self.keys())]) + \
+                ' }'
 
 
 class ContinuousStatePowerConsumption(Power):

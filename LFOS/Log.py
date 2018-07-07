@@ -1,7 +1,8 @@
+from __future__ import print_function
+
 from time import localtime, strftime
 from sys import stderr, stdout
 from inspect import stack
-
 
 class Logs:
     WARN='WARN'
@@ -40,9 +41,9 @@ def LOG(**kwargs):
         kwargs['msg']
     )
 
-    out = kwargs['fp'] if kwargs.has_key('fp') else Logs.LOG2FP(kwargs['log'])
-    if not kwargs.has_key('n_print'):
-        print >>out, log
+    out = kwargs['fp'] if 'fp' in kwargs else Logs.LOG2FP(kwargs['log'])
+    if not 'n_print' in kwargs:
+        print(log, file=out)
         out.flush()
 
     return log

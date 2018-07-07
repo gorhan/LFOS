@@ -8,3 +8,4 @@ Numberjack/
 *.aux
 *.log
 *.gz
+.metadata/
