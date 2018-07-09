@@ -1,24 +1,29 @@
 from __future__ import print_function
 
+import sys
+if sys.version_info[0] > 2:
+    from functools import reduce
+from itertools import product
+
 BOUND = 0
 UNBOUND = 1
 FREE = 2
 DESCRIPTION = ['BOUND', 'UNBOUND', 'FREE']
 
 
-class Model:
+class FeatureModel:
     root = None
 
     def __init__(self, root_name):
-        if Model.root is None:
+        if FeatureModel.root is None:
             self.__name  = root_name
-            Model.root = Model._Feature(root_name)
+            FeatureModel.root = FeatureModel._Feature(root_name)
 
     def clear(self):
-        Model.root = None
+        FeatureModel.root = None
 
     def __getattr__(self, item):
-        return getattr(Model.root, item)
+        return getattr(FeatureModel.root, item)
 
     class _Feature:
 
@@ -48,7 +53,7 @@ class Model:
                 unbound_features = self.get_features(UNBOUND)
                 free_features = self.get_features(FREE)
 
-                n_bound_features = len(unbound_features)
+                n_bound_features = len(bound_features)
 
                 for n in range(self.__cardinality['min']-n_bound_features, self.__cardinality['max'] - n_bound_features + 1):
                     from itertools import combinations, product
@@ -57,13 +62,11 @@ class Model:
                         combs = list(combs) + bound_features
 
                         for feature in combs:
-                            sub_vars.append(feature.instantiate())
+                            sub_vars.append(feature._instantiate())
 
-                        # print sub_vars
-                        # raw_input('')
-                        for prod in product(*sub_vars):
-                            if prod:
-                                _vars.append(reduce(lambda x, y: x + y, prod))
+                        # print(sub_vars)
+                        # input('')
+                        _vars += [reduce(lambda x, y: x + y, prod) for prod in product(*sub_vars) if prod]
 
                 return _vars
 
@@ -73,19 +76,19 @@ class Model:
             self.__groups = []
 
         def add_feature(self, **kwargs):
-            assert kwargs.has_key('parent')
-            assert kwargs.has_key('children')
+            assert 'parent' in kwargs
+            assert 'children' in kwargs
             assert type(kwargs['children']) is list
 
-            _found = Model.root._search(kwargs['parent'])
+            _found = FeatureModel.root._search(kwargs['parent'])
             if _found:
-                _group = Model._Feature._Group()
+                _group = FeatureModel._Feature._Group()
 
                 _min_cardinality = _max_cardinality = 0
-                if kwargs.has_key('max'):
+                if 'max' in kwargs:
                     _max_cardinality = kwargs['max'] if kwargs['max'] <= len(kwargs['children']) else len(
                         kwargs['children'])
-                if kwargs.has_key('min'):
+                if 'min' in kwargs:
                     _min_cardinality = kwargs['min'] if 0 < kwargs['min'] <= _max_cardinality else _max_cardinality
 
                 _group.set_cardinality(_min_cardinality, _max_cardinality)
@@ -94,7 +97,7 @@ class Model:
                 bound = BOUND if _max_cardinality == _min_cardinality == len(kwargs['children']) else FREE
 
                 for child in kwargs['children']:
-                    _group.add_feature(Model._Feature(child, bound))
+                    _group.add_feature(FeatureModel._Feature(child, bound))
 
         def _add_group(self, _group):
             self.__groups.append(_group)
@@ -114,29 +117,36 @@ class Model:
             return None
 
         def __eq__(self, other):
-            if isinstance(other, Model._Feature):
+            if isinstance(other, FeatureModel._Feature):
                 return other.name == self.name
             elif isinstance(other, str):
                 return other == self.name
             else:
                 return False
+    
+        def __hash__(self):
+            return id(self)
 
         def __repr__(self):
-            return self.name
+            return "<class {}: instance {} at \'{}\'>".format(self.__class__.__name__, self.name, id(self))
 
-        def pretty_print(self, indent=''):
-            print('%s%s [%s]' % (indent, self.name, DESCRIPTION[self.__bound]))
+        def pretty_print(self, indent='', instance=[]):
+            if not instance or self in instance:
+                print('%s%s [%s]' % (indent, self.name, DESCRIPTION[self.__bound]))
             for group in self.__groups:
-                print('{}\tGROUP: [Min={}, Max={}]'.format(indent, *group.get_cardinality()))
+                children = group.get_features()
+                if not instance or set(instance).intersection(set(children)):
+                    children = set(instance).intersection(set(children))
+                    print('{}\tGROUP: [Min={}, Max={}]'.format(indent, *group.get_cardinality()))
                 for child in group.get_features():
-                    child.pretty_print(indent+'\t\t')
+                    child.pretty_print(indent=indent+'\t\t', instance=instance)
 
         def bind(self, feature_name, bound=BOUND):
             self._search(feature_name).__bound = bound
 
         def clear_bindings(self, root=None):
             if root is None:
-                root = Model.root
+                root = FeatureModel.root
 
             for gr in root.__groups:
                 for feature in gr.get_features():
@@ -146,16 +156,19 @@ class Model:
         def is_bound(self):
             return self.__bound
 
-        def instantiate(self):
-            vars = []
-            for group in self.__groups:
-                vars.append(group.variations())
-
-            from itertools import product
-            sub_configurations = []
-            for prod in product(*vars):
-                if prod:
-                    sub_configurations.append(reduce(lambda x,y: x+y, prod))
+        def instantiate(self, debug=False):
+            instances = self._instantiate()
+            if debug:
+                for ind, _instance in enumerate(instances):
+                    header = f"{'#'*25} INSTANCE-{ind+1} {'#'*25}"
+                    print(header)
+                    FeatureModel.root.pretty_print(instance=_instance)
+                    print(f"{'#'*len(header)}", end="\n\n")
+            return instances
+        
+        def _instantiate(self):
+            vars = [group.variations() for group in self.__groups]
+            sub_configurations = [reduce(lambda x,y: x+y, prod) for prod in product(*vars) if prod]
 
             if sub_configurations:
                 return [[self] + sub_configuration for sub_configuration in sub_configurations]

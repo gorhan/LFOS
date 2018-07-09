@@ -3,30 +3,14 @@ from pyecore.resources.xmi import XMIResource
 from pyecore.ecore import EPackage
 
 import pyecore.ecore as Ecore
+import pyuml2.uml as Uml
 
 from .IOStrategy import *
 
-
-def loadMetaModel(file: str) -> XMIResource:
-    global_registry[Ecore.nsURI] = Ecore  # We load the Ecore metamodel first
-    rset = ResourceSet()
-    metamodel = rset.get_resource(URI(file))
-    return metamodel
-
-
-def loadModel(metamodel: XMIResource, file: str) -> XMIResource:
-    rset = ResourceSet()
-    rset.metamodel_registry[metamodel.contents[0].nsURI] = metamodel.contents[0]
-    return rset.get_resource(file)
-
-
-def saveModel(metamodel: XMIResource, model: EPackage, output: str):
-    rset = ResourceSet()
-    rset.metamodel_registry[metamodel.contents[0].nsURI] = metamodel.contents[0]
-    model_resource = rset.create_resource(URI(output))
-    model_resource.append(model)
-    return model_resource.save()
-
+ExternalMetaModel = {
+    "Ecore": Ecore,
+    "UML": Uml
+}
 
 EAttributeType2PythonType = {
     'EFloat': float,
@@ -36,12 +20,35 @@ EAttributeType2PythonType = {
     'LogicalOperation': lambda x: x
 }
 
+def loadMetaModel(file: str) -> XMIResource:
+    global_registry[Ecore.nsURI] = Ecore # We load the Ecore metamodel first
+    rset = ResourceSet()
+    metamodel = rset.get_resource(URI(file))
+    return metamodel.contents[0]
+
+
+def loadModel(metamodel, file: str) -> XMIResource:
+    rset = ResourceSet()
+    rset.metamodel_registry[metamodel.nsURI] = metamodel
+    return rset.get_resource(file).contents[0]
+
+
+def saveModel(metamodel, model: EPackage, output: str):
+    rset = ResourceSet()
+    rset.metamodel_registry[metamodel.nsURI] = metamodel
+    model_resource = rset.create_resource(URI(output))
+    model_resource.append(model)
+    return model_resource.save()
 
 
 class IO:
     def __init__(self, metamodel_file, model_file=None):
-        self.metamodel_f = metamodel_file
-        self.__metamodel = loadMetaModel(metamodel_file)
+        self.metamodel_f = ""
+        if isinstance(metamodel_file, str):
+            self.metamodel_f = metamodel_file
+            self.__metamodel = loadMetaModel(metamodel_file)
+        elif isinstance(metamodel_file, Uml):
+            self.__metamodel = metamodel_file
 
         self.model_f = model_file
         self.__model = None
@@ -50,10 +57,10 @@ class IO:
         self.__io_strategy = NewStrategy("BASIC")
 
     def getModel(self):
-        return self.__io_strategy.getModel(self.__model.contents[0])
+        return self.__io_strategy.getModel(self.__model)
 
     def getMetaModel(self):
-        return self.__metamodel.contents[0]
+        return self.__metamodel
 
     def searchContentInMModel(self, name):
         for content in self.getMetaModel().eAllContents():
