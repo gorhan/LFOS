@@ -42,7 +42,8 @@ class FModel(Model):
 
     def interpret(self, input=None):
         for inp in input:
-            self.fmodelObject = self.transform2FeatureModelObject()
+            self._fmodelObject = self.transform2FeatureModelObject()
 
         instances = self._fModelObject.instantiate(debug=False)
         print(f"# instances={len(instances)}")
+        return [instances]

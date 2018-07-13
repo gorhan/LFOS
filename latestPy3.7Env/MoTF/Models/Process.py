@@ -94,4 +94,4 @@ class Process(Model):
         print(f"Number of tasks={len(self._allTasks)}")
 
         System.pretty_print()
-        return self._allTasks
+        return [self._allTasks]

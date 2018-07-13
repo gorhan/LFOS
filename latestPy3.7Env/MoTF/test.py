@@ -3,6 +3,8 @@ from .Models.Process import Process
 from .Models.FModel import FModel
 from .Models.Class import ClassModel, UML
 
+from .ModelProcPipeline import MoPP
+
 from LFOS.Scheduler.Scheduler import Scheduler
 from LFOS.Resource.Resource import *
 from LFOS.Task.Task import *
@@ -16,12 +18,16 @@ if __name__ == "__main__":
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
 
-    platform.interpret([1])
-    tasks = process.interpret([1])
-    classModel.interpret([1])
-    print(classModel)
 
-    featureModel.interpret([1])
+    mopp = MoPP()
+
+    mopp.append(platform)
+    mopp.append(process)
+    mopp.append(classModel)
+    mopp.append(featureModel)
+    mopp.run()
+
+    print(f"{len(mopp.output[0])} number of instances has been successfully generated!!")
 
     # scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
     #

@@ -47,4 +47,4 @@ class ClassModel(Model):
         return '\n'.join([f"Root = {root.name} --> {', '.join([_cls.name for _cls in sub_clses]) if sub_clses else None}" for root, sub_clses in self._classHierarchy.items()])
 
     def interpret(self, input=None):
-        pass
+        return [Ellipsis]

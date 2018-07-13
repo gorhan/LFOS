@@ -79,4 +79,4 @@ class Platform(Model):
             self._defineExclusiveResources()
             System.pretty_print()
 
-        return self._output
+        return [self._output]
