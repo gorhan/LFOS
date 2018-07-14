@@ -18,7 +18,6 @@ if __name__ == "__main__":
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
 
-
     mopp = MoPP()
 
     mopp.append(platform)
