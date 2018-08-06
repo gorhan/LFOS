@@ -81,6 +81,7 @@ class FeatureModel:
             assert type(kwargs['children']) is list
 
             _found = FeatureModel.root._search(kwargs['parent'])
+            
             if _found:
                 _group = FeatureModel._Feature._Group()
 

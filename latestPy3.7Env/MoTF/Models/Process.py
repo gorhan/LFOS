@@ -85,13 +85,15 @@ class Process(Model):
 
             print(task.info(True))
 
+    def gatherRequiredInfo(self):
+        return [{'name': task.name, "namespace": task.get_attr('namespace')} for task in self._allTasks.values()]
+
     def interpret(self, input=None):
         model = self.getModel()
-        for inp in input:
-            self._defineTasks(model)
-            self._defineDependencies(model)
+        self._defineTasks(model)
+        self._defineDependencies(model)
+
+        input.add_tasks_in_bundle(*self._allTasks)
 
         print(f"Number of tasks={len(self._allTasks)}")
-
-        System.pretty_print()
-        return [self._allTasks]
+        return input

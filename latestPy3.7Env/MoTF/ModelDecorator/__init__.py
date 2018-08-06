@@ -8,6 +8,21 @@ from ..IO import *
 from LFOS.Scheduler.Scheduler import Scheduler
 
 
+def pointcut(pos):
+    def wrapper(fn):
+        def decorator(self, *args):
+            if pos == "before":
+                for req in self._required_models:
+                    self.processRequiredInfo(req.gatherRequiredInfo())
+            fn(self, *args)
+            if pos == "after":
+                for req in self._required_models:
+                    self.processRequiredInfo(req.gatherRequiredInfo())
+
+        return decorator
+    return wrapper
+
+
 class ModelDecorator(metaclass=abc.ABCMeta):
     """
         Decorator class utilizing decorator pattern to initialize input models and modify scheduler(s).
@@ -30,6 +45,13 @@ class Model(IO, ModelDecorator):
         from string import ascii_letters, digits
         return ''.join(choice(ascii_letters + digits) for _ in range(_len))
 
+    def ID(self):
+        for key, decorator in Model.__ALL__.items():
+            if self == decorator:
+                return key
+
+        return None
+
     def register(self, object):
         key = Model.generateID()
         while key in Model.__ALL__:
@@ -37,12 +59,26 @@ class Model(IO, ModelDecorator):
         Model.__ALL__[key] = object
 
     def __init__(self, *args):
-        IO.__init__(self, *args)
+        if len(args) > 2:
+            IO.__init__(self, *args[-2:])
+        else:
+            IO.__init__(self, *args[-2:])
 
         # print(f'Derived Class Name = {self.__class__.__name__}')
         # print(f'__ALL__ =', Model.__ALL__)
         self.register(self)
+
+        self._required_models = []
         self._output = None
 
+    def requires(self, to_key):
+        self._required_models.append(Model.__ALL__[to_key])
+
+    def gatherRequiredInfo(self):
+        raise NotImplementedError("Invalid procedure call!")
+
+    def processRequiredInfo(self, info):
+        raise NotImplementedError("Invalid procedure call!")
+
     def interpret(self, input=None) -> Scheduler:
-        print("Invalid procedure call!", file=sys.stderr)
+        raise NotImplementedError("Invalid procedure call!")

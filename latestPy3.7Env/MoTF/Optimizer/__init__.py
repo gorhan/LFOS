@@ -15,5 +15,4 @@ class GlobalOpt:
                 try:
                     self._search.success(fitness, instance)
                 except StopSearch as s:
-                    if s.object:
-                        return s.object
+                    return s.object

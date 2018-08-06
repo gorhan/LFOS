@@ -70,13 +70,10 @@ class Platform(Model):
 
             self.typeFSF_d[resourceType.identifier] = Type(resourceTypeFSF, resourceType.identifier)
 
-    def interpret(self, inputs=None):
-        self._output = inputs
+    def interpret(self, input=None):
+        self._initializeResourceTypes(input)
+        self._defineResources()
+        self._defineExclusiveResources()
+        System.pretty_print()
 
-        for inp in inputs:
-            self._initializeResourceTypes(inp)
-            self._defineResources()
-            self._defineExclusiveResources()
-            System.pretty_print()
-
-        return [self._output]
+        return input

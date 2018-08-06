@@ -36,14 +36,18 @@ class FModel(Model):
 
         self._fModelObject = FM.FeatureModel(root.name)
         self._group2_GroupObject(root, root.children)
-        # self._fModelObject.pretty_print()
 
         return self._fModelObject
 
+    def processRequiredInfo(self, info):
+        for _cls in info:
+            print("Searched Class=", _cls.name)
+            self._fModelObject.bind(_cls.name, FM.UNBOUND)
+
+    @pointcut("after")
     def interpret(self, input=None):
-        for inp in input:
-            self._fmodelObject = self.transform2FeatureModelObject()
+        self._fmodelObject = self.transform2FeatureModelObject()
 
         instances = self._fModelObject.instantiate(debug=False)
         print(f"# instances={len(instances)}")
-        return [instances]
+        return input

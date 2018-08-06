@@ -18,15 +18,23 @@ if __name__ == "__main__":
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
 
-    mopp = MoPP()
+    scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 
+    featureModel.requires(classModel.ID())
+    classModel.requires(process.ID())
+
+    mopp = MoPP()
+    mopp.input(scheduler)
     mopp.append(platform)
     mopp.append(process)
     mopp.append(classModel)
     mopp.append(featureModel)
     mopp.run()
+    output = mopp.output
 
-    print(f"{len(mopp.output[0])} number of instances has been successfully generated!!")
+    print(classModel)
+
+    # print(f"{len(mopp.output[0])} number of instances has been successfully generated!!")
 
     # scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
     #
