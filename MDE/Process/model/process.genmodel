@@ -9,14 +9,16 @@
   <genPackages prefix="Process" disposableProviderFactory="true" ecorePackage="process.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="process.ecore#//LogicalOperation">
       <genEnumLiterals ecoreEnumLiteral="process.ecore#//LogicalOperation/AND"/>
-      <genEnumLiterals ecoreEnumLiteral="process.ecore#//LogicalOperation/OR"/>
       <genEnumLiterals ecoreEnumLiteral="process.ecore#//LogicalOperation/XOR"/>
     </genEnums>
-    <genClasses ecoreClass="process.ecore#//ProcessNode">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//ProcessNode/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//ProcessNode/requires"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//ProcessNode/guard"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//ProcessNode/namespace"/>
+    <genClasses ecoreClass="process.ecore#//Process">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Process/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Process/requires"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Process/namespace"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Process/period"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Process/input"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Process/output"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Process/id"/>
     </genClasses>
     <genClasses ecoreClass="process.ecore#//Requirement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Requirement/resourceName"/>
@@ -26,25 +28,27 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//ActiveResourceRequirement/WCET"/>
     </genClasses>
     <genClasses ecoreClass="process.ecore#//PassiveResourceRequirement"/>
-    <genClasses ecoreClass="process.ecore#//Process">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Process/period"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Process/output"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Process/input"/>
-    </genClasses>
     <genClasses ecoreClass="process.ecore#//ProcessDiagram">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//ProcessDiagram/nodes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//ProcessDiagram/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//ProcessDiagram/dataset"/>
     </genClasses>
-    <genClasses ecoreClass="process.ecore#//Input">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Input/data"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Input/operation"/>
+    <genClasses ecoreClass="process.ecore#//InputList">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//InputList/operation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//InputList/item"/>
     </genClasses>
     <genClasses ecoreClass="process.ecore#//Data">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Data/amount"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Data/no_available"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Data/alias"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference process.ecore#//Data/producedBy"/>
     </genClasses>
+    <genClasses ecoreClass="process.ecore#//Input">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Input/no_required"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference process.ecore#//Input/data"/>
+    </genClasses>
     <genClasses ecoreClass="process.ecore#//Output">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference process.ecore#//Output/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute process.ecore#//Output/no_provided"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference process.ecore#//Output/data"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

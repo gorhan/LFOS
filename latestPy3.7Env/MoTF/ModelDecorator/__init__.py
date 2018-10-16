@@ -14,11 +14,11 @@ def pointcut(pos):
             if pos == "before":
                 for req in self._required_models:
                     self.processRequiredInfo(req.gatherRequiredInfo())
-            fn(self, *args)
+            return_val = fn(self, *args)
             if pos == "after":
                 for req in self._required_models:
                     self.processRequiredInfo(req.gatherRequiredInfo())
-
+            return return_val
         return decorator
     return wrapper
 

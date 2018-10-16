@@ -22,7 +22,6 @@ package Connection;
 public interface ActiveResourceRequirement extends Requirement {
 	/**
 	 * Returns the value of the '<em><b>WCET</b></em>' attribute.
-	 * The default value is <code>"1.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>WCET</em>' attribute isn't clear,
@@ -30,12 +29,12 @@ public interface ActiveResourceRequirement extends Requirement {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>WCET</em>' attribute.
-	 * @see #setWCET(float)
+	 * @see #setWCET(int)
 	 * @see Connection.ProcessPackage#getActiveResourceRequirement_WCET()
-	 * @model default="1.0" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
-	float getWCET();
+	int getWCET();
 
 	/**
 	 * Sets the value of the '{@link Connection.ActiveResourceRequirement#getWCET <em>WCET</em>}' attribute.
@@ -45,6 +44,6 @@ public interface ActiveResourceRequirement extends Requirement {
 	 * @see #getWCET()
 	 * @generated
 	 */
-	void setWCET(float value);
+	void setWCET(int value);
 
 } // ActiveResourceRequirement

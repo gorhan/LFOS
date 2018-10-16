@@ -32,7 +32,7 @@ public interface CompositeResource extends Resource {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Childs</em>' containment reference list.
 	 * @see platformMM.PlatformMMPackage#getCompositeResource_Childs()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Resource> getChilds();

@@ -13,7 +13,7 @@ from LFOS.macros import *
 
 if __name__ == "__main__":
     platform = Platform("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
-    process = Process("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/registration.process")
+    process = Process("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
@@ -50,6 +50,6 @@ if __name__ == "__main__":
     # scheduler.set_scheduling_objective(purpose, objective)
     #
     # print('I am here!!!')
-    # schedules = scheduler.schedule_tasks()
-    # for schedule in schedules:
-    #     schedule.plot_schedule()
+    schedules = output.schedule_tasks()
+    for schedule in schedules:
+        schedule.plot_schedule()

@@ -1,6 +1,6 @@
-#Wed Jul 04 10:47:24 EEST 2018
+#Sun Oct 07 14:37:30 CEST 2018
 rulergrid.snaptogeometry=true
-viewport.x=381
+viewport.x=443
 zoom=1.5
 print.margin.right=0.5
 rulergrid.rulerunit=0
@@ -17,4 +17,4 @@ rulergrid.gridlinestyle=6
 rulergrid.gridlevel=true
 print.margin.top=0.5
 print.usePortrait=true
-viewport.y=50
+viewport.y=0

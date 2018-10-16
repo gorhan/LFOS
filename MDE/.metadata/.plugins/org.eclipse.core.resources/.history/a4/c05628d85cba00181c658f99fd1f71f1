@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<featuremodel:FeatureModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:featuremodel="http://www.eclipse.org/featuremodel" id="">
+  <root id="" name="Registration">
+    <children id="" lower="2" upper="5">
+      <features name="Input">
+        <children id="" lower="0" upper="1">
+          <features id="" name="CalibratedInput" type="optional"/>
+        </children>
+      </features>
+      <features id="" name="Filter" type="optional">
+        <children id="" lower="1" upper="2">
+          <features id="" name="NoiseRemoval" type="or">
+            <children lower="1" upper="3">
+              <features name="StatisticalOutlierRemoval" type="or"/>
+              <features name="RadiusOutlierRemoval" type="or"/>
+              <features name="PassThroughFilter" type="or"/>
+            </children>
+          </features>
+          <features name="Sampling" type="or">
+            <children id="" lower="1" upper="1">
+              <features id="" name="Up" type="alternative"/>
+              <features id="" name="Down" type="alternative"/>
+            </children>
+            <children id="" lower="1" upper="1">
+              <features name="VoxelGrid" type="alternative"/>
+              <features name="Uniform" type="alternative"/>
+            </children>
+          </features>
+        </children>
+      </features>
+      <features id="" name="FExtract" type="optional">
+        <children id="" lower="2" upper="3">
+          <features name="Keypoint">
+            <children id="" lower="1" upper="1">
+              <features name="NARF" type="or"/>
+              <features name="SIFT" type="or"/>
+              <features name="FPFH" type="or"/>
+            </children>
+          </features>
+          <features name="Normal" type="or"/>
+          <features name="Curvature" type="or"/>
+        </children>
+      </features>
+      <features name="Match" type="optional"/>
+      <features name="Transform">
+        <children id="" lower="1" upper="2">
+          <features id="" name="CoarseTransform" type="or">
+            <children id="" lower="1" upper="2">
+              <features name="FPCA_IA" type="or"/>
+              <features name="SAC_IA" type="or"/>
+            </children>
+          </features>
+          <features id="" name="FineTransform" type="or">
+            <children id="" lower="1" upper="1">
+              <features name="ICP">
+                <children id="" lower="1" upper="1">
+                  <features name="LinearICP"/>
+                  <features name="NLinearICP"/>
+                </children>
+              </features>
+            </children>
+          </features>
+        </children>
+      </features>
+    </children>
+  </root>
+</featuremodel:FeatureModel>

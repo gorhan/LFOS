@@ -20,14 +20,13 @@
         upperBound="-1" eType="#//StateDVS" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompositeResource" eSuperTypes="#//Resource">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="childs" lowerBound="1"
-        upperBound="-1" eType="#//Resource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childs" upperBound="-1"
+        eType="#//Resource" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StateDVS">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
-        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="energy" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="-1.0"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

@@ -1,0 +1,225 @@
+/**
+ */
+package Connection.impl;
+
+import Connection.Data;
+import Connection.Input;
+import Connection.ProcessPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Input</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * </p>
+ * <ul>
+ *   <li>{@link Connection.impl.InputImpl#getAmount <em>Amount</em>}</li>
+ *   <li>{@link Connection.impl.InputImpl#getData <em>Data</em>}</li>
+ * </ul>
+ *
+ * @generated
+ */
+public class InputImpl extends MinimalEObjectImpl.Container implements Input {
+	/**
+	 * The default value of the '{@link #getAmount() <em>Amount</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAmount()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int AMOUNT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getAmount() <em>Amount</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAmount()
+	 * @generated
+	 * @ordered
+	 */
+	protected int amount = AMOUNT_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getData() <em>Data</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getData()
+	 * @generated
+	 * @ordered
+	 */
+	protected Data data;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected InputImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return ProcessPackage.Literals.INPUT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getAmount() {
+		return amount;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAmount(int newAmount) {
+		int oldAmount = amount;
+		amount = newAmount;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ProcessPackage.INPUT__AMOUNT, oldAmount, amount));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Data getData() {
+		if (data != null && data.eIsProxy()) {
+			InternalEObject oldData = (InternalEObject)data;
+			data = (Data)eResolveProxy(oldData);
+			if (data != oldData) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ProcessPackage.INPUT__DATA, oldData, data));
+			}
+		}
+		return data;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Data basicGetData() {
+		return data;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setData(Data newData) {
+		Data oldData = data;
+		data = newData;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ProcessPackage.INPUT__DATA, oldData, data));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case ProcessPackage.INPUT__AMOUNT:
+				return getAmount();
+			case ProcessPackage.INPUT__DATA:
+				if (resolve) return getData();
+				return basicGetData();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case ProcessPackage.INPUT__AMOUNT:
+				setAmount((Integer)newValue);
+				return;
+			case ProcessPackage.INPUT__DATA:
+				setData((Data)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case ProcessPackage.INPUT__AMOUNT:
+				setAmount(AMOUNT_EDEFAULT);
+				return;
+			case ProcessPackage.INPUT__DATA:
+				setData((Data)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case ProcessPackage.INPUT__AMOUNT:
+				return amount != AMOUNT_EDEFAULT;
+			case ProcessPackage.INPUT__DATA:
+				return data != null;
+		}
+		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (amount: ");
+		result.append(amount);
+		result.append(')');
+		return result.toString();
+	}
+
+} //InputImpl

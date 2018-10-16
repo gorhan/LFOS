@@ -1,0 +1,53 @@
+/**
+ */
+package Connection.tests;
+
+import junit.framework.TestCase;
+
+/**
+ * <!-- begin-user-doc -->
+ * A test case for the model object '<em><b>Process</b></em>'.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public abstract class ProcessTest extends TestCase {
+
+	/**
+	 * The fixture for this Process test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Connection.Process fixture = null;
+
+	/**
+	 * Constructs a new Process test case with the given name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProcessTest(String name) {
+		super(name);
+	}
+
+	/**
+	 * Sets the fixture for this Process test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setFixture(Connection.Process fixture) {
+		this.fixture = fixture;
+	}
+
+	/**
+	 * Returns the fixture for this Process test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Connection.Process getFixture() {
+		return fixture;
+	}
+
+} //ProcessTest

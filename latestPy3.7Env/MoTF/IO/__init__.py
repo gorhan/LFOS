@@ -73,9 +73,13 @@ class IO:
         return (content, EAttributeType2PythonType[content.eType.name](content.defaultValueLiteral)) if content else (content, content)
 
     def getProcessedValue(self, content, attr):
-        if hasattr(content, attr) and getattr(content, attr):
-            return EAttributeType2PythonType[getattr(content, attr).eType.name](getattr(content, attr)) if hasattr(getattr(content, attr), 'eType') else getattr(content, attr)
-
+        # print("ENTER", hasattr(content, attr), getattr(content, attr), hasattr(getattr(content, attr), 'eType'))
+        if hasattr(content, attr):
+            if hasattr(getattr(content, attr), 'eType'):
+                return EAttributeType2PythonType[getattr(content, attr).eType.name](getattr(content, attr))
+            else:
+                return getattr(content, attr)
+        # print("EXIT!")
         return self.getDefaultValue(attr)[1]
 
     def setIOStrategy(self, new_strategy):

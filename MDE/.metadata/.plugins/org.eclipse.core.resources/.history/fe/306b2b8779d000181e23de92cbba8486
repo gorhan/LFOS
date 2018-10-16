@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="platformMM" nsURI="http://www.example.org/platformMM" nsPrefix="platformMM">
+  <eClassifiers xsi:type="ecore:EClass" name="Resource" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exclusiveResources" upperBound="-1"
+        eType="#//Resource"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="belongs" lowerBound="1"
+        eType="#//ResourceType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ResourceAbstraction">
+    <eLiterals name="COMPOSITE"/>
+    <eLiterals name="ACTIVE" value="1"/>
+    <eLiterals name="PASSIVE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TerminalResource" eSuperTypes="#//Resource">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="capacity" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="states" lowerBound="1"
+        upperBound="-1" eType="#//StateDVS" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeResource" eSuperTypes="#//Resource">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childs" upperBound="-1"
+        eType="#//Resource" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateDVS">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="scale" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="1.0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="energy" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="-1.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="identifier" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstraction" eType="#//ResourceAbstraction"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatformDiagram">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="System" lowerBound="1"
+        eType="#//CompositeResource" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" lowerBound="1"
+        upperBound="-1" eType="#//ResourceType" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

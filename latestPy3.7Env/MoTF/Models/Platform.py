@@ -15,6 +15,7 @@ class Platform(Model):
 
         states = []
         for state in resource.states:
+            print(f"Scale has been set to {self.getProcessedValue(state, 'scale')} --> {self.getProcessedValue(state, 'energy')}")
             states.append((self.getProcessedValue(state, 'scale'), self.getProcessedValue(state, 'energy')))
         states.sort(key=lambda state: state[0])
 

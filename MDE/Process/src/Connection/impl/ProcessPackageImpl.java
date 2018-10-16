@@ -5,12 +5,12 @@ package Connection.impl;
 import Connection.ActiveResourceRequirement;
 import Connection.Data;
 import Connection.Input;
+import Connection.InputList;
 import Connection.LogicalOperation;
 import Connection.Output;
 import Connection.PassiveResourceRequirement;
 import Connection.ProcessDiagram;
 import Connection.ProcessFactory;
-import Connection.ProcessNode;
 import Connection.ProcessPackage;
 import Connection.Requirement;
 
@@ -34,7 +34,7 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processNodeEClass = null;
+	private EClass processEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -62,13 +62,6 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass processEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass processDiagramEClass = null;
 
 	/**
@@ -76,7 +69,7 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass inputEClass = null;
+	private EClass inputListEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -84,6 +77,13 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * @generated
 	 */
 	private EClass dataEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass inputEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -165,8 +165,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcessNode() {
-		return processNodeEClass;
+	public EClass getProcess() {
+		return processEClass;
 	}
 
 	/**
@@ -174,8 +174,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcessNode_Name() {
-		return (EAttribute)processNodeEClass.getEStructuralFeatures().get(0);
+	public EAttribute getProcess_Name() {
+		return (EAttribute)processEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -183,8 +183,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getProcessNode_Requires() {
-		return (EReference)processNodeEClass.getEStructuralFeatures().get(1);
+	public EReference getProcess_Requires() {
+		return (EReference)processEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -192,8 +192,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcessNode_Guard() {
-		return (EAttribute)processNodeEClass.getEStructuralFeatures().get(2);
+	public EAttribute getProcess_Namespace() {
+		return (EAttribute)processEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -201,8 +201,35 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getProcessNode_Namespace() {
-		return (EAttribute)processNodeEClass.getEStructuralFeatures().get(3);
+	public EAttribute getProcess_Period() {
+		return (EAttribute)processEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcess_Input() {
+		return (EReference)processEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProcess_Output() {
+		return (EReference)processEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProcess_Id() {
+		return (EAttribute)processEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -264,42 +291,6 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getProcess() {
-		return processEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getProcess_Period() {
-		return (EAttribute)processEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getProcess_Output() {
-		return (EReference)processEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getProcess_Input() {
-		return (EReference)processEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getProcessDiagram() {
 		return processDiagramEClass;
 	}
@@ -327,8 +318,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getInput() {
-		return inputEClass;
+	public EReference getProcessDiagram_Dataset() {
+		return (EReference)processDiagramEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -336,8 +327,8 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInput_Data() {
-		return (EReference)inputEClass.getEStructuralFeatures().get(0);
+	public EClass getInputList() {
+		return inputListEClass;
 	}
 
 	/**
@@ -345,8 +336,17 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getInput_Operation() {
-		return (EAttribute)inputEClass.getEStructuralFeatures().get(1);
+	public EAttribute getInputList_Operation() {
+		return (EAttribute)inputListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInputList_Item() {
+		return (EReference)inputListEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -363,7 +363,7 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getData_Amount() {
+	public EAttribute getData_No_available() {
 		return (EAttribute)dataEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -372,8 +372,44 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getData_Alias() {
+		return (EAttribute)dataEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getData_ProducedBy() {
-		return (EReference)dataEClass.getEStructuralFeatures().get(1);
+		return (EReference)dataEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInput() {
+		return inputEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInput_No_required() {
+		return (EAttribute)inputEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInput_Data() {
+		return (EReference)inputEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -390,8 +426,17 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getOutput_No_provided() {
+		return (EAttribute)outputEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getOutput_Data() {
-		return (EReference)outputEClass.getEStructuralFeatures().get(0);
+		return (EReference)outputEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -431,11 +476,14 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		processNodeEClass = createEClass(PROCESS_NODE);
-		createEAttribute(processNodeEClass, PROCESS_NODE__NAME);
-		createEReference(processNodeEClass, PROCESS_NODE__REQUIRES);
-		createEAttribute(processNodeEClass, PROCESS_NODE__GUARD);
-		createEAttribute(processNodeEClass, PROCESS_NODE__NAMESPACE);
+		processEClass = createEClass(PROCESS);
+		createEAttribute(processEClass, PROCESS__NAME);
+		createEReference(processEClass, PROCESS__REQUIRES);
+		createEAttribute(processEClass, PROCESS__NAMESPACE);
+		createEAttribute(processEClass, PROCESS__PERIOD);
+		createEReference(processEClass, PROCESS__INPUT);
+		createEReference(processEClass, PROCESS__OUTPUT);
+		createEAttribute(processEClass, PROCESS__ID);
 
 		requirementEClass = createEClass(REQUIREMENT);
 		createEAttribute(requirementEClass, REQUIREMENT__RESOURCE_NAME);
@@ -446,24 +494,26 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 
 		passiveResourceRequirementEClass = createEClass(PASSIVE_RESOURCE_REQUIREMENT);
 
-		processEClass = createEClass(PROCESS);
-		createEAttribute(processEClass, PROCESS__PERIOD);
-		createEReference(processEClass, PROCESS__OUTPUT);
-		createEReference(processEClass, PROCESS__INPUT);
-
 		processDiagramEClass = createEClass(PROCESS_DIAGRAM);
 		createEReference(processDiagramEClass, PROCESS_DIAGRAM__NODES);
 		createEAttribute(processDiagramEClass, PROCESS_DIAGRAM__NAME);
+		createEReference(processDiagramEClass, PROCESS_DIAGRAM__DATASET);
 
-		inputEClass = createEClass(INPUT);
-		createEReference(inputEClass, INPUT__DATA);
-		createEAttribute(inputEClass, INPUT__OPERATION);
+		inputListEClass = createEClass(INPUT_LIST);
+		createEAttribute(inputListEClass, INPUT_LIST__OPERATION);
+		createEReference(inputListEClass, INPUT_LIST__ITEM);
 
 		dataEClass = createEClass(DATA);
-		createEAttribute(dataEClass, DATA__AMOUNT);
+		createEAttribute(dataEClass, DATA__NO_AVAILABLE);
+		createEAttribute(dataEClass, DATA__ALIAS);
 		createEReference(dataEClass, DATA__PRODUCED_BY);
 
+		inputEClass = createEClass(INPUT);
+		createEAttribute(inputEClass, INPUT__NO_REQUIRED);
+		createEReference(inputEClass, INPUT__DATA);
+
 		outputEClass = createEClass(OUTPUT);
+		createEAttribute(outputEClass, OUTPUT__NO_PROVIDED);
 		createEReference(outputEClass, OUTPUT__DATA);
 
 		// Create enums
@@ -500,48 +550,51 @@ public class ProcessPackageImpl extends EPackageImpl implements ProcessPackage {
 		// Add supertypes to classes
 		activeResourceRequirementEClass.getESuperTypes().add(this.getRequirement());
 		passiveResourceRequirementEClass.getESuperTypes().add(this.getRequirement());
-		processEClass.getESuperTypes().add(this.getProcessNode());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(processNodeEClass, ProcessNode.class, "ProcessNode", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProcessNode_Name(), ecorePackage.getEString(), "name", null, 1, 1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcessNode_Requires(), this.getRequirement(), null, "requires", null, 0, -1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcessNode_Guard(), ecorePackage.getEString(), "guard", null, 0, 1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getProcessNode_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, ProcessNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(processEClass, Connection.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProcess_Name(), ecorePackage.getEString(), "name", null, 1, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcess_Requires(), this.getRequirement(), null, "requires", null, 1, -1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProcess_Namespace(), ecorePackage.getEString(), "namespace", null, 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProcess_Period(), ecorePackage.getEInt(), "period", "-1", 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcess_Input(), this.getInputList(), null, "input", null, 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcess_Output(), this.getOutput(), null, "output", null, 0, -1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getProcess_Id(), ecorePackage.getEInt(), "id", "0", 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(requirementEClass, Requirement.class, "Requirement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getRequirement_ResourceName(), ecorePackage.getEString(), "resourceName", null, 1, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRequirement_RequiredCapacity(), ecorePackage.getEFloat(), "requiredCapacity", null, 1, 1, Requirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(activeResourceRequirementEClass, ActiveResourceRequirement.class, "ActiveResourceRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getActiveResourceRequirement_WCET(), ecorePackage.getEFloat(), "WCET", "1.0", 1, 1, ActiveResourceRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getActiveResourceRequirement_WCET(), ecorePackage.getEInt(), "WCET", null, 1, 1, ActiveResourceRequirement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(passiveResourceRequirementEClass, PassiveResourceRequirement.class, "PassiveResourceRequirement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(processEClass, Connection.Process.class, "Process", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getProcess_Period(), ecorePackage.getEFloat(), "period", "0.0", 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Output(), this.getOutput(), null, "output", null, 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getProcess_Input(), this.getInput(), null, "input", null, 0, 1, Connection.Process.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(processDiagramEClass, ProcessDiagram.class, "ProcessDiagram", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getProcessDiagram_Nodes(), this.getProcessNode(), null, "nodes", null, 0, -1, ProcessDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessDiagram_Nodes(), this.getProcess(), null, "nodes", null, 0, -1, ProcessDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getProcessDiagram_Name(), ecorePackage.getEString(), "name", null, 1, 1, ProcessDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProcessDiagram_Dataset(), this.getData(), null, "dataset", null, 0, -1, ProcessDiagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(inputEClass, Input.class, "Input", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInput_Data(), this.getData(), null, "data", null, 1, -1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getInput_Operation(), this.getLogicalOperation(), "operation", null, 0, 1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(inputListEClass, InputList.class, "InputList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInputList_Operation(), this.getLogicalOperation(), "operation", null, 0, 1, InputList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInputList_Item(), this.getInput(), null, "item", null, 1, -1, InputList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dataEClass, Data.class, "Data", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getData_Amount(), ecorePackage.getEInt(), "amount", "1", 0, 1, Data.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getData_ProducedBy(), this.getProcessNode(), null, "producedBy", null, 1, 1, Data.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getData_No_available(), ecorePackage.getEInt(), "no_available", "0", 0, 1, Data.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getData_Alias(), ecorePackage.getEString(), "alias", null, 0, 1, Data.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getData_ProducedBy(), this.getProcess(), null, "producedBy", null, 0, 1, Data.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(inputEClass, Input.class, "Input", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInput_No_required(), ecorePackage.getEInt(), "no_required", null, 0, 1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInput_Data(), this.getData(), null, "data", null, 1, 1, Input.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(outputEClass, Output.class, "Output", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOutput_Data(), this.getData(), null, "data", null, 1, -1, Output.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOutput_No_provided(), ecorePackage.getEInt(), "no_provided", null, 0, 1, Output.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOutput_Data(), this.getData(), null, "data", null, 1, 1, Output.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(logicalOperationEEnum, LogicalOperation.class, "LogicalOperation");
 		addEEnumLiteral(logicalOperationEEnum, LogicalOperation.AND);
-		addEEnumLiteral(logicalOperationEEnum, LogicalOperation.OR);
 		addEEnumLiteral(logicalOperationEEnum, LogicalOperation.XOR);
 
 		// Create resource

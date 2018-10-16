@@ -35,7 +35,7 @@ public class StateDVSImpl extends MinimalEObjectImpl.Container implements StateD
 	 * @generated
 	 * @ordered
 	 */
-	protected static final float SCALE_EDEFAULT = 1.0F;
+	protected static final float SCALE_EDEFAULT = 0.0F;
 
 	/**
 	 * The cached value of the '{@link #getScale() <em>Scale</em>}' attribute.
@@ -55,7 +55,7 @@ public class StateDVSImpl extends MinimalEObjectImpl.Container implements StateD
 	 * @generated
 	 * @ordered
 	 */
-	protected static final float ENERGY_EDEFAULT = -1.0F;
+	protected static final float ENERGY_EDEFAULT = 0.0F;
 
 	/**
 	 * The cached value of the '{@link #getEnergy() <em>Energy</em>}' attribute.

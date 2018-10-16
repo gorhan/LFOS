@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process:ProcessDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:process="http://www.example.org/process" name="Registration">
+  <nodes name="getData" namespace="Input" period="3.0">
+    <output no_provided="1" data="//@dataset.0"/>
+  </nodes>
+  <nodes name="setInputData" namespace="Filter">
+    <input>
+      <item no_required="1" data="//@dataset.0"/>
+    </input>
+    <output no_provided="1" data="//@dataset.1"/>
+  </nodes>
+  <nodes name="setFilteringParams" namespace="Filter">
+    <output no_provided="1" data="//@dataset.2"/>
+  </nodes>
+  <nodes name="filter" namespace="Filter">
+    <input>
+      <item no_required="1" data="//@dataset.1"/>
+      <item no_required="1" data="//@dataset.2"/>
+    </input>
+    <output no_provided="1" data="//@dataset.8"/>
+  </nodes>
+  <nodes name="setInputData" namespace="Filter" id="1">
+    <input>
+      <item no_required="1" data="//@dataset.0"/>
+    </input>
+    <output no_provided="1" data="//@dataset.3"/>
+  </nodes>
+  <nodes name="filter" namespace="Filter" id="1">
+    <input>
+      <item no_required="1" data="//@dataset.1"/>
+    </input>
+    <output no_provided="1" data="//@dataset.4"/>
+  </nodes>
+  <nodes name="setInputData" namespace="FExtract">
+    <input>
+      <item no_required="1" data="//@dataset.8"/>
+    </input>
+    <output no_provided="1" data="//@dataset.9"/>
+  </nodes>
+  <nodes name="setFExtractingParams" namespace="FExtract">
+    <output no_provided="1" data="//@dataset.11"/>
+  </nodes>
+  <nodes name="extract" namespace="FExtract">
+    <input>
+      <item no_required="1" data="//@dataset.9"/>
+      <item no_required="1" data="//@dataset.11"/>
+    </input>
+    <output no_provided="1" data="//@dataset.9"/>
+  </nodes>
+  <nodes name="setInputData" namespace="FExtract" id="1">
+    <input>
+      <item no_required="1" data="//@dataset.4"/>
+    </input>
+    <output no_provided="1" data="//@dataset.10"/>
+  </nodes>
+  <nodes name="extract" namespace="FExtract" id="1">
+    <output no_provided="1" data="//@dataset.7"/>
+  </nodes>
+  <nodes name="setInputSrcData" namespace="Match"/>
+  <nodes name="setInputDstData" namespace="Match"/>
+  <nodes name="setMatchingParams" namespace="Match"/>
+  <nodes name="computeCorrespondences" namespace="Match"/>
+  <nodes name="setInputSrcData" namespace="Transform"/>
+  <nodes name="setInputDstData" namespace="Transform"/>
+  <nodes name="setTransformingParams" namespace="Transform"/>
+  <nodes name="setCorrespondences" namespace="Transform"/>
+  <nodes name="transform" namespace="Transform"/>
+  <dataset alias="Cloud" producedBy="//@nodes.0"/>
+  <dataset alias="Filter-setInputData-0" producedBy="//@nodes.2"/>
+  <dataset alias="Filter-setFilteringParams-0" producedBy="//@nodes.2"/>
+  <dataset alias="Filter-setInputData-1" producedBy="//@nodes.4"/>
+  <dataset alias="Filter-Src" producedBy="//@nodes.3"/>
+  <dataset alias="Extracted-Dst" producedBy="//@nodes.8"/>
+  <dataset alias="Extracted-Src" producedBy="//@nodes.10"/>
+  <dataset alias="Extracted-Src"/>
+  <dataset alias="Filter-Dst" producedBy="//@nodes.5"/>
+  <dataset alias="FExtract-setInputData-0" producedBy="//@nodes.6"/>
+  <dataset alias="FExtract-setInputData-1" producedBy="//@nodes.9"/>
+  <dataset alias="FExtract-setFExtractingParams-0" producedBy="//@nodes.7"/>
+</process:ProcessDiagram>

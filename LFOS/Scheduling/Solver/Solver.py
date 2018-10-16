@@ -318,7 +318,6 @@ class SolverAdapter(object):
             obj_expr = Sum([self.__Allocation[resource, job][t] * -resource.get_power_consumption().get_max_power_state()[1] for t in range(self.__sched_window_duration) for job in self.__jobs for resource in self.__resources])
             # obj_expr = - Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
         elif obj_criteria == ObjectiveMakespan():
-            print('ENTEr')
             C_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'C_max')
             self.__model += [(self.__End[job][t+1] * (t+1)) < C_max for t in range(self.__sched_window_duration) for job in self.__jobs]
             obj_expr = C_max
@@ -342,6 +341,7 @@ class SolverAdapter(object):
 
     def _optimize(self):
 
+        print(f"Available Solvers: {', '.join(available_solvers())}")
         self.__solver = self.__model.load(self.__solver_type)
 
         self.__solver.setVerbosity(self.__verbose)

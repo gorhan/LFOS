@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
 public interface StateDVS extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Scale</b></em>' attribute.
-	 * The default value is <code>"1.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Scale</em>' attribute isn't clear,
@@ -34,7 +33,7 @@ public interface StateDVS extends EObject {
 	 * @return the value of the '<em>Scale</em>' attribute.
 	 * @see #setScale(float)
 	 * @see platformMM.PlatformMMPackage#getStateDVS_Scale()
-	 * @model default="1.0" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	float getScale();
@@ -51,7 +50,6 @@ public interface StateDVS extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Energy</b></em>' attribute.
-	 * The default value is <code>"-1.0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Energy</em>' attribute isn't clear,
@@ -61,7 +59,7 @@ public interface StateDVS extends EObject {
 	 * @return the value of the '<em>Energy</em>' attribute.
 	 * @see #setEnergy(float)
 	 * @see platformMM.PlatformMMPackage#getStateDVS_Energy()
-	 * @model default="-1.0" required="true"
+	 * @model required="true"
 	 * @generated
 	 */
 	float getEnergy();

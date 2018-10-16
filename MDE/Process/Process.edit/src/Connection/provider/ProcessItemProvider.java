@@ -12,11 +12,19 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.ResourceLocator;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.IItemPropertySource;
+import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
+import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
@@ -25,7 +33,14 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
  * <!-- end-user-doc -->
  * @generated
  */
-public class ProcessItemProvider extends ProcessNodeItemProvider {
+public class ProcessItemProvider 
+	extends ItemProviderAdapter
+	implements
+		IEditingDomainItemProvider,
+		IStructuredItemContentProvider,
+		ITreeItemContentProvider,
+		IItemLabelProvider,
+		IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -47,9 +62,56 @@ public class ProcessItemProvider extends ProcessNodeItemProvider {
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
+			addNamePropertyDescriptor(object);
+			addNamespacePropertyDescriptor(object);
 			addPeriodPropertyDescriptor(object);
+			addIdPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
+	}
+
+	/**
+	 * This adds a property descriptor for the Name feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Process_name_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Process_name_feature", "_UI_Process_type"),
+				 ProcessPackage.Literals.PROCESS__NAME,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Namespace feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addNamespacePropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Process_namespace_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Process_namespace_feature", "_UI_Process_type"),
+				 ProcessPackage.Literals.PROCESS__NAMESPACE,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
 	}
 
 	/**
@@ -69,7 +131,29 @@ public class ProcessItemProvider extends ProcessNodeItemProvider {
 				 true,
 				 false,
 				 false,
-				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Id feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addIdPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Process_id_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Process_id_feature", "_UI_Process_type"),
+				 ProcessPackage.Literals.PROCESS__ID,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
 				 null,
 				 null));
 	}
@@ -86,8 +170,9 @@ public class ProcessItemProvider extends ProcessNodeItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(ProcessPackage.Literals.PROCESS__OUTPUT);
+			childrenFeatures.add(ProcessPackage.Literals.PROCESS__REQUIRES);
 			childrenFeatures.add(ProcessPackage.Literals.PROCESS__INPUT);
+			childrenFeatures.add(ProcessPackage.Literals.PROCESS__OUTPUT);
 		}
 		return childrenFeatures;
 	}
@@ -143,11 +228,15 @@ public class ProcessItemProvider extends ProcessNodeItemProvider {
 		updateChildren(notification);
 
 		switch (notification.getFeatureID(Connection.Process.class)) {
+			case ProcessPackage.PROCESS__NAME:
+			case ProcessPackage.PROCESS__NAMESPACE:
 			case ProcessPackage.PROCESS__PERIOD:
+			case ProcessPackage.PROCESS__ID:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case ProcessPackage.PROCESS__OUTPUT:
+			case ProcessPackage.PROCESS__REQUIRES:
 			case ProcessPackage.PROCESS__INPUT:
+			case ProcessPackage.PROCESS__OUTPUT:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -167,13 +256,34 @@ public class ProcessItemProvider extends ProcessNodeItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(ProcessPackage.Literals.PROCESS__OUTPUT,
-				 ProcessFactory.eINSTANCE.createOutput()));
+				(ProcessPackage.Literals.PROCESS__REQUIRES,
+				 ProcessFactory.eINSTANCE.createActiveResourceRequirement()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ProcessPackage.Literals.PROCESS__REQUIRES,
+				 ProcessFactory.eINSTANCE.createPassiveResourceRequirement()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(ProcessPackage.Literals.PROCESS__INPUT,
-				 ProcessFactory.eINSTANCE.createInput()));
+				 ProcessFactory.eINSTANCE.createInputList()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ProcessPackage.Literals.PROCESS__OUTPUT,
+				 ProcessFactory.eINSTANCE.createOutput()));
+	}
+
+	/**
+	 * Return the resource locator for this item provider's resources.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public ResourceLocator getResourceLocator() {
+		return ProcessEditPlugin.INSTANCE;
 	}
 
 }

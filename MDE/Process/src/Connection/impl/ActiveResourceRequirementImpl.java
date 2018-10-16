@@ -33,7 +33,7 @@ public class ActiveResourceRequirementImpl extends RequirementImpl implements Ac
 	 * @generated
 	 * @ordered
 	 */
-	protected static final float WCET_EDEFAULT = 1.0F;
+	protected static final int WCET_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getWCET() <em>WCET</em>}' attribute.
@@ -43,7 +43,7 @@ public class ActiveResourceRequirementImpl extends RequirementImpl implements Ac
 	 * @generated
 	 * @ordered
 	 */
-	protected float wcet = WCET_EDEFAULT;
+	protected int wcet = WCET_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -69,7 +69,7 @@ public class ActiveResourceRequirementImpl extends RequirementImpl implements Ac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public float getWCET() {
+	public int getWCET() {
 		return wcet;
 	}
 
@@ -78,8 +78,8 @@ public class ActiveResourceRequirementImpl extends RequirementImpl implements Ac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setWCET(float newWCET) {
-		float oldWCET = wcet;
+	public void setWCET(int newWCET) {
+		int oldWCET = wcet;
 		wcet = newWCET;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ProcessPackage.ACTIVE_RESOURCE_REQUIREMENT__WCET, oldWCET, wcet));
@@ -108,7 +108,7 @@ public class ActiveResourceRequirementImpl extends RequirementImpl implements Ac
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ProcessPackage.ACTIVE_RESOURCE_REQUIREMENT__WCET:
-				setWCET((Float)newValue);
+				setWCET((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

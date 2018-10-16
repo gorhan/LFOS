@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process:ProcessDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:process="http://www.example.org/process" name="Registration">
+  <nodes name="getData" namespace="Input" period="3.0">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <output no_provided="1" data="//@dataset.0"/>
+    <output no_provided="1" data="//@dataset.1"/>
+  </nodes>
+  <nodes name="setInputData" namespace="Filter">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.0"/>
+    </input>
+    <output no_provided="1" data="//@dataset.2"/>
+  </nodes>
+  <nodes name="setFilteringParams" namespace="Filter">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <output no_provided="1" data="//@dataset.3"/>
+  </nodes>
+  <nodes name="filter" namespace="Filter">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.2"/>
+      <item no_required="1" data="//@dataset.3"/>
+    </input>
+    <output no_provided="1" data="//@dataset.8"/>
+  </nodes>
+  <nodes name="setInputData" namespace="Filter" id="1">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.0"/>
+    </input>
+    <output no_provided="1" data="//@dataset.4"/>
+  </nodes>
+  <nodes name="filter" namespace="Filter" id="1">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.2"/>
+    </input>
+    <output no_provided="1" data="//@dataset.5"/>
+  </nodes>
+  <nodes name="setInputData" namespace="FExtract">
+    <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.8"/>
+    </input>
+    <output no_provided="1" data="//@dataset.9"/>
+  </nodes>
+  <nodes name="setFExtractingParams" namespace="FExtract">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <output no_provided="1" data="//@dataset.11"/>
+  </nodes>
+  <nodes name="extract" namespace="FExtract">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.9"/>
+      <item no_required="1" data="//@dataset.11"/>
+    </input>
+    <output no_provided="1" data="//@dataset.6"/>
+  </nodes>
+  <nodes name="setInputData" namespace="FExtract" id="1">
+  	<requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0"/>
+    <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
+    <input>
+      <item no_required="1" data="//@dataset.5"/>
+    </input>
+    <output no_provided="1" data="//@dataset.10"/>
+  </nodes>
+  <nodes name="extract" namespace="FExtract" id="1">
+    <input>
+      <item no_required="1" data="//@dataset.10"/>
+    </input>
+    <output no_provided="1" data="//@dataset.7"/>
+  </nodes>
+  <nodes name="setInputSrcData" namespace="Match">
+    <input>
+      <item no_required="1" data="//@dataset.7"/>
+    </input>
+    <output no_provided="1" data="//@dataset.12"/>
+  </nodes>
+  <nodes name="setInputDstData" namespace="Match">
+    <input>
+      <item no_required="1" data="//@dataset.6"/>
+    </input>
+    <output no_provided="1" data="//@dataset.12"/>
+  </nodes>
+  <nodes name="setMatchingParams" namespace="Match">
+    <output no_provided="1" data="//@dataset.13"/>
+  </nodes>
+  <nodes name="computeCorrespondences" namespace="Match">
+    <input>
+      <item no_required="1" data="//@dataset.13"/>
+      <item no_required="2" data="//@dataset.12"/>
+    </input>
+    <output no_provided="1" data="//@dataset.14"/>
+  </nodes>
+  <nodes name="setInputSrcData" namespace="Transform">
+    <input>
+      <item no_required="1" data="//@dataset.1"/>
+    </input>
+    <output no_provided="1" data="//@dataset.15"/>
+  </nodes>
+  <nodes name="setInputDstData" namespace="Transform">
+    <input>
+      <item no_required="1" data="//@dataset.0"/>
+    </input>
+    <output no_provided="1" data="//@dataset.15"/>
+  </nodes>
+  <nodes name="setTransformingParams" namespace="Transform">
+    <output no_provided="1" data="//@dataset.16"/>
+  </nodes>
+  <nodes name="setCorrespondences" namespace="Transform">
+    <input>
+      <item no_required="1" data="//@dataset.14"/>
+    </input>
+    <output no_provided="1" data="//@dataset.17"/>
+  </nodes>
+  <nodes name="transform" namespace="Transform">
+    <input>
+      <item no_required="1" data="//@dataset.15"/>
+      <item no_required="1" data="//@dataset.16"/>
+      <item no_required="1" data="//@dataset.17"/>
+    </input>
+    <output no_provided="1" data="//@dataset.18"/>
+  </nodes>
+  <dataset alias="Cloud-Dst" producedBy="//@nodes.0"/>
+  <dataset alias="Cloud-Src" producedBy="//@nodes.0"/>
+  <dataset alias="Filter-setInputData-0" producedBy="//@nodes.2"/>
+  <dataset alias="Filter-setFilteringParams-0" producedBy="//@nodes.2"/>
+  <dataset alias="Filter-setInputData-1" producedBy="//@nodes.4"/>
+  <dataset alias="Filter-Src" producedBy="//@nodes.3"/>
+  <dataset alias="Extracted-Dst" producedBy="//@nodes.8"/>
+  <dataset alias="Extracted-Src" producedBy="//@nodes.10"/>
+  <dataset alias="Filter-Dst" producedBy="//@nodes.5"/>
+  <dataset alias="FExtract-setInputData-0" producedBy="//@nodes.6"/>
+  <dataset alias="FExtract-setInputData-1" producedBy="//@nodes.9"/>
+  <dataset alias="FExtract-setFExtractingParams-0" producedBy="//@nodes.7"/>
+  <dataset alias="MatchingDataset" producedBy="//@nodes.12"/>
+  <dataset alias="setMatchingParams" producedBy="//@nodes.13"/>
+  <dataset alias="CorrespondenceData" producedBy="//@nodes.14"/>
+  <dataset alias="TransformingDataset" producedBy="//@nodes.15"/>
+  <dataset alias="setTransformingParams" producedBy="//@nodes.17"/>
+  <dataset alias="CorrespondencesSet" producedBy="//@nodes.18"/>
+  <dataset alias="TransformedCloud" producedBy="//@nodes.19"/>
+</process:ProcessDiagram>

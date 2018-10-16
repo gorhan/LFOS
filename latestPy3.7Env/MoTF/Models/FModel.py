@@ -20,9 +20,13 @@ class FModel(Model):
         self._model = self.getModel()
 
     def _feature2_FeatureObject(self, _parent, group):
+        mn_val = self.getProcessedValue(group, "lower")
+        mx_val = self.getProcessedValue(group, "upper")
         self._fModelObject.add_feature(parent=_parent.name, children=[feature.name for feature in group.features],
-                                       max=self.getProcessedValue(group, "upper"),
-                                       min=self.getProcessedValue(group, "lower"))
+                                       max=mx_val,
+                                       min=mn_val)
+
+        # print("Feature=", _parent.name, ", LOWER=", mn_val, ", UPPER=", mx_val)
 
         for _feature in group.features:
             self._group2_GroupObject(_feature, _feature.children)

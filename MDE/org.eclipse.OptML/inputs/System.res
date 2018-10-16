@@ -3,19 +3,19 @@
   <System name="System" belongs="//@resourceTypes.0">
     <childs xsi:type="platformMM:CompositeResource" name="Node01" belongs="//@resourceTypes.0">
       <childs xsi:type="platformMM:TerminalResource" name="CPU0101" belongs="//@resourceTypes.1">
-        <states/>
+        <states scale="1.0" energy="100.0"/>
       </childs>
       <childs xsi:type="platformMM:TerminalResource" name="MEM0101" belongs="//@resourceTypes.2" capacity="256">
-        <states/>
+        <states scale="1.0" energy="50.0"/>
       </childs>
     </childs>
     <childs xsi:type="platformMM:CompositeResource" name="Node02" belongs="//@resourceTypes.0">
       <childs xsi:type="platformMM:TerminalResource" name="CPU0201" belongs="//@resourceTypes.1">
-        <states energy="120.0"/>
+        <states scale="1.0" energy="120.0"/>
         <states scale="0.5" energy="50.0"/>
       </childs>
       <childs xsi:type="platformMM:TerminalResource" name="MEM0201" belongs="//@resourceTypes.2" capacity="128">
-        <states/>
+        <states scale="1.0" energy="75.0"/>
       </childs>
     </childs>
   </System>

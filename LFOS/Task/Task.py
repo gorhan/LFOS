@@ -69,7 +69,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         }}
 
     def __init__(self, **kwargs):
-        Credential.__init__(self, name=kwargs['name'], type=kwargs['type'])
+        Credential.__init__(self, name=kwargs['name'], namespace=kwargs['type'])
         Timing.__init__(self, kwargs['phase'], kwargs['deadline'])
         Priority.__init__(self, kwargs['priority'] if 'priority' in kwargs else 0)
         Dependency.__init__(self)
@@ -119,7 +119,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         return output_tokens + dependency_tokens
 
     def info(self, detailed=False):
-        credential_detail = '%s %s::%s %s' % ('#' * 20, self.name, self.type, '#' * 20)
+        credential_detail = '%s %s::%s - %s %s' % ('#' * 20, self.get_attr('namespace'), self.name, self.type, '#' * 20)
         header_length = len(credential_detail)
         if detailed:
             timing_detail = '\n\tTIMING:\n'
