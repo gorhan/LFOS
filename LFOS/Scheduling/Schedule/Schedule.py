@@ -172,7 +172,7 @@ class Schedule:
 
     def append_item(self, job, begin, end, reserved_resources_dict):
         for resource, capacity in reserved_resources_dict.items():
-            self.__jobs.add('%s::%s' % (job.get_attr('name'), job.get_attr('type')))
+            self.__jobs.add('%s::%s' % (job.get_attr('name'), job.get_attr('namespace')))
             self.__append_slot(job, begin, end, resource, capacity)
 
     def get_partial_schedule(self, resource, begin, end):
@@ -202,7 +202,7 @@ class Schedule:
             for t in l_time_slots:
                 reserved = self.search_overlapping_jobs(resource, t, t+1)
                 if reserved:
-                    prnt_str += ('%s' % task_table['%s::%s' % (reserved[0].get_attr('name'), reserved[0].get_attr('type'))]).center(5) + seperator
+                    prnt_str += ('%s' % task_table['%s::%s' % (reserved[0].get_attr('name'), reserved[0].get_attr('namespace'))]).center(5) + seperator
                 else:
                     prnt_str += n_reserved.center(5) + seperator
             prnt_str += '\n'
@@ -255,7 +255,7 @@ class Schedule:
                     y_height = y_capacity * reservation[3]
 
                     ax.broken_barh([(t_begin, t_end - t_begin)],
-                                   (y_start, y_height), facecolor=job2colors['%s::%s' % (reservation[0].get_attr('name'), reservation[0].get_attr('type'))])
+                                   (y_start, y_height), facecolor=job2colors['%s::%s' % (reservation[0].get_attr('name'), reservation[0].get_attr('namespace'))])
 
                     y_start += y_height
 

@@ -13,7 +13,7 @@ class Periodicity:
 
     def __init__(self, _type):
         self.period = Time(-1)
-        self.type = _type
+        self.p_type = _type
 
     def set_period(self, new_period):
         """
@@ -25,7 +25,7 @@ class Periodicity:
         :param new_period: the new value for period
         :return: boolean
         """
-        if self.type == PeriodicityTypeList.PERIODIC:
+        if self.p_type == PeriodicityTypeList.PERIODIC:
             assert isinstance(new_period, Time)
             self.period = new_period
             return True
@@ -43,7 +43,7 @@ class Periodicity:
         :return: None
         """
         if _type in Periodicity.TYPES:
-            self.type = _type
+            self.p_type = _type
 
     def get_period(self):
         """
@@ -63,4 +63,4 @@ class Periodicity:
 
         :return: LFOS.Scheduling.Characteristic.Time
         """
-        return self.type
+        return self.p_type

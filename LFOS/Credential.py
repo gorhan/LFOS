@@ -23,7 +23,7 @@ class Credential():
         try:
             return self.__dict__[key]
         except KeyError as err:
-            LOG(msg=err.message, log=Logs.ERROR)
+            LOG(msg=f"Key {key} does not belong to the credential! - {self.introduce()}", log=Logs.ERROR)
             return None
 
 #   def __getattribute__(self, item):

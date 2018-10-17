@@ -119,7 +119,7 @@ class TaskInterface(Credential, Timing, Priority, Dependency, Preemption, Deadli
         return output_tokens + dependency_tokens
 
     def info(self, detailed=False):
-        credential_detail = '%s %s::%s - %s %s' % ('#' * 20, self.get_attr('namespace'), self.name, self.type, '#' * 20)
+        credential_detail = '%s %s::%s - %s %s' % ('#' * 20, self.get_attr('namespace'), self.name, self.p_type, '#' * 20)
         header_length = len(credential_detail)
         if detailed:
             timing_detail = '\n\tTIMING:\n'

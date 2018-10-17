@@ -27,7 +27,7 @@ class Process(Model):
             task = TaskFactory.create_instance(TaskTypeList.TERMINAL,
                                                name=self.unique_id(node), type=self.getProcessedValue(node, 'namespace'),
                                                phase=Time(0),
-                                               deadline=Time(n_nodes + 2),
+                                               deadline=Time(n_nodes),
                                                periodicity=PeriodicityTypeList.APERIODIC,
                                                preemptability=PreemptionTypeList.NOT_PPREEMPTABLE)
 
@@ -81,7 +81,7 @@ class Process(Model):
                 print(f"Node={self.unique_id(node)}, input={node.input},")
                 for token in node.input.item:
                     print(f"The task {self.unique_id(node)} needs the data {self.getProcessedValue(output.data, 'alias')}")
-                    task.add_dependency(self.getProcessedValue(output.data, 'alias'), self.getProcessedValue(token, 'no_required'))
+                    task.add_dependency(self.getProcessedValue(token.data, 'alias'), self.getProcessedValue(token, 'no_required'))
             else:
                 print(f"Task {self.unique_id(node)} has no attribute named \"input\"")
 
@@ -95,7 +95,7 @@ class Process(Model):
 
         input.add_tasks_in_bundle(*self._allTasks.values())
         input.set_scheduling_window_start_time(Time(0))
-        input.set_scheduling_window_duration(Time(len(self._allTasks)+4))
+        input.set_scheduling_window_duration(Time(len(self._allTasks)))
         input.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, input.get_taskset())
 
         print(f"Number of tasks={len(self._allTasks)}")
