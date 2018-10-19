@@ -41,7 +41,8 @@ class FModel(Model):
         self._fModelObject = FM.FeatureModel(root.name)
         self._group2_GroupObject(root, root.children)
 
-        return self._fModelObject
+    def gatherRequiredInfo(self):
+        return self._instances
 
     def processRequiredInfo(self, info):
         for _cls in info:
@@ -50,8 +51,8 @@ class FModel(Model):
 
     @pointcut("after")
     def interpret(self, input=None):
-        self._fmodelObject = self.transform2FeatureModelObject()
+        self.transform2FeatureModelObject()
 
-        instances = self._fModelObject.instantiate(debug=False)
-        print(f"# instances={len(instances)}")
+        self._instances = self._fModelObject.instantiate(debug=False)
+        print(f"# instances={len(self._instances)}")
         return input

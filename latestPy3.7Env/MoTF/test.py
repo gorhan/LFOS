@@ -2,6 +2,7 @@ from .Models.Platform import Platform
 from .Models.Process import Process
 from .Models.FModel import FModel
 from .Models.Class import ClassModel, UML
+from .Models.Optimization import Optimization
 
 from .ModelProcPipeline import MoPP
 
@@ -17,6 +18,7 @@ if __name__ == "__main__":
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
+    optimal = Optimization("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/energy.optimal")
 
     scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
 
@@ -29,6 +31,11 @@ if __name__ == "__main__":
     mopp.append(process)
     mopp.append(classModel)
     mopp.append(featureModel)
+    mopp.append(optimal)
+
+    # from .ModelDecorator import Model
+    # print(Model.__ALL__)
+
     mopp.run()
     output = mopp.output
 
@@ -50,6 +57,6 @@ if __name__ == "__main__":
     # scheduler.set_scheduling_objective(purpose, objective)
     #
     # print('I am here!!!')
-    schedules = output.schedule_tasks()
-    for schedule in schedules:
-        schedule.plot_schedule()
+    # schedules = output.schedule_tasks()
+    # for schedule in schedules:
+    #     schedule.plot_schedule()

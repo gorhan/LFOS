@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated optimal -->
+      <package
+            uri="http://www.example.org/optimal"
+            class="optimal.OptimalPackage"
+            genModel="model/optimal.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+      <!-- @generated optimal -->
+      <factory
+            uri="http://www.example.org/optimal"
+            class="optimal.provider.OptimalItemProviderAdapterFactory"
+            supportedTypes=
+              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
+               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
+               org.eclipse.emf.edit.provider.ITreeItemContentProvider
+               org.eclipse.emf.edit.provider.IItemLabelProvider
+               org.eclipse.emf.edit.provider.IItemPropertySource"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated optimal -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="optimal.presentation.OptimalModelWizardID"
+            name="%_UI_OptimalModelWizard_label"
+            class="optimal.presentation.OptimalModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/OptimalModelFile.gif">
+         <description>%_UI_OptimalModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated optimal -->
+      <editor
+            id="optimal.presentation.OptimalEditorID"
+            name="%_UI_OptimalEditor_label"
+            icon="icons/full/obj16/OptimalModelFile.gif"
+            extensions="optimal"
+            class="optimal.presentation.OptimalEditor"
+            contributorClass="optimal.presentation.OptimalActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

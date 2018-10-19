@@ -4,8 +4,10 @@ __TEMPLATE__ = '''<
   <tr>
     <td port="N">{name}:{node}</td>
   </tr>
-  <tr>
-    <td port="M" align="left">{attributes}</td>
+  <tr port="M"><td>
+    <table border="0" cellborder="0" cellspacing="0" cellpadding="0">
+{attributes}
+    </table></td>
   </tr>
   <tr>
     <td></td>
@@ -19,4 +21,4 @@ __TEMPLATE__ = '''<
 def object_node_gen(name, node, attributes):
     return __TEMPLATE__.format(name=name,
                                node=node,
-                               attributes="<br/>".join([f"{key} = {value}" for key, value in attributes.items()]))
+                               attributes="\n".join([f"<tr><td align=\"left\">{key} = {value}</td></tr>" for key, value in attributes.items()]))

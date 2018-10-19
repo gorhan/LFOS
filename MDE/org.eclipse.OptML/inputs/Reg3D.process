@@ -30,7 +30,7 @@
     <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0" WCET="1"/>
     <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
     <input>
-      <item no_required="1" data="//@dataset.0"/>
+      <item no_required="1" data="//@dataset.1"/>
     </input>
     <output no_provided="1" data="//@dataset.4"/>
   </nodes>
@@ -38,7 +38,7 @@
     <requires xsi:type="process:ActiveResourceRequirement" resourceName="CPU_t" requiredCapacity="1.0" WCET="1"/>
     <requires xsi:type="process:PassiveResourceRequirement" resourceName="MEM_t" requiredCapacity="128.0"/>
     <input>
-      <item no_required="1" data="//@dataset.2"/>
+      <item no_required="1" data="//@dataset.4"/>
     </input>
     <output no_provided="1" data="//@dataset.5"/>
   </nodes>
