@@ -16,6 +16,8 @@ class Process(Model):
         Model.__init__(self, *args)
         self._allTasks = {}
 
+        self._required_data = {}
+
     def unique_id(self, node):
         return f"{self.getProcessedValue(node, 'namespace')}-{self.getProcessedValue(node, 'name')}[{self.getProcessedValue(node, 'id')}]"
 
@@ -86,8 +88,12 @@ class Process(Model):
                 print(f"Task {self.unique_id(node)} has no attribute named \"input\"")
 
     def gatherRequiredInfo(self):
-        return [{'name': task.name, "namespace": task.get_attr('namespace')} for task in self._allTasks.values()]
+        return None
 
+    def processRequiredInfo(self, info):
+        self._required_data[info[0]] = info[1]
+
+    @pointcut("before")
     def interpret(self, input=None):
         model = self.getModel()
         self._defineTasks(model)

@@ -13,25 +13,25 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
 if __name__ == "__main__":
-    platform = Platform("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
-    process = Process("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
+    platformModel = Platform("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
+    processModel = Process("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
     featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore",
                           "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
-    optimal = Optimization("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/energy.optimal")
-
-    scheduler = Scheduler(solver='SCIP', verbose=1, time_cutoff=10000)
-
-    featureModel.requires(classModel.ID())
-    classModel.requires(process.ID())
+    optimalityModel = Optimization("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/reg3D.optimal")
 
     mopp = MoPP()
-    mopp.input(scheduler)
-    mopp.append(platform)
-    mopp.append(process)
+
+    mopp.input(Scheduler, solver='SCIP', verbose=1, time_cutoff=10000)
     mopp.append(classModel)
     mopp.append(featureModel)
-    mopp.append(optimal)
+    # featureModel.requires(classModel)
+    mopp.append(processModel)
+
+    processModel.requires(classModel)
+    processModel.requires(featureModel)
+    # mopp.append(platformModel)
+    # mopp.append(optimalityModel)
 
     # from .ModelDecorator import Model
     # print(Model.__ALL__)
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     mopp.run()
     output = mopp.output
 
-    print(classModel)
+    # print(classModel)
 
     # print(f"{len(mopp.output[0])} number of instances has been successfully generated!!")
 

@@ -20,61 +20,56 @@ class ClassModel(Model):
         Model.__init__(self, *args)
         self._model = self.getModel()
         self.name = self._model.name
-        self._allClasses = self._getContents(self._model, UML.Class)
-        self._classHierarchy = {}
+
+        self._hierarchies = {}
+        self._operations_table = {}
+        # self._getContents(_cls, UML.Generalization, key="general")[0]
+
+    def __str__(self):
+        return "\n".join([f"{cls} --> {', '.join(ops)}" for cls, ops in self._operations_table.items()])
 
     def _getContents(self, _container, _type, key=None):
         return [(getattr(content, key) if key else content) for content in _container.eContents if isinstance(content, _type)]
 
-    def _getHierarchicalClasses(self, _cls):
+    def _updateUpperHierarchy(self, cls, sub_classes):
+        if cls in self._hierarchies:
+            sub_classes = sub_classes.union(self._hierarchies[cls])
+        self._hierarchies[cls] = sub_classes
 
-        for supercls in self._getContents(_cls, UML.Generalization, key="general"):
-            if supercls not in self._classHierarchy:
-                self._classHierarchy[supercls] = set()
+        for super_cls in self._getContents(cls, UML.Generalization, key="general"):
+            self._updateUpperHierarchy(super_cls, {cls}.union(self._hierarchies[cls]))
 
-            self._classHierarchy[supercls] = self._classHierarchy[supercls].union(self._classHierarchy[_cls])
-            self._classHierarchy[supercls].add(_cls)
+    def _createHierarchy(self, classes):
+        for cls in classes:
+            if cls not in self._hierarchies:
+                self._hierarchies[cls] = set()
 
-            self._getHierarchicalClasses(supercls)
+            inherited_classes = self._getContents(cls, UML.Generalization, key="general")
 
-    def __str__(self):
-        return '\n'.join([f"Root = {root.name} --> {', '.join([_cls.name for _cls in sub_clses]) if sub_clses else None}" for root, sub_clses in self._classHierarchy.items()])
+            for inherited_cls in inherited_classes:
+                self._updateUpperHierarchy(inherited_cls, {cls}.union(self._hierarchies[cls]))
 
+    def _createOperationsTable(self, classes):
+        for cls in classes:
+            self._operations_table[cls.name] = set()
+            operations = self._getContents(cls, UML.Operation)
+
+            for operation in operations:
+                self._operations_table[cls.name] = self._operations_table[cls.name].union({operation.name})
+
+        for cls in classes:
+            for sub_class in self._hierarchies[cls]:
+                self._operations_table[sub_class.name] = self._operations_table[cls.name].union(self._operations_table[sub_class.name])
+
+    @identifier_required
     def gatherRequiredInfo(self):
-        return self._unbound_classes
-
-    def getClass(self, name):
-        for _cls in self._classHierarchy.keys():
-            if _cls.name == name:
-                return _cls
-        return None
-
-    def getRelevantClasses(self, _cls):
-        return self._classHierarchy[_cls].union(set([_cls]))
-
-    def processRequiredInfo(self, info):
-        relevant_classes = set()
-        for operation_specs in info:
-            namespace = operation_specs["namespace"]
-
-            _cls = self.getClass(namespace.split("::")[-1])
-            if _cls in relevant_classes:
-                supercls = self._getContents(_cls, UML.Generalization, key="general")[0]
-                relevant_classes = relevant_classes.difference(self._classHierarchy[_cls].intersection(self._classHierarchy[supercls]))
-                relevant_classes.add(supercls)
-
-            relevant_classes = relevant_classes.union(self.getRelevantClasses(_cls))
-            print("Relevant Classes:", ", ".join([_cls.name for _cls in relevant_classes]))
-
-        self._unbound_classes = list(set(self._classHierarchy.keys()).difference(relevant_classes))
-        print("Irrelevant Classes =", [_cls.name for _cls in self._unbound_classes])
+        return self._operations_table
 
     @pointcut("after")
     def interpret(self, input=None):
-        for _cls in self._allClasses:
-            if _cls not in self._classHierarchy:
-                self._classHierarchy[_cls] = set()
-            self._getHierarchicalClasses(_cls)
+        classes = self._getContents(self._model, UML.Class)
+        self._createHierarchy(classes)
+        self._createOperationsTable(classes)
 
         # for req in self._required_models:
         #     self.processRequiredInfo(req.gatherRequiredInfo())

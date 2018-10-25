@@ -53,11 +53,12 @@ class MoPP(list):
         list.insert(self, min(swap1, swap2), elem2)
         list.insert(self, max(swap1, swap2), elem1)
 
-    def input(self, object):
-        self._input = object
+    def input(self, cls, **kwargs):
+        self._constructor = (cls, kwargs)
 
     def run(self):
         for elem in self:
+            elem.setInputTemplate(*self._constructor)
             self._input = elem.interpret(self._input)
         self._output = self._input
 

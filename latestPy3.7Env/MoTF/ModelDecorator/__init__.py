@@ -23,6 +23,14 @@ def pointcut(pos):
     return wrapper
 
 
+def identifier_required(fn):
+    def wrapper(self, *args):
+        cls_name = self.__class__.__name__
+        print("WRAPPER", cls_name, args)
+        return cls_name, fn(self, *args)
+    return wrapper
+
+
 class ModelDecorator(metaclass=abc.ABCMeta):
     """
         Decorator class utilizing decorator pattern to initialize input models and modify scheduler(s).
@@ -70,9 +78,14 @@ class Model(IO, ModelDecorator):
 
         self._required_models = []
         self._output = None
+        self._cls = None
+        self._args = None
 
-    def requires(self, to_key):
-        self._required_models.append(Model.__ALL__[to_key])
+    def createInputTemplate(self):
+        return self._cls(**self._args)
+
+    def requires(self, model):
+        self._required_models.append(Model.__ALL__[model.ID()])
 
     def gatherRequiredInfo(self):
         raise NotImplementedError("Invalid procedure call!")
@@ -82,3 +95,7 @@ class Model(IO, ModelDecorator):
 
     def interpret(self, input=None) -> Scheduler:
         raise NotImplementedError("Invalid procedure call!")
+
+    def setInputTemplate(self, cls, args):
+        self._cls = cls
+        self._args = args

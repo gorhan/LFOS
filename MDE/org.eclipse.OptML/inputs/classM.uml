@@ -83,15 +83,15 @@
     <ownedOperation xmi:id="_uVV4s1mxEeiOxYNPMqwLFg" name="getPrecision">
       <ownedParameter xmi:id="_uVV4tFmxEeiOxYNPMqwLFg" name="Return" type="_aIG_0FmwEeiOxYNPMqwLFg" direction="return"/>
     </ownedOperation>
+    <nestedClassifier xmi:type="uml:Association" xmi:id="_5u5D8NguEeiitd8uZH1gDA" name="camera" isLeaf="true"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_2Lc5UFmxEeiOxYNPMqwLFg" name="Input">
-    <generalization xmi:id="_4DYZYFmzEeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
     <ownedAttribute xmi:id="_5hUB4FmxEeiOxYNPMqwLFg" name="input" type="__kVUQFmxEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_FlSxIFmyEeiOxYNPMqwLFg" name="fps" type="_mowc8FmwEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_KriSMFmyEeiOxYNPMqwLFg" name="resolution" type="_kHPicFmwEeiOxYNPMqwLFg">
       <defaultValue xmi:type="uml:LiteralString" xmi:id="_LKKu8FmyEeiOxYNPMqwLFg" value=""/>
     </ownedAttribute>
-    <ownedOperation xmi:id="_RYxmQFmyEeiOxYNPMqwLFg" name="getData" isAbstract="true">
+    <ownedOperation xmi:id="_RYxmQFmyEeiOxYNPMqwLFg" name="getData">
       <ownedParameter xmi:id="_S5gZMFmyEeiOxYNPMqwLFg" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
     </ownedOperation>
   </packagedElement>
@@ -105,7 +105,6 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_t9OzUFm0EeiOxYNPMqwLFg" name="Filter">
-    <generalization xmi:id="_7IqS0Fm0EeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
     <ownedAttribute xmi:id="_9kxv8Fm0EeiOxYNPMqwLFg" name="input" type="__kVUQFmxEeiOxYNPMqwLFg">
       <defaultValue xmi:type="uml:LiteralString" xmi:id="_935gQFm0EeiOxYNPMqwLFg" value=""/>
     </ownedAttribute>
@@ -138,27 +137,61 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_trDzUFm2EeiOxYNPMqwLFg" name="NoiseRemoval">
     <generalization xmi:id="_wOKpQFm2EeiOxYNPMqwLFg" general="_t9OzUFm0EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_UUynsNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_UUynsdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_UUynstgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_zmJRsFm2EeiOxYNPMqwLFg" name="StatisticalOutlierRemoval">
     <generalization xmi:id="_zmJRsVm2EeiOxYNPMqwLFg" general="_trDzUFm2EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_VxU3LNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_VxU3LdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_VxU3LtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_zppRoFm2EeiOxYNPMqwLFg" name="RadiusOutlierRemoval">
     <generalization xmi:id="_zppRoVm2EeiOxYNPMqwLFg" general="_trDzUFm2EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_WPYsLNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_WPYsLdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_WPYsLtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_0pSJsFm2EeiOxYNPMqwLFg" name="PassThroughFilter">
     <generalization xmi:id="_0pSJsVm2EeiOxYNPMqwLFg" general="_trDzUFm2EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_Wr_vrNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_Wr_vrdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_Wr_vrtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_0vYxsFm2EeiOxYNPMqwLFg" name="Sampling">
     <generalization xmi:id="_0vYxsVm2EeiOxYNPMqwLFg" general="_t9OzUFm0EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_XQZdPNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_XQZdPdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_XQZdPtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_nhKncFm3EeiOxYNPMqwLFg" name="VoxelGrid">
     <generalization xmi:id="_r0I4gFm3EeiOxYNPMqwLFg" general="_0vYxsFm2EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_XyCxt9gzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_XyCxuNgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_XyCxudgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_tpJ5YFm3EeiOxYNPMqwLFg" name="Uniform">
     <generalization xmi:id="_tpJ5YVm3EeiOxYNPMqwLFg" general="_0vYxsFm2EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_YMM-LNgzEeiitd8uZH1gDA" name="filter">
+      <ownedParameter xmi:id="_YMM-LdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_YMM-LtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_9nF8wFm3EeiOxYNPMqwLFg" name="FExtract">
-    <generalization xmi:id="__8Bz0Fm3EeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
     <ownedAttribute xmi:id="_EG9jMFm4EeiOxYNPMqwLFg" name="input" type="__kVUQFmxEeiOxYNPMqwLFg">
       <defaultValue xmi:type="uml:LiteralString" xmi:id="_EG9jMVm4EeiOxYNPMqwLFg" value=""/>
     </ownedAttribute>
@@ -205,15 +238,29 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_v3ZsEFnXEeiOxYNPMqwLFg" name="NARF">
     <generalization xmi:id="_xrvXgFnXEeiOxYNPMqwLFg" general="_9nF8wFm3EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_ay2QQ9gzEeiitd8uZH1gDA" name="extract">
+      <ownedParameter xmi:id="_ay2QRNgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_ay2QRdgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_0FI30FnXEeiOxYNPMqwLFg" name="SIFT">
     <generalization xmi:id="_0FI30VnXEeiOxYNPMqwLFg" general="_9nF8wFm3EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_bGMDDNgzEeiitd8uZH1gDA" name="extract">
+      <ownedParameter xmi:id="_bGMDDdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_bGMDDtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_0Xw44FnXEeiOxYNPMqwLFg" name="FPFH">
     <generalization xmi:id="_0Xw44VnXEeiOxYNPMqwLFg" general="_9nF8wFm3EeiOxYNPMqwLFg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_bblEPNgzEeiitd8uZH1gDA" name="extract">
+      <ownedParameter xmi:id="_bblEPdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_bblEPtgzEeiitd8uZH1gDA" value=""/>
+      </ownedParameter>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_BdgnIFnYEeiOxYNPMqwLFg" name="Match">
-    <generalization xmi:id="_DlBtQFnYEeiOxYNPMqwLFg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
     <ownedAttribute xmi:id="_HT-rQFnYEeiOxYNPMqwLFg" name="inputSrc" type="__kVUQFmxEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_LNNmoFnYEeiOxYNPMqwLFg" name="inputDst" type="__kVUQFmxEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_f4imMFnYEeiOxYNPMqwLFg" name="correspondences" type="_RnMngFnYEeiOxYNPMqwLFg">
@@ -258,7 +305,6 @@
     </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_3eq6QFnpEeiPDZmDauJKjg" name="Transform">
-    <generalization xmi:id="_5xdcQFnpEeiPDZmDauJKjg" general="_sa2-cFmwEeiOxYNPMqwLFg" isSubstitutable="false"/>
     <ownedAttribute xmi:id="_APoZkFnqEeiPDZmDauJKjg" name="inputSrc" type="__kVUQFmxEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_APoZkVnqEeiPDZmDauJKjg" name="inputDst" type="__kVUQFmxEeiOxYNPMqwLFg"/>
     <ownedAttribute xmi:id="_APoZklnqEeiPDZmDauJKjg" name="correspondences" type="_RnMngFnYEeiOxYNPMqwLFg">
@@ -328,12 +374,21 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_4073sFnrEeiPDpmDauJKjg" name="ICP">
     <generalization xmi:id="_4073sVnrEeiPDpmDauJKjg" general="_kH2koFnrEeiPDpmDauJKjg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_isiwYNgzEeiitd8uZH1gDA" name="transform">
+      <ownedParameter xmi:id="_isiwYdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_-C9bwFnrEeiPDpmDauJKjg" name="NLinearICP">
     <generalization xmi:id="_-C9bwVnrEeiPDpmDauJKjg" general="_4073sFnrEeiPDpmDauJKjg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_i_KxcNgzEeiitd8uZH1gDA" name="transform">
+      <ownedParameter xmi:id="_i_KxcdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_DlqPUFnsEeiPDpmDauJKjg" name="LinearICP">
     <generalization xmi:id="_DlqPUVnsEeiPDpmDauJKjg" general="_4073sFnrEeiPDpmDauJKjg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_jPDnkNgzEeiitd8uZH1gDA" name="transform">
+      <ownedParameter xmi:id="_jPDnkdgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_VUtrAFnsEeiPDpmDauJKjg" name="CoarseTransform">
     <generalization xmi:id="_VUuSEFnsEeiPDpmDauJKjg" general="_3eq6QFnpEeiPDZmDauJKjg" isSubstitutable="false"/>
@@ -343,8 +398,14 @@
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_bOrvEFnsEeiPDpmDauJKjg" name="FPCA_IA">
     <generalization xmi:id="_bOrvEVnsEeiPDpmDauJKjg" general="_VUtrAFnsEeiPDpmDauJKjg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_ll3G4NgzEeiitd8uZH1gDA" name="align">
+      <ownedParameter xmi:id="_ll3G4dgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_hLZlIFnsEeiPDpmDauJKjg" name="SAC_IA">
     <generalization xmi:id="_hLZlIVnsEeiPDpmDauJKjg" general="_VUtrAFnsEeiPDpmDauJKjg" isSubstitutable="false"/>
+    <ownedOperation xmi:id="_l4VW8NgzEeiitd8uZH1gDA" name="align">
+      <ownedParameter xmi:id="_l4VW8dgzEeiitd8uZH1gDA" name="Return" type="__kVUQFmxEeiOxYNPMqwLFg" direction="return"/>
+    </ownedOperation>
   </packagedElement>
 </uml:Model>

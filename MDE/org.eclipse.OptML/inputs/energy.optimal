@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<optimal:Optimization xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:optimal="http://www.example.org/optimal">
-  <criteria name="Energy" default="30.0">
-    <features name="Input"/>
-    <features name="CalibratedInput" value="20.0"/>
-    <features name="NoiseRemoval" value="50.0"/>
-    <features name="Sampling" value="40.0"/>
-  </criteria>
-</optimal:Optimization>
