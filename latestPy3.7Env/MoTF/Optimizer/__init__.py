@@ -3,9 +3,14 @@ from .Search import FirstOptimalResult, StopSearch
 
 
 class GlobalOpt:
-    def __init__(self, _instances, _threshold):
-        self._instances = _instances
-        self._search = FirstOptimalResult(len(_instances), _threshold)
+    def __init__(self, mopp, _threshold, max_iter, opt_model=None):
+        self._mopp = mopp
+        self._search = FirstOptimalResult(max_iter, _threshold)
+        self._optimal = opt_model
+        self._instances = []
+
+    def setOptimizationModel(self, model):
+        self._optimal = model
 
     def optimize(self):
         for instance in self._instances:
