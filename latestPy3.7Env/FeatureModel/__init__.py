@@ -55,7 +55,10 @@ class FeatureModel:
 
                 n_bound_features = len(bound_features)
 
-                for n in range(self.__cardinality['min']-n_bound_features, self.__cardinality['max'] - n_bound_features + 1):
+                for n in range(max(self.__cardinality['min']-n_bound_features, 0), self.__cardinality['max'] - n_bound_features + 1):
+                    if n == 0 and len(free_features) == 1:
+                        _vars.append([])
+                        continue
                     from itertools import combinations, product
                     for combs in combinations(free_features, n):
                         sub_vars = []
@@ -63,11 +66,8 @@ class FeatureModel:
 
                         for feature in combs:
                             sub_vars.append(feature._instantiate())
-
-                        # print(sub_vars)
-                        # input('')
+                        
                         _vars += [reduce(lambda x, y: x + y, prod) for prod in product(*sub_vars) if prod]
-
                 return _vars
 
         def __init__(self, _name, _bound=FREE):
@@ -90,7 +90,7 @@ class FeatureModel:
                     _max_cardinality = kwargs['max'] if kwargs['max'] <= len(kwargs['children']) else len(
                         kwargs['children'])
                 if 'min' in kwargs:
-                    _min_cardinality = kwargs['min'] if 0 < kwargs['min'] <= _max_cardinality else _max_cardinality
+                    _min_cardinality = kwargs['min']
 
                 _group.set_cardinality(_min_cardinality, _max_cardinality)
                 _found._add_group(_group)

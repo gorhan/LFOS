@@ -26,7 +26,7 @@ class FModel(Model):
                                        max=mx_val,
                                        min=mn_val)
 
-        # print("Feature=", _parent.name, ", LOWER=", mn_val, ", UPPER=", mx_val)
+        print("Feature=", _parent.name, ", LOWER=", mn_val, ", UPPER=", mx_val)
 
         for _feature in group.features:
             self._group2_GroupObject(_feature, _feature.children)

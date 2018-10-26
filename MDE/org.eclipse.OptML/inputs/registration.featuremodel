@@ -43,7 +43,7 @@
       <features name="Transform">
         <children id="" lower="1" upper="2">
           <features id="" name="CoarseTransform" type="or">
-            <children id="" lower="0" upper="1">
+            <children id="" lower="1" upper="1">
               <features name="FPCA_IA" type="or"/>
               <features name="SAC_IA" type="or"/>
             </children>

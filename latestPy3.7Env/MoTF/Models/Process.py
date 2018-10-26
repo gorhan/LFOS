@@ -1,10 +1,11 @@
 
-from ..ModelDecorator import *
-
 from LFOS.Task.Task import *
 from LFOS.Resource.Resource import *
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
+
+from ..ModelDecorator import *
+from .. import LOG, Logs
 
 # task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_1', type='Default', phase=Time(3), deadline=Time(14), periodicity=PeriodicityTypeList.APERIODIC)
 # task_3.add_resource_requirement(resource_type=proc_t, eligible_resources={cpu1: Time(2), cpu2: Time(2)}, capacity=1)
@@ -17,6 +18,7 @@ class Process(Model):
         self._allTasks = {}
 
         self._required_data = {}
+        self._duration = -1
 
     def unique_id(self, node):
         return f"{self.getProcessedValue(node, 'namespace')}-{self.getProcessedValue(node, 'name')}[{self.getProcessedValue(node, 'id')}]"
@@ -24,6 +26,9 @@ class Process(Model):
     def _defineTasks(self, model):
         nodes = model.nodes
         n_nodes = len(nodes)
+
+        self._duration = self.getProcessedValue(model, "duration")
+        LOG(msg=f"Duration = {self._duration}", log=Logs.INFO)
 
         for node in nodes:
             task = TaskFactory.create_instance(TaskTypeList.TERMINAL,
@@ -93,9 +98,21 @@ class Process(Model):
     def processRequiredInfo(self, info):
         self._required_data[info[0]] = info[1]
 
+    def _filterInstances(self, model):
+        classes = set([self.getProcessedValue(node, "namespace") for node in model.nodes])
+        LOG(msg=classes)
+
+        exists = len(self._required_data["FModel"])
+        self._required_data["FModel"] = [instance for instance in self._required_data["FModel"] if not classes.difference(set([item.name for item in instance]))]
+        eliminated = exists - len(self._required_data["FModel"])
+        LOG(msg=f"#Instance (after filtering)={len(self._required_data['FModel'])} Eliminated #instances={eliminated}")
+
     @pointcut("before")
     def interpret(self, input=None):
         model = self.getModel()
+
+        self._filterInstances(model)
+
         self._defineTasks(model)
         self._defineDependencies(model)
 
