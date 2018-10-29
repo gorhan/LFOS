@@ -7,6 +7,8 @@ import abc
 from ..IO import *
 from LFOS.Scheduler.Scheduler import Scheduler
 
+from .. import Logs,LOG
+
 
 def pointcut(pos):
     def wrapper(fn):
@@ -15,6 +17,7 @@ def pointcut(pos):
                 for req in self._required_models:
                     self.processRequiredInfo(req.gatherRequiredInfo())
             return_val = fn(self, *args)
+            getattr(self, "markInterpreted").__call__()
             if pos == "after":
                 for req in self._required_models:
                     self.processRequiredInfo(req.gatherRequiredInfo())
@@ -80,9 +83,17 @@ class Model(IO, ModelDecorator):
         self._output = None
         self._cls = None
         self._args = None
+        self._interpreted = False
 
     def createInputTemplate(self):
         return self._cls(**self._args)
+
+    def markInterpreted(self):
+        self._interpreted = True
+        LOG(msg=f"The model {self.__class__.__name__} has been interpreted!!")
+
+    def interpreted(self):
+        return self._interpreted
 
     def requires(self, model):
         self._required_models.append(Model.__ALL__[model.ID()])

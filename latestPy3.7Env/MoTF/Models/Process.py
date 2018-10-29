@@ -40,7 +40,7 @@ class Process(Model):
         # print("Resource Name=", node.name)
         for requirement in node.requires:
             resource_name = self.getProcessedValue(requirement, 'resourceName')
-            print('Resource Requirement=', requirement.resourceName)
+            LOG(msg=f"Resource Requirement={requirement.resourceName}")
             resourceFSF = System.search_resources(identifier=requirement.resourceName)[0]
             if resourceFSF.type.get_abstraction() == ResourceTypeList.ACTIVE:
                 # print('WCET:', self.getProcessedValue(requirement, 'WCET'), requirement.WCET)
@@ -60,14 +60,14 @@ class Process(Model):
     def _defineDependencies(self, node, task):
         if hasattr(node, 'output') and hasattr(node.output[0], 'data'):
             for output in node.output:
-                print(f"Automatic output data \"{self.getProcessedValue(output.data, 'alias')}\" generation for the task \"{self.unique_id(node)}\"")
+                LOG(msg=f"Automatic output data \"{self.getProcessedValue(output.data, 'alias')}\" generation for the task \"{self.unique_id(node)}\"")
                 task.add_output_token(self.getProcessedValue(output.data, "alias"), self.getProcessedValue(output, "no_provided"))
 
             # if node not in [d.data.producedBy for d in node.output]:
             #     print(f"Automatic output data generation for the task \"{node.name}\"")
             #     task.add_output_token(node.name, 1)
         else:
-            print(f"Task {self.unique_id(node)} has no attribute named \"output\"")
+            LOG(msg=f"Task {self.unique_id(node)} has no attribute named \"output\"")
             task.add_output_token(self.unique_id(node), 1)
 
         # Input
@@ -80,13 +80,13 @@ class Process(Model):
                 operation = XOR()
 
             task.set_logical_relation(operation)
-            print(f"The logical relation for necessary tokens below is {operation}")
-            print(f"Node={self.unique_id(node)}, input={node.input},")
+            LOG(msg=f"The logical relation for necessary tokens below is {operation}")
+            LOG(msg=f"Node={self.unique_id(node)}, input={node.input},")
             for token in node.input.item:
-                print(f"The task {self.unique_id(node)} needs the data {self.getProcessedValue(output.data, 'alias')}")
+                LOG(msg=f"The task {self.unique_id(node)} needs the data {self.getProcessedValue(output.data, 'alias')}")
                 task.add_dependency(self.getProcessedValue(token.data, 'alias'), self.getProcessedValue(token, 'no_required'))
         else:
-            print(f"Task {self.unique_id(node)} has no attribute named \"input\"")
+            LOG(msg=f"Task {self.unique_id(node)} has no attribute named \"input\"")
 
     def gatherRequiredInfo(self):
         return None
@@ -103,29 +103,40 @@ class Process(Model):
         eliminated = exists - len(self._required_data["FModel"])
         LOG(msg=f"#Instance (after filtering)={len(self._required_data['FModel'])} Eliminated #instances={eliminated}")
 
-    def _createSchedulers(self, model):
-        schedulers = []
+    # def _createSchedulers(self, model):
+    #     schedulers = []
+    #
+    #     self._duration = self.getProcessedValue(model, "duration")
+    #     LOG(msg=f"Duration = {self._duration}", log=Logs.INFO)
+    #
+    #     for instance in self._required_data["FModel"]:
+    #         tasks = []
+    #         for node in model.nodes:
+    #             task = self._defineTask(instance, node)
+    #             self._defineDependencies(node, task)
+    #             tasks.append(task)
+    #
+    #         schedulers.append({"configuration": instance,
+    #                            "duration": self._duration})
+    #
+    #     return schedulers
 
-        self._duration = self.getProcessedValue(model, "duration")
-        LOG(msg=f"Duration = {self._duration}", log=Logs.INFO)
+    def createSchedulerNAddTasks(self, instance):
+        model = self.getModel()
 
-        for instance in self._required_data["FModel"]:
-            tasks = []
-            for node in model.nodes:
-                task = self._defineTask(instance, node)
-                self._defineDependencies(node, task)
-                tasks.append(task)
+        scheduler = self.createInputTemplate()
+        scheduler.set_scheduling_window_start_time(Time(0))
+        scheduler.set_scheduling_window_duration(Time(self._duration))
 
-            schedulers.append({"configuration": instance,
-                               "class": self._cls,
-                               "args": self._args,
-                               "tasks": tasks,
-                               "duration": self._duration})
+        for node in model.nodes:
+            task = self._defineTask(instance, node)
+            self._defineDependencies(node, task)
+            scheduler.addTask(task)
 
-        return schedulers
+        scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
+        return scheduler
 
     @pointcut("before")
     def interpret(self, input=None):
-        model = self.getModel()
-        self._filterInstances(model)
-        return self._createSchedulers(model)
+        self._filterInstances(self.getModel())
+        return self._required_data["FModel"]

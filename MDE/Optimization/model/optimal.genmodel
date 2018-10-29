@@ -13,22 +13,27 @@
     </genEnums>
     <genClasses ecoreClass="optimal.ecore#//Optimization">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Optimization/criteria"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Optimization/features"/>
     </genClasses>
     <genClasses ecoreClass="optimal.ecore#//Criteria">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Criteria/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Criteria/purpose"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Criteria/default"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Criteria/contribution"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Criteria/features"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Criteria/multiutility"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Criteria/singleutility"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Criteria/percentage"/>
     </genClasses>
     <genClasses ecoreClass="optimal.ecore#//Feature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Feature/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Feature/value"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference optimal.ecore#//Feature/cooccurrences"/>
     </genClasses>
-    <genClasses ecoreClass="optimal.ecore#//Cooccurrence">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference optimal.ecore#//Cooccurrence/features"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//Cooccurrence/value"/>
+    <genClasses ecoreClass="optimal.ecore#//MultiUtility">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference optimal.ecore#//MultiUtility/features"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//MultiUtility/contribution"/>
+    </genClasses>
+    <genClasses ecoreClass="optimal.ecore#//SingleUtility">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//SingleUtility/contribution"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference optimal.ecore#//SingleUtility/points"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute optimal.ecore#//SingleUtility/unbound_value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

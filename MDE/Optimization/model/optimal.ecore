@@ -2,8 +2,10 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="optimal" nsURI="http://www.example.org/optimal" nsPrefix="optimal">
   <eClassifiers xsi:type="ecore:EClass" name="Optimization">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="criteria" lowerBound="1"
-        upperBound="-1" eType="#//Criteria" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="criteria" upperBound="-1"
+        eType="#//Criteria" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
+        eType="#//Feature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Criteria">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -11,10 +13,12 @@
         eType="#//Purpose"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="multiutility" upperBound="-1"
+        eType="#//MultiUtility" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="singleutility" upperBound="-1"
+        eType="#//SingleUtility" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="percentage" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1.0"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="features" upperBound="-1"
-        eType="#//Feature" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Purpose">
     <eLiterals name="MINIMIZE"/>
@@ -22,13 +26,18 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Feature">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cooccurrences" upperBound="-1"
-        eType="#//Cooccurrence" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Cooccurrence">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="features" lowerBound="1"
+  <eClassifiers xsi:type="ecore:EClass" name="MultiUtility">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="features" lowerBound="2"
         upperBound="-1" eType="#//Feature"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SingleUtility">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="1"
+        eType="#//Feature"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unbound_value" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
 </ecore:EPackage>

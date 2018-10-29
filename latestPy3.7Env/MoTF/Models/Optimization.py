@@ -10,46 +10,46 @@ PurposeLiterals = None
 
 
 class Criteria:
-    def __init__(self, name, default, purpose, coefficient):
+    def __init__(self, name, purpose, default, coefficient):
         self.name = name
 
         self._default = default
         self._purpose = purpose
         self._coefficient = coefficient
-        self._features = []
+        self._single_features = []
+        self._multip_features = []
 
     def add_feature(self, feature, value):
-        if feature not in self._features:
-            self._features.append({"feature": feature, "contrib": value, "cooccurrences":[]})
+        if feature not in self._single_features:
+            self._single_features.append({"feature": feature, "contrib": value})
 
-    def get(self, feature_name):
-        for item in self._features:
-            if item["feature"].name == feature_name:
-                return item["feature"]
+    def get_multiple_features(self):
+        features = []
+        for item in self._multip_features:
+            features.append(([feature.name for feature in item["features"]], item["contrib"]))
 
-        return None
+        return features
 
-    def add_cooccurrences(self, feature, value, *others):
-        item = self.get(feature.name)
-        if item:
-            item["cooccurrences"].append({"contrib":value, "features":others})
-            return True
+    def get_single_features(self):
+        return [(item["feature"].name, item["contrib"]) for item in self._single_features]
 
-        return False
+    def add_cooccurrences(self, value, *others):
+        self._multip_features.append({"features": others, "contrib": value})
 
     def pretty_print(self):
         print(f"Default={self._default}")
         print(f"Purpose={self._purpose}")
         print(f"Coefficient={self._coefficient}")
-        print("Features:")
-        for item in self._features:
+        print("Single Features:")
+        for item in self._single_features:
             print(f"\tFeature Name={item['feature'].name}")
             print(f"\tOptimization Value={item['contrib']}")
-            print("\tCo-occurrent Features:")
-            for cooc in item["cooccurrences"]:
-                print(f"\t\tOptimization Effect={cooc['contrib']}")
-                print(f"\t\tRelevant Features: {', '.join([feature.name for feature in cooc['features']])}")
-            print("-"*60)
+
+        print("\tMultiple Features:")
+        for item in self._single_features:
+            print(f"\t\tOptimization Effect={item['contrib']}")
+            print(f"\t\tRelevant Features: {', '.join([feature.name for feature in item['features']])}")
+        print("-"*60)
 
 
 class Optimization(Model):
@@ -65,18 +65,17 @@ class Optimization(Model):
 
         for cri in self._model.criteria:
             cri_o = Criteria(self.getProcessedValue(cri, "name"),
-                             self.getProcessedValue(cri, "default"),
                              self.getProcessedValue(cri, "purpose"),
-                             self.getProcessedValue(cri, "contribution"))
+                             self.getProcessedValue(cri, "default"),
+                             self.getProcessedValue(cri, "percentage"))
+            self._criteria.append(cri_o)
 
-            for feature in self.getProcessedValue(cri, "features"):
+            for utility in self.getProcessedValue(cri, "singleutility"):
+                cri_o.add_feature(self.getProcessedValue(utility, "points"), self.getProcessedValue(utility, "contribution"))
 
-                cri_o.add_feature(feature, self.getProcessedValue(feature, "value"))
-                if hasattr(feature, "cooccurrences") and feature.cooccurrences:
-                    for cooc in feature.cooccurrences:
-                        cri_o.add_cooccurrences(feature,
-                                                self.getProcessedValue(cooc, "value"),
-                                                *self.getProcessedValue(cooc, "features"))
+            for utility in self.getProcessedValue(cri, "multiutility"):
+                cri_o.add_cooccurrences(self.getProcessedValue(utility, "contribution"),
+                                        *self.getProcessedValue(utility, "features"))
 
             self._criteria.append(cri_o)
 
@@ -86,8 +85,32 @@ class Optimization(Model):
             cri.pretty_print()
             print(f"{'#'*60}", end="\n\n")
 
-    def processRequiredInfo(self, info):
-        self._instances = info
+    def evaluate(self, instance):
+        global PurposeLiterals
+
+        if not self.interpreted():
+            self.interpret()
+
+        fitness = 0.0
+        for criteria in self._criteria:
+            criteria_sign = 1
+            perc = criteria._coefficient
+
+            multiple_features = criteria.get_multiple_features()
+            for features, contribution in multiple_features:
+                if not set(features).difference(set(instance)):
+                    prev_fitness = fitness
+                    fitness += perc * criteria_sign * contribution
+                    LOG(msg=f"Instances={instance}, Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+
+            single_features = criteria.get_single_features()
+            for feature, contribution in single_features:
+                if feature in instance:
+                    prev_fitness = fitness
+                    fitness += perc * criteria_sign * contribution
+                    LOG(msg=f"Instances={instance}, Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+
+        return fitness
 
     @pointcut("before")
     def interpret(self, input=None):
