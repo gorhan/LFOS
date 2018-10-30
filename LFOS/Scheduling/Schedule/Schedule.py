@@ -143,10 +143,14 @@ colors_ = [
 ]
 
 class Schedule:
+    ID=1
+    
     def __init__(self, begin=None, end=None):
         self.__schedule = {resource:[] for resource in System.for_each_sub_terminal_resource()}
         self.__jobs = set()
         self.__begin , self.__end = begin, end
+        self.__id = ID
+        Schedule.ID += 1
 
     def search_overlapping_jobs(self, on_resource, begin, end, job=None):
         return [reservation for reservation in self.__schedule[on_resource] if (reservation[1] <= begin < reservation[2] or
@@ -214,7 +218,7 @@ class Schedule:
             for reservation in reservations:
                 reservation[4] = False
 
-    def plot_schedule(self):
+    def plot_schedule(self, display_flag=True, save_flag=False, file_name=f"Schedule", format="pdf"):
         tm_res = 10 ** Time.get_time_resolution()
         major_grid_locator = MultipleLocator(tm_res)
 
@@ -274,9 +278,13 @@ class Schedule:
         LOG(msg='DPI=%d' % dpi)
         
         fig.set_size_inches((40 * (self.__end - self.__begin) * (tm_res))/float(dpi), (60.0 * len(self.__schedule))/float(dpi))
+        
+        if save_flag:
+            fig.savefig(f"{file_name}-{self.__id}.{format}", format=format, bbox_inches='tight')
         # to know size of legend
         # plt.tight_layout()
-        plt.show(block=True)
+        if display_flag:
+            plt.show(block=True)
         # canvas = FigureCanvasTkAgg(fig, master=root)
         # canvas.show()
 

@@ -30,7 +30,7 @@ class SearchStrategy:
     def iterate(f):
         def wrapper(me, fitness, object):
             print(f"Terminated={me.terminated()}, Fitness={fitness} - Threshold={me._threshold}")
-            if fitness >= me._threshold:
+            if fitness <= me._threshold:
                 f(me, fitness, object)
 
             me._curr_iter += 1
@@ -56,13 +56,12 @@ class FirstOptimalResult(SearchStrategy):
     def success(self, fitness, object):
         print("Executed when fitness value is greater than threshold")
         self._results.append(object)
-        raise StopSearch(object)
+        raise StopSearch(self._results)
 
 
 class ResultsExceedingThreshold(SearchStrategy):
     def __init__(self, *args):
         SearchStrategy.__init__(self, *args)
-        self._results = []
 
     @SearchStrategy.iterate
     def success(self, fitness, object):

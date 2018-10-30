@@ -124,6 +124,7 @@ class SolverAdapter(object):
         # Initialize initial tokens with the corresponding amount of tokens in the object
         for token, pairs in self.__token_pool.items():
             self.__TokenPool[token] = VarArray(self.__sched_window_duration+1, 0, TokenPool.MAX_TOKEN_AMOUNT)
+#            print(f"Token={token}, pairs={pairs}, self.token={self.__TokenPool[token]}")
             self.__model += (self.__TokenPool[token][0] == sum(pair[1] for pair in pairs))
 
         for job in self.__jobs:

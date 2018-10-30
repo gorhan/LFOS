@@ -18,7 +18,6 @@ class Process(Model):
 
         self._required_data = {}
         self._duration = -1
-        self._output = {}
 
     def unique_id(self, node):
         return f"{self.getProcessedValue(node, 'namespace')}-{self.getProcessedValue(node, 'name')}[{self.getProcessedValue(node, 'id')}]"
@@ -47,6 +46,7 @@ class Process(Model):
 
                 exec_classes = [(self.getProcessedValue(execution, "class"), self.getProcessedValue(execution, "wcet"))
                         for execution in requirement.execution if self.getProcessedValue(execution, "class") in classes]
+                # LOG(msg=f"Node_Name={[(self.getProcessedValue(execution, 'class'), self.getProcessedValue(execution, 'wcet')) for execution in requirement.execution]} Classes={classes}")
                 last_execution = exec_classes.pop()
                 LOG(msg=f"POPPED Execution Class={last_execution[0]}, WCET={last_execution[1]}")
                 task.add_resource_requirement(resource_type=resourceFSF.type,
@@ -123,6 +123,7 @@ class Process(Model):
 
     def createSchedulerNAddTasks(self, instance):
         model = self.getModel()
+        self._duration = self.getProcessedValue(model, "duration")
 
         scheduler = self.createInputTemplate()
         scheduler.set_scheduling_window_start_time(Time(0))
@@ -131,7 +132,7 @@ class Process(Model):
         for node in model.nodes:
             task = self._defineTask(instance, node)
             self._defineDependencies(node, task)
-            scheduler.addTask(task)
+            scheduler.add_tasks_in_bundle(task)
 
         scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
         return scheduler

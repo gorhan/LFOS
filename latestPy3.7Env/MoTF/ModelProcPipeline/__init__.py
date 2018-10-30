@@ -12,6 +12,7 @@ class MoPP(list):
         if not isinstance(object, Model):
             raise ValueError(f"Invalid type of object has been requested to append. Type = {type(object)}")
         list.append(self, object)
+        return object.ID()
 
     def __add__(self, other):
         if not isinstance(other, list):
@@ -39,6 +40,7 @@ class MoPP(list):
             raise ValueError(f"Invalid type of object has been requested to add. Type = {type(other)}")
 
         list.insert(self, index, object)
+        return object.ID()
 
     def swap(self, swap1, swap2):
         if isinstance(swap1, int) and isinstance(swap2, int):
@@ -61,6 +63,16 @@ class MoPP(list):
             elem.setInputTemplate(*self._constructor)
             self._input = elem.interpret(self._input)
         self._output = self._input
+
+    def findModelIndex(self, model_id):
+        for index, model in enumerate(self):
+            if model.ID() == model_id:
+                return index
+
+        raise ValueError("Model is not in the list.")
+
+    def command(self, model_id, func):
+        return getattr(self[self.findModelIndex(model_id)], func)
 
     @property
     def output(self):

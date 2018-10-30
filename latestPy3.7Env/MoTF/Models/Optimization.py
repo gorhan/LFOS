@@ -46,7 +46,7 @@ class Criteria:
             print(f"\tOptimization Value={item['contrib']}")
 
         print("\tMultiple Features:")
-        for item in self._single_features:
+        for item in self._multip_features:
             print(f"\t\tOptimization Effect={item['contrib']}")
             print(f"\t\tRelevant Features: {', '.join([feature.name for feature in item['features']])}")
         print("-"*60)
@@ -68,7 +68,6 @@ class Optimization(Model):
                              self.getProcessedValue(cri, "purpose"),
                              self.getProcessedValue(cri, "default"),
                              self.getProcessedValue(cri, "percentage"))
-            self._criteria.append(cri_o)
 
             for utility in self.getProcessedValue(cri, "singleutility"):
                 cri_o.add_feature(self.getProcessedValue(utility, "points"), self.getProcessedValue(utility, "contribution"))
@@ -101,14 +100,14 @@ class Optimization(Model):
                 if not set(features).difference(set(instance)):
                     prev_fitness = fitness
                     fitness += perc * criteria_sign * contribution
-                    LOG(msg=f"Instances={instance}, Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+                    # LOG(msg=f"Instances={instance}, Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
             single_features = criteria.get_single_features()
             for feature, contribution in single_features:
                 if feature in instance:
                     prev_fitness = fitness
                     fitness += perc * criteria_sign * contribution
-                    LOG(msg=f"Instances={instance}, Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+                    # LOG(msg=f"Instances={instance}, Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
         return fitness
 

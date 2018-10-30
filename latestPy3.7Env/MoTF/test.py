@@ -3,6 +3,7 @@ from .Models.Process import Process
 from .Models.FModel import FModel
 from .Models.Class import ClassModel, UML
 from .Models.Optimization import Optimization
+from .Framework import OptMLFramework, GlobalOptimizer
 
 from .ModelProcPipeline import MoPP
 
@@ -26,7 +27,7 @@ if __name__ == "__main__":
     mopp.append(featureModel)
     mopp.append(platformModel)
     # featureModel.requires(classModel)
-    mopp.append(processModel)
+    processModelID = mopp.append(processModel)
 
     processModel.requires(classModel)
     processModel.requires(featureModel)
@@ -35,8 +36,14 @@ if __name__ == "__main__":
     # from .ModelDecorator import Model
     # print(Model.__ALL__)
 
-    mopp.run()
-    output = mopp.output
+    optimizer = GlobalOptimizer(optimalityModel, 100, 10)
+
+    OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
+    framework = OptMLFramework(mopp, optimizer)
+    framework.exec()
+
+    # mopp.run()
+    # output = mopp.output
 
     # print(classModel)
 

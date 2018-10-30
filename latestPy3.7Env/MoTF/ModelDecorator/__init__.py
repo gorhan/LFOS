@@ -85,6 +85,9 @@ class Model(IO, ModelDecorator):
         self._args = None
         self._interpreted = False
 
+    def getRegisteredModel(self, _id):
+        return Model.__ALL__[_id]
+
     def createInputTemplate(self):
         return self._cls(**self._args)
 
