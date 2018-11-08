@@ -17,7 +17,7 @@ class SchedulingCharacteristic(SchedulingPolicy, SchedulingWindow, Time):
         self.__preemptive = True
         self.__migration = MigrationTypes.JOB_LEVEL_MIGRATION
         self.__priority_assignment = PriorityAssignmentTypes.FIXED
-        self._overall_objective = ObjectiveFactory.create_instance(OverallObjective, Mini(), ObjectiveLateness())
+        self._overall_objective = ObjectiveFactory.create_instance(OverallObjective, Mini(), ObjectiveNA())
 
     def set_scheduling_objective(self, *args):
         self._overall_objective = ObjectiveFactory.create_instance(OverallObjective, *args)

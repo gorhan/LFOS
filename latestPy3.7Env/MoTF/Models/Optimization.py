@@ -1,4 +1,5 @@
-from ..ModelDecorator import *
+from ..ModelDecorator import Model
+from ..ModelProcPipeline import MoPP_D
 
 from LFOS.Task.Task import *
 from LFOS.Resource.Resource import *
@@ -30,6 +31,9 @@ class Criteria:
 
         return features
 
+    def getBasicValue(self):
+        return self._default
+
     def get_single_features(self):
         return [(item["feature"].name, item["contrib"]) for item in self._single_features]
 
@@ -52,7 +56,7 @@ class Criteria:
         print("-"*60)
 
 
-class Optimization(Model):
+class OptimizationModel(Model):
     def __init__(self, *args):
         global PurposeLiterals
         Model.__init__(self, *args)
@@ -60,6 +64,8 @@ class Optimization(Model):
 
         self._model = self.getModel()
         self._criteria = []
+        self._input_data = None
+        self._output_data = []
 
     def define_criteria(self):
 
@@ -87,9 +93,7 @@ class Optimization(Model):
     def evaluate(self, instance):
         global PurposeLiterals
 
-        if not self.interpreted():
-            self.interpret()
-
+        # LOG(msg=f"Instances={', '.join([feature.name for feature in instance])}")
         fitness = 0.0
         for criteria in self._criteria:
             criteria_sign = 1
@@ -99,20 +103,26 @@ class Optimization(Model):
             for features, contribution in multiple_features:
                 if not set(features).difference(set(instance)):
                     prev_fitness = fitness
-                    fitness += perc * criteria_sign * contribution
-                    # LOG(msg=f"Instances={instance}, Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+                    fitness += criteria.getBasicValue() + perc * criteria_sign * contribution
+                    # LOG(msg=f"Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
             single_features = criteria.get_single_features()
             for feature, contribution in single_features:
                 if feature in instance:
                     prev_fitness = fitness
-                    fitness += perc * criteria_sign * contribution
-                    # LOG(msg=f"Instances={instance}, Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+                    fitness += criteria.getBasicValue() + perc * criteria_sign * contribution
+                    # LOG(msg=f"Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
         return fitness
 
-    @pointcut("before")
-    def interpret(self, input=None):
+    def calculate_fitness_values(self):
+        for instance in self._input_data:
+            self._output_data.append({"instance": instance, "fitness": self.evaluate(instance)})
+
+    def interpret(self, input):
+        self._input_data = input[("ProcessModel", 0)][1]
         self.define_criteria()
         self.pretty_print()
+        self.calculate_fitness_values()
+        input.append(MoPP_D(*self.ID(), self._output_data))
         return input

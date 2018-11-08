@@ -7,23 +7,16 @@ import abc
 from ..IO import *
 from LFOS.Scheduler.Scheduler import Scheduler
 
+
 from .. import Logs,LOG
 
 
-def pointcut(pos):
-    def wrapper(fn):
-        def decorator(self, *args):
-            if pos == "before":
-                for req in self._required_models:
-                    self.processRequiredInfo(req.gatherRequiredInfo())
-            return_val = fn(self, *args)
-            getattr(self, "markInterpreted").__call__()
-            if pos == "after":
-                for req in self._required_models:
-                    self.processRequiredInfo(req.gatherRequiredInfo())
-            return return_val
-        return decorator
-    return wrapper
+def pointcut(fn):
+    def decorator(self, *args):
+        return_val = fn(self, *args)
+        getattr(self, "markInterpreted").__call__()
+        return return_val
+    return decorator
 
 
 def identifier_required(fn):
@@ -48,26 +41,29 @@ class ModelDecorator(metaclass=abc.ABCMeta):
 
 
 class Model(IO, ModelDecorator):
-    __ALL__ = {}
+    __ALL__ = []
 
     @classmethod
-    def generateID(cls, _len: int = 3):
-        from random import choice
-        from string import ascii_letters, digits
-        return ''.join(choice(ascii_letters + digits) for _ in range(_len))
+    def generateID(cls, object):
+        cls_name = object.__class__.__name__
+        index = 0
+        for elem in cls.__ALL__:
+            if elem["object"] == object:
+                LOG(msg=f"The object of Class {cls_name} has been already registered!!")
+                return False
 
-    def ID(self):
-        for key, decorator in Model.__ALL__.items():
-            if self == decorator:
-                return key
+            if elem["class"] == cls_name:
+                index += 1
 
-        return None
+        return {"class": cls_name, "index": index, "object": object}
 
     def register(self, object):
-        key = Model.generateID()
-        while key in Model.__ALL__:
-            key = Model.generateID()
-        Model.__ALL__[key] = object
+        Model.__ALL__.append(Model.generateID(object))
+
+    def ID(self):
+        for elem in Model.__ALL__:
+            if elem["object"] == self:
+                return elem["class"], elem["index"]
 
     def __init__(self, *args):
         if len(args) > 2:
@@ -79,7 +75,6 @@ class Model(IO, ModelDecorator):
         # print(f'__ALL__ =', Model.__ALL__)
         self.register(self)
 
-        self._required_models = []
         self._output = None
         self._cls = None
         self._args = None
@@ -98,16 +93,14 @@ class Model(IO, ModelDecorator):
     def interpreted(self):
         return self._interpreted
 
-    def requires(self, model):
-        self._required_models.append(Model.__ALL__[model.ID()])
-
     def gatherRequiredInfo(self):
         raise NotImplementedError("Invalid procedure call!")
 
     def processRequiredInfo(self, info):
         raise NotImplementedError("Invalid procedure call!")
 
-    def interpret(self, input=None) -> Scheduler:
+    @pointcut
+    def interpret(self, input) -> Scheduler:
         raise NotImplementedError("Invalid procedure call!")
 
     def setInputTemplate(self, cls, args):

@@ -1,4 +1,5 @@
-from ..ModelDecorator import *
+from ..ModelDecorator import Model
+from ..ModelProcPipeline import MoPP_D
 
 import os
 from importlib.util import spec_from_file_location, module_from_spec
@@ -14,7 +15,7 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
 
-class FModel(Model):
+class FeatureModel(Model):
     def __init__(self, *args):
         Model.__init__(self, *args)
         self._model = self.getModel()
@@ -41,17 +42,10 @@ class FModel(Model):
         self._fModelObject = FM.FeatureModel(root.name)
         self._group2_GroupObject(root, root.children)
 
-    @identifier_required
-    def gatherRequiredInfo(self):
-        return self._instances
-
-    def processRequiredInfo(self, info):
-        print(info)
-
-    @pointcut("after")
-    def interpret(self, input=None):
+    def interpret(self, input):
         self.transform2FeatureModelObject()
 
         self._instances = self._fModelObject.instantiate(debug=False)
         print(f"#instances={len(self._instances)}")
+        input.append(MoPP_D(*self.ID(), self._instances))
         return input

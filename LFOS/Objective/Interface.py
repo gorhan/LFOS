@@ -8,7 +8,8 @@ ALL = [
     ObjectiveMakespan(),
     ObjectiveCentering(),
     ObjectiveMaxLateness(),
-    ObjectivePowerConsumption()
+    ObjectivePowerConsumption(),
+    ObjectiveNA()
 ]
 
 

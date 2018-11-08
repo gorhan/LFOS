@@ -149,7 +149,7 @@ class Schedule:
         self.__schedule = {resource:[] for resource in System.for_each_sub_terminal_resource()}
         self.__jobs = set()
         self.__begin , self.__end = begin, end
-        self.__id = ID
+        self.__id = Schedule.ID
         Schedule.ID += 1
 
     def search_overlapping_jobs(self, on_resource, begin, end, job=None):

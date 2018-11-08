@@ -309,32 +309,33 @@ class SolverAdapter(object):
         obj_criteria = self.__objective.get_criteria()
 
         print(f'Criteria={obj_criteria}')
-        if obj_criteria == ObjectiveLateness():
-            obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
-        elif obj_criteria == ObjectiveEarliness():
-            obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (-job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
-        elif obj_criteria == ObjectiveCentering():
-            obj_expr = Sum([abs( (job.get_deadline() - job.get_release_time()) / 2 - (self.__End[job][t+1] * (t+1)) * (job.get_priority()) ) for t in range(self.__sched_window_duration) for job in self.__jobs])
-        elif obj_criteria == ObjectivePowerConsumption():
-            obj_expr = Sum([self.__Allocation[resource, job][t] * -resource.get_power_consumption().get_max_power_state()[1] for t in range(self.__sched_window_duration) for job in self.__jobs for resource in self.__resources])
-            # obj_expr = - Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
-        elif obj_criteria == ObjectiveMakespan():
-            C_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'C_max')
-            self.__model += [(self.__End[job][t+1] * (t+1)) < C_max for t in range(self.__sched_window_duration) for job in self.__jobs]
-            obj_expr = C_max
-        elif obj_criteria == ObjectiveMaxLateness():
-            L_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'L_max')
-            self.__model += [(self.__End[job][t+1] * (t + 1 - job.get_extended_deadline())) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
-            obj_expr = L_max
+        if obj_criteria != ObjectiveNA():
+            if obj_criteria == ObjectiveLateness():
+                obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
+            elif obj_criteria == ObjectiveEarliness():
+                obj_expr = Sum([(self.__End[job][t+1] * (t+1)) * (-job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
+            elif obj_criteria == ObjectiveCentering():
+                obj_expr = Sum([abs( (job.get_deadline() - job.get_release_time()) / 2 - (self.__End[job][t+1] * (t+1)) * (job.get_priority()) ) for t in range(self.__sched_window_duration) for job in self.__jobs])
+            elif obj_criteria == ObjectivePowerConsumption():
+                obj_expr = Sum([self.__Allocation[resource, job][t] * -resource.get_power_consumption().get_max_power_state()[1] for t in range(self.__sched_window_duration) for job in self.__jobs for resource in self.__resources])
+                # obj_expr = - Sum([(self.__End[job][t+1] * (t+1) - self.__Start[job][t] * t) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs])
+            elif obj_criteria == ObjectiveMakespan():
+                C_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'C_max')
+                self.__model += [(self.__End[job][t+1] * (t+1)) < C_max for t in range(self.__sched_window_duration) for job in self.__jobs]
+                obj_expr = C_max
+            elif obj_criteria == ObjectiveMaxLateness():
+                L_max = Variable(self.__sched_window_begin, self.__sched_window_end, 'L_max')
+                self.__model += [(self.__End[job][t+1] * (t + 1 - job.get_extended_deadline())) < L_max for t in range(self.__sched_window_duration) for job in self.__jobs]
+                obj_expr = L_max
 
-        print(f'Obj_exp={obj_expr}')
-        if obj_purpose == Mini():
-            obj_expr = Minimize(obj_expr)
-        elif obj_purpose == Maxi():
-            obj_expr = Maximize(obj_expr)
+            print(f'Obj_exp={obj_expr}')
+            if obj_purpose == Mini():
+                obj_expr = Minimize(obj_expr)
+            elif obj_purpose == Maxi():
+                obj_expr = Maximize(obj_expr)
 
-        print(obj_expr)
-        self.__model += obj_expr
+            print(obj_expr)
+            self.__model += obj_expr
 
         # self.__model += Minimize(Sum([(self.__End[job][t+1] * (t+1)) * (job.get_priority()) for t in range(self.__sched_window_duration) for job in self.__jobs]))
         # self.__model += Minimize(Max([(self.__End[job][t + 1] * (t + 1)) * job.get_priority() for t in range(self.__sched_window_duration) for job in self.__jobs]))

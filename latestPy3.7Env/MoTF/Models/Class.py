@@ -1,4 +1,5 @@
-from ..ModelDecorator import *
+from ..ModelDecorator import Model, UML
+from ..ModelProcPipeline import MoPP_D
 
 __types__ = {
     UML.PrimitiveType,
@@ -61,16 +62,11 @@ class ClassModel(Model):
             for sub_class in self._hierarchies[cls]:
                 self._operations_table[sub_class.name] = self._operations_table[cls.name].union(self._operations_table[sub_class.name])
 
-    @identifier_required
-    def gatherRequiredInfo(self):
-        return self._operations_table
-
-    @pointcut("after")
     def interpret(self, input=None):
         classes = self._getContents(self._model, UML.Class)
         self._createHierarchy(classes)
         self._createOperationsTable(classes)
-
+        input.append(MoPP_D(*self.ID(), self._operations_table))
         # for req in self._required_models:
         #     self.processRequiredInfo(req.gatherRequiredInfo())
 

@@ -29,6 +29,9 @@ class ObjectiveMakespan(Criteria):
 class ObjectiveMaxLateness(Criteria):
     def __eq__(self, other):
         return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
+class ObjectiveNA(Criteria):
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) or (isinstance(other, str) and other == str(self))
 
 #class Logical:
 #    __metaclass__ = Singleton

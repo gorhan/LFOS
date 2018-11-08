@@ -1,12 +1,14 @@
 
 from ..ModelDecorator import Model
+from .Data import MoPPData, MoPP_D
 
 
 class MoPP(list):
     def __init__(self):
         list.__init__(self, [])
-        self._input = [Ellipsis]
+        self._input = None
         self._output = None
+        self._constructor = None
 
     def append(self, object: Model):
         if not isinstance(object, Model):
@@ -55,10 +57,16 @@ class MoPP(list):
         list.insert(self, min(swap1, swap2), elem2)
         list.insert(self, max(swap1, swap2), elem1)
 
-    def input(self, cls, **kwargs):
+    def setInputTemplate(self, cls, **kwargs):
         self._constructor = (cls, kwargs)
 
+    def input(self, _inp):
+        self._input = _inp
+
     def run(self):
+        if self._input is None:
+            self._input = MoPPData()
+
         for elem in self:
             elem.setInputTemplate(*self._constructor)
             self._input = elem.interpret(self._input)

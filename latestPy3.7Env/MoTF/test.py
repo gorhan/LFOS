@@ -1,8 +1,8 @@
-from .Models.Platform import Platform
-from .Models.Process import Process
-from .Models.FModel import FModel
+from .Models.Platform import PlatformModel
+from .Models.Process import ProcessModel
+from .Models.Feature import FeatureModel
 from .Models.Class import ClassModel, UML
-from .Models.Optimization import Optimization
+from .Models.Optimization import OptimizationModel
 from .Framework import OptMLFramework, GlobalOptimizer
 
 from .ModelProcPipeline import MoPP
@@ -14,32 +14,32 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
 if __name__ == "__main__":
-    platformModel = Platform("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
-    processModel = Process("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
+    platformModel = PlatformModel("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
+    processModel = ProcessModel("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D_.process")
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
-    featureModel = FModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore", "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
-    optimalityModel = Optimization("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/reg3D.optimal")
+    featureModel = FeatureModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore", "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
+    optimalityModel = OptimizationModel("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/reg3D.optimal")
 
     mopp = MoPP()
 
-    mopp.input(Scheduler, solver='SCIP', verbose=1, time_cutoff=10000)
+    mopp.setInputTemplate(Scheduler, solver='SCIP', verbose=1, time_cutoff=15000)
     mopp.append(classModel)
     mopp.append(featureModel)
     mopp.append(platformModel)
     # featureModel.requires(classModel)
     processModelID = mopp.append(processModel)
+    mopp.append(optimalityModel)
 
-    processModel.requires(classModel)
-    processModel.requires(featureModel)
+    # processModel.addRelevantDataOwnerID(classModel.ID())
+    # processModel.addRelevantDataOwnerID(featureModel.ID())
+    # optimalityModel.addRelevantDataOwnerID(featureModel.ID())
     # mopp.append(optimalityModel)
 
     # from .ModelDecorator import Model
     # print(Model.__ALL__)
 
-    optimizer = GlobalOptimizer(optimalityModel, 100, 10)
-
     OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
-    framework = OptMLFramework(mopp, optimizer)
+    framework = OptMLFramework(mopp)
     framework.exec()
 
     # mopp.run()

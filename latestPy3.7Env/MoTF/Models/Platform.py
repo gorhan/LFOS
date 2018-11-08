@@ -1,9 +1,10 @@
 
-from ..ModelDecorator import *
+from ..ModelDecorator import Model
+from ..ModelProcPipeline import MoPP_D
 from LFOS.Resource.Resource import *
 
 
-class Platform(Model):
+class PlatformModel(Model):
     def __init__(self, *args):
         Model.__init__(self, *args)
         self.typeFSF_d = {}
@@ -71,10 +72,11 @@ class Platform(Model):
 
             self.typeFSF_d[resourceType.identifier] = Type(resourceTypeFSF, resourceType.identifier)
 
-    def interpret(self, input=None):
+    def interpret(self, input):
         self._initializeResourceTypes(input)
         self._defineResources()
         self._defineExclusiveResources()
         System.pretty_print()
 
+        input.append(MoPP_D(*self.ID(), System))
         return input

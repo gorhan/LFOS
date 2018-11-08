@@ -16,11 +16,12 @@ class OptMLFramework:
     def getProcessModelCallback(cls):
         return cls.PROCESS_MODEL_ID, cls.PROCESS_MODEL_CB
 
-    def __init__(self, mopp, globOpt):
+    def __init__(self, mopp):
         self.__mopp = mopp
-        self.__optimizer = globOpt
+        self.__optimizer = GlobalOptimizer(100, 5)
 
     def displayResults(self):
+        print(self.__results)
         LOG(msg=f"{'#' * 20} RESULTS {'#' * 20}")
         for index, (fitness, instance, success) in enumerate(self.__results):
             LOG(msg=f"{'<' * 10} RESULT-{index} {'>' * 10}")
@@ -32,10 +33,9 @@ class OptMLFramework:
         LOG(msg=f"{'#' * 20} RESULTS {'#' * 20}")
 
     def exec(self):
-        isinstance(self.__mopp, MoPP)
         self.__mopp.run()
-        instances = self.__mopp.output
-        self.__optimizer.setInstances(instances)
+
+        self.__optimizer.setInstances(self.__mopp.output[("OptimizationModel", 0)][1])
         self.__results = self.__optimizer.optimize(self.__mopp.command(*self.getProcessModelCallback()))
 
         self.displayResults()

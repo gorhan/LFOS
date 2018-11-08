@@ -1,33 +1,18 @@
 
-from ..Models.Optimization import Optimization
 from .Search import FirstOptimalResult, StopSearch, SearchStrategy, ResultsExceedingThreshold
 from .. import LOG, Logs
 
 
 class GlobalOptimizer:
 
-    def __init__(self, optModel, threshold, maxNIters, search=None, _instances=[]):
-        self._optimalM = optModel
-        self._search = search if search and isinstance(search, SearchStrategy) else FirstOptimalResult(maxNIters, threshold)
-        self._instances = self.assignFitnesses(_instances)
+    def __init__(self, threshold, maxNIters, search=None, _instances=[]):
+        self._search = search if search and isinstance(search, SearchStrategy) else ResultsExceedingThreshold(maxNIters, threshold)
+        self._instances = _instances
 
         self._localOptimizer = None
 
-    def setOptimizationModel(self, model):
-        if isinstance(model, Optimization):
-            self._optimalM = model
-            LOG(msg=f"New Search Strategy is set.")
-        LOG(msg=f"Invalid set option for optimization model!", log=Logs.ERROR)
-
     def setInstances(self, instances):
-        self._instances = self.assignFitnesses(instances)
-
-    def assignFitnesses(self, instances):
-        _instances = []
-        for instance in instances:
-            _instances.append({"instance": instance, "fitness": self._optimalM.evaluate(instance)})
-
-        return _instances
+        self._instances = instances
 
     def optimize(self, _cb):
         sorted_instances = sorted(self._instances, key=lambda item: item["fitness"])

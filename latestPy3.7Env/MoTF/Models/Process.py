@@ -4,7 +4,8 @@ from LFOS.Resource.Resource import *
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
-from ..ModelDecorator import *
+from ..ModelDecorator import Model
+from ..ModelProcPipeline import MoPP_D
 from .. import LOG, Logs
 
 # task_3 = TaskFactory.create_instance(TaskTypeList.TERMINAL, name='Task_2_1', type='Default', phase=Time(3), deadline=Time(14), periodicity=PeriodicityTypeList.APERIODIC)
@@ -12,12 +13,13 @@ from .. import LOG, Logs
 # task_3.add_resource_requirement(resource_type=memory_t, capacity=140)
 
 
-class Process(Model):
+class ProcessModel(Model):
     def __init__(self, *args):
         Model.__init__(self, *args)
 
         self._required_data = {}
         self._duration = -1
+        self._system = None
 
     def unique_id(self, node):
         return f"{self.getProcessedValue(node, 'namespace')}-{self.getProcessedValue(node, 'name')}[{self.getProcessedValue(node, 'id')}]"
@@ -40,7 +42,8 @@ class Process(Model):
         for requirement in node.requires:
             resource_name = self.getProcessedValue(requirement, 'resourceName')
             LOG(msg=f"Resource Requirement={requirement.resourceName}")
-            resourceFSF = System.search_resources(identifier=requirement.resourceName)[0]
+
+            resourceFSF = self._system.search_resources(identifier=requirement.resourceName)[0]
             if resourceFSF.type.get_abstraction() == ResourceTypeList.ACTIVE:
                 # print('WCET:', self.getProcessedValue(requirement, 'WCET'), requirement.WCET)
 
@@ -50,7 +53,7 @@ class Process(Model):
                 last_execution = exec_classes.pop()
                 LOG(msg=f"POPPED Execution Class={last_execution[0]}, WCET={last_execution[1]}")
                 task.add_resource_requirement(resource_type=resourceFSF.type,
-                                              eligible_resources={resource:Time(last_execution[1]) for resource in System.search_resources(type=resourceFSF.type)},
+                                              eligible_resources={resource:Time(last_execution[1]) for resource in self._system.search_resources(type=resourceFSF.type)},
                                               capacity=self.getProcessedValue(requirement, 'requiredCapacity'))
             else:
                 task.add_resource_requirement(resource_type=resourceFSF.type, capacity=self.getProcessedValue(requirement, 'requiredCapacity'))
@@ -88,20 +91,17 @@ class Process(Model):
         else:
             LOG(msg=f"Task {self.unique_id(node)} has no attribute named \"input\"")
 
-    def gatherRequiredInfo(self):
-        return None
-
-    def processRequiredInfo(self, info):
-        self._required_data[info[0]] = info[1]
-
-    def _filterInstances(self, model):
+    def _filterInstances(self, input, model):
         classes = set([self.getProcessedValue(node, "namespace") for node in model.nodes])
         LOG(msg=classes)
 
-        exists = len(self._required_data["FModel"])
-        self._required_data["FModel"] = [instance for instance in self._required_data["FModel"] if not classes.difference(set([item.name for item in instance]))]
-        eliminated = exists - len(self._required_data["FModel"])
-        LOG(msg=f"#Instance (after filtering)={len(self._required_data['FModel'])} Eliminated #instances={eliminated}")
+        feature_model = input[("FeatureModel", 0)][1]
+
+        exists = len(feature_model)
+        feature_model = [instance for instance in feature_model if not classes.difference(set([item.name for item in instance]))]
+        eliminated = exists - len(feature_model)
+        LOG(msg=f"#Instance (after filtering)={len(feature_model)} Eliminated #instances={eliminated}")
+        return feature_model
 
     # def _createSchedulers(self, model):
     #     schedulers = []
@@ -129,15 +129,24 @@ class Process(Model):
         scheduler.set_scheduling_window_start_time(Time(0))
         scheduler.set_scheduling_window_duration(Time(self._duration))
 
+        tasks = []
         for node in model.nodes:
             task = self._defineTask(instance, node)
+            tasks.append(task)
             self._defineDependencies(node, task)
             scheduler.add_tasks_in_bundle(task)
 
         scheduler.set_ranking_policy(SchedulingPolicyRankingTypes.FIFO, scheduler.get_taskset())
+
+        for task in tasks:
+            print(task.info(True))
+
+        scheduler.set_scheduling_objective(Mini(), ObjectiveLateness())
         return scheduler
 
-    @pointcut("before")
-    def interpret(self, input=None):
-        self._filterInstances(self.getModel())
-        return self._required_data["FModel"]
+    def interpret(self, input):
+        self._system = input[("PlatformModel", 0)][1]
+
+        feature_model = self._filterInstances(input, self.getModel())
+        input.append(MoPP_D(*self.ID(), feature_model))
+        return input

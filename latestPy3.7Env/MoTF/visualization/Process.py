@@ -28,7 +28,7 @@ class ProcessModelVis(Model):
         model = self.getModel()
 
         for index, node in enumerate(model.nodes):
-            graph = None
+            graph = self._graphs[1]
             if self.getProcessedValue(node, "namespace") in self.__f_group:
                 graph = self._graphs[0]
             elif self.getProcessedValue(node, "namespace") in self.__s_group:
