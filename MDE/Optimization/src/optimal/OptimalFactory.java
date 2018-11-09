@@ -49,13 +49,22 @@ public interface OptimalFactory extends EFactory {
 	Feature createFeature();
 
 	/**
-	 * Returns a new object of class '<em>Cooccurrence</em>'.
+	 * Returns a new object of class '<em>Multi Utility</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Cooccurrence</em>'.
+	 * @return a new object of class '<em>Multi Utility</em>'.
 	 * @generated
 	 */
-	Cooccurrence createCooccurrence();
+	MultiUtility createMultiUtility();
+
+	/**
+	 * Returns a new object of class '<em>Single Utility</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Single Utility</em>'.
+	 * @generated
+	 */
+	SingleUtility createSingleUtility();
 
 	/**
 	 * Returns the package supported by this factory.

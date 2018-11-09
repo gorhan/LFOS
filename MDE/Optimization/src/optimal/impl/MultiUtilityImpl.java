@@ -4,8 +4,8 @@ package optimal.impl;
 
 import java.util.Collection;
 
-import optimal.Cooccurrence;
 import optimal.Feature;
+import optimal.MultiUtility;
 import optimal.OptimalPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -21,19 +21,19 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Cooccurrence</b></em>'.
+ * An implementation of the model object '<em><b>Multi Utility</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link optimal.impl.CooccurrenceImpl#getFeatures <em>Features</em>}</li>
- *   <li>{@link optimal.impl.CooccurrenceImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link optimal.impl.MultiUtilityImpl#getFeatures <em>Features</em>}</li>
+ *   <li>{@link optimal.impl.MultiUtilityImpl#getContribution <em>Contribution</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Cooccurrence {
+public class MultiUtilityImpl extends MinimalEObjectImpl.Container implements MultiUtility {
 	/**
 	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -45,31 +45,31 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	protected EList<Feature> features;
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The default value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getContribution()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final float VALUE_EDEFAULT = 0.0F;
+	protected static final float CONTRIBUTION_EDEFAULT = 0.0F;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * The cached value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getValue()
+	 * @see #getContribution()
 	 * @generated
 	 * @ordered
 	 */
-	protected float value = VALUE_EDEFAULT;
+	protected float contribution = CONTRIBUTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CooccurrenceImpl() {
+	protected MultiUtilityImpl() {
 		super();
 	}
 
@@ -80,7 +80,7 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return OptimalPackage.Literals.COOCCURRENCE;
+		return OptimalPackage.Literals.MULTI_UTILITY;
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	 */
 	public EList<Feature> getFeatures() {
 		if (features == null) {
-			features = new EObjectResolvingEList<Feature>(Feature.class, this, OptimalPackage.COOCCURRENCE__FEATURES);
+			features = new EObjectResolvingEList<Feature>(Feature.class, this, OptimalPackage.MULTI_UTILITY__FEATURES);
 		}
 		return features;
 	}
@@ -100,8 +100,8 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public float getValue() {
-		return value;
+	public float getContribution() {
+		return contribution;
 	}
 
 	/**
@@ -109,11 +109,11 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setValue(float newValue) {
-		float oldValue = value;
-		value = newValue;
+	public void setContribution(float newContribution) {
+		float oldContribution = contribution;
+		contribution = newContribution;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OptimalPackage.COOCCURRENCE__VALUE, oldValue, value));
+			eNotify(new ENotificationImpl(this, Notification.SET, OptimalPackage.MULTI_UTILITY__CONTRIBUTION, oldContribution, contribution));
 	}
 
 	/**
@@ -124,10 +124,10 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OptimalPackage.COOCCURRENCE__FEATURES:
+			case OptimalPackage.MULTI_UTILITY__FEATURES:
 				return getFeatures();
-			case OptimalPackage.COOCCURRENCE__VALUE:
-				return getValue();
+			case OptimalPackage.MULTI_UTILITY__CONTRIBUTION:
+				return getContribution();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -141,12 +141,12 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OptimalPackage.COOCCURRENCE__FEATURES:
+			case OptimalPackage.MULTI_UTILITY__FEATURES:
 				getFeatures().clear();
 				getFeatures().addAll((Collection<? extends Feature>)newValue);
 				return;
-			case OptimalPackage.COOCCURRENCE__VALUE:
-				setValue((Float)newValue);
+			case OptimalPackage.MULTI_UTILITY__CONTRIBUTION:
+				setContribution((Float)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -160,11 +160,11 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OptimalPackage.COOCCURRENCE__FEATURES:
+			case OptimalPackage.MULTI_UTILITY__FEATURES:
 				getFeatures().clear();
 				return;
-			case OptimalPackage.COOCCURRENCE__VALUE:
-				setValue(VALUE_EDEFAULT);
+			case OptimalPackage.MULTI_UTILITY__CONTRIBUTION:
+				setContribution(CONTRIBUTION_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -178,10 +178,10 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OptimalPackage.COOCCURRENCE__FEATURES:
+			case OptimalPackage.MULTI_UTILITY__FEATURES:
 				return features != null && !features.isEmpty();
-			case OptimalPackage.COOCCURRENCE__VALUE:
-				return value != VALUE_EDEFAULT;
+			case OptimalPackage.MULTI_UTILITY__CONTRIBUTION:
+				return contribution != CONTRIBUTION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -196,10 +196,10 @@ public class CooccurrenceImpl extends MinimalEObjectImpl.Container implements Co
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (value: ");
-		result.append(value);
+		result.append(" (contribution: ");
+		result.append(contribution);
 		result.append(')');
 		return result.toString();
 	}
 
-} //CooccurrenceImpl
+} //MultiUtilityImpl

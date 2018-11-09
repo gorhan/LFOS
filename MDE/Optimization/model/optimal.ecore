@@ -18,7 +18,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="singleutility" upperBound="-1"
         eType="#//SingleUtility" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="percentage" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1.0"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Purpose">
     <eLiterals name="MINIMIZE"/>
@@ -34,10 +34,9 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SingleUtility">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="contribution" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="points" lowerBound="1"
         eType="#//Feature"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unbound_value" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unbound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
 </ecore:EPackage>

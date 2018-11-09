@@ -5,6 +5,7 @@ package optimal.impl;
 import java.util.Collection;
 
 import optimal.Criteria;
+import optimal.Feature;
 import optimal.OptimalPackage;
 import optimal.Optimization;
 
@@ -29,6 +30,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link optimal.impl.OptimizationImpl#getCriteria <em>Criteria</em>}</li>
+ *   <li>{@link optimal.impl.OptimizationImpl#getFeatures <em>Features</em>}</li>
  * </ul>
  *
  * @generated
@@ -43,6 +45,16 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 	 * @ordered
 	 */
 	protected EList<Criteria> criteria;
+
+	/**
+	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFeatures()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Feature> features;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -80,11 +92,25 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Feature> getFeatures() {
+		if (features == null) {
+			features = new EObjectContainmentEList<Feature>(Feature.class, this, OptimalPackage.OPTIMIZATION__FEATURES);
+		}
+		return features;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case OptimalPackage.OPTIMIZATION__CRITERIA:
 				return ((InternalEList<?>)getCriteria()).basicRemove(otherEnd, msgs);
+			case OptimalPackage.OPTIMIZATION__FEATURES:
+				return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -99,6 +125,8 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 		switch (featureID) {
 			case OptimalPackage.OPTIMIZATION__CRITERIA:
 				return getCriteria();
+			case OptimalPackage.OPTIMIZATION__FEATURES:
+				return getFeatures();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -116,6 +144,10 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 				getCriteria().clear();
 				getCriteria().addAll((Collection<? extends Criteria>)newValue);
 				return;
+			case OptimalPackage.OPTIMIZATION__FEATURES:
+				getFeatures().clear();
+				getFeatures().addAll((Collection<? extends Feature>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -131,6 +163,9 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 			case OptimalPackage.OPTIMIZATION__CRITERIA:
 				getCriteria().clear();
 				return;
+			case OptimalPackage.OPTIMIZATION__FEATURES:
+				getFeatures().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -145,6 +180,8 @@ public class OptimizationImpl extends MinimalEObjectImpl.Container implements Op
 		switch (featureID) {
 			case OptimalPackage.OPTIMIZATION__CRITERIA:
 				return criteria != null && !criteria.isEmpty();
+			case OptimalPackage.OPTIMIZATION__FEATURES:
+				return features != null && !features.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

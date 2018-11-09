@@ -60,7 +60,8 @@ public class OptimalFactoryImpl extends EFactoryImpl implements OptimalFactory {
 			case OptimalPackage.OPTIMIZATION: return createOptimization();
 			case OptimalPackage.CRITERIA: return createCriteria();
 			case OptimalPackage.FEATURE: return createFeature();
-			case OptimalPackage.COOCCURRENCE: return createCooccurrence();
+			case OptimalPackage.MULTI_UTILITY: return createMultiUtility();
+			case OptimalPackage.SINGLE_UTILITY: return createSingleUtility();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -131,9 +132,19 @@ public class OptimalFactoryImpl extends EFactoryImpl implements OptimalFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Cooccurrence createCooccurrence() {
-		CooccurrenceImpl cooccurrence = new CooccurrenceImpl();
-		return cooccurrence;
+	public MultiUtility createMultiUtility() {
+		MultiUtilityImpl multiUtility = new MultiUtilityImpl();
+		return multiUtility;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SingleUtility createSingleUtility() {
+		SingleUtilityImpl singleUtility = new SingleUtilityImpl();
+		return singleUtility;
 	}
 
 	/**

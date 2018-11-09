@@ -84,9 +84,15 @@ public class OptimalSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OptimalPackage.COOCCURRENCE: {
-				Cooccurrence cooccurrence = (Cooccurrence)theEObject;
-				T result = caseCooccurrence(cooccurrence);
+			case OptimalPackage.MULTI_UTILITY: {
+				MultiUtility multiUtility = (MultiUtility)theEObject;
+				T result = caseMultiUtility(multiUtility);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case OptimalPackage.SINGLE_UTILITY: {
+				SingleUtility singleUtility = (SingleUtility)theEObject;
+				T result = caseSingleUtility(singleUtility);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -140,17 +146,32 @@ public class OptimalSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Cooccurrence</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Multi Utility</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Cooccurrence</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Multi Utility</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCooccurrence(Cooccurrence object) {
+	public T caseMultiUtility(MultiUtility object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Single Utility</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Single Utility</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSingleUtility(SingleUtility object) {
 		return null;
 	}
 

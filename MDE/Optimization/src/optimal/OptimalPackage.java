@@ -77,13 +77,22 @@ public interface OptimalPackage extends EPackage {
 	int OPTIMIZATION__CRITERIA = 0;
 
 	/**
+	 * The feature id for the '<em><b>Features</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPTIMIZATION__FEATURES = 1;
+
+	/**
 	 * The number of structural features of the '<em>Optimization</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPTIMIZATION_FEATURE_COUNT = 1;
+	int OPTIMIZATION_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Optimization</em>' class.
@@ -132,22 +141,31 @@ public interface OptimalPackage extends EPackage {
 	int CRITERIA__DEFAULT = 2;
 
 	/**
-	 * The feature id for the '<em><b>Contribution</b></em>' attribute.
+	 * The feature id for the '<em><b>Multiutility</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CRITERIA__CONTRIBUTION = 3;
+	int CRITERIA__MULTIUTILITY = 3;
 
 	/**
-	 * The feature id for the '<em><b>Features</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Singleutility</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CRITERIA__FEATURES = 4;
+	int CRITERIA__SINGLEUTILITY = 4;
+
+	/**
+	 * The feature id for the '<em><b>Percentage</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CRITERIA__PERCENTAGE = 5;
 
 	/**
 	 * The number of structural features of the '<em>Criteria</em>' class.
@@ -156,7 +174,7 @@ public interface OptimalPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CRITERIA_FEATURE_COUNT = 5;
+	int CRITERIA_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Criteria</em>' class.
@@ -187,31 +205,13 @@ public interface OptimalPackage extends EPackage {
 	int FEATURE__NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE__VALUE = 1;
-
-	/**
-	 * The feature id for the '<em><b>Cooccurrences</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FEATURE__COOCCURRENCES = 2;
-
-	/**
 	 * The number of structural features of the '<em>Feature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FEATURE_FEATURE_COUNT = 3;
+	int FEATURE_FEATURE_COUNT = 1;
 
 	/**
 	 * The number of operations of the '<em>Feature</em>' class.
@@ -223,14 +223,14 @@ public interface OptimalPackage extends EPackage {
 	int FEATURE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link optimal.impl.CooccurrenceImpl <em>Cooccurrence</em>}' class.
+	 * The meta object id for the '{@link optimal.impl.MultiUtilityImpl <em>Multi Utility</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see optimal.impl.CooccurrenceImpl
-	 * @see optimal.impl.OptimalPackageImpl#getCooccurrence()
+	 * @see optimal.impl.MultiUtilityImpl
+	 * @see optimal.impl.OptimalPackageImpl#getMultiUtility()
 	 * @generated
 	 */
-	int COOCCURRENCE = 3;
+	int MULTI_UTILITY = 3;
 
 	/**
 	 * The feature id for the '<em><b>Features</b></em>' reference list.
@@ -239,34 +239,89 @@ public interface OptimalPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COOCCURRENCE__FEATURES = 0;
+	int MULTI_UTILITY__FEATURES = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Contribution</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOCCURRENCE__VALUE = 1;
+	int MULTI_UTILITY__CONTRIBUTION = 1;
 
 	/**
-	 * The number of structural features of the '<em>Cooccurrence</em>' class.
+	 * The number of structural features of the '<em>Multi Utility</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOCCURRENCE_FEATURE_COUNT = 2;
+	int MULTI_UTILITY_FEATURE_COUNT = 2;
 
 	/**
-	 * The number of operations of the '<em>Cooccurrence</em>' class.
+	 * The number of operations of the '<em>Multi Utility</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COOCCURRENCE_OPERATION_COUNT = 0;
+	int MULTI_UTILITY_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link optimal.impl.SingleUtilityImpl <em>Single Utility</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see optimal.impl.SingleUtilityImpl
+	 * @see optimal.impl.OptimalPackageImpl#getSingleUtility()
+	 * @generated
+	 */
+	int SINGLE_UTILITY = 4;
+
+	/**
+	 * The feature id for the '<em><b>Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_UTILITY__BOUND = 0;
+
+	/**
+	 * The feature id for the '<em><b>Points</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_UTILITY__POINTS = 1;
+
+	/**
+	 * The feature id for the '<em><b>Unbound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_UTILITY__UNBOUND = 2;
+
+	/**
+	 * The number of structural features of the '<em>Single Utility</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_UTILITY_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>Single Utility</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SINGLE_UTILITY_OPERATION_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link optimal.Purpose <em>Purpose</em>}' enum.
@@ -276,7 +331,7 @@ public interface OptimalPackage extends EPackage {
 	 * @see optimal.impl.OptimalPackageImpl#getPurpose()
 	 * @generated
 	 */
-	int PURPOSE = 4;
+	int PURPOSE = 5;
 
 
 	/**
@@ -299,6 +354,17 @@ public interface OptimalPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOptimization_Criteria();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link optimal.Optimization#getFeatures <em>Features</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Features</em>'.
+	 * @see optimal.Optimization#getFeatures()
+	 * @see #getOptimization()
+	 * @generated
+	 */
+	EReference getOptimization_Features();
 
 	/**
 	 * Returns the meta object for class '{@link optimal.Criteria <em>Criteria</em>}'.
@@ -344,26 +410,37 @@ public interface OptimalPackage extends EPackage {
 	EAttribute getCriteria_Default();
 
 	/**
-	 * Returns the meta object for the attribute '{@link optimal.Criteria#getContribution <em>Contribution</em>}'.
+	 * Returns the meta object for the containment reference list '{@link optimal.Criteria#getMultiutility <em>Multiutility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Contribution</em>'.
-	 * @see optimal.Criteria#getContribution()
+	 * @return the meta object for the containment reference list '<em>Multiutility</em>'.
+	 * @see optimal.Criteria#getMultiutility()
 	 * @see #getCriteria()
 	 * @generated
 	 */
-	EAttribute getCriteria_Contribution();
+	EReference getCriteria_Multiutility();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link optimal.Criteria#getFeatures <em>Features</em>}'.
+	 * Returns the meta object for the containment reference list '{@link optimal.Criteria#getSingleutility <em>Singleutility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Features</em>'.
-	 * @see optimal.Criteria#getFeatures()
+	 * @return the meta object for the containment reference list '<em>Singleutility</em>'.
+	 * @see optimal.Criteria#getSingleutility()
 	 * @see #getCriteria()
 	 * @generated
 	 */
-	EReference getCriteria_Features();
+	EReference getCriteria_Singleutility();
+
+	/**
+	 * Returns the meta object for the attribute '{@link optimal.Criteria#getPercentage <em>Percentage</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Percentage</em>'.
+	 * @see optimal.Criteria#getPercentage()
+	 * @see #getCriteria()
+	 * @generated
+	 */
+	EAttribute getCriteria_Percentage();
 
 	/**
 	 * Returns the meta object for class '{@link optimal.Feature <em>Feature</em>}'.
@@ -387,58 +464,79 @@ public interface OptimalPackage extends EPackage {
 	EAttribute getFeature_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link optimal.Feature#getValue <em>Value</em>}'.
+	 * Returns the meta object for class '{@link optimal.MultiUtility <em>Multi Utility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see optimal.Feature#getValue()
-	 * @see #getFeature()
+	 * @return the meta object for class '<em>Multi Utility</em>'.
+	 * @see optimal.MultiUtility
 	 * @generated
 	 */
-	EAttribute getFeature_Value();
+	EClass getMultiUtility();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link optimal.Feature#getCooccurrences <em>Cooccurrences</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Cooccurrences</em>'.
-	 * @see optimal.Feature#getCooccurrences()
-	 * @see #getFeature()
-	 * @generated
-	 */
-	EReference getFeature_Cooccurrences();
-
-	/**
-	 * Returns the meta object for class '{@link optimal.Cooccurrence <em>Cooccurrence</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Cooccurrence</em>'.
-	 * @see optimal.Cooccurrence
-	 * @generated
-	 */
-	EClass getCooccurrence();
-
-	/**
-	 * Returns the meta object for the reference list '{@link optimal.Cooccurrence#getFeatures <em>Features</em>}'.
+	 * Returns the meta object for the reference list '{@link optimal.MultiUtility#getFeatures <em>Features</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Features</em>'.
-	 * @see optimal.Cooccurrence#getFeatures()
-	 * @see #getCooccurrence()
+	 * @see optimal.MultiUtility#getFeatures()
+	 * @see #getMultiUtility()
 	 * @generated
 	 */
-	EReference getCooccurrence_Features();
+	EReference getMultiUtility_Features();
 
 	/**
-	 * Returns the meta object for the attribute '{@link optimal.Cooccurrence#getValue <em>Value</em>}'.
+	 * Returns the meta object for the attribute '{@link optimal.MultiUtility#getContribution <em>Contribution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see optimal.Cooccurrence#getValue()
-	 * @see #getCooccurrence()
+	 * @return the meta object for the attribute '<em>Contribution</em>'.
+	 * @see optimal.MultiUtility#getContribution()
+	 * @see #getMultiUtility()
 	 * @generated
 	 */
-	EAttribute getCooccurrence_Value();
+	EAttribute getMultiUtility_Contribution();
+
+	/**
+	 * Returns the meta object for class '{@link optimal.SingleUtility <em>Single Utility</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Single Utility</em>'.
+	 * @see optimal.SingleUtility
+	 * @generated
+	 */
+	EClass getSingleUtility();
+
+	/**
+	 * Returns the meta object for the attribute '{@link optimal.SingleUtility#getBound <em>Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Bound</em>'.
+	 * @see optimal.SingleUtility#getBound()
+	 * @see #getSingleUtility()
+	 * @generated
+	 */
+	EAttribute getSingleUtility_Bound();
+
+	/**
+	 * Returns the meta object for the reference '{@link optimal.SingleUtility#getPoints <em>Points</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Points</em>'.
+	 * @see optimal.SingleUtility#getPoints()
+	 * @see #getSingleUtility()
+	 * @generated
+	 */
+	EReference getSingleUtility_Points();
+
+	/**
+	 * Returns the meta object for the attribute '{@link optimal.SingleUtility#getUnbound <em>Unbound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Unbound</em>'.
+	 * @see optimal.SingleUtility#getUnbound()
+	 * @see #getSingleUtility()
+	 * @generated
+	 */
+	EAttribute getSingleUtility_Unbound();
 
 	/**
 	 * Returns the meta object for enum '{@link optimal.Purpose <em>Purpose</em>}'.
@@ -492,6 +590,14 @@ public interface OptimalPackage extends EPackage {
 		EReference OPTIMIZATION__CRITERIA = eINSTANCE.getOptimization_Criteria();
 
 		/**
+		 * The meta object literal for the '<em><b>Features</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPTIMIZATION__FEATURES = eINSTANCE.getOptimization_Features();
+
+		/**
 		 * The meta object literal for the '{@link optimal.impl.CriteriaImpl <em>Criteria</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -526,20 +632,28 @@ public interface OptimalPackage extends EPackage {
 		EAttribute CRITERIA__DEFAULT = eINSTANCE.getCriteria_Default();
 
 		/**
-		 * The meta object literal for the '<em><b>Contribution</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Multiutility</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CRITERIA__CONTRIBUTION = eINSTANCE.getCriteria_Contribution();
+		EReference CRITERIA__MULTIUTILITY = eINSTANCE.getCriteria_Multiutility();
 
 		/**
-		 * The meta object literal for the '<em><b>Features</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Singleutility</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CRITERIA__FEATURES = eINSTANCE.getCriteria_Features();
+		EReference CRITERIA__SINGLEUTILITY = eINSTANCE.getCriteria_Singleutility();
+
+		/**
+		 * The meta object literal for the '<em><b>Percentage</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CRITERIA__PERCENTAGE = eINSTANCE.getCriteria_Percentage();
 
 		/**
 		 * The meta object literal for the '{@link optimal.impl.FeatureImpl <em>Feature</em>}' class.
@@ -560,30 +674,14 @@ public interface OptimalPackage extends EPackage {
 		EAttribute FEATURE__NAME = eINSTANCE.getFeature_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * The meta object literal for the '{@link optimal.impl.MultiUtilityImpl <em>Multi Utility</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see optimal.impl.MultiUtilityImpl
+		 * @see optimal.impl.OptimalPackageImpl#getMultiUtility()
 		 * @generated
 		 */
-		EAttribute FEATURE__VALUE = eINSTANCE.getFeature_Value();
-
-		/**
-		 * The meta object literal for the '<em><b>Cooccurrences</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference FEATURE__COOCCURRENCES = eINSTANCE.getFeature_Cooccurrences();
-
-		/**
-		 * The meta object literal for the '{@link optimal.impl.CooccurrenceImpl <em>Cooccurrence</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see optimal.impl.CooccurrenceImpl
-		 * @see optimal.impl.OptimalPackageImpl#getCooccurrence()
-		 * @generated
-		 */
-		EClass COOCCURRENCE = eINSTANCE.getCooccurrence();
+		EClass MULTI_UTILITY = eINSTANCE.getMultiUtility();
 
 		/**
 		 * The meta object literal for the '<em><b>Features</b></em>' reference list feature.
@@ -591,15 +689,49 @@ public interface OptimalPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COOCCURRENCE__FEATURES = eINSTANCE.getCooccurrence_Features();
+		EReference MULTI_UTILITY__FEATURES = eINSTANCE.getMultiUtility_Features();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Contribution</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute COOCCURRENCE__VALUE = eINSTANCE.getCooccurrence_Value();
+		EAttribute MULTI_UTILITY__CONTRIBUTION = eINSTANCE.getMultiUtility_Contribution();
+
+		/**
+		 * The meta object literal for the '{@link optimal.impl.SingleUtilityImpl <em>Single Utility</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see optimal.impl.SingleUtilityImpl
+		 * @see optimal.impl.OptimalPackageImpl#getSingleUtility()
+		 * @generated
+		 */
+		EClass SINGLE_UTILITY = eINSTANCE.getSingleUtility();
+
+		/**
+		 * The meta object literal for the '<em><b>Bound</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SINGLE_UTILITY__BOUND = eINSTANCE.getSingleUtility_Bound();
+
+		/**
+		 * The meta object literal for the '<em><b>Points</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SINGLE_UTILITY__POINTS = eINSTANCE.getSingleUtility_Points();
+
+		/**
+		 * The meta object literal for the '<em><b>Unbound</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SINGLE_UTILITY__UNBOUND = eINSTANCE.getSingleUtility_Unbound();
 
 		/**
 		 * The meta object literal for the '{@link optimal.Purpose <em>Purpose</em>}' enum.

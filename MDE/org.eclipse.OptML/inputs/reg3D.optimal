@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optimal:Optimization xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:optimal="http://www.example.org/optimal">
-  <criteria name="Energy" default="30.0" percentage="0.4">
-    <singleutility contribution="10.0" points="//@features.1"/>
-    <singleutility contribution="5.0" points="//@features.3"/>
-    <singleutility contribution="5.0" points="//@features.5"/>
-    <singleutility contribution="5.0" points="//@features.4"/>
-    <singleutility contribution="5.0" points="//@features.6"/>
-    <singleutility contribution="15.0" points="//@features.11"/>
-    <singleutility contribution="15.0" points="//@features.12"/>
-    <singleutility contribution="15.0" points="//@features.13"/>
+  <criteria name="Energy" default="30.0" percentage="1.0">
+    <singleutility bound="10.0" points="//@features.1"/>
+    <singleutility bound="5.0" points="//@features.3"/>
+    <singleutility bound="5.0" points="//@features.5"/>
+    <singleutility bound="7.0" points="//@features.4"/>
+    <singleutility bound="8.0" points="//@features.6"/>
+    <singleutility bound="15.0" points="//@features.11"/>
+    <singleutility bound="15.0" points="//@features.12"/>
+    <singleutility bound="15.0" points="//@features.13"/>
   </criteria>
-  <criteria name="Precision" percentage="0.6">
+  <criteria name="Precision" default="40.0" percentage="0.0">
     <multiutility features="//@features.5 //@features.4" contribution="-25.0"/>
-    <singleutility contribution="-10.0" points="//@features.1"/>
-    <singleutility contribution="-15.0" points="//@features.3"/>
-    <singleutility contribution="-10.0" points="//@features.5"/>
-    <singleutility contribution="-10.0" points="//@features.4"/>
-    <singleutility contribution="-5.0" points="//@features.6"/>
-    <singleutility contribution="-15.0" points="//@features.11"/>
-    <singleutility contribution="-15.0" points="//@features.12"/>
-    <singleutility contribution="-10.0" points="//@features.13"/>
+    <singleutility bound="-10.0" points="//@features.1"/>
+    <singleutility bound="-15.0" points="//@features.3"/>
+    <singleutility bound="-10.0" points="//@features.5"/>
+    <singleutility bound="-10.0" points="//@features.4"/>
+    <singleutility bound="-5.0" points="//@features.6"/>
+    <singleutility bound="-15.0" points="//@features.11"/>
+    <singleutility bound="-15.0" points="//@features.12"/>
+    <singleutility bound="-10.0" points="//@features.13"/>
   </criteria>
   <features name="Input"/>
   <features name="CalibratedInput"/>

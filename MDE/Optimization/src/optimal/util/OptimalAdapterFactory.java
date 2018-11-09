@@ -80,8 +80,12 @@ public class OptimalAdapterFactory extends AdapterFactoryImpl {
 				return createFeatureAdapter();
 			}
 			@Override
-			public Adapter caseCooccurrence(Cooccurrence object) {
-				return createCooccurrenceAdapter();
+			public Adapter caseMultiUtility(MultiUtility object) {
+				return createMultiUtilityAdapter();
+			}
+			@Override
+			public Adapter caseSingleUtility(SingleUtility object) {
+				return createSingleUtilityAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -146,16 +150,30 @@ public class OptimalAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link optimal.Cooccurrence <em>Cooccurrence</em>}'.
+	 * Creates a new adapter for an object of class '{@link optimal.MultiUtility <em>Multi Utility</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see optimal.Cooccurrence
+	 * @see optimal.MultiUtility
 	 * @generated
 	 */
-	public Adapter createCooccurrenceAdapter() {
+	public Adapter createMultiUtilityAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link optimal.SingleUtility <em>Single Utility</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see optimal.SingleUtility
+	 * @generated
+	 */
+	public Adapter createSingleUtilityAdapter() {
 		return null;
 	}
 

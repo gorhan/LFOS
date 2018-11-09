@@ -66,7 +66,7 @@ public class CriteriaItemProvider
 			addNamePropertyDescriptor(object);
 			addPurposePropertyDescriptor(object);
 			addDefaultPropertyDescriptor(object);
-			addContributionPropertyDescriptor(object);
+			addPercentagePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -138,19 +138,19 @@ public class CriteriaItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the Contribution feature.
+	 * This adds a property descriptor for the Percentage feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addContributionPropertyDescriptor(Object object) {
+	protected void addPercentagePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Criteria_contribution_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Criteria_contribution_feature", "_UI_Criteria_type"),
-				 OptimalPackage.Literals.CRITERIA__CONTRIBUTION,
+				 getString("_UI_Criteria_percentage_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Criteria_percentage_feature", "_UI_Criteria_type"),
+				 OptimalPackage.Literals.CRITERIA__PERCENTAGE,
 				 true,
 				 false,
 				 false,
@@ -171,7 +171,8 @@ public class CriteriaItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(OptimalPackage.Literals.CRITERIA__FEATURES);
+			childrenFeatures.add(OptimalPackage.Literals.CRITERIA__MULTIUTILITY);
+			childrenFeatures.add(OptimalPackage.Literals.CRITERIA__SINGLEUTILITY);
 		}
 		return childrenFeatures;
 	}
@@ -230,10 +231,11 @@ public class CriteriaItemProvider
 			case OptimalPackage.CRITERIA__NAME:
 			case OptimalPackage.CRITERIA__PURPOSE:
 			case OptimalPackage.CRITERIA__DEFAULT:
-			case OptimalPackage.CRITERIA__CONTRIBUTION:
+			case OptimalPackage.CRITERIA__PERCENTAGE:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case OptimalPackage.CRITERIA__FEATURES:
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -253,8 +255,13 @@ public class CriteriaItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(OptimalPackage.Literals.CRITERIA__FEATURES,
-				 OptimalFactory.eINSTANCE.createFeature()));
+				(OptimalPackage.Literals.CRITERIA__MULTIUTILITY,
+				 OptimalFactory.eINSTANCE.createMultiUtility()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(OptimalPackage.Literals.CRITERIA__SINGLEUTILITY,
+				 OptimalFactory.eINSTANCE.createSingleUtility()));
 	}
 
 	/**

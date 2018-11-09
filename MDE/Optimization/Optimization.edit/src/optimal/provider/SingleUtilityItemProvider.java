@@ -6,8 +6,8 @@ package optimal.provider;
 import java.util.Collection;
 import java.util.List;
 
-import optimal.Cooccurrence;
 import optimal.OptimalPackage;
+import optimal.SingleUtility;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
@@ -26,12 +26,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link optimal.Cooccurrence} object.
+ * This is the item provider adapter for a {@link optimal.SingleUtility} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class CooccurrenceItemProvider 
+public class SingleUtilityItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +45,7 @@ public class CooccurrenceItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CooccurrenceItemProvider(AdapterFactory adapterFactory) {
+	public SingleUtilityItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,48 +60,27 @@ public class CooccurrenceItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addFeaturesPropertyDescriptor(object);
-			addValuePropertyDescriptor(object);
+			addBoundPropertyDescriptor(object);
+			addPointsPropertyDescriptor(object);
+			addUnboundPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Features feature.
+	 * This adds a property descriptor for the Bound feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFeaturesPropertyDescriptor(Object object) {
+	protected void addBoundPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Cooccurrence_features_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Cooccurrence_features_feature", "_UI_Cooccurrence_type"),
-				 OptimalPackage.Literals.COOCCURRENCE__FEATURES,
-				 true,
-				 false,
-				 true,
-				 null,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Value feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addValuePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Cooccurrence_value_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Cooccurrence_value_feature", "_UI_Cooccurrence_type"),
-				 OptimalPackage.Literals.COOCCURRENCE__VALUE,
+				 getString("_UI_SingleUtility_bound_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SingleUtility_bound_feature", "_UI_SingleUtility_type"),
+				 OptimalPackage.Literals.SINGLE_UTILITY__BOUND,
 				 true,
 				 false,
 				 false,
@@ -111,14 +90,58 @@ public class CooccurrenceItemProvider
 	}
 
 	/**
-	 * This returns Cooccurrence.gif.
+	 * This adds a property descriptor for the Points feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addPointsPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SingleUtility_points_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SingleUtility_points_feature", "_UI_SingleUtility_type"),
+				 OptimalPackage.Literals.SINGLE_UTILITY__POINTS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Unbound feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addUnboundPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_SingleUtility_unbound_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_SingleUtility_unbound_feature", "_UI_SingleUtility_type"),
+				 OptimalPackage.Literals.SINGLE_UTILITY__UNBOUND,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns SingleUtility.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Cooccurrence"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/SingleUtility"));
 	}
 
 	/**
@@ -129,8 +152,8 @@ public class CooccurrenceItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		Cooccurrence cooccurrence = (Cooccurrence)object;
-		return getString("_UI_Cooccurrence_type") + " " + cooccurrence.getValue();
+		SingleUtility singleUtility = (SingleUtility)object;
+		return getString("_UI_SingleUtility_type") + " " + singleUtility.getBound();
 	}
 	
 
@@ -145,8 +168,9 @@ public class CooccurrenceItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Cooccurrence.class)) {
-			case OptimalPackage.COOCCURRENCE__VALUE:
+		switch (notification.getFeatureID(SingleUtility.class)) {
+			case OptimalPackage.SINGLE_UTILITY__BOUND:
+			case OptimalPackage.SINGLE_UTILITY__UNBOUND:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

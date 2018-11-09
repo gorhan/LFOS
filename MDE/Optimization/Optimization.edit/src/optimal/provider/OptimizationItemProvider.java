@@ -78,6 +78,7 @@ public class OptimizationItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(OptimalPackage.Literals.OPTIMIZATION__CRITERIA);
+			childrenFeatures.add(OptimalPackage.Literals.OPTIMIZATION__FEATURES);
 		}
 		return childrenFeatures;
 	}
@@ -131,6 +132,7 @@ public class OptimizationItemProvider
 
 		switch (notification.getFeatureID(Optimization.class)) {
 			case OptimalPackage.OPTIMIZATION__CRITERIA:
+			case OptimalPackage.OPTIMIZATION__FEATURES:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -152,6 +154,11 @@ public class OptimizationItemProvider
 			(createChildParameter
 				(OptimalPackage.Literals.OPTIMIZATION__CRITERIA,
 				 OptimalFactory.eINSTANCE.createCriteria()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(OptimalPackage.Literals.OPTIMIZATION__FEATURES,
+				 OptimalFactory.eINSTANCE.createFeature()));
 	}
 
 	/**

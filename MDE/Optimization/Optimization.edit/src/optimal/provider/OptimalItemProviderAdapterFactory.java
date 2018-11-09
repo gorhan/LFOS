@@ -141,26 +141,49 @@ public class OptimalItemProviderAdapterFactory extends OptimalAdapterFactory imp
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link optimal.Cooccurrence} instances.
+	 * This keeps track of the one adapter used for all {@link optimal.MultiUtility} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CooccurrenceItemProvider cooccurrenceItemProvider;
+	protected MultiUtilityItemProvider multiUtilityItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link optimal.Cooccurrence}.
+	 * This creates an adapter for a {@link optimal.MultiUtility}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createCooccurrenceAdapter() {
-		if (cooccurrenceItemProvider == null) {
-			cooccurrenceItemProvider = new CooccurrenceItemProvider(this);
+	public Adapter createMultiUtilityAdapter() {
+		if (multiUtilityItemProvider == null) {
+			multiUtilityItemProvider = new MultiUtilityItemProvider(this);
 		}
 
-		return cooccurrenceItemProvider;
+		return multiUtilityItemProvider;
+	}
+
+	/**
+	 * This keeps track of the one adapter used for all {@link optimal.SingleUtility} instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected SingleUtilityItemProvider singleUtilityItemProvider;
+
+	/**
+	 * This creates an adapter for a {@link optimal.SingleUtility}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Adapter createSingleUtilityAdapter() {
+		if (singleUtilityItemProvider == null) {
+			singleUtilityItemProvider = new SingleUtilityItemProvider(this);
+		}
+
+		return singleUtilityItemProvider;
 	}
 
 	/**
@@ -265,7 +288,8 @@ public class OptimalItemProviderAdapterFactory extends OptimalAdapterFactory imp
 		if (optimizationItemProvider != null) optimizationItemProvider.dispose();
 		if (criteriaItemProvider != null) criteriaItemProvider.dispose();
 		if (featureItemProvider != null) featureItemProvider.dispose();
-		if (cooccurrenceItemProvider != null) cooccurrenceItemProvider.dispose();
+		if (multiUtilityItemProvider != null) multiUtilityItemProvider.dispose();
+		if (singleUtilityItemProvider != null) singleUtilityItemProvider.dispose();
 	}
 
 }

@@ -6,7 +6,7 @@ package optimal.provider;
 import java.util.Collection;
 import java.util.List;
 
-import optimal.Feature;
+import optimal.MultiUtility;
 import optimal.OptimalPackage;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -26,12 +26,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link optimal.Feature} object.
+ * This is the item provider adapter for a {@link optimal.MultiUtility} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class FeatureItemProvider 
+public class MultiUtilityItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +45,7 @@ public class FeatureItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public FeatureItemProvider(AdapterFactory adapterFactory) {
+	public MultiUtilityItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -60,42 +60,65 @@ public class FeatureItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
+			addFeaturesPropertyDescriptor(object);
+			addContributionPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Features feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addFeaturesPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Feature_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Feature_name_feature", "_UI_Feature_type"),
-				 OptimalPackage.Literals.FEATURE__NAME,
+				 getString("_UI_MultiUtility_features_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MultiUtility_features_feature", "_UI_MultiUtility_type"),
+				 OptimalPackage.Literals.MULTI_UTILITY__FEATURES,
 				 true,
 				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This returns Feature.gif.
+	 * This adds a property descriptor for the Contribution feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addContributionPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_MultiUtility_contribution_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_MultiUtility_contribution_feature", "_UI_MultiUtility_type"),
+				 OptimalPackage.Literals.MULTI_UTILITY__CONTRIBUTION,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.REAL_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns MultiUtility.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Feature"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/MultiUtility"));
 	}
 
 	/**
@@ -106,10 +129,8 @@ public class FeatureItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((Feature)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Feature_type") :
-			getString("_UI_Feature_type") + " " + label;
+		MultiUtility multiUtility = (MultiUtility)object;
+		return getString("_UI_MultiUtility_type") + " " + multiUtility.getContribution();
 	}
 	
 
@@ -124,8 +145,8 @@ public class FeatureItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(Feature.class)) {
-			case OptimalPackage.FEATURE__NAME:
+		switch (notification.getFeatureID(MultiUtility.class)) {
+			case OptimalPackage.MULTI_UTILITY__CONTRIBUTION:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

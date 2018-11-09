@@ -6,24 +6,24 @@ import junit.framework.TestCase;
 
 import junit.textui.TestRunner;
 
-import optimal.Cooccurrence;
 import optimal.OptimalFactory;
+import optimal.SingleUtility;
 
 /**
  * <!-- begin-user-doc -->
- * A test case for the model object '<em><b>Cooccurrence</b></em>'.
+ * A test case for the model object '<em><b>Single Utility</b></em>'.
  * <!-- end-user-doc -->
  * @generated
  */
-public class CooccurrenceTest extends TestCase {
+public class SingleUtilityTest extends TestCase {
 
 	/**
-	 * The fixture for this Cooccurrence test case.
+	 * The fixture for this Single Utility test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Cooccurrence fixture = null;
+	protected SingleUtility fixture = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -31,36 +31,36 @@ public class CooccurrenceTest extends TestCase {
 	 * @generated
 	 */
 	public static void main(String[] args) {
-		TestRunner.run(CooccurrenceTest.class);
+		TestRunner.run(SingleUtilityTest.class);
 	}
 
 	/**
-	 * Constructs a new Cooccurrence test case with the given name.
+	 * Constructs a new Single Utility test case with the given name.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CooccurrenceTest(String name) {
+	public SingleUtilityTest(String name) {
 		super(name);
 	}
 
 	/**
-	 * Sets the fixture for this Cooccurrence test case.
+	 * Sets the fixture for this Single Utility test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void setFixture(Cooccurrence fixture) {
+	protected void setFixture(SingleUtility fixture) {
 		this.fixture = fixture;
 	}
 
 	/**
-	 * Returns the fixture for this Cooccurrence test case.
+	 * Returns the fixture for this Single Utility test case.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Cooccurrence getFixture() {
+	protected SingleUtility getFixture() {
 		return fixture;
 	}
 
@@ -72,7 +72,7 @@ public class CooccurrenceTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		setFixture(OptimalFactory.eINSTANCE.createCooccurrence());
+		setFixture(OptimalFactory.eINSTANCE.createSingleUtility());
 	}
 
 	/**
@@ -86,4 +86,4 @@ public class CooccurrenceTest extends TestCase {
 		setFixture(null);
 	}
 
-} //CooccurrenceTest
+} //SingleUtilityTest

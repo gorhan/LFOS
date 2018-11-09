@@ -5,9 +5,10 @@ package optimal.impl;
 import java.util.Collection;
 
 import optimal.Criteria;
-import optimal.Feature;
+import optimal.MultiUtility;
 import optimal.OptimalPackage;
 import optimal.Purpose;
+import optimal.SingleUtility;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -34,8 +35,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link optimal.impl.CriteriaImpl#getName <em>Name</em>}</li>
  *   <li>{@link optimal.impl.CriteriaImpl#getPurpose <em>Purpose</em>}</li>
  *   <li>{@link optimal.impl.CriteriaImpl#getDefault <em>Default</em>}</li>
- *   <li>{@link optimal.impl.CriteriaImpl#getContribution <em>Contribution</em>}</li>
- *   <li>{@link optimal.impl.CriteriaImpl#getFeatures <em>Features</em>}</li>
+ *   <li>{@link optimal.impl.CriteriaImpl#getMultiutility <em>Multiutility</em>}</li>
+ *   <li>{@link optimal.impl.CriteriaImpl#getSingleutility <em>Singleutility</em>}</li>
+ *   <li>{@link optimal.impl.CriteriaImpl#getPercentage <em>Percentage</em>}</li>
  * </ul>
  *
  * @generated
@@ -102,34 +104,44 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 	protected float default_ = DEFAULT_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
+	 * The cached value of the '{@link #getMultiutility() <em>Multiutility</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getContribution()
+	 * @see #getMultiutility()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final float CONTRIBUTION_EDEFAULT = 1.0F;
+	protected EList<MultiUtility> multiutility;
 
 	/**
-	 * The cached value of the '{@link #getContribution() <em>Contribution</em>}' attribute.
+	 * The cached value of the '{@link #getSingleutility() <em>Singleutility</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getContribution()
+	 * @see #getSingleutility()
 	 * @generated
 	 * @ordered
 	 */
-	protected float contribution = CONTRIBUTION_EDEFAULT;
+	protected EList<SingleUtility> singleutility;
 
 	/**
-	 * The cached value of the '{@link #getFeatures() <em>Features</em>}' containment reference list.
+	 * The default value of the '{@link #getPercentage() <em>Percentage</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFeatures()
+	 * @see #getPercentage()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Feature> features;
+	protected static final float PERCENTAGE_EDEFAULT = 0.0F;
+
+	/**
+	 * The cached value of the '{@link #getPercentage() <em>Percentage</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPercentage()
+	 * @generated
+	 * @ordered
+	 */
+	protected float percentage = PERCENTAGE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -218,32 +230,44 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public float getContribution() {
-		return contribution;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setContribution(float newContribution) {
-		float oldContribution = contribution;
-		contribution = newContribution;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OptimalPackage.CRITERIA__CONTRIBUTION, oldContribution, contribution));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Feature> getFeatures() {
-		if (features == null) {
-			features = new EObjectContainmentEList<Feature>(Feature.class, this, OptimalPackage.CRITERIA__FEATURES);
+	public EList<MultiUtility> getMultiutility() {
+		if (multiutility == null) {
+			multiutility = new EObjectContainmentEList<MultiUtility>(MultiUtility.class, this, OptimalPackage.CRITERIA__MULTIUTILITY);
 		}
-		return features;
+		return multiutility;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<SingleUtility> getSingleutility() {
+		if (singleutility == null) {
+			singleutility = new EObjectContainmentEList<SingleUtility>(SingleUtility.class, this, OptimalPackage.CRITERIA__SINGLEUTILITY);
+		}
+		return singleutility;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public float getPercentage() {
+		return percentage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPercentage(float newPercentage) {
+		float oldPercentage = percentage;
+		percentage = newPercentage;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OptimalPackage.CRITERIA__PERCENTAGE, oldPercentage, percentage));
 	}
 
 	/**
@@ -254,8 +278,10 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OptimalPackage.CRITERIA__FEATURES:
-				return ((InternalEList<?>)getFeatures()).basicRemove(otherEnd, msgs);
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+				return ((InternalEList<?>)getMultiutility()).basicRemove(otherEnd, msgs);
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
+				return ((InternalEList<?>)getSingleutility()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -274,10 +300,12 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 				return getPurpose();
 			case OptimalPackage.CRITERIA__DEFAULT:
 				return getDefault();
-			case OptimalPackage.CRITERIA__CONTRIBUTION:
-				return getContribution();
-			case OptimalPackage.CRITERIA__FEATURES:
-				return getFeatures();
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+				return getMultiutility();
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
+				return getSingleutility();
+			case OptimalPackage.CRITERIA__PERCENTAGE:
+				return getPercentage();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -300,12 +328,16 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 			case OptimalPackage.CRITERIA__DEFAULT:
 				setDefault((Float)newValue);
 				return;
-			case OptimalPackage.CRITERIA__CONTRIBUTION:
-				setContribution((Float)newValue);
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+				getMultiutility().clear();
+				getMultiutility().addAll((Collection<? extends MultiUtility>)newValue);
 				return;
-			case OptimalPackage.CRITERIA__FEATURES:
-				getFeatures().clear();
-				getFeatures().addAll((Collection<? extends Feature>)newValue);
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
+				getSingleutility().clear();
+				getSingleutility().addAll((Collection<? extends SingleUtility>)newValue);
+				return;
+			case OptimalPackage.CRITERIA__PERCENTAGE:
+				setPercentage((Float)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -328,11 +360,14 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 			case OptimalPackage.CRITERIA__DEFAULT:
 				setDefault(DEFAULT_EDEFAULT);
 				return;
-			case OptimalPackage.CRITERIA__CONTRIBUTION:
-				setContribution(CONTRIBUTION_EDEFAULT);
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+				getMultiutility().clear();
 				return;
-			case OptimalPackage.CRITERIA__FEATURES:
-				getFeatures().clear();
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
+				getSingleutility().clear();
+				return;
+			case OptimalPackage.CRITERIA__PERCENTAGE:
+				setPercentage(PERCENTAGE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -352,10 +387,12 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 				return purpose != PURPOSE_EDEFAULT;
 			case OptimalPackage.CRITERIA__DEFAULT:
 				return default_ != DEFAULT_EDEFAULT;
-			case OptimalPackage.CRITERIA__CONTRIBUTION:
-				return contribution != CONTRIBUTION_EDEFAULT;
-			case OptimalPackage.CRITERIA__FEATURES:
-				return features != null && !features.isEmpty();
+			case OptimalPackage.CRITERIA__MULTIUTILITY:
+				return multiutility != null && !multiutility.isEmpty();
+			case OptimalPackage.CRITERIA__SINGLEUTILITY:
+				return singleutility != null && !singleutility.isEmpty();
+			case OptimalPackage.CRITERIA__PERCENTAGE:
+				return percentage != PERCENTAGE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -376,8 +413,8 @@ public class CriteriaImpl extends MinimalEObjectImpl.Container implements Criter
 		result.append(purpose);
 		result.append(", default: ");
 		result.append(default_);
-		result.append(", contribution: ");
-		result.append(contribution);
+		result.append(", percentage: ");
+		result.append(percentage);
 		result.append(')');
 		return result.toString();
 	}

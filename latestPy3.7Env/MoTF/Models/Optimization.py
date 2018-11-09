@@ -6,6 +6,7 @@ from LFOS.Resource.Resource import *
 from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
+from .. import LOG, Logs
 
 PurposeLiterals = None
 
@@ -20,9 +21,9 @@ class Criteria:
         self._single_features = []
         self._multip_features = []
 
-    def add_feature(self, feature, value):
+    def add_feature(self, feature, bound_value, unbound_value):
         if feature not in self._single_features:
-            self._single_features.append({"feature": feature, "contrib": value})
+            self._single_features.append({"feature": feature, "bound": bound_value, "unbound": unbound_value})
 
     def get_multiple_features(self):
         features = []
@@ -35,7 +36,7 @@ class Criteria:
         return self._default
 
     def get_single_features(self):
-        return [(item["feature"].name, item["contrib"]) for item in self._single_features]
+        return [(item["feature"].name, item["bound"], item['unbound']) for item in self._single_features]
 
     def add_cooccurrences(self, value, *others):
         self._multip_features.append({"features": others, "contrib": value})
@@ -47,7 +48,7 @@ class Criteria:
         print("Single Features:")
         for item in self._single_features:
             print(f"\tFeature Name={item['feature'].name}")
-            print(f"\tOptimization Value={item['contrib']}")
+            print(f"\tOptimization Value: IN={item['bound']} OUT={item['unbound']}")
 
         print("\tMultiple Features:")
         for item in self._multip_features:
@@ -63,7 +64,7 @@ class OptimizationModel(Model):
         PurposeLiterals = self.getMetaModel().getEClassifier('Purpose').eContents
 
         self._model = self.getModel()
-        self._n_features = len(self._model.features)
+        self._features = [feature.name for feature in self._model.features]
         self._criteria = []
         self._input_data = None
         self._output_data = []
@@ -71,13 +72,15 @@ class OptimizationModel(Model):
     def define_criteria(self):
 
         for cri in self._model.criteria:
+
+            LOG(msg=f"{cri.name} {cri.purpose} {cri.default} {cri.percentage}")
             cri_o = Criteria(self.getProcessedValue(cri, "name"),
                              self.getProcessedValue(cri, "purpose"),
                              self.getProcessedValue(cri, "default"),
                              self.getProcessedValue(cri, "percentage"))
 
             for utility in self.getProcessedValue(cri, "singleutility"):
-                cri_o.add_feature(self.getProcessedValue(utility, "points"), self.getProcessedValue(utility, "contribution"))
+                cri_o.add_feature(self.getProcessedValue(utility, "points"), self.getProcessedValue(utility, "bound"), self.getProcessedValue(utility, "unbound"))
 
             for utility in self.getProcessedValue(cri, "multiutility"):
                 cri_o.add_cooccurrences(self.getProcessedValue(utility, "contribution"),
@@ -95,31 +98,40 @@ class OptimizationModel(Model):
         global PurposeLiterals
 
         # LOG(msg=f"Instances={', '.join([feature.name for feature in instance])}")
-        fitness = 0
+        instance_names = [feature.name for feature in instance]
+        fitness = 0.0
         for criteria in self._criteria:
             criteria_sign = 1
             perc = criteria._coefficient
-            fitness = self._n_features * criteria.getBasicValue()
+
+            single_features = criteria.get_single_features()
+            for feature, bound, unbound in single_features:
+                prev_fitness = fitness
+                contribution = unbound
+
+                if feature in instance_names:
+                    fitness += perc * criteria_sign * bound
+
+                fitness += perc * criteria_sign * contribution
+
 
             multiple_features = criteria.get_multiple_features()
             for features, contribution in multiple_features:
-                if not set(features).difference(set(instance)):
+                if not set(features).difference(set(instance_names)):
                     prev_fitness = fitness
                     fitness += perc * criteria_sign * contribution
                     # LOG(msg=f"Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
-            single_features = criteria.get_single_features()
-            for feature, contribution in single_features:
-                if feature in instance:
-                    prev_fitness = fitness
-                    fitness += perc * criteria_sign * contribution
                     # LOG(msg=f"Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
+
 
         return fitness
 
     def calculate_fitness_values(self):
         for instance in self._input_data:
-            self._output_data.append({"instance": instance, "fitness": self.evaluate(instance)})
+            fitness = self.evaluate(instance)
+            self._output_data.append({"instance": instance, "fitness": fitness})
+            # LOG(msg=f"Instance = {[feature.name for feature in instance]} --> Fitness = {fitness}")
 
     def interpret(self, input):
         self._input_data = input[("ProcessModel", 0)][1]

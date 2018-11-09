@@ -2,13 +2,14 @@
  */
 package optimal.impl;
 
-import optimal.Cooccurrence;
 import optimal.Criteria;
 import optimal.Feature;
+import optimal.MultiUtility;
 import optimal.OptimalFactory;
 import optimal.OptimalPackage;
 import optimal.Optimization;
 import optimal.Purpose;
+import optimal.SingleUtility;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -51,7 +52,14 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass cooccurrenceEClass = null;
+	private EClass multiUtilityEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass singleUtilityEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,6 +152,15 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOptimization_Features() {
+		return (EReference)optimizationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCriteria() {
 		return criteriaEClass;
 	}
@@ -180,8 +197,8 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCriteria_Contribution() {
-		return (EAttribute)criteriaEClass.getEStructuralFeatures().get(3);
+	public EReference getCriteria_Multiutility() {
+		return (EReference)criteriaEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -189,8 +206,17 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCriteria_Features() {
+	public EReference getCriteria_Singleutility() {
 		return (EReference)criteriaEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCriteria_Percentage() {
+		return (EAttribute)criteriaEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -216,8 +242,8 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getFeature_Value() {
-		return (EAttribute)featureEClass.getEStructuralFeatures().get(1);
+	public EClass getMultiUtility() {
+		return multiUtilityEClass;
 	}
 
 	/**
@@ -225,8 +251,8 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getFeature_Cooccurrences() {
-		return (EReference)featureEClass.getEStructuralFeatures().get(2);
+	public EReference getMultiUtility_Features() {
+		return (EReference)multiUtilityEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -234,8 +260,8 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCooccurrence() {
-		return cooccurrenceEClass;
+	public EAttribute getMultiUtility_Contribution() {
+		return (EAttribute)multiUtilityEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -243,8 +269,8 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCooccurrence_Features() {
-		return (EReference)cooccurrenceEClass.getEStructuralFeatures().get(0);
+	public EClass getSingleUtility() {
+		return singleUtilityEClass;
 	}
 
 	/**
@@ -252,8 +278,26 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getCooccurrence_Value() {
-		return (EAttribute)cooccurrenceEClass.getEStructuralFeatures().get(1);
+	public EAttribute getSingleUtility_Bound() {
+		return (EAttribute)singleUtilityEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSingleUtility_Points() {
+		return (EReference)singleUtilityEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSingleUtility_Unbound() {
+		return (EAttribute)singleUtilityEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -295,22 +339,27 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 		// Create classes and their features
 		optimizationEClass = createEClass(OPTIMIZATION);
 		createEReference(optimizationEClass, OPTIMIZATION__CRITERIA);
+		createEReference(optimizationEClass, OPTIMIZATION__FEATURES);
 
 		criteriaEClass = createEClass(CRITERIA);
 		createEAttribute(criteriaEClass, CRITERIA__NAME);
 		createEAttribute(criteriaEClass, CRITERIA__PURPOSE);
 		createEAttribute(criteriaEClass, CRITERIA__DEFAULT);
-		createEAttribute(criteriaEClass, CRITERIA__CONTRIBUTION);
-		createEReference(criteriaEClass, CRITERIA__FEATURES);
+		createEReference(criteriaEClass, CRITERIA__MULTIUTILITY);
+		createEReference(criteriaEClass, CRITERIA__SINGLEUTILITY);
+		createEAttribute(criteriaEClass, CRITERIA__PERCENTAGE);
 
 		featureEClass = createEClass(FEATURE);
 		createEAttribute(featureEClass, FEATURE__NAME);
-		createEAttribute(featureEClass, FEATURE__VALUE);
-		createEReference(featureEClass, FEATURE__COOCCURRENCES);
 
-		cooccurrenceEClass = createEClass(COOCCURRENCE);
-		createEReference(cooccurrenceEClass, COOCCURRENCE__FEATURES);
-		createEAttribute(cooccurrenceEClass, COOCCURRENCE__VALUE);
+		multiUtilityEClass = createEClass(MULTI_UTILITY);
+		createEReference(multiUtilityEClass, MULTI_UTILITY__FEATURES);
+		createEAttribute(multiUtilityEClass, MULTI_UTILITY__CONTRIBUTION);
+
+		singleUtilityEClass = createEClass(SINGLE_UTILITY);
+		createEAttribute(singleUtilityEClass, SINGLE_UTILITY__BOUND);
+		createEReference(singleUtilityEClass, SINGLE_UTILITY__POINTS);
+		createEAttribute(singleUtilityEClass, SINGLE_UTILITY__UNBOUND);
 
 		// Create enums
 		purposeEEnum = createEEnum(PURPOSE);
@@ -347,23 +396,28 @@ public class OptimalPackageImpl extends EPackageImpl implements OptimalPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(optimizationEClass, Optimization.class, "Optimization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getOptimization_Criteria(), this.getCriteria(), null, "criteria", null, 1, -1, Optimization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOptimization_Criteria(), this.getCriteria(), null, "criteria", null, 0, -1, Optimization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOptimization_Features(), this.getFeature(), null, "features", null, 0, -1, Optimization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(criteriaEClass, Criteria.class, "Criteria", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getCriteria_Name(), ecorePackage.getEString(), "name", null, 1, 1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCriteria_Purpose(), this.getPurpose(), "purpose", null, 1, 1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCriteria_Default(), ecorePackage.getEFloat(), "default", null, 1, 1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCriteria_Contribution(), ecorePackage.getEFloat(), "contribution", "1.0", 1, 1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCriteria_Features(), this.getFeature(), null, "features", null, 0, -1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCriteria_Multiutility(), this.getMultiUtility(), null, "multiutility", null, 0, -1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCriteria_Singleutility(), this.getSingleUtility(), null, "singleutility", null, 0, -1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCriteria_Percentage(), ecorePackage.getEFloat(), "percentage", null, 1, 1, Criteria.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(featureEClass, Feature.class, "Feature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFeature_Name(), ecorePackage.getEString(), "name", null, 1, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getFeature_Value(), ecorePackage.getEFloat(), "value", null, 1, 1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFeature_Cooccurrences(), this.getCooccurrence(), null, "cooccurrences", null, 0, -1, Feature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(cooccurrenceEClass, Cooccurrence.class, "Cooccurrence", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCooccurrence_Features(), this.getFeature(), null, "features", null, 1, -1, Cooccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getCooccurrence_Value(), ecorePackage.getEFloat(), "value", null, 1, 1, Cooccurrence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(multiUtilityEClass, MultiUtility.class, "MultiUtility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMultiUtility_Features(), this.getFeature(), null, "features", null, 2, -1, MultiUtility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMultiUtility_Contribution(), ecorePackage.getEFloat(), "contribution", null, 1, 1, MultiUtility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(singleUtilityEClass, SingleUtility.class, "SingleUtility", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSingleUtility_Bound(), ecorePackage.getEFloat(), "bound", null, 0, 1, SingleUtility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSingleUtility_Points(), this.getFeature(), null, "points", null, 1, 1, SingleUtility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSingleUtility_Unbound(), ecorePackage.getEFloat(), "unbound", null, 0, 1, SingleUtility.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(purposeEEnum, Purpose.class, "Purpose");

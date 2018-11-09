@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link optimal.Optimization#getCriteria <em>Criteria</em>}</li>
+ *   <li>{@link optimal.Optimization#getFeatures <em>Features</em>}</li>
  * </ul>
  *
  * @see optimal.OptimalPackage#getOptimization()
@@ -34,9 +35,25 @@ public interface Optimization extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Criteria</em>' containment reference list.
 	 * @see optimal.OptimalPackage#getOptimization_Criteria()
-	 * @model containment="true" required="true"
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<Criteria> getCriteria();
+
+	/**
+	 * Returns the value of the '<em><b>Features</b></em>' containment reference list.
+	 * The list contents are of type {@link optimal.Feature}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Features</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Features</em>' containment reference list.
+	 * @see optimal.OptimalPackage#getOptimization_Features()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Feature> getFeatures();
 
 } // Optimization
