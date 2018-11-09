@@ -1,0 +1,32 @@
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=-54.0
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=-54.0
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, FineTransform, ICP, NLinearICP --> SUCCESSFUL
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=-54.0
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, FPCA_IA, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-3 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=-54.0
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, FPCA_IA, FineTransform, ICP, NLinearICP --> SUCCESSFUL
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-3 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-4 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=-54.0
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, SAC_IA, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-4 >>>>>>>>>>
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[09-11-2018 - 11:00:17] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################

@@ -34,6 +34,9 @@ class GlobalOptimizer:
                 self._search.success(fitness, (fitness, o_instance, successResult))
             except StopSearch as s:
                 return s.object
+            except SystemExit:
+                LOG(msg=f"Time limit exceeded!!")
+                return None
 
 
 class LocalOptimizer:

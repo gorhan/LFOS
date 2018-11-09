@@ -15,14 +15,14 @@ from LFOS.macros import *
 
 if __name__ == "__main__":
     platformModel = PlatformModel("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
-    processModel = ProcessModel("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D_.process")
+    processModel = ProcessModel("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
     featureModel = FeatureModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore", "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
     optimalityModel = OptimizationModel("../MDE/Optimization/model/optimal.ecore", "../MDE/org.eclipse.OptML/inputs/reg3D.optimal")
 
     mopp = MoPP()
 
-    mopp.setInputTemplate(Scheduler, solver='SCIP', verbose=1, time_cutoff=15000)
+    mopp.setInputTemplate(Scheduler, solver='Gurobi', verbose=1, time_cutoff=25000)
     mopp.append(classModel)
     mopp.append(featureModel)
     mopp.append(platformModel)

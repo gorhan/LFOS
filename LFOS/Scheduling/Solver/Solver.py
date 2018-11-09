@@ -351,6 +351,8 @@ class SolverAdapter(object):
 
         schedules = []
 
+        self.__solver.setThreadCount(4)
+        
         if self.get_solver_type() == 'Mistral':
             self.__solver.startNewSearch()
             while self.__solver.getNextSolution() == SAT:
@@ -358,11 +360,10 @@ class SolverAdapter(object):
                 self.__optimized = True
                 LOG(msg='LAST SCHEDULE=%r' % (self.get_last_schedule()))
                 schedules.append(self.get_last_schedule())
-
         else:
             self.__solver.solve()
             self.__optimized = True
-            if self.__solver.is_sat():
+            if self.__solver.is_sat() and self.__solver.is_opt():
                 self.__create_schedule()
                 schedules = [self.get_last_schedule()]
 

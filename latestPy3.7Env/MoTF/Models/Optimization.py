@@ -63,6 +63,7 @@ class OptimizationModel(Model):
         PurposeLiterals = self.getMetaModel().getEClassifier('Purpose').eContents
 
         self._model = self.getModel()
+        self._n_features = len(self._model.features)
         self._criteria = []
         self._input_data = None
         self._output_data = []
@@ -94,23 +95,24 @@ class OptimizationModel(Model):
         global PurposeLiterals
 
         # LOG(msg=f"Instances={', '.join([feature.name for feature in instance])}")
-        fitness = 0.0
+        fitness = 0
         for criteria in self._criteria:
             criteria_sign = 1
             perc = criteria._coefficient
+            fitness = self._n_features * criteria.getBasicValue()
 
             multiple_features = criteria.get_multiple_features()
             for features, contribution in multiple_features:
                 if not set(features).difference(set(instance)):
                     prev_fitness = fitness
-                    fitness += criteria.getBasicValue() + perc * criteria_sign * contribution
+                    fitness += perc * criteria_sign * contribution
                     # LOG(msg=f"Multiple Features={features}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
             single_features = criteria.get_single_features()
             for feature, contribution in single_features:
                 if feature in instance:
                     prev_fitness = fitness
-                    fitness += criteria.getBasicValue() + perc * criteria_sign * contribution
+                    fitness += perc * criteria_sign * contribution
                     # LOG(msg=f"Single Feature={feature}, Previous Fitness={prev_fitness}, Next Fitness={fitness}")
 
         return fitness
