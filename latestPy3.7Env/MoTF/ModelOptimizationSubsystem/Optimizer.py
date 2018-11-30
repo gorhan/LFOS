@@ -88,8 +88,9 @@ class GlobalOptimizer(ModelOptimizationInterface):
 
     def perform(self, **kwargs):
         self._localOptimizer = LocalOptimizer(kwargs["callback"])
-        if "search" in kwargs and isinstance(kwargs["search"], str) and kwargs["search"].lower() in GlobalOptimizer.SEARCH_OPTS:
-            self._search = GlobalOptimizer.SEARCH_OPTS[kwargs["search"]]
+        if "search" in kwargs and isinstance(kwargs["search"]) and isinstance(kwargs["search"][0], str) and \
+            len(kwargs["search"]) == 3 and kwargs["search"].lower() in GlobalOptimizer.SEARCH_OPTS:
+            self._search = GlobalOptimizer.SEARCH_OPTS[kwargs["search"]](*kwargs["search"][1:])
 
         for instance in self._input_data:
             fitness = instance["fitness"]

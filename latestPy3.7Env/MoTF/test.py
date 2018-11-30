@@ -28,7 +28,7 @@ if __name__ == "__main__":
     mopp.append(platformModel)
     # featureModel.requires(classModel)
     processModelID = mopp.append(processModel)
-    mopp.append(optimalityModel)
+    # mopp.append(optimalityModel)
 
     # processModel.addRelevantDataOwnerID(classModel.ID())
     # processModel.addRelevantDataOwnerID(featureModel.ID())
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
     framework = OptMLFramework(mopp)
-    framework.exec(fitness=False)
+    framework.exec(extractor_owner="ProcessModel", fitness=False, ranking_strategy="ascending", search=["first-fit", 10, 100])
 
     # mopp.run()
     # output = mopp.output

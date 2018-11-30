@@ -119,9 +119,9 @@ class Ranker(ModelOptimizationInterface):
         self.__rank_strategy = Ranker.OPTIONS[_strategy]() if _strategy and isinstance(_strategy, str) else AscendingOrder()
 
     def perform(self, **kwargs):
-        if "strategy" in kwargs:
-            if kwargs["strategy"].lower() in Ranker.OPTIONS:
-                self.__rank_strategy = Ranker.OPTIONS[kwargs["strategy"]]()
+        if "ranking_strategy" in kwargs:
+            if kwargs["ranking_strategy"].lower() in Ranker.OPTIONS:
+                self.__rank_strategy = Ranker.OPTIONS[kwargs["ranking_strategy"]]()
 
         return self.__rank_strategy.rank(self._input_data)
 
