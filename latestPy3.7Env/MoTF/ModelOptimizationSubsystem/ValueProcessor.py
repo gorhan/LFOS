@@ -54,15 +54,16 @@ class FNP(ModelOptimizationInterface):
         conds = self.__filtering_opts[index]
 
         valid_indexes = np.arange(self.__ninstances)
-        for cond in conds:
-            if cond[0] == "LB":
-                valid_indexes = np.where(self.__fitnesses[valid_indexes, index] >= cond[1])
-            elif cond[0] == "UB":
-                valid_indexes = np.where(self.__fitnesses[valid_indexes, index] <= cond[1])
+        if conds:
+            for cond in conds:
+                if cond[0] == "LB":
+                    valid_indexes = np.where(self.__fitnesses[valid_indexes, index] >= cond[1])
+                elif cond[0] == "UB":
+                    valid_indexes = np.where(self.__fitnesses[valid_indexes, index] <= cond[1])
 
-        self.__fitnesses = self.__fitnesses[valid_indexes, :]
-        self.__instance_indexes = valid_indexes
-        self.__ninstances = len(self.__fitnesses)
+            self.__fitnesses = self.__fitnesses[valid_indexes, :]
+            self.__instance_indexes = valid_indexes
+            self.__ninstances = len(self.__fitnesses)
 
     def _normalize(self):
         maxs, mins = self.__fitnesses.max(0), self.__fitnesses.min(0)

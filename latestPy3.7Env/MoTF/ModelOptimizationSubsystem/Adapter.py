@@ -17,7 +17,7 @@ class Extractor(ModelOptimizationInterface):
         ModelOptimizationInterface.__init__(self, interested_data)
 
     def perform(self, **kwargs):
-        data = self._input_data[kwargs["owner"]]
+        data = self._input_data[kwargs["extractor-owner"]]
         self._output_data = []
 
         for data_dict in data:

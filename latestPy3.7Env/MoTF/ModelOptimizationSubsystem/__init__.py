@@ -19,8 +19,11 @@ class ModelOptimizationInterface:
 
 
 class ModelOptimization(ModelOptimizationInterface):
-    def __init__(self, pipeline_data):
+    def __init__(self, pipeline_data=[]):
         ModelOptimizationInterface.__init__(self, pipeline_data)
+
+    def setPipelineData(self, _data):
+        self._input_data = _data
 
     def perform(self, **kwargs):
         adapter_data = Adapter(self._input_data).perform(**kwargs)

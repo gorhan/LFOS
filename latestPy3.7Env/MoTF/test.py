@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
     framework = OptMLFramework(mopp)
-    framework.exec()
+    framework.exec(fitness=False)
 
     # mopp.run()
     # output = mopp.output
