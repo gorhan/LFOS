@@ -69,7 +69,10 @@ class MoPPData(list):
 
     def __getitem__(self, owner):
         try:
-            return list.__getitem__(self, list.index(self, owner)).data
+            if isinstance(owner, tuple):
+                return list.__getitem__(self, list.index(self, owner)).data
+            elif isinstance(owner, int):
+                return list.__getitem__(self, -1).data
         except ValueError:
             LOG(msg=f"There is no data belonging to {owner}", log=Logs.WARN)
             return None

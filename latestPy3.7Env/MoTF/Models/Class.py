@@ -66,6 +66,7 @@ class ClassModel(Model):
         classes = self._getContents(self._model, UML.Class)
         self._createHierarchy(classes)
         self._createOperationsTable(classes)
+        print(f"======== LEN = {len(self._operations_table)}")
         input.append(MoPP_D(*self.ID(), self._operations_table))
         # for req in self._required_models:
         #     self.processRequiredInfo(req.gatherRequiredInfo())

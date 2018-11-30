@@ -1,11 +1,16 @@
 
 from .ModelProcPipeline import MoPP
-from .Optimizer import GlobalOptimizer, LocalOptimizer
+from .Optimizer import GlobalOptimizer
 from . import LOG, Logs
+
 
 class OptMLFramework:
     PROCESS_MODEL_ID = None
     PROCESS_MODEL_CB = None
+
+    RELEVANT_TUs = []
+    RELEVANT_KEYs = []
+    RELEVANT_CMPs = []
 
     @classmethod
     def registerProcessModel(cls, model_id, model_cb):
@@ -16,9 +21,20 @@ class OptMLFramework:
     def getProcessModelCallback(cls):
         return cls.PROCESS_MODEL_ID, cls.PROCESS_MODEL_CB
 
-    def __init__(self, mopp):
+    @classmethod
+    def addInterestedPipelineData(cls, model_TU, key=None, cmp=None):
+        cls.RELEVANT_TUs.append(model_TU)
+
+        if key:
+            cls.RELEVANT_KEYs.append(key)
+        if cmp:
+            cls.RELEVANT_CMPs.append(cmp)
+
+    def __init__(self, mopp, search):
+        assert isinstance(mopp, MoPP)
+
         self.__mopp = mopp
-        self.__optimizer = GlobalOptimizer(100, 5)
+        self.__optimizer = GlobalOptimizer(search)
 
     def displayResults(self):
         print(self.__results)
@@ -32,10 +48,18 @@ class OptMLFramework:
 
         LOG(msg=f"{'#' * 20} RESULTS {'#' * 20}")
 
+    def configureInterestedData(self):
+        process_configs = {}
+
+        cmps = self.__class__.RELEVANT_CMPs if len(self.__class__.RELEVANT_CMPs) == len(self.__class__.RELEVANT_KEYs) else None
+
+        for model_tu in self.__class__.RELEVANT_TUs:
+            pipeline_data = self.__mopp.output[self.__mopp.findModelIndex(model_tu)][1]
+
+
     def exec(self):
         self.__mopp.run()
-
-        self.__optimizer.setInstances(self.__mopp.output[("OptimizationModel", 0)][1])
+        self.__optimizer.setInstances(self.configureInterestedData())
         self.__results = self.__optimizer.optimize(self.__mopp.command(*self.getProcessModelCallback()))
 
         self.displayResults()

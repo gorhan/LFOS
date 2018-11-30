@@ -5,7 +5,7 @@ from .. import LOG, Logs
 
 class GlobalOptimizer:
 
-    def __init__(self, threshold, maxNIters, search=None, _instances=[]):
+    def __init__(self, search, _instances=[]):
         self._search = search if search and isinstance(search, SearchStrategy) else ResultsExceedingThreshold(maxNIters, threshold)
         self._instances = _instances
 
@@ -44,6 +44,6 @@ class LocalOptimizer:
         self.__cb = _cb
         self.__scheduler = None
 
-    def doSchedule(self, instance, ):
+    def doSchedule(self, instance):
         scheduler = self.__cb(instance)
         return scheduler.schedule_tasks()

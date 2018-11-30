@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <optimal:Optimization xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:optimal="http://www.example.org/optimal">
-  <criteria name="Energy" default="30.0" percentage="1.0">
+  <criteria name="Energy" default="10.0" percentage="1.0">
     <singleutility bound="10.0" points="//@features.1"/>
     <singleutility bound="5.0" points="//@features.3"/>
     <singleutility bound="5.0" points="//@features.5"/>
@@ -10,7 +10,7 @@
     <singleutility bound="15.0" points="//@features.12"/>
     <singleutility bound="15.0" points="//@features.13"/>
   </criteria>
-  <criteria name="Precision" default="40.0" percentage="0.0">
+  <criteria name="Precision" default="40.0">
     <multiutility features="//@features.5 //@features.4" contribution="-25.0"/>
     <singleutility bound="-10.0" points="//@features.1"/>
     <singleutility bound="-15.0" points="//@features.3"/>
