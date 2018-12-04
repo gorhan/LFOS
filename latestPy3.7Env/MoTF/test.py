@@ -14,7 +14,7 @@ from LFOS.Scheduling.Characteristic.Time import Time
 from LFOS.macros import *
 
 if __name__ == "__main__":
-    platformModel = PlatformModel("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System.res")
+    platformModel = PlatformModel("../MDE/Platform/model/platformMM.ecore", "../MDE/org.eclipse.OptML/inputs/System_onecpu.res")
     processModel = ProcessModel("../MDE/Process/model/process.ecore", "../MDE/org.eclipse.OptML/inputs/Reg3D.process")
     classModel = ClassModel(UML, "../MDE/org.eclipse.OptML/inputs/classM.uml")
     featureModel = FeatureModel("../MDE/featuremodel.metamodel/org.eclipse.featuremodel.metamodel/models/featuremodel.ecore", "../MDE/org.eclipse.OptML/inputs/registration.featuremodel")
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
     framework = OptMLFramework(mopp)
-    framework.exec(extractor_owner="ProcessModel", fitness=False, ranking_strategy="ascending", search=["first-fit", 10, 100])
+    framework.exec()
 
     # mopp.run()
     # output = mopp.output

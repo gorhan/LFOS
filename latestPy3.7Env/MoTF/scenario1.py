@@ -4,7 +4,6 @@ from .Models.Feature import FeatureModel
 from .Models.Class import ClassModel, UML
 from .Framework import OptMLFramework
 
-from .Optimizer.Search import FirstOptimalResult
 from .ModelProcPipeline import MoPP
 
 from LFOS.Scheduler.Scheduler import Scheduler
@@ -25,5 +24,5 @@ if __name__ == "__main__":
 
 
     OptMLFramework.registerProcessModel(processModelID, "createSchedulerNAddTasks")
-    framework = OptMLFramework(mopp, FirstOptimalResult(100, 5))
-    framework.exec()
+    framework = OptMLFramework(mopp)
+    framework.exec(extractor_owner="ProcessModel", fitness=False, ranking_strategy="ascending", search=["first-fit", 10, 10000])

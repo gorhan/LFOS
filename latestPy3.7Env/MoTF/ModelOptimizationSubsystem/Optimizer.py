@@ -87,14 +87,16 @@ class GlobalOptimizer(ModelOptimizationInterface):
         self._input_data = instances
 
     def perform(self, **kwargs):
+        from collections import abc
+
         self._localOptimizer = LocalOptimizer(kwargs["callback"])
-        if "search" in kwargs and isinstance(kwargs["search"]) and isinstance(kwargs["search"][0], str) and \
-            len(kwargs["search"]) == 3 and kwargs["search"].lower() in GlobalOptimizer.SEARCH_OPTS:
-            self._search = GlobalOptimizer.SEARCH_OPTS[kwargs["search"]](*kwargs["search"][1:])
+        if "search" in kwargs and isinstance(kwargs["search"], abc.Collection) and isinstance(kwargs["search"][0], str) and \
+            len(kwargs["search"]) == 3 and kwargs["search"][0].lower() in GlobalOptimizer.SEARCH_OPTS:
+            self._search = GlobalOptimizer.SEARCH_OPTS[kwargs["search"][0].lower()](*kwargs["search"][1:])
 
         for instance in self._input_data:
             fitness = instance["fitness"]
-            o_instance = instance["instance"]
+            o_instance = instance["data"]
             try:
                 schedules = self._localOptimizer.doSchedule(o_instance)
                 # schedules = ""
@@ -124,7 +126,7 @@ class LocalOptimizer:
 
 class Optimizer(ModelOptimizationInterface):
     def __init__(self, ranked_confs):
-        ModelOptimizationInterface.__init__(ranked_confs)
+        ModelOptimizationInterface.__init__(self, ranked_confs)
 
     def perform(self, **kwargs):
         optimal_model = GlobalOptimizer(self._input_data).perform(**kwargs)

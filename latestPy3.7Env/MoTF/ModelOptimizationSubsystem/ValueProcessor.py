@@ -128,7 +128,7 @@ class Ranker(ModelOptimizationInterface):
 
 class ValueProcessor(ModelOptimizationInterface):
     def __init__(self, conf_values):
-        ModelOptimizationInterface.__init__(conf_values)
+        ModelOptimizationInterface.__init__(self, conf_values)
 
     def perform(self, **kwargs):
         conf_value = FNP(self._input_data).perform(**kwargs)

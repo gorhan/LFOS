@@ -1,4 +1,3 @@
-
 from . import ModelOptimizationInterface
 
 
@@ -8,7 +7,7 @@ class Parser(ModelOptimizationInterface):
 
     def perform(self, **kwargs):
         for tu_output in self._input_data:
-            self._output_data[tu_output["owner"]] = tu_output["data"]
+            self._output_data[tu_output.owner[0]] = tu_output.data[1]
         return self._output_data
 
 
@@ -21,10 +20,11 @@ class Extractor(ModelOptimizationInterface):
         self._output_data = []
 
         for data_dict in data:
-            data = data_dict["data"]
             if "fitness" not in kwargs or kwargs["fitness"]:
+                data = data_dict["data"]
                 fitness_values = data_dict["fitness"]
             else:
+                data = data_dict
                 fitness_values = [0]
             self._output_data.append({"data": data, "fitness": fitness_values})
 
@@ -33,7 +33,7 @@ class Extractor(ModelOptimizationInterface):
 
 class Adapter(ModelOptimizationInterface):
     def __init__(self, input):
-        ModelOptimizationInterface.__init__(input)
+        ModelOptimizationInterface.__init__(self, input)
 
     def perform(self, **kwargs):
         model_instances = Parser(self._input_data).perform(**kwargs)

@@ -1,6 +1,6 @@
 
 from .ModelProcPipeline import MoPP
-from .ModelOptimizationSubsystem import ModelOptimization
+from .ModelOptimizationSubsystem.ModelOptimizer import ModelOptimization
 from . import LOG, Logs
 
 
@@ -30,7 +30,7 @@ class OptMLFramework:
         if cmp:
             cls.RELEVANT_CMPs.append(cmp)
 
-    def __init__(self, mopp, search):
+    def __init__(self, mopp):
         assert isinstance(mopp, MoPP)
 
         self.__mopp = mopp
