@@ -1,0 +1,32 @@
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=170.0
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, Sampling, VoxelGrid, FExtract, NARF, Match, Transform, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=170.0
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, Sampling, VoxelGrid, FExtract, NARF, Match, Transform, FineTransform, ICP, NLinearICP --> SUCCESSFUL
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=170.0
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, Sampling, VoxelGrid, FExtract, SIFT, Match, Transform, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-3 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=170.0
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, Sampling, VoxelGrid, FExtract, SIFT, Match, Transform, FineTransform, ICP, NLinearICP --> SUCCESSFUL
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-3 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-4 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=170.0
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, Sampling, VoxelGrid, FExtract, FPFH, Match, Transform, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-4 >>>>>>>>>>
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:26:20] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################

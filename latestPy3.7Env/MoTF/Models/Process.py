@@ -50,7 +50,9 @@ class ProcessModel(Model):
                 exec_classes = [(self.getProcessedValue(execution, "class"), self.getProcessedValue(execution, "wcet"))
                         for execution in requirement.execution if self.getProcessedValue(execution, "class") in classes]
                 # LOG(msg=f"Node_Name={[(self.getProcessedValue(execution, 'class'), self.getProcessedValue(execution, 'wcet')) for execution in requirement.execution]} Classes={classes}")
-                last_execution = exec_classes.pop()
+                last_execution = exec_classes[-1]
+                task.namespace = last_execution[0]
+
                 LOG(msg=f"POPPED Execution Class={last_execution[0]}, WCET={last_execution[1]}")
                 task.add_resource_requirement(resource_type=resourceFSF.type,
                                               eligible_resources={resource:Time(last_execution[1]) for resource in self._system.search_resources(type=resourceFSF.type)},
@@ -102,24 +104,6 @@ class ProcessModel(Model):
         eliminated = exists - len(feature_model)
         LOG(msg=f"#Instance (after filtering)={len(feature_model)} Eliminated #instances={eliminated}")
         return feature_model
-
-    # def _createSchedulers(self, model):
-    #     schedulers = []
-    #
-    #     self._duration = self.getProcessedValue(model, "duration")
-    #     LOG(msg=f"Duration = {self._duration}", log=Logs.INFO)
-    #
-    #     for instance in self._required_data["FModel"]:
-    #         tasks = []
-    #         for node in model.nodes:
-    #             task = self._defineTask(instance, node)
-    #             self._defineDependencies(node, task)
-    #             tasks.append(task)
-    #
-    #         schedulers.append({"configuration": instance,
-    #                            "duration": self._duration})
-    #
-    #     return schedulers
 
     def createSchedulerNAddTasks(self, instance):
         model = self.getModel()

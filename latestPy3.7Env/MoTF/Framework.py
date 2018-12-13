@@ -42,22 +42,15 @@ class OptMLFramework:
         for index, (fitness, instance, success) in enumerate(self.__results):
             LOG(msg=f"{'<' * 10} RESULT-{index} {'>' * 10}")
             LOG(msg=f"Fitness Value={fitness}")
-            LOG(msg=f"Configuration={', '.join(feature.name for feature in instance)} --> {success}")
+            LOG(msg=f"Configuration={', '.join(instance)} --> {success}")
             LOG(msg=f"{'<' * 10} RESULT-{index} {'>' * 10}")
             LOG(msg="\n")
 
         LOG(msg=f"{'#' * 20} RESULTS {'#' * 20}")
 
-    # def configureInterestedData(self):
-    #     process_configs = {}
-    #
-    #     cmps = self.__class__.RELEVANT_CMPs if len(self.__class__.RELEVANT_CMPs) == len(self.__class__.RELEVANT_KEYs) else None
-    #
-    #     for model_tu in self.__class__.RELEVANT_TUs:
-    #         pipeline_data = self.__mopp.output[self.__mopp.findModelIndex(model_tu)][1]
-
     def exec(self, **kwargs):
         self.__mopp.run()
+        # print("##############", self.__mopp.output)
         self.__model_optimization_subsystem.setPipelineData(self.__mopp.output)
 
         kwargs.update(callback=self.__mopp.command(*self.getProcessModelCallback()))

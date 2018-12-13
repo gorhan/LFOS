@@ -1,4 +1,5 @@
 
+from .. import LOG
 
 class ModelOptimizationInterface:
     INTERESTED_TUs = []

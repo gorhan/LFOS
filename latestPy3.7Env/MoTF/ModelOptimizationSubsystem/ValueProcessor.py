@@ -1,5 +1,5 @@
 
-from . import ModelOptimizationInterface
+from . import ModelOptimizationInterface, LOG
 
 import numpy as np
 
@@ -32,6 +32,7 @@ class FNP(ModelOptimizationInterface):
     def setPriorities(self, *args):
         if len(args) == self.__nfitnesses:
             self.__priorities = args
+            LOG(msg=f"New contribution of the value models are assigned: {self.__priorities}")
 
     def _pre_perform(self):
         self.__fitnesses = np.zeros((self.__ninstances, self.__nfitnesses))
@@ -75,10 +76,14 @@ class FNP(ModelOptimizationInterface):
     def perform(self, **kwargs):
         self._pre_perform()
 
+        if "priority" in kwargs and len(kwargs["priority"]) == self.__nfitnesses:
+            self.setPriorities(*kwargs["priority"])
+
         for index in range(self.__nfitnesses):
             self._filter(index)
 
-        self._normalize()
+        if "normalize" not in kwargs or kwargs["normalize"]:
+            self._normalize()
         self._prioritize()
         self._post_perform()
 

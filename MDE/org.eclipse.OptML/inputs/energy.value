@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<value:ValueModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:value="http://www.example.org/value" name="Energy">
+  <classes name="Registration">
+    <contributes/>
+  </classes>
+  <classes name="Input">
+    <contributes/>
+  </classes>
+  <classes name="CalibratedInput" inherits="//@classes.1">
+    <contributes included="50.0" excluded="30.0"/>
+  </classes>
+  <classes name="Filter">
+    <contributes included="5.0"/>
+  </classes>
+  <classes name="NoiseRemoval" inherits="//@classes.3">
+    <contributes included="10.0"/>
+  </classes>
+  <classes name="PassThroughFilter" inherits="//@classes.4">
+    <contributes included="15.0"/>
+  </classes>
+  <classes name="RadiusOutlierRemoval" inherits="//@classes.4">
+    <contributes included="15.0"/>
+  </classes>
+  <classes name="StatisticalOutlierRemoval" inherits="//@classes.4">
+    <contributes included="15.0"/>
+  </classes>
+  <classes name="FExtract">
+    <contributes included="10.0"/>
+  </classes>
+  <classes name="SIFT" inherits="//@classes.8">
+    <contributes included="30.0"/>
+  </classes>
+  <classes name="NARF" inherits="//@classes.8">
+    <contributes included="30.0"/>
+  </classes>
+  <classes name="FPFH" inherits="//@classes.8">
+    <contributes included="30.0"/>
+  </classes>
+  <classes name="Match">
+    <contributes included="20.0"/>
+  </classes>
+  <classes name="Transform">
+    <contributes included="5.0"/>
+  </classes>
+  <classes name="CoarseTransform" inherits="//@classes.13">
+    <contributes included="10.0"/>
+  </classes>
+  <classes name="FPCA_IA" inherits="//@classes.14">
+    <contributes included="12.0"/>
+  </classes>
+  <classes name="SAC_IA" inherits="//@classes.14">
+    <contributes included="12.0"/>
+  </classes>
+  <classes name="FineTransform" inherits="//@classes.13">
+    <contributes included="15.0"/>
+  </classes>
+  <classes name="ICP" inherits="//@classes.17">
+    <contributes included="15.0"/>
+  </classes>
+  <classes name="LinearICP" inherits="//@classes.18">
+    <contributes included="20.0"/>
+  </classes>
+  <classes name="NLinearICP" inherits="//@classes.18">
+    <contributes included="20.0"/>
+  </classes>
+</value:ValueModel>

@@ -3,103 +3,117 @@ from ..ModelDecorator import Model
 from ..ModelProcPipeline import MoPP_D
 from .. import LOG, Logs
 
-NOT_A_VALUE = "NAV"
 
-class TUOperation:
-    def __init__(self, operation_name, included, excluded, tu_class):
-        self.name = operation_name
-        self.included = included
-        self.excluded = excluded
-        self.owner = tu_class
+class OperationProto:
+    def __init__(self, name, contribution=(None, None), return_type="void", args=["void"]):
+        self.name = name
+        self.included, self.excluded = contribution
+        self.return_t = return_type
+        self.args = args
 
     def __eq__(self, other):
-        if isinstance(other, TUOperation):
-            return self.owner == other.owner and self.name == other.name
+        if isinstance(other, OperationProto):
+            return other.name == self.name and \
+                   other.return_t == self.return_t and \
+                   other.args == self.args
+        elif isinstance(other, str):
+            return other == self.name
+
+        raise False
+
+class ClassProto:
+    def __init__(self, name, contribution=(None, None)):
+        self.name = name
+        self.included, self.excluded = contribution
+        self.__inherits = []
+        self.__operations = []
+        # self.__attributes = []
+
+    def set_included_value(self, inc_value):
+        self.included = inc_value
+        LOG(msg=f"Class {self.name} --> Included Value={self.included}.")
+
+    def set_excluded_value(self, exc_value):
+        self.excluded = exc_value
+        LOG(msg=f"Class {self.name} --> Excluded Value={self.excluded}.")
+
+    def set_contribution(self, inc_value, exc_value):
+        self.set_included_value(inc_value)
+        self.set_excluded_value(exc_value)
+
+    def get_contribution(self):
+        return self.included, self.excluded
+
+    def get_operation(self, operation_name, return_type=None, args=None):
+        if operation_name in self.__operations:
+            index = None
+            if return_type is None and args is None:
+                index = self.__operations.index(operation_name)
+            else:
+                index = self.__operations.index(OperationProto(operation_name, (None, None), return_type, args))
+
+            return self.__operations[index]
+
+        return None
+
+    def add_operation(self, name, contribution=(None, None), return_type="void", args=["void"]):
+        operation = OperationProto(name, contribution, return_type, args)
+        if operation not in self.__operations:
+            self.__operations.append(operation)
+            LOG(msg=f"New operation has been added: def {name}({', '.join(args)}) --> (INCLUDED, EXCLUDED)={contribution}.")
+
+    def remove_operation(self, name, return_type=None, args=None):
+        try:
+            if return_type is None and args is None:
+                self.__operations.remove(name)
+            else:
+                self.__operations.remove(OperationProto(name, (None, None), return_type, args))
+        except ValueError:
+            LOG(
+                msg=f"Given operation does not belong to Class {self.name}.")
+
+        LOG(msg=f"New operation has been added: def {name}({', '.join(args)}) --> (INCLUDED, EXCLUDED)={contribution}.")
+
+    def add_inheritence(self, _clsProto):
+        self.__inherits.append(_clsProto)
+
+    def __eq__(self, other):
+        if isinstance(other, ClassProto):
+            return self.name == other.name
         elif isinstance(other, str):
             return self.name == other
 
         return False
 
-class TUClass:
-    __ALL__ = []
+    def get_value(self, operation_name, included=True):
+        value = self.__get_value_helper(operation_name, included)
+        if value:
+            return value
 
-    @classmethod
-    def isDefined(cls, class_name):
-        for tu_class in cls.__ALL__:
-            if tu_class.name == class_name:
-                return tu_class
-
-        return None
-
-    @classmethod
-    def from_class_name(cls, class_name, parent=None):
-        found = cls.isDefined(class_name)
-        return found if found else TUClass(class_name, parent)
-
-    def __init__(self, class_name, included, excluded, parent_name=None):
-        self.name = class_name
-        self._inherits = []
-
-        if parent_name:
-            parent = TUClass.isDefined(parent_name)
-            if parent is None:
-                parent = TUClass(parent_name)
-            self._inherits.append(parent)
-
-        self._operations = []
-
-        self._included = included
-        self._excluded = excluded
-        TUClass.__ALL__.append(self)
-
-    def addInheritance(self, parent_name):
-        parent = TUClass.isDefined(parent_name)
-        if parent is None:
-            parent = TUClass(parent_name)
-        self._inherits.append(parent)
-
-    def getInheritedClasses(self):
-        return self._inherits
-
-    def assignContribution(self, included, excluded):
-        self._included = included
-        self._excluded = excluded
-
-    def addOperation(self, operation_name, included, excluded):
-        self._operations.append(TUOperation(operation_name, included, excluded, self))
-
-    def updateOperation(self, operation_name, included, excluded):
-        if operation_name not in self._operations:
-            LOG(msg=f"The operation {operation_name} is not an operation of Class {self.name}!", log=Logs.WARN)
-            return False
-
-        self.addOperation(operation_name, included, excluded)
-        return True
-
-    def _getInheritedOperationValue(self, key):
-
-
-    def getOperationValue(self, operation_name, key="I"):
-        if operation_name in self._operations:
-            if self._operations[operation_name][key] == NOT_A_VALUE:
-                return
-            else:
-                return self._operations[operation_name][key]
-
-        LOG(msg=f"The operation {operation_name} is not an operation of Class {self.name}!", log=Logs.WARN)
-        return None
-
-    def getIterativeOperationValue(self, operation_name, key="I"):
-        list_of_inherited_classes = [self]
-        while list_of_inherited_classes[-1]:
-            value = list_of_inherited_classes[-1].getOperationValue(operation_name, key)
-            if value == NOT_A_VALUE:
+        for inherited_class in self.__inherits:
+            value = self.included if included else self.excluded
+            if value:
+                # LOG(msg=f"The value for {'INCLUDED' if included else 'EXCLUDED'} has been gathered from Class {inherited_class.name}!")
                 return value
 
-            list_of_inherited_classes.append(list_of_inherited_classes[-1].getInheritedClass())
-        list_of_inherited_classes.pop(-1)
+        # LOG(msg=f"The value for {'INCLUDED' if included else 'EXCLUDED'} of the operation {operation_name} has not been found so default value has been assigned from Class {self.name}!")
+        return self.included if included else self.excluded
 
-        LOG(msg=f"The operation {operation_name} is not an operation of Class {', '.join(tu_class.name for tu_class in list_of_inherited_classes)}!", log=Logs.WARN)
+    def __get_value_helper(self, operation_name, included):
+        operation = self.get_operation(operation_name)
+
+        if operation:
+            value = operation.included if included else operation.excluded
+            if value:
+                # LOG(msg=f"The value for {'INCLUDED' if included else 'EXCLUDED'} of the operation {operation_name} has been gathered from Class {self.name}!")
+                return value
+
+        for inherited_class in self.__inherits:
+            value = inherited_class.__get_value_helper(operation_name, included)
+            if value:
+                # LOG(msg=f"The value for {'INCLUDED' if included else 'EXCLUDED'} of the operation {operation_name} has been gathered from Class {inherited_class.name}!")
+                return value
+
         return None
 
 
@@ -109,23 +123,69 @@ class ValueModel(Model):
         self._model = self.getModel()
 
         self.name = self._model.name
+        self._classes = []
 
-    def addOperation2TUClass(self, class_name, operation_name, included=NOT_A_VALUE, excluded=NOT_A_VALUE):
-        tu_class_o = TUClass.from_class_name(class_name)
-        tu_class_o.addOperation(operation_name, included, excluded)
+        self._value_table = {}
+
+    def extract_contribution(self, eobject):
+        if hasattr(eobject, "contributes") and getattr(eobject, "contributes"):
+            contribution = self.getProcessedValue(eobject, "contributes")
+            included_value = self.getProcessedValue(contribution, "included") if hasattr(contribution, "included")  else 0.0
+            excluded_value = self.getProcessedValue(contribution, "excluded") if hasattr(contribution, "excluded") else 0.0
+            contribution = (included_value, excluded_value)
+        else:
+            contribution = (None, None)
+
+        return contribution
 
     def addTUClasses(self):
-        for tu_class in self._model.classes:
-            tu_class_o = TUClass.from_class_name(tu_class)
-            if "inherits" in tu_class:
-                for inherited_class in tu_class["inherits"]:
-                    tu_class_o.addInheritance(self.getProcessedValue(inherited_class, "name"))
+        for _class in self._model.classes:
+            class_o = ClassProto(_class.name, self.extract_contribution(_class))
+            # LOG(msg=f"Class {class_o.name} has been created with contribution={class_o.get_contribution()}.")
 
+            for _operation in _class.operations:
+                operation_contribution = self.extract_contribution(_operation)
+                class_o.add_operation(_operation.name, operation_contribution)
+                # LOG(msg=f"The operation def {_operation.name}(void): return void [{operation_contribution}] has been added to Class {class_o.name}!")
+
+            for _class_inh in _class.inherits:
+                index = self._classes.index(_class_inh.name)
+                class_inh_o = self._classes[index]
+                class_o.add_inheritence(class_inh_o)
+                # LOG(msg=f"Class {class_o.name} inherits Class {class_inh_o.name}!")
+
+            self._classes.append(class_o)
 
     def feature2name(self, process_model):
         return [list(map(lambda feature: feature.name, configuration)) for configuration in process_model]
 
-    def interpret(self, input):
-        process_model = input[("ProcessModel", 0)][1]
+    def calculate_fitness_values(self, configuration):
+        fitness = 0.0
+        for class_o in self._classes:
+            included = False
+            if class_o.name in configuration:
+                included = True
+            fitness += class_o.get_value("DUMMY", included)
+        return fitness
 
-        return input.append(MoPP_D(*self.ID(), XXX))
+    def interpret(self, input):
+        configurations = self.feature2name(input[("ProcessModel", 0)][1])
+        self.addTUClasses()
+        fitness_table = []
+        for configuration in configurations:
+            data = {"data": configuration, "fitness": self.calculate_fitness_values(configuration)}
+            LOG(msg=data)
+            fitness_table.append(data)
+
+        input.append(MoPP_D(*self.ID(), fitness_table))
+        return input
+
+
+class EnergyModel(ValueModel):
+    def __init__(self, *args):
+        ValueModel.__init__(self, *args)
+
+
+class PrecisionModel(ValueModel):
+    def __init__(self, *args):
+        ValueModel.__init__(self, *args)

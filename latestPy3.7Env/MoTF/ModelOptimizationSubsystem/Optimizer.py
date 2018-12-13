@@ -33,9 +33,8 @@ class SearchStrategy:
     def iterate(f):
         def wrapper(me, fitness, object):
             print(f"Terminated={me.terminated()}, Fitness={fitness} - Threshold={me._threshold}")
-            if fitness <= me._threshold:
-                f(me, fitness, object)
-
+            # if fitness <= me._threshold:
+            f(me, fitness, object)
             me._curr_iter += 1
             if me._curr_iter >= me._n_iteration:
                 me._terminated = True
@@ -74,7 +73,7 @@ class NthFitSearch(SearchStrategy):
 
 class GlobalOptimizer(ModelOptimizationInterface):
     SEARCH_OPTS = {"first-fit": FirstFitSearch,
-                   "Nth-fit": NthFitSearch}
+                   "nth-fit": NthFitSearch}
 
     def __init__(self, _instances):
         ModelOptimizationInterface.__init__(self, _instances)

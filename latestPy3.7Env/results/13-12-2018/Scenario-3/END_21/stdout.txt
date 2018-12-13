@@ -1,0 +1,20 @@
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=290.20000000000005
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, FPCA_IA, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-0 >>>>>>>>>>
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=290.20000000000005
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, FPCA_IA, FineTransform, ICP, NLinearICP --> UNSUCCESSFUL
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-1 >>>>>>>>>>
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[13-12-2018 - 10:15:11] From  OptMLFramework.displayResults[NO_TAG]  INFO: Fitness Value=290.20000000000005
+[13-12-2018 - 10:15:12] From  OptMLFramework.displayResults[NO_TAG]  INFO: Configuration=Registration, Input, CalibratedInput, Filter, NoiseRemoval, StatisticalOutlierRemoval, RadiusOutlierRemoval, PassThroughFilter, FExtract, NARF, SIFT, FPFH, Match, Transform, CoarseTransform, SAC_IA, FineTransform, ICP, LinearICP --> SUCCESSFUL
+[13-12-2018 - 10:15:12] From  OptMLFramework.displayResults[NO_TAG]  INFO: <<<<<<<<<< RESULT-2 >>>>>>>>>>
+[13-12-2018 - 10:15:12] From  OptMLFramework.displayResults[NO_TAG]  INFO: 
+
+[13-12-2018 - 10:15:12] From  OptMLFramework.displayResults[NO_TAG]  INFO: #################### RESULTS ####################

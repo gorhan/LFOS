@@ -16,15 +16,22 @@ class Extractor(ModelOptimizationInterface):
         ModelOptimizationInterface.__init__(self, interested_data)
 
     def perform(self, **kwargs):
-        data = self._input_data[kwargs["extractor_owner"]]
+        from collections import abc
+
+        owners = kwargs["extractor_owner"]
+        if not isinstance(owners, abc.Collection):
+            owners = [owners]
+
         self._output_data = []
 
-        for data_dict in data:
+        for index in range(len(self._input_data[owners[0]])):
             if "fitness" not in kwargs or kwargs["fitness"]:
-                data = data_dict["data"]
-                fitness_values = data_dict["fitness"]
+                data = self._input_data[owners[0]][index]["data"]
+                fitness_values = []
+                for owner in owners:
+                    fitness_values.append(self._input_data[owner][index]["fitness"])
             else:
-                data = data_dict
+                data = self._input_data[index]
                 fitness_values = [0]
             self._output_data.append({"data": data, "fitness": fitness_values})
 
